@@ -1,0 +1,1351 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.74 [en] (WinNT; U) [Netscape]">
+   <meta name="TEMPLATEBASE" content="book">
+   <meta name="LASTUPDATED" content="Fri Jun 09 14:45:38 2000">
+</head>
+<body bgcolor="#FFFFFF" link="#334DFF" vlink="#868686" defaultlink="#ff0000">
+<!-- scott/master/Support --><!-- BEGIN LOGO/NAV BAR --><b><font size=+4><a href="http://www.informix.com/"><font face="Arial, Helvetica, sans-serif"><font color="#000000">Inform</font></font><i><font face="Times New Roman, Times, serif"><font color="#FF0000">i</font></font></i><font face="Arial, Helvetica, sans-serif"><font color="#0000FF">x</font></font></a></font></b>
+<table BORDER=0 CELLPADDING=3 WIDTH="25%" BGCOLOR="#000000" >
+<tr ALIGN=CENTER>
+<td><b><font face="Arial, Helvetica, sans-serif"><font color="#FFFFFF"><font size=-2><a href="http://www.informix.com/documentation/">Informix
+Online Documentation</a></font></font></font></b></td>
+</tr>
+</table>
+<!-- END LOGO/NAV BAR --><!-- BEGIN DATA -->
+<hr>
+<center><a NAME="1082509"></a></center>
+
+<center>
+<h3>
+<font face="Arial, Helvetica, sans-serif">DOCUMENTATION NOTES FOR</font></h3></center>
+
+<center><a NAME="1082510"></a></center>
+
+<center>
+<h2>
+<font face="Arial, Helvetica, sans-serif">INFORMIX-OBJECT INTERFACE FOR
+C++</font></h2></center>
+
+<center><a NAME="1082511"></a>
+<p><font face="Arial, Helvetica, sans-serif"><b>Date:</b> 7/19/2001</font>
+<br><a NAME="1081910"></a>
+<p><font face="Arial, Helvetica, sans-serif"><b>Version:</b> 2.82</font></center>
+
+<hr><a NAME="1083516"></a>
+<h3>
+<font face="Arial, Helvetica, sans-serif">Table of Contents</font></h3>
+
+<dl>
+<dd>
+<font face="Arial, Helvetica, sans-serif">I. <a href="#1083555">Overview</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">II. <a href="#1082187">Database
+Server Name Changes</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">III. <a href="#1082220">Row and
+Collection Type Value Objects</a></font></dd>
+
+<dl>&nbsp;
+<dd>
+<font face="Arial, Helvetica, sans-serif">A. <a href="#1083740">Creating
+Row Type Value Objects Without An Open Connection</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">B. <a href="#1083780">Creating
+Collection Type Value Objects Without An Open Connection</a></font></dd>
+</dl>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">IV. <a href="#1083140">Operations
+On Large Objects With A Checked-Out Connection</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">V. <a href="#1082128">New Constructors
+For ITINT8</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">VI. <a href="#1082177">New ITFactoryList::GetInitState()
+Function</a></font></dd>
+
+<dl>&nbsp;
+<dd>
+<font face="Arial, Helvetica, sans-serif">A. <a href="#1083899">SQL Strings
+Passed To Object Interface For C++ Member Functions</a></font></dd>
+</dl>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">VII. <a href="#1083227">Use Of
+ITValue::Printable With Null Value Objects</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">VIII. <a href="#1083931">Accessing
+Smart Large Objects In Nondefault SBSpaces</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">IX. <a href="#1084135">Use Of
+ITString &amp;Trim(const char *pmc)</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">X. <a href="#1084260">Assumptions
+About Your Locale</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">XI. <a href="#1084140">Binary
+Parameter Support</a></font></dd>
+</dl>
+
+<hr><a NAME="1083555"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">I. Overview</font></h2>
+<font face="Arial, Helvetica, sans-serif">The purpose of these documentation
+notes is to make you aware of features not described in the INFORMIX-Object
+Interface for C++ Programmer's Guide, Version 2.5, which is the latest
+version of the guide.</font>
+<br>
+<hr><a NAME="1082187"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">II. Database Server Name Changes</font></h2>
+<font face="Arial, Helvetica, sans-serif">Since publication of the INFORMIX-Object
+Interface for C++ Programmer's Guide, Informix has simplified its database
+server product offerings. References in the guide to <tt>INFORMIX</tt>-OnLine
+Dynamic Server apply equally to Informix Dynamic Server. References to
+<tt>INFORMIX</tt>-Universal
+Server apply equally to Informix Dynamic Server 2000, Version 9.2.</font>
+<br>
+<hr><a NAME="1082220"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">III. Row and Collection Type
+Value Objects</font></h2>
+<font face="Arial, Helvetica, sans-serif">In previous versions of Object
+Interface for <tt>C++</tt>, it was not possible to create row or collection
+type value objects without an open connection. Object Interface for <tt>C++</tt>,
+Version 2.70 allows these objects to be created, using the following methods.</font>
+<br><a NAME="1083740"></a>
+<h3>
+<font face="Arial, Helvetica, sans-serif">A. Creating Row Type Value Objects
+Without An Open Connection</font></h3>
+<font face="Arial, Helvetica, sans-serif">The process consists of two steps:</font>
+<ol type="1" START="1.	"><a NAME="1083744"></a>
+<li>
+<font face="Arial, Helvetica, sans-serif">Create the ITTypeInfo object
+for the row type.</font></li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="1083745"></a>
+<li>
+<font face="Arial, Helvetica, sans-serif">Instantiate the row type value
+object using the ITFactoryList::DatumToValue() method and pass to it an
+ITMVDesc structure whose members are populated appropriately.</font></li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;</ol>
+<font face="Arial, Helvetica, sans-serif">The row type object returned
+this way is a null row, which can be modified using ITRow::FromPrintable().
+Because the row type object has been created without an open connection,
+the underlying data of the row type value object cannot be modified with
+ITDatum::SetData() or retrieved with ITDatum::Data() (where ITDatum is
+an interface exposed by a row type value object). However, the remaining
+ITRow methods are not affected.</font>
+<p><font face="Arial, Helvetica, sans-serif">The following example illustrates
+how to create a row type value object without an open connection:</font>
+<ul class="e-example"><a NAME="1083751"></a><font face="courier"><font color="#000080">#include
+&lt;iostream.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1083752"></a><font face="courier"><font color="#000080">#include
+&lt;it.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1083753"></a><font face="courier"><font color="#000080">int</font></font></ul>
+
+<ul class="e-example"><a NAME="1083754"></a><font face="courier"><font color="#000080">main()</font></font></ul>
+
+<ul class="e-example"><a NAME="1083755"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083756"></a><font face="courier"><font color="#000080">ITConnection
+conn;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083757"></a><font face="courier"><font color="#000080">ITMVDesc
+desc;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083758"></a><font face="courier"><font color="#000080">ITTypeInfo
+colType(conn,"integer", 4,-1,-1,-1,1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083759"></a><font face="courier"><font color="#000080">ITTypeInfo
+*ptrcolType = &amp;colType;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083760"></a><font face="courier"><font color="#000080">ITString
+colName = "int_val";</font></font></ul>
+
+<ul class="e-example"><a NAME="1083761"></a><font face="courier"><font color="#000080">ITTypeInfo
+newti(conn,"row(int_val integer)", 1,</font></font></ul>
+
+<ul class="e-example"><a NAME="1083762"></a><font face="courier"><font color="#000080">&amp;ptrcolType,
+&amp;colName, NULL );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083763"></a><font face="courier"><font color="#000080">desc.vf_origtypeinfo
+= (ITTypeInfo *) &amp;newti;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083764"></a><font face="courier"><font color="#000080">desc.vf_connection
+= &amp;conn;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083765"></a><font face="courier"><font color="#000080">desc.vf_typedesc
+= NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083766"></a><font face="courier"><font color="#000080">desc.vf_preservedata
+= NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083767"></a><font face="courier"><font color="#000080">desc.vf_outerunknown
+= NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083768"></a><font face="courier"><font color="#000080">desc.vf_datalength
+= newti.Size();</font></font></ul>
+
+<ul class="e-example"><a NAME="1083769"></a><font face="courier"><font color="#000080">desc.vf_libmivaluetype
+= MI_NULL_VALUE;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083770"></a><font face="courier"><font color="#000080">desc.vf_data
+= NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083771"></a><font face="courier"><font color="#000080">ITValue
+*val = ITFactoryList::DatumToValue (desc);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083772"></a><font face="courier"><font color="#000080">val->FromPrintable("row(1)");</font></font></ul>
+
+<ul class="e-example"><a NAME="1083773"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; val->Printable() &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083774"></a><font face="courier"><font color="#000080">val->Release();</font></font></ul>
+
+<ul class="e-example"><a NAME="1083775"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083776"></a></ul>
+<a NAME="1083780"></a>
+<h3>
+<font face="Arial, Helvetica, sans-serif">B. Creating Collection Type Value
+Objects Without An Open Connection</font></h3>
+<font face="Arial, Helvetica, sans-serif">You can create collection type
+value objects without an open connection using a process similar to creating
+row types. As with row types, ITDatum::Data() and ITDatum::SetData() cannot
+be used to retrieve or modify values from a collection type created without
+an open connection.</font>
+<p><font face="Arial, Helvetica, sans-serif">The following example illustrates
+how to create a collection type value object without an open connection:</font>
+<ul class="e-example"><a NAME="1083788"></a><font face="courier"><font color="#000080">#include
+&lt;iostream.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1083789"></a><font face="courier"><font color="#000080">#include
+&lt;it.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1083790"></a><font face="courier"><font color="#000080">int</font></font></ul>
+
+<ul class="e-example"><a NAME="1083791"></a><font face="courier"><font color="#000080">main()</font></font></ul>
+
+<ul class="e-example"><a NAME="1083792"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083793"></a><font face="courier"><font color="#000080">ITConnection
+conn;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083794"></a><font face="courier"><font color="#000080">ITMVDesc
+desc;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083795"></a><font face="courier"><font color="#000080">ITTypeInfo
+memberType(conn,"integer", 4,-1,-1,-1,1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083796"></a><font face="courier"><font color="#000080">ITTypeInfo
+newti( conn, "set(integer not null)",</font></font></ul>
+
+<ul class="e-example"><a NAME="1083797"></a><font face="courier"><font color="#000080">"set",
+memberType, NULL );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083798"></a><font face="courier"><font color="#000080">desc.vf_origtypeinfo
+= (ITTypeInfo *) &amp;newti;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083799"></a><font face="courier"><font color="#000080">desc.vf_connection
+= &amp;conn;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083800"></a><font face="courier"><font color="#000080">desc.vf_typedesc
+= NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083801"></a><font face="courier"><font color="#000080">desc.vf_preservedata
+= NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083802"></a><font face="courier"><font color="#000080">desc.vf_outerunknown
+= NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083803"></a><font face="courier"><font color="#000080">desc.vf_datalength
+= newti.Size();</font></font></ul>
+
+<ul class="e-example"><a NAME="1083804"></a><font face="courier"><font color="#000080">desc.vf_libmivaluetype
+= MI_NULL_VALUE;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083805"></a><font face="courier"><font color="#000080">desc.vf_data
+= NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083806"></a><font face="courier"><font color="#000080">ITValue
+*val = ITFactoryList::DatumToValue (desc);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083807"></a><font face="courier"><font color="#000080">val->FromPrintable("set{1}");</font></font></ul>
+
+<ul class="e-example"><a NAME="1083808"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; val->Printable() &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083809"></a><font face="courier"><font color="#000080">val->Release();</font></font></ul>
+
+<ul class="e-example"><a NAME="1083810"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<hr><a NAME="1083140"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">IV. Operations On Large Objects
+With A Checked-Out Connection</font></h2>
+<font face="Arial, Helvetica, sans-serif">Operations can now be performed
+on large objects within a fetched row even though the connection is still
+checked out (locked). A connection is checked out after the ITQuery::ExecForIteration()
+method returns multiple rows in the result set. It remains checked out
+until either the last row in the result set has been fetched with ITQuery::NextRow()
+or the query processing has been terminated by calling ITQuery::Finish().
+While a connection is checked out, no other query can be executed on that
+connection.</font>
+<br>
+<hr><a NAME="1082128"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">V. New Constructors For ITINT8</font></h2>
+<font face="Arial, Helvetica, sans-serif">In previous Object Interface
+for <tt>C++</tt> releases, there was the single ITInt8 constructor (described
+on page 5-21 of the <i><tt>INFORMIX</tt></i>-Object Interface for C++ Programmer's
+Guide, Version 2.5):</font>
+<ul class="e-example"><a NAME="1083823"></a><font face="courier"><font color="#000080">ITInt8();</font></font></ul>
+
+<ul class="e-example"><a NAME="1083824"></a></ul>
+<font face="Arial, Helvetica, sans-serif">In Version 2.70, new constructors
+allow you to create objects using each of the built-in numeric types as
+initialization arguments. This eliminates the need to explicitly assign
+a numeric type that is not an int8 (for example, int) to an ITInt8 object
+before comparing it with an ITInt8 object.</font>
+<p><font face="Arial, Helvetica, sans-serif">Following are the new constructors:</font>
+<ul class="e-example"><a NAME="1083827"></a><font face="courier"><font color="#000080">ITInt8(
+const int );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083828"></a><font face="courier"><font color="#000080">ITInt8(
+const long );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083829"></a><font face="courier"><font color="#000080">ITInt8(
+const float );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083830"></a><font face="courier"><font color="#000080">ITInt8(
+const double );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083831"></a><font face="courier"><font color="#000080">ITInt8(
+const mi_int8 );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083832"></a><font face="courier"><font color="#000080">ITInt8(
+const ITString &amp; );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083833"></a><font face="courier"><font color="#000080">#ifdef
+IT_COMPILER_HAS_LONG_LONG</font></font></ul>
+
+<ul class="e-example"><a NAME="1083834"></a><font face="courier"><font color="#000080">ITInt8(
+const IT_LONG_LONG );</font></font></ul>
+
+<ul class="e-example"><a NAME="1083835"></a><font face="courier"><font color="#000080">#endif</font></font></ul>
+
+<ul class="e-example"><a NAME="1083836"></a></ul>
+<font face="Arial, Helvetica, sans-serif">The last constructor is compiler-dependent
+and is defined only if the C++ compiler supports the data type LONG_LONG.</font>
+<p><font face="Arial, Helvetica, sans-serif">In previous releases, to initialize
+an ITInt8 object, the application had to assign a value to an ITInt8 object
+using the assignment operator (=), as follows:</font>
+<ul class="e-example"><a NAME="1083839"></a><font face="courier"><font color="#000080">int
+i = 100;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083840"></a><font face="courier"><font color="#000080">ITInt8
+i8;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083841"></a><font face="courier"><font color="#000080">i8
+= i;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083842"></a><font face="courier"><font color="#000080">if
+( i8 == (ITInt8)i )</font></font></ul>
+<font face="Arial, Helvetica, sans-serif">With Version 2.70, the assignment
+can be replaced by an ITInt8 constructor call:</font>
+<ul class="e-example"><a NAME="1083845"></a><font face="courier"><font color="#000080">int
+i = 100;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083846"></a><font face="courier"><font color="#000080">ITInt8
+i8(i); // or ITInt8 i8(100);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083847"></a><font face="courier"><font color="#000080">if
+( i8 == (ITInt8)i )</font></font></ul>
+
+<hr><a NAME="1082177"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">VI. New ITFactoryList::GetInitState()
+Function</font></h2>
+<font face="Arial, Helvetica, sans-serif">Under some circumstances, the
+Object Interface for <tt>C++</tt> library might be loaded into memory but
+not properly initialized. For example, if the environment variable CLIENT_LOCALE
+is set to an invalid locale, the <tt>GLS</tt> library will not properly
+initialize, and thus the Object Interface for <tt>C++</tt> library will
+also not properly initialize.</font>
+<p><font face="Arial, Helvetica, sans-serif">To allow Object Interface
+for <tt>C++</tt> application programs to verify that initialization succeeded,
+several new members have been added to the ITFactoryList class (defined
+in the public header file $INFORMIXDIR/incl/c++/itcppop.h):</font>
+<ul class="e-example"><a NAME="1083862"></a><font face="courier"><font color="#000080">class
+IT_EXPORTCLASS ITFactoryList</font></font></ul>
+
+<ul class="e-example"><a NAME="1083863"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083864"></a><font face="courier"><font color="#000080">...</font></font></ul>
+
+<ul class="e-example"><a NAME="1083865"></a></ul>
+
+<ul class="e-example"><a NAME="1083866"></a><font face="courier"><font color="#000080">public:</font></font></ul>
+
+<ul class="e-example"><a NAME="1083867"></a></ul>
+
+<ul class="e-example"><a NAME="1083868"></a><font face="courier"><font color="#000080">//
+These are the built-in factory list initialization state</font></font></ul>
+
+<ul class="e-example"><a NAME="1083869"></a><font face="courier"><font color="#000080">values</font></font></ul>
+
+<ul class="e-example"><a NAME="1083870"></a><font face="courier"><font color="#000080">enum
+InitState { NOTINIT, INITING, INITED };</font></font></ul>
+
+<ul class="e-example"><a NAME="1083871"></a></ul>
+
+<ul class="e-example"><a NAME="1083872"></a><font face="courier"><font color="#000080">//
+This function can be used to determine if the built-in</font></font></ul>
+
+<ul class="e-example"><a NAME="1083873"></a><font face="courier"><font color="#000080">factory</font></font></ul>
+
+<ul class="e-example"><a NAME="1083874"></a><font face="courier"><font color="#000080">//
+list initialized properly. It returns</font></font></ul>
+
+<ul class="e-example"><a NAME="1083875"></a><font face="courier"><font color="#000080">ITFactoryList::NOTINIT</font></font></ul>
+
+<ul class="e-example"><a NAME="1083876"></a><font face="courier"><font color="#000080">//
+if initialization failed.</font></font></ul>
+
+<ul class="e-example"><a NAME="1083877"></a><font face="courier"><font color="#000080">static
+InitState GetInitState();</font></font></ul>
+
+<ul class="e-example"><a NAME="1083878"></a></ul>
+
+<ul class="e-example"><a NAME="1083879"></a><font face="courier"><font color="#000080">...</font></font></ul>
+
+<ul class="e-example"><a NAME="1083880"></a></ul>
+
+<ul class="e-example"><a NAME="1083881"></a><font face="courier"><font color="#000080">};</font></font></ul>
+
+<ul class="e-example"><a NAME="1083882"></a></ul>
+<font face="Arial, Helvetica, sans-serif">The user application should call
+GetInitState() prior to using any Object Interface for <tt>C++</tt> classes
+or interfaces to determine if Object Interface for <tt>C++</tt> initialized
+properly, as follows:</font>
+<ul class="e-example"><a NAME="1083884"></a><font face="courier"><font color="#000080">main(int,
+char *)</font></font></ul>
+
+<ul class="e-example"><a NAME="1083885"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083886"></a><font face="courier"><font color="#000080">//
+check that Object Interface for C++ DLL initialized ok</font></font></ul>
+
+<ul class="e-example"><a NAME="1083887"></a><font face="courier"><font color="#000080">if
+(ITFactoryList::GetInitState() == ITFactoryList::NOTINIT)</font></font></ul>
+
+<ul class="e-example"><a NAME="1083888"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083889"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Error: Object Interface for C++ DLL not</font></font></ul>
+
+<ul class="e-example"><a NAME="1083890"></a><font face="courier"><font color="#000080">initialized"
+&lt;&lt;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083891"></a><font face="courier"><font color="#000080">endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083892"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Error: exiting program" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083893"></a><font face="courier"><font color="#000080">return
+-1;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083894"></a></ul>
+
+<ul class="e-example"><a NAME="1083895"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083896"></a></ul>
+
+<ul class="e-example"><a NAME="1083897"></a><font face="courier"><font color="#000080">...</font></font></ul>
+
+<ul class="e-example"><a NAME="1083898"></a></ul>
+<a NAME="1083899"></a>
+<h3>
+<font face="Arial, Helvetica, sans-serif">A. SQL Strings Passed To Object
+Interface For C++ Member Functions</font></h3>
+<font face="Arial, Helvetica, sans-serif">The following Object Interface
+for <tt>C++</tt> member functions take as an argument an ITString object,
+which must be a single valid <tt>SQL</tt> statement:</font>
+<p><font face="Arial, Helvetica, sans-serif">ITCursor::Prepare()</font>
+<p><font face="Arial, Helvetica, sans-serif">ITQuery::ExecForStatus()</font>
+<p><font face="Arial, Helvetica, sans-serif">ITQuery::ExecOneRow</font>
+<p><font face="Arial, Helvetica, sans-serif">ITQuery::ExecForIteration</font>
+<p><font face="Arial, Helvetica, sans-serif">ITQuery::ExecToSet</font>
+<p><font face="Arial, Helvetica, sans-serif">ITStatement::Prepare()</font>
+<p><font face="Arial, Helvetica, sans-serif">The string may not be multiple
+<tt>SQL</tt>
+statements separated with semicolon (;) statement delimiters.</font>
+<br>
+<hr><a NAME="1083227"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">VII. Use Of ITValue::Printable
+With Null Value Objects</font></h2>
+<font face="Arial, Helvetica, sans-serif">An Object Interface for <tt>C++</tt>
+value object can encapsulate a datum fetched from a database or a datum
+that is to be inserted into a database. A value object exists only in the
+client application, and the datum encapsulated by it can be written to
+the database using prepared statements encapsulated by ITStatement objects
+or, if an updatable cursor is used, by ITCursor::UpdateCurrent.</font>
+<p><font face="Arial, Helvetica, sans-serif">After it fetches a row from
+a
+database in which there are columns containing <tt>SQL</tt> NULL entries
+(that is, with no data), ITValue::Printable called on a value object matching
+a NULL column will return the string "null." The string "null" is informational
+only.</font>
+<p><font face="Arial, Helvetica, sans-serif">Likewise, after ITValue::SetNull
+is called to set a value object to null (where the term "null" means <tt>SQL</tt>
+NULL: that is, no data), calls to ITValue::Printable return the string
+"null" for that value object to indicate that the value object contains
+no data.</font>
+<p><font face="Arial, Helvetica, sans-serif">In the special case where
+an Object Interface for <tt>C++</tt> application program actually inserted
+the valid data string "null" into a value object (for example, by calling
+ITValue::FromPrintable("null") or by fetching it from a database), the
+application could still distinguish between a null value object and a value
+object containing the valid data "null" by calling the function ITValue::IsNull
+on the value object. ITValue::IsNull will return true if the value object
+is null and false if the value object contains the valid data "null." Calling
+ITValue::IsNull is the preferred way to determine if a value object contains
+no data and should be used instead of ITValue::Printable.</font>
+<br>
+<hr><a NAME="1083931"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">VIII. Accessing Smart Large Objects
+In Nondefault SBSpaces</font></h2>
+<font face="Arial, Helvetica, sans-serif">One way to access smart large
+objects in nondefault spaces is to call the client-side DataBlade <tt>API</tt>
+functions that create, initialize and set the column-level characteristics
+of a large object specification structure and then pass a pointer to this
+structure (MI_LO_SPEC *LO_spec) to the overloaded Object Interface for
+<tt>C++</tt>
+function.</font>
+<ul class="e-example"><a NAME="1083933"></a><font face="courier"><font color="#000080">ITBool
+CreateLO( MI_LO_SPEC *LO_spec,</font></font></ul>
+
+<ul class="e-example"><a NAME="1083934"></a><font face="courier"><font color="#000080">int
+flags=IT_LO_WRONLY | IT_LO_APPEND) ;</font></font></ul>
+<font face="Arial, Helvetica, sans-serif">A better way is to introduce
+a new C++ class to encapsulate a large object specification structure and
+possibly modify the existing ITLargeObjectManager class to support passing
+the column-level storage characteristics of smart large objects as encapsulated
+C++ objects for use by ITLargeObjectManager::CreateLO.</font>
+<p><font face="Arial, Helvetica, sans-serif">Here is a description of the
+short-term solution. Prior to calling CreateLO, the following DataBlade
+<tt>API</tt>
+call will set the fields of LO_spec to the column-level storage characteristics
+of column dolmdolm1.testdata, which is the CLOB column:</font>
+<ul class="e-example"><a NAME="1083937"></a><font face="courier"><font color="#000080">res
+= mi_lo_colinfo_by_name(miconn,</font></font></ul>
+
+<ul class="e-example"><a NAME="1083938"></a><font face="courier"><font color="#000080">(const
+char *)"dolmdolm1.testdata",</font></font></ul>
+
+<ul class="e-example"><a NAME="1083939"></a><font face="courier"><font color="#000080">LO_spec);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083940"></a></ul>
+<font face="Arial, Helvetica, sans-serif">Among the attributes for column
+testdata is the sbspace location specified by the PUT clause when table
+dolmdolm1 is created. The smart large object location attribute will be
+used by CreateLO (which calls DataBlade API function mi_lo_create) when
+it creates the smart large object.</font>
+<p><font face="Arial, Helvetica, sans-serif">Here is the complete, modified
+test case with the new solution:</font>
+<ul class="e-example"><a NAME="1083943"></a><font face="courier"><font color="#000080">>>>>>>>>>>>>
+Begin modified test case with new solution >>>>>>>>>>>></font></font></ul>
+
+<ul class="e-example"><a NAME="1083944"></a></ul>
+
+<ul class="e-example"><a NAME="1083945"></a><font face="courier"><font color="#000080">#include
+&lt;stdlib.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1083946"></a><font face="courier"><font color="#000080">#include
+&lt;iostream.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1083947"></a><font face="courier"><font color="#000080">#include
+&lt;it.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1083948"></a></ul>
+
+<ul class="e-example"><a NAME="1083949"></a><font face="courier"><font color="#000080">int</font></font></ul>
+
+<ul class="e-example"><a NAME="1083950"></a><font face="courier"><font color="#000080">main(int
+argc, const char *argv[])</font></font></ul>
+
+<ul class="e-example"><a NAME="1083951"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083952"></a><font face="courier"><font color="#000080">ITDBInfo
+dbinfo;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083953"></a><font face="courier"><font color="#000080">ITConnection
+conn;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083954"></a><font face="courier"><font color="#000080">char
+buf[1024];</font></font></ul>
+
+<ul class="e-example"><a NAME="1083955"></a><font face="courier"><font color="#000080">int
+i;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083956"></a><font face="courier"><font color="#000080">ITString
+types[2];</font></font></ul>
+
+<ul class="e-example"><a NAME="1083957"></a><font face="courier"><font color="#000080">ITString
+sqlcmd;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083958"></a></ul>
+
+<ul class="e-example"><a NAME="1083959"></a><font face="courier"><font color="#000080">types[0]
+= "VARCHAR";</font></font></ul>
+
+<ul class="e-example"><a NAME="1083960"></a><font face="courier"><font color="#000080">types[1]
+= "VARCHAR";</font></font></ul>
+
+<ul class="e-example"><a NAME="1083961"></a></ul>
+
+<ul class="e-example"><a NAME="1083962"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; " INFORMIXSERVER : ";</font></font></ul>
+
+<ul class="e-example"><a NAME="1083963"></a><font face="courier"><font color="#000080">cin.getline(buf,
+sizeof(buf));</font></font></ul>
+
+<ul class="e-example"><a NAME="1083964"></a><font face="courier"><font color="#000080">if
+(!dbinfo.SetSystem(buf)){</font></font></ul>
+
+<ul class="e-example"><a NAME="1083965"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not set system " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083966"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083967"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083968"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; " DATABASE : ";</font></font></ul>
+
+<ul class="e-example"><a NAME="1083969"></a><font face="courier"><font color="#000080">cin.getline(buf,
+sizeof(buf));</font></font></ul>
+
+<ul class="e-example"><a NAME="1083970"></a><font face="courier"><font color="#000080">if
+(!dbinfo.SetDatabase(buf)){</font></font></ul>
+
+<ul class="e-example"><a NAME="1083971"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not set database " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083972"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083973"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083974"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; " USER : ";</font></font></ul>
+
+<ul class="e-example"><a NAME="1083975"></a><font face="courier"><font color="#000080">cin.getline(buf,
+sizeof(buf));</font></font></ul>
+
+<ul class="e-example"><a NAME="1083976"></a><font face="courier"><font color="#000080">if
+(!dbinfo.SetUser(buf)){</font></font></ul>
+
+<ul class="e-example"><a NAME="1083977"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not set user " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083978"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083979"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083980"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; " PASSWORD : ";</font></font></ul>
+
+<ul class="e-example"><a NAME="1083981"></a><font face="courier"><font color="#000080">cin.getline(buf,
+sizeof(buf));</font></font></ul>
+
+<ul class="e-example"><a NAME="1083982"></a><font face="courier"><font color="#000080">if
+(!dbinfo.SetPassword(buf)){</font></font></ul>
+
+<ul class="e-example"><a NAME="1083983"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not set password " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083984"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083985"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083986"></a></ul>
+
+<ul class="e-example"><a NAME="1083987"></a><font face="courier"><font color="#000080">if
+(!conn.Open(dbinfo) || conn.Error()) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1083988"></a></ul>
+
+<ul class="e-example"><a NAME="1083989"></a><font face="courier"><font color="#000080">if
+(!conn.Open() || conn.Error()) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1083990"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not open database " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083991"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083992"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083993"></a></ul>
+
+<ul class="e-example"><a NAME="1083994"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Start Transaction ..." &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083995"></a><font face="courier"><font color="#000080">if
+(!conn.SetTransaction(ITConnection::Begin)) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1083996"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not start transaction " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083997"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083998"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083999"></a></ul>
+
+<ul class="e-example"><a NAME="1084000"></a><font face="courier"><font color="#000080">ITStatement
+stmt(conn);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084001"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; " SBLOBSPACE : ";</font></font></ul>
+
+<ul class="e-example"><a NAME="1084002"></a><font face="courier"><font color="#000080">cin.getline(buf,
+sizeof(buf));</font></font></ul>
+
+<ul class="e-example"><a NAME="1084003"></a><font face="courier"><font color="#000080">sqlcmd
+= "create table dolmdolm1 (";</font></font></ul>
+
+<ul class="e-example"><a NAME="1084004"></a><font face="courier"><font color="#000080">sqlcmd.Append("uid
+integer primary key,");</font></font></ul>
+
+<ul class="e-example"><a NAME="1084005"></a><font face="courier"><font color="#000080">sqlcmd.Append("testdata
+CLOB)");</font></font></ul>
+
+<ul class="e-example"><a NAME="1084006"></a><font face="courier"><font color="#000080">sqlcmd.Append("
+PUT testdata in (");</font></font></ul>
+
+<ul class="e-example"><a NAME="1084007"></a><font face="courier"><font color="#000080">sqlcmd.Append(buf);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084008"></a><font face="courier"><font color="#000080">sqlcmd.Append(")
+lock mode row;");</font></font></ul>
+
+<ul class="e-example"><a NAME="1084009"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; sqlcmd &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084010"></a><font face="courier"><font color="#000080">if
+(stmt.Error()) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1084011"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not create statement " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084012"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084013"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084014"></a><font face="courier"><font color="#000080">if
+(!stmt.Prepare(sqlcmd)) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1084015"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not prepare create statement " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084016"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084017"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084018"></a><font face="courier"><font color="#000080">if
+(!stmt.Exec()) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1084019"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not execute create statement " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084020"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084021"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084022"></a><font face="courier"><font color="#000080">if
+(!stmt.Drop()) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1084023"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not drop create statement " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084024"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084025"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084026"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Please monitor your sblobspaces, [return to continue]";</font></font></ul>
+
+<ul class="e-example"><a NAME="1084027"></a><font face="courier"><font color="#000080">cin.getline(buf,
+sizeof(buf));</font></font></ul>
+
+<ul class="e-example"><a NAME="1084028"></a></ul>
+
+<ul class="e-example"><a NAME="1084029"></a><font face="courier"><font color="#000080">/*************
+begin new solution code **************************/</font></font></ul>
+
+<ul class="e-example"><a NAME="1084030"></a></ul>
+
+<ul class="e-example"><a NAME="1084031"></a><font face="courier"><font color="#000080">MI_LO_SPEC
+*LO_spec = NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084032"></a><font face="courier"><font color="#000080">MI_CONNECTION
+*miconn = NULL;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084033"></a><font face="courier"><font color="#000080">mi_integer
+res;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084034"></a><font face="courier"><font color="#000080">ITLargeObjectManager
+lo(conn);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084035"></a></ul>
+
+<ul class="e-example"><a NAME="1084036"></a><font face="courier"><font color="#000080">miconn
+= conn.GetConn();</font></font></ul>
+
+<ul class="e-example"><a NAME="1084037"></a><font face="courier"><font color="#000080">if
+(miconn != NULL)</font></font></ul>
+
+<ul class="e-example"><a NAME="1084038"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084039"></a><font face="courier"><font color="#000080">res
+= mi_lo_spec_init(miconn, &amp;LO_spec);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084040"></a><font face="courier"><font color="#000080">if
+(res == MI_ERROR)</font></font></ul>
+
+<ul class="e-example"><a NAME="1084041"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084042"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "stmt_test: mi_lo_spec_init failed!" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084043"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084044"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084045"></a><font face="courier"><font color="#000080">res
+= mi_lo_colinfo_by_name(miconn,</font></font></ul>
+
+<ul class="e-example"><a NAME="1084046"></a><font face="courier"><font color="#000080">(const
+char *)"dolmdolm1.testdata",</font></font></ul>
+
+<ul class="e-example"><a NAME="1084047"></a><font face="courier"><font color="#000080">LO_spec);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084048"></a><font face="courier"><font color="#000080">if
+(res != MI_ERROR)</font></font></ul>
+
+<ul class="e-example"><a NAME="1084049"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084050"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; endl &lt;&lt; "Create a large object. Please wait ..." &lt;&lt;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084051"></a><font face="courier"><font color="#000080">endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084052"></a></ul>
+
+<ul class="e-example"><a NAME="1084053"></a><font face="courier"><font color="#000080">ITBool
+status = false;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084054"></a><font face="courier"><font color="#000080">status
+= lo.CreateLO(LO_spec, IT_LO_WRONLY | IT_LO_APPEND);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084055"></a><font face="courier"><font color="#000080">if
+(status = true)</font></font></ul>
+
+<ul class="e-example"><a NAME="1084056"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084057"></a><font face="courier"><font color="#000080">for
+(i = 0; i &lt; 1000; i++)</font></font></ul>
+
+<ul class="e-example"><a NAME="1084058"></a><font face="courier"><font color="#000080">lo.Write("123456789012345678901234567890123456789012</font></font></ul>
+
+<ul class="e-example"><a NAME="1084059"></a><font face="courier"><font color="#000080">3456789</font></font></ul>
+
+<ul class="e-example"><a NAME="1084060"></a><font face="courier"><font color="#000080">012345678901234567890123456789012345678901234567890"</font></font></ul>
+
+<ul class="e-example"><a NAME="1084061"></a><font face="courier"><font color="#000080">,100);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084062"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084063"></a><font face="courier"><font color="#000080">else</font></font></ul>
+
+<ul class="e-example"><a NAME="1084064"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084065"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "stmt_test: CreateLO w/non-default sbspace</font></font></ul>
+
+<ul class="e-example"><a NAME="1084066"></a><font face="courier"><font color="#000080">failed!"
+&lt;&lt;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084067"></a><font face="courier"><font color="#000080">endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084068"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084069"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084070"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084071"></a><font face="courier"><font color="#000080">else</font></font></ul>
+
+<ul class="e-example"><a NAME="1084072"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084073"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "stmt_test: mi_lo_colinfo_by_name failed!" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084074"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084075"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084076"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084077"></a><font face="courier"><font color="#000080">else</font></font></ul>
+
+<ul class="e-example"><a NAME="1084078"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084079"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "stmt_test: conn.GetConn returned NULL!" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084080"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084081"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084082"></a><font face="courier"><font color="#000080">/*************
+end new solution code **************************/</font></font></ul>
+
+<ul class="e-example"><a NAME="1084083"></a></ul>
+
+<ul class="e-example"><a NAME="1084084"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "The default sblobspace has changed" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084085"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Please monitor your sblobspaces, [return to continue]";</font></font></ul>
+
+<ul class="e-example"><a NAME="1084086"></a><font face="courier"><font color="#000080">cin.getline(buf,
+sizeof(buf));</font></font></ul>
+
+<ul class="e-example"><a NAME="1084087"></a></ul>
+
+<ul class="e-example"><a NAME="1084088"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; endl &lt;&lt; "inserting row into dolmdolm1" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084089"></a><font face="courier"><font color="#000080">if
+(!stmt.Prepare("insert into dolmdolm1 values (?,?);",2,types))</font></font></ul>
+
+<ul class="e-example"><a NAME="1084090"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084091"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not prepare insert cursor " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084092"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084093"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084094"></a><font face="courier"><font color="#000080">ITValue
+*param;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084095"></a><font face="courier"><font color="#000080">param
+= stmt.Param(0);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084096"></a><font face="courier"><font color="#000080">param->FromPrintable("0");</font></font></ul>
+
+<ul class="e-example"><a NAME="1084097"></a><font face="courier"><font color="#000080">param->Release();</font></font></ul>
+
+<ul class="e-example"><a NAME="1084098"></a><font face="courier"><font color="#000080">param
+= stmt.Param(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084099"></a><font face="courier"><font color="#000080">param->FromPrintable(lo.HandleText());</font></font></ul>
+
+<ul class="e-example"><a NAME="1084100"></a><font face="courier"><font color="#000080">param->Release();</font></font></ul>
+
+<ul class="e-example"><a NAME="1084101"></a><font face="courier"><font color="#000080">if
+(!stmt.Exec()) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1084102"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not execute insert statement " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084103"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084104"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084105"></a><font face="courier"><font color="#000080">if
+(!stmt.Drop()) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1084106"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not drop insert statement " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084107"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084108"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084109"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084110"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Please monitor your sblobspaces." &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084111"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "The large object is still stored within the default</font></font></ul>
+
+<ul class="e-example"><a NAME="1084112"></a><font face="courier"><font color="#000080">sblobspace."
+&lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084113"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "[return to continue]";</font></font></ul>
+
+<ul class="e-example"><a NAME="1084114"></a><font face="courier"><font color="#000080">cin.getline(buf,
+sizeof(buf));</font></font></ul>
+
+<ul class="e-example"><a NAME="1084115"></a></ul>
+
+<ul class="e-example"><a NAME="1084116"></a><font face="courier"><font color="#000080">/*</font></font></ul>
+
+<ul class="e-example"><a NAME="1084117"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Rollback Transaction ..." &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084118"></a><font face="courier"><font color="#000080">if
+(!conn.SetTransaction(ITConnection::Abort)) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1084119"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not rollback transaction " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084120"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084121"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084122"></a><font face="courier"><font color="#000080">*/</font></font></ul>
+
+<ul class="e-example"><a NAME="1084123"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Commit Transaction ..." &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084124"></a><font face="courier"><font color="#000080">if
+(!conn.SetTransaction(ITConnection::Commit)) {</font></font></ul>
+
+<ul class="e-example"><a NAME="1084125"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not commit transaction " &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084126"></a><font face="courier"><font color="#000080">return
+(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084127"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084128"></a><font face="courier"><font color="#000080">conn.Close();</font></font></ul>
+
+<ul class="e-example"><a NAME="1084129"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084130"></a><font face="courier"><font color="#000080">return
+0;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084131"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084132"></a></ul>
+
+<ul class="e-example"><a NAME="1084133"></a><font face="courier"><font color="#000080">>>>>>>>>>>>>
+End modified test case with new solution >>>>>>>>>>>>>></font></font></ul>
+
+<ul class="e-example"><a NAME="1084134"></a></ul>
+
+<hr><a NAME="1084135"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">IX. Use Of ITString &amp;Trim(const
+char *pmc)</font></h2>
+<font face="Arial, Helvetica, sans-serif">The member function ITString::Trim(const
+char *c) is specified to trim the single, rightmost occurrence of the character
+(not string) starting at 'c' within the string encapsulated by an ITString
+object. The INFORMIX-Object Interface for C++ Programmer's Guide, Version
+2.5, indicates on page 5-37 that the rightmost occurrence of the pmc (pointer
+to multibyte character) string is trimmed.</font>
+<p><font face="Arial, Helvetica, sans-serif">Trim() encapsulates searching
+for the rightmost character (which could be a multibyte byte character
+in a given locale) of the encapsulated string and truncation of that character.
+The search is performed by calling ITLocale::MRScan, which in turn encapsulates
+calling the <tt>GLS</tt> API function ifx_gl_mbsrchr().</font>
+<br>
+<hr><a NAME="1084260"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">X. Assumptions About Your Locale</font></h2>
+<font face="Arial, Helvetica, sans-serif">The examples in the INFORMIX-Object
+Interface for C++ Programmer's Guide are written with the assumption that
+you are using the default locale en_us.8859-1 on <tt>UNIX</tt>, or the
+default locale en_us.1252 on Windows. These locales support U.S. English
+format conventions for dates, times, and currency. In addition, the en_us.8859-1
+locale supports the ISO 8859-1 code set. On Windows, you must use codeset
+conversion files to and from en_us.1252 and ISO 8859-1.&nbsp; However,
+you can change the client locale on Windows to en_us.8859-1 so no codeset
+conversion is needed to support ISO 8859-1.</font>
+<br>
+<hr><a NAME="1084140"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">XI. Binary Parameter Support</font></h2>
+<font face="Arial, Helvetica, sans-serif">Informix Object Interface for
+C++ now supports passing binary data as parameters in prepared <tt>SQL</tt>
+DML statements DELETE, INSERT, UPDATE, and SELECT. <tt>SQL</tt> DELETE,
+INSERT, and UPDATE statements with parameters can be prepared and executed
+using class ITStatement and <tt>SQL</tt> SELECT statements with parameters
+can be executed using class ITCursor.</font>
+<p><font face="Arial, Helvetica, sans-serif">Previously, Object Interface
+for <tt>C++</tt> supported binding of parameters using only the text representation
+of the data as set by ITValue::FromPrintable,even though the client-side
+DataBlade <tt>API</tt> (on which Object Interface for <tt>C++</tt> relies
+to perform all database connectivity and <tt>SQL</tt> requests) supports
+binding parameters in both binary and text mode. This restriction is now
+removed.</font>
+<p><font face="Arial, Helvetica, sans-serif">Because binary support was
+missing, user applications had to define custom value interfaces derived
+from ITValue or ITDatum in which the FromPrintable method is implemented
+in order to support passing values of user-defined types (UDTs) in text
+mode. In Informix <tt>SQL</tt>, UDTs are implemented as <tt>SQL</tt> types
+OPAQUE and DISTINCT. Although providing custom value object interfaces
+for UDTs is highly desirable in a well-behaved Object Interface for <tt>C++</tt>
+application, support for passing binary parameters is a viable alternative
+that requires much less effort of the application programmer and may completely
+satisfy the application needs in some cases.</font>
+<p><font face="Arial, Helvetica, sans-serif">No changes were made to the
+Object Interface for <tt>C++</tt> interface to support binary parameters.
+Rather, existing member functions were reimplemented and existing applications
+will continue to work without changes. User applications can set parameters
+either using ITValue::FromPrintable, as before, or by setting parameters
+directly from binary data.</font>
+<p><font face="Arial, Helvetica, sans-serif">Here is an example of how
+Informix Object Interface for C++ can be used to set a parameter to binary
+data in a prepared INSERT statement. The example uses the table CUSTOMER
+in the demonstration database STORES7:</font>
+<ul class="e-example"><a NAME="1084146"></a><font face="courier"><font color="#000080">#include
+&lt;it.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1084147"></a><font face="courier"><font color="#000080">#include
+&lt;iostream.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1084148"></a></ul>
+
+<ul class="e-example"><a NAME="1084149"></a><font face="courier"><font color="#000080">int
+main()</font></font></ul>
+
+<ul class="e-example"><a NAME="1084150"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084151"></a><font face="courier"><font color="#000080">ITDBInfo
+db("stores7");</font></font></ul>
+
+<ul class="e-example"><a NAME="1084152"></a><font face="courier"><font color="#000080">ITConnection
+conn(db);</font></font></ul>
+
+<ul class="e-example"><a NAME="1084153"></a></ul>
+
+<ul class="e-example"><a NAME="1084154"></a><font face="courier"><font color="#000080">conn.Open();</font></font></ul>
+
+<ul class="e-example"><a NAME="1084155"></a></ul>
+
+<ul class="e-example"><a NAME="1084156"></a><font face="courier"><font color="#000080">if(
+conn.Error() )</font></font></ul>
+
+<ul class="e-example"><a NAME="1084157"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084158"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Couldn't open connection" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084159"></a><font face="courier"><font color="#000080">return
+-1;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084160"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084161"></a></ul>
+
+<ul class="e-example"><a NAME="1084162"></a><font face="courier"><font color="#000080">ITQuery
+query( conn );</font></font></ul>
+
+<ul class="e-example"><a NAME="1084163"></a></ul>
+
+<ul class="e-example"><a NAME="1084164"></a><font face="courier"><font color="#000080">ITRow
+*row;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084165"></a></ul>
+
+<ul class="e-example"><a NAME="1084166"></a><font face="courier"><font color="#000080">//
+Create the value object encapsulating the datum of SQL type CHAR(15)</font></font></ul>
+
+<ul class="e-example"><a NAME="1084167"></a><font face="courier"><font color="#000080">//
+by fetching a row from the database and calling ITRow::Column()</font></font></ul>
+
+<ul class="e-example"><a NAME="1084168"></a></ul>
+
+<ul class="e-example"><a NAME="1084169"></a><font face="courier"><font color="#000080">if(
+!(row = query.ExecOneRow( "select lname from customer;" )) )</font></font></ul>
+
+<ul class="e-example"><a NAME="1084170"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084171"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Couldn't select from table customer" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084172"></a><font face="courier"><font color="#000080">return
+-1;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084173"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084174"></a></ul>
+
+<ul class="e-example"><a NAME="1084175"></a><font face="courier"><font color="#000080">ITValue
+*col = row->Column( 0 );</font></font></ul>
+
+<ul class="e-example"><a NAME="1084176"></a></ul>
+
+<ul class="e-example"><a NAME="1084177"></a><font face="courier"><font color="#000080">if(
+!col )</font></font></ul>
+
+<ul class="e-example"><a NAME="1084178"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084179"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "couldn't instantiate lname column value" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084180"></a><font face="courier"><font color="#000080">return
+-1;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084181"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084182"></a><font face="courier"><font color="#000080">row->Release();</font></font></ul>
+
+<ul class="e-example"><a NAME="1084183"></a></ul>
+
+<ul class="e-example"><a NAME="1084184"></a><font face="courier"><font color="#000080">ITDatum
+*datum;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084185"></a></ul>
+
+<ul class="e-example"><a NAME="1084186"></a><font face="courier"><font color="#000080">col->QueryInterface(
+ITDatumIID, (void **)&amp;datum );</font></font></ul>
+
+<ul class="e-example"><a NAME="1084187"></a><font face="courier"><font color="#000080">if(
+!datum )</font></font></ul>
+
+<ul class="e-example"><a NAME="1084188"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084189"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "couldn't get lname column datum" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084190"></a><font face="courier"><font color="#000080">return
+-1;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084191"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084192"></a><font face="courier"><font color="#000080">col->Release();</font></font></ul>
+
+<ul class="e-example"><a NAME="1084193"></a></ul>
+
+<ul class="e-example"><a NAME="1084194"></a><font face="courier"><font color="#000080">//
+Prepare SQL INSERT statement, set the parameter to the value object that</font></font></ul>
+
+<ul class="e-example"><a NAME="1084195"></a><font face="courier"><font color="#000080">//
+encapsulates lname column value and execute INSERT</font></font></ul>
+
+<ul class="e-example"><a NAME="1084196"></a><font face="courier"><font color="#000080">ITStatement
+stmt( conn );</font></font></ul>
+
+<ul class="e-example"><a NAME="1084197"></a></ul>
+
+<ul class="e-example"><a NAME="1084198"></a><font face="courier"><font color="#000080">if(
+!stmt.Prepare( "insert into customer (lname) values ( ? );" ) )</font></font></ul>
+
+<ul class="e-example"><a NAME="1084199"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084200"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not prepare insert into table customer" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084201"></a><font face="courier"><font color="#000080">return
+-1;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084202"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084203"></a><font face="courier"><font color="#000080">if(
+!stmt.SetParam( 0, datum ) )</font></font></ul>
+
+<ul class="e-example"><a NAME="1084204"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084205"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not set statement parameter" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084206"></a><font face="courier"><font color="#000080">return
+-1;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084207"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084208"></a><font face="courier"><font color="#000080">if(
+!stmt.Exec() )</font></font></ul>
+
+<ul class="e-example"><a NAME="1084209"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1084210"></a><font face="courier"><font color="#000080">cout
+&lt;&lt; "Could not execute the statement" &lt;&lt; endl;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084211"></a><font face="courier"><font color="#000080">return
+-1;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084212"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1084213"></a></ul>
+
+<ul class="e-example"><a NAME="1084214"></a><font face="courier"><font color="#000080">return
+0;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084215"></a></ul>
+
+<ul class="e-example"><a NAME="1084216"></a><font face="courier"><font color="#000080">}</font></font></ul>
+<!-- END DATA --><!-- BEGIN BOTTOM NAVBAR TABLE -->
+<hr>
+<br><font face="Arial, Helvetica, sans-serif">Copyright &copy; 2000, <a href="http://www.informix.com">Informix
+Software, Inc.</a> All rights reserved</font>
+</body>
+</html>

@@ -1,0 +1,63 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#       SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#
+#  Title:       e01e0333.cv
+#  Author:      John Griffin
+#  Created:     Thu Jul 27 15:45:58 1995
+#  Description:
+#    Conversion file from 1252 to 8859-1
+#    Registry values (Decimal): From 1252 (57374) to 819
+#    Registry values (Hex): From e01e to 0333
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x1a and lossy conversion error
+#    is generated.
+#
+#**************************************************************************
+#
+<source_version>    1
+<modified_date>     "07/27/1995"
+<source_codeset>    "1252"
+<target_codeset>    "8859-1"
+
+\x00...\xff	\x00...	# Default everything onto itself
+\x80    \x1a error      # No Euro-sign in 8859-1 
+\x82	\x1a error	# single low-9 quotation mark 
+\x83	\x1a error	# dutch guilder sign (ibm437 159) 
+\x84	\x1a error	# double low-9 quotation mark 
+\x85	\x1a error	# midline horizontal ellipsis 
+\x86	\x1a error	# dagger 
+\x87	\x1a error	# double dagger 
+\x88	\x1a error	# non-spacing circumflex accent (iso-ir-103 195) (character part) 
+\x89	\x1a error	# per mille sign 
+\x8a	\x1a error	# latin capital letter s with caron 
+\x8b	\x1a error	# single left-pointing angle quotation mark 
+\x8c	\x1a error	# latin capital ligature oe 
+\x91	\x1a error	# left single quotation mark 
+\x92	\x1a error	# right single quotation mark 
+\x93	\x1a error	# left double quotation mark 
+\x94	\x1a error	# right double quotation mark 
+\x95	\x1a error	# bullet operator 
+\x96	\x1a error	# en dash 
+\x97	\x1a error	# em dash 
+\x98	\x1a error	# spacing tilde 
+\x99	\x1a error	# trade mark sign 
+\x9a	\x1a error	# latin small letter s with caron 
+\x9b	\x1a error	# single right-pointing angle quotation mark 
+\x9c	\x1a error	# latin small ligature oe 
+\x9f	\x1a error	# latin capital letter y with diaeresis 

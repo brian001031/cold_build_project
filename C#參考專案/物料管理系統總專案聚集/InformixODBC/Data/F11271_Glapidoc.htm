@@ -1,0 +1,174 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<meta name="GENERATOR" content="WebWorks Publisher Quadralay WebWorks Publisher 5.0">
+<meta name="TEMPLATEBASE" content="book">
+<meta name="LASTUPDATED" content="Fri Jun 09 14:50:27 2000">
+<title></title>
+</head>
+<body bgcolor="#ffffff" vlink="#868686" link="#334dff" defaultlink="#ff0000">
+
+<!-- scott/master/Support -->
+<!-- BEGIN LOGO/NAV BAR -->
+<font color="#000000"><a href="http://www.informix.com/"><b><font face="Arial, Helvetica, sans-serif" size="+4" style="text-decoration: none;" color="black">Inform</font><i><font face="Times New Roman, Times, serif" style="text-decoration: none;" size="+4" color="red">i</font></i><font face="Arial, Helvetica, sans-serif" size="+4" style="text-decoration: none;" color="blue">x</font></b></a></font>
+<table width="25%" border="0" bgcolor="black"  cellspacing="1" cellpadding="3" >
+  <tr align="center">
+    <td><a href="http://www.informix.com/documentation/"><font face="Arial, Helvetica, sans-serif" size="-2" color="white" style="text-decoration: none;" ><b>Informix
+      Online Documentation</b></font></a></td>
+  </tr>
+</table>
+  <!-- END LOGO/NAV BAR --> </h6>
+
+<!-- BEGIN DATA -->
+<hr>
+<font face="Arial, Helvetica, sans-serif">
+
+<center><a name="1082509">
+<h3>DOCUMENTATION NOTES FOR
+</h3>
+</a></center>
+<center><a name="1082510">
+<h2>INFORMIX-GLS Programmer's Manual
+</h2>
+</a></center>
+<center><a name="1082511">
+<p><b>Date:</b> 06/13/00
+</p>
+</a></center>
+<center><a name="1081910">
+<p><b>Version:</b> 3.10
+</p>
+</a></center><hr>
+<a name="1082004">
+<h3 > Table of Contents</h3>
+</a><dl>
+<dt><dd>I.	 <b></b><a href="#1082514">Overview</a><dt><dd>II.	 <a href="#1083488">Informix Database Server Names</a><dt><dd>III.	 <a href="#1083419">Unicode Universal Code Set (UCS) and Informix GLS</a></dl>
+<hr>
+<a name="1082514">
+<h2 >I.	 Overview</h2>
+</a><p >
+This document describes feature and performance topics not covered in the <em>Informix </em><kbd><i>GLS</i></kbd><em> Programmer's Manual</em> or modified since publication. 
+</p><p >
+Additionally, you may want to look at some of the documentation notes for manuals that are distributed with your Informix database server. These notes include information about the following products and features which might affect your client application:
+</p><ul type="square"><a name="1083383">
+<li >DataBlade API</li>
+</a>
+<a name="1083384">
+<li >Error messages</li>
+</a>
+<a name="1083388">
+<li ><kbd>GLS</kbd> functionality</li>
+</a>
+<a name="1083392">
+<li ><kbd>SQL</kbd></li>
+</a>
+</ul><p >
+To see these documentation notes, look in one of the following database server directories. If you need information about these directories, contact your DBA.:<p>
+<Table Border="3" valign="top">
+<caption></caption>
+<tr valign="top"><th><a name="1083198">
+<font face="Ariel, Helvetic, sans-serif"><b><b>Platform</b></b></font>
+</a><th><a name="1083200">
+<font face="Ariel, Helvetic, sans-serif"><b>Directory for Documentation Notes</b></font>
+</a>
+<tr valign="top"><td><a name="1083202">
+<font face="Ariel, Helvetic, sans-serif"><kbd>UNIX</kbd></font>
+</a><p></td><td><a name="1083204">
+<font face="Ariel, Helvetic, sans-serif">$INFORMIXDIR/release/en_us/0333</font>
+</a><p></td>
+<tr valign="top"><td><a name="1083206">
+<font face="Ariel, Helvetic, sans-serif">Windows</font>
+</a><p></td><td><a name="1083208">
+<font face="Ariel, Helvetic, sans-serif">%INFORMIXDIR%\release\en_us\04e4</font>
+</a><p></td>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+
+</p><hr>
+<a name="1083488">
+<h2 >II.	 Informix Database Server Names</h2>
+</a><p >
+This manual might not reflect the latest names of Informix database servers. The following table lists the database server versions and their corresponding names.<p>
+<Table Border="3" valign="top">
+<caption><div >
+<a name="1083568"> </a> (1 of 2)<br>
+</div>
+</caption>
+<tr valign="top"><th><a name="1083492">
+<font face="Ariel, Helvetic, sans-serif"><b><b>Database Server Version Numbers</b></b></font>
+</a><th><a name="1083494">
+<font face="Ariel, Helvetic, sans-serif"><b>Database Server Names</b></font>
+</a>
+<tr valign="top"><td><a name="1083496">
+<font face="Ariel, Helvetic, sans-serif"><b><b>5.x</b></b></font>
+</a></td><td><a name="1083504">
+<font face="Ariel, Helvetic, sans-serif"><kbd>INFORMIX</kbd>-OnLine and <kbd>INFORMIX</kbd>-<kbd>SE</kbd></font>
+</a><p></td>
+<tr valign="top"><td><a name="1083506">
+<font face="Ariel, Helvetic, sans-serif"><b><b>7.1x, 7.2x</b></b></font>
+</a></td><td><a name="1083511">
+<font face="Ariel, Helvetic, sans-serif"><kbd>INFORMIX</kbd>-OnLine Dynamic Server and <kbd>INFORMIX</kbd>-<kbd>SE</kbd></font>
+</a><p></td>
+<tr valign="top"><td><a name="1083516">
+<font face="Ariel, Helvetic, sans-serif"><b><b> 7.3x</b></b></font>
+</a></td><td><a name="1083521">
+<font face="Ariel, Helvetic, sans-serif">Informix Dynamic Server</font>
+</a><p></td>
+<tr valign="top"><td><a name="1083523">
+<font face="Ariel, Helvetic, sans-serif"><b><b>8.1x</b></b></font>
+</a></td><td><a name="1083528">
+<font face="Ariel, Helvetic, sans-serif"><kbd>INFORMIX</kbd>-OnLine <kbd>XPS</kbd></font>
+</a><p></td>
+<tr valign="top"><td><a name="1083530">
+<font face="Ariel, Helvetic, sans-serif"><b><b>8.2x</b></b></font>
+</a></td><td><a name="1083534">
+<font face="Ariel, Helvetic, sans-serif">Informix Dynamic Server with Advanced Decision Support and Extended Parallel Options</font>
+</a><p></td>
+<tr valign="top"><td><a name="1083537">
+<font face="Ariel, Helvetic, sans-serif"><b><b>8.3</b></b></font>
+</a></td><td><a name="1083541">
+<font face="Ariel, Helvetic, sans-serif">Informix Extended Parallel Server (<kbd>XPS</kbd>) or Informix Enterprise Decision Server </font>
+</a><p></td>
+<tr valign="top"><td><a name="1083544">
+<font face="Ariel, Helvetic, sans-serif"><b>9.01, 9.1 through 9.13</b></font>
+</a></td><td><a name="1083549">
+<font face="Ariel, Helvetic, sans-serif"><kbd>INFORMIX</kbd>-Universal Server</font>
+</a><p></td>
+<tr valign="top"><td><a name="1083551">
+<font face="Ariel, Helvetic, sans-serif"><b><b>9.14</b></b></font>
+</a></td><td><a name="1083556">
+<font face="Ariel, Helvetic, sans-serif">Informix Dynamic Server with Universal Data Option</font>
+</a><p></td>
+<tr valign="top"><td><a name="1083558">
+<font face="Ariel, Helvetic, sans-serif"><b><b>9.2</b></b></font>
+</a></td><td><a name="1083563">
+<font face="Ariel, Helvetic, sans-serif">Informix Dynamic Server&nbsp;2000</font>
+</a><p></td>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+
+</p><hr>
+<a name="1083419">
+<h2 >III.	 Unicode Universal Code Set (UCS) and Informix GLS</h2>
+</a><p >
+To store data from more than one non-English language in one database, you can either use the <kbd>GLS</kbd> implementation of the UTF-8 <kbd>UCS</kbd> <kbd>GLS</kbd> locale and code set conversion files, or use the Unicode <kbd>UCS</kbd> in your database. To use Unicode with Informix <kbd>GLS</kbd>, you must be using Informix Dynamic Server with Universal Data Option (<kbd>IDS/UD</kbd>) Version&nbsp;9.1x or above, and the Informix Unicode DataBlade module. The Unicode DataBlade module enables users  to store data in native Unicode format in a database and to access and manipulate that data. For more information, see the <em>Informix Unicode DataBlade Module User's Guide</em>. 
+</p><p >
+
+</p>
+<!-- END DATA -->
+<!-- BEGIN BOTTOM NAVBAR TABLE -->
+<hr>
+<b><i></i></b><br>
+Copyright © 2000, <a href="http://www.informix.com">Informix Software, Inc.</a> All rights reserved
+</font>
+</body>
+</html>
+

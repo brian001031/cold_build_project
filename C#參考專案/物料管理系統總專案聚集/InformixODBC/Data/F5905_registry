@@ -1,0 +1,1434 @@
+#***************************************************************************
+#
+#                         INFORMIX SOFTWARE, INC.
+#
+#                            PROPRIETARY DATA
+#
+#      THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF
+#      INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#      CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR
+#      DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT
+#      SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#      THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#      SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE.
+#      UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW.
+#
+#
+# Informix Code-Set Name Mapping File
+# ==================================
+# 
+# -- This file maps code-set names to code-set numbers. More than one
+#    code-set name can map to the same code-set number; however, the
+#    same code-set name cannot map to different code-set numbers.
+# 
+#    A code-set name is used in locale specifications. For example, 
+#    "8859-1" is the code-set name in the locale specification 
+#    "en_us.8859-1@phon".
+# 
+#    A code-set number is based on the IBM CCSID numbering scheme and
+#    is used in locale and code-set conversion filenames.  For example, 
+#    "0333" is the hexadecimal representation for the code-set number 819 
+#    in the filename "en_us/0333.lco"; and both "0333" and "01b5" are the
+#    hexadecimal representations for the code-set numbers 819 and 437 in 
+#    the filename "033301b5.cvo".
+# 
+# -- A locale specification can contain the decimal representation of the
+#    code-set number as well as the code-set name. For example, if the 
+#    code-set name "8859-1" maps to the decimal code-set number 819, then 
+#    the locale specification "en_us.819@phon" will have the same effect 
+#    as the locale specification "en_us.8859-1@phon".
+# 
+# -- Not every code set supported by Informix has a code-set name. For
+#    example, most IBM CCSIDs and Microsoft Windows Code Pages are only
+#    known by their number, so the decimal representation of their number 
+#    is used in the locale specification. For example, the locale 
+#    specification "en_us.1252@phon" specifies that the code set is 
+#    Microsoft Windows Code Page 1252. Note that Microsoft Windows Code 
+#    Pages are not yet officially registered as IBM CCSIDs, but their 
+#    numbers do not conflict with existing IBM CCSIDs, so for each 
+#    Microsoft Windows Code Page, the Informix code-set number is the 
+#    same as the Microsoft Windows Code Page number.
+# 
+#    IBM CCSIDs and Microsoft Windows Code Pages can have names associated
+#    with them if they are also commonly known by a name. For example, IBM
+#    CCSID 819 is the same code set as ISO 8859-1; therefore, the code-set
+#    name "8859-1" is mapped to the code-set number 819.
+# 
+# -- IBM CCSIDs are numbers between 0 and 65535, inclusive.  However, IBM
+#    has reserved a block of CCSIDs for use outside of IBM (between 57344
+#    [0xE000] and 61439 [0xEFFF], inclusive). Therefore, the non-IBM CCSIDs
+#    and non-Microsoft Windows Code Pages that Informix will support will
+#    map to numbers in this reserved block. The number 57344 [0xE000] is
+#    reserved by Informix as a sentinel error value, therefore, it cannot 
+#    be associated with a code-set name.
+# 
+# -- The range 61424 [0xEFF0] to 61439 [0xEFFF] is reserved for 
+#    customer-specific codesets.  That is, codesets which are not 
+#    defined by any international or national standards body, operating 
+#    system vendor, etc.  Informix will not make an entry in the 
+#    registry using a value in this range.  Customers who add codesets 
+#    in this range must themselves maintain those entries.
+#
+# -- Given a code-set name, the GLS library functions will determine its
+#    code-set number using the following algorithm. They will first search
+#    for the code-set name in this mapping file. The search is not
+#    case-sensitive. If the code-set name is found, it will return the
+#    code-set number associated with the name.  If the code-set name is 
+#    not found and the name consists of only decimal digits, they will 
+#    convert the name to a number between 0 and 65535, inclusive.  
+#    Therefore, IBM CCSIDs and Microsoft Windows Code Pages do not have to
+#    appear explicitely in this mapping file.
+# 
+# -- The following are the rules for the syntax of this mapping file:
+# 
+#    1. Comment lines are indicated by a '#' as the first character in the
+#       line. Blank lines are not ignored.
+# 
+#    2. Each line in this mapping file consists of a mapping between 
+#       code-set name and code-set number. The format of each line is 
+#       as follows:
+# 
+# 	  The code-set name begins in the first column.
+# 
+# 	  The code-set name consists of 1 to 21, inclusive, graphical 
+# 	  ASCII characters (except that a code-set name cannot begin with 
+#         the comment character '#'). Case is not significant in code-set 
+#         names.
+# 
+# 	  The code-set name is separated from its code-set number by 1 or
+# 	  more space or tab characters
+# 
+# 	  The code-set number consists of 1 or more decimal ASCII digits
+# 	  that are converted to a number in the range of 0-65535, inclusive.
+#
+#	  An optional comment can follow the code-set number on the line.
+#	  This optional comment consists of one whitespace character
+#	  followed by any number of characters to the end of the line.
+# 
+#
+ASCII		364	# 0x016c
+C		819	# 0x0333 C locale (os/portable/C)
+POSIX		819	# 0x0333 POSIX locale (os/portable/POSIX)
+#
+UnitedStates	437	# 0x01b5 (Microsoft Code Page 437)
+CP437		437	# 0x01b5 (Microsoft Code Page 437)
+#
+8859-1		819	# 0x0333 same as IBM CCSID 819
+Latin-1		819	# 0x0333
+#
+KorHstExtSBCS	833	# 0x0341 - Korean Host Extended SBCS
+CCSID833	833	# 0x0341
+#
+KorHstDBCS	834	# 0x0342 - Korean Host DBCS including 1880 UDC
+CCSID834	834	# 0x0342
+#
+TChHstDBCS	835	# 0x0343 - Trad.Chinese Host DBCS including 6204 UDC
+CCSID835	835	# 0x0343
+#
+SChHstExtSBCS	836	# 0x0344 - Sim.Chinese Host Extended SBCS
+CCSID836	836	# 0x0344
+#
+SChHstDBCS	837	# 0x0345 - Sim.Chinese Host DBCS including 1880 UDC
+CCSID837	837	# 0x0345
+#
+PC-Latin-1	850	# 0x0352 IBM CCSID 850
+#
+PC-Latin-2	852	# 0x0354 IBM CCSID 852
+#
+pc-data-hebrew	856	# 0x0358 IBM CCSID 856
+pc-hebrew-saa	856	# 0x0358
+#
+pc857           857     # 0x0359 IBM CCSID 857
+cp857           857     # 0X0359 IBM CCSID 857
+CCSID857        857     # 0X0359 IBM CCSID 857
+#
+pc-cyrillic	866	# 0x0362 (Microsoft Code Page 866)
+CIS-1		866	# 0x0362 (Microsoft Code Page 866)
+PC866		866	# 0x0362 (Microsoft Code Page 866)
+#
+8859-2		912	# 0x0390 same as IBM CCSID 912
+Latin-2		912	# 0x0390
+#
+Cyrillic-8bit	915	# 0x0393 IBM CCSID 915
+8859-5		915	# 0x0393 IBM CCSID 915
+Latin-Cyrillic	915	# 0x0393 IBM CCSID 915
+#
+#
+#
+CCSID932	932	# 0x03a4 IBM CCSID 932 Mixed including 1880 UDC
+sjis-s          932	# 0x03a4 
+pc-sjis		932	# 0x03a4 
+cp932   	932	# 0x03a4 Japanese MS Windows Code Page 932
+#
+KorHstMxExSBCS	933	# 0x03a5 - Korean Host Mixed including 1880 UDC
+CSID933		933	# 0x03a5   Extended SBCS	
+#
+SChMxExSBCS	935	# 0x03a7 - Sim.Chinese Host Mixed including 1880 UDC
+CCSID935	935	# 0x03a7   Extended SBCS
+#
+TChHstMxExSBCS	937	# 0x03a9 - Trad.Chinese Host Mixed including 6204 UDC
+CCSID937	937	# 0x03a9   Extended SBCS
+#
+TChHstExSBCS	28709	# 0x7025 - Trad.Chinese Host Extended SBCS
+CCSID28709	29709	# 0x7025
+#
+8859-3		57346	# 0xe002
+Latin-3		57346	# 0xe002
+#
+8859-4		57347	# 0xe003
+Latin-4		57347	# 0xe003
+#
+8859-6		1089	# 0x0441 same as IBM CCSID 1089
+Latin-Arabic	1089	# 0x0441
+iso-ir-127  	1089	# 0x0441
+ASMO-708    	1089	# 0x0441
+#
+8859-7		813	# 0x032d same as IBM CCSID 813
+Latin-Greek	813	# 0x032d
+#
+8859-8		916	# 0x0394 same as IBM CCSID 916
+Latin-Hebrew	916	# 0x0394
+#
+8859-9		920	# 0x0398 same as IBM CCSID 920
+Latin-5		920	# 0x0398
+#
+ISO-7-German	1011	# 0x03f3 IBM CCSID 1011
+646de		1011	# 0x03f3 IBM CCSID 1011
+#
+ISO-7-Danish	1017	# 0x03f9 IBM CCSID 1017
+#
+8859-13		57390	# 0xe02e
+Latin-Baltic    57390	# 0xe02e
+#
+8859-15     57391   # 0xe02f
+Latin-9     57391   # 0xe02f
+#
+pc1046		1046	# 0x0416 IBM CCSID 1046
+arabic-pc	1046	# 0x0416
+#
+ASMO-449	57389	# 0xe02d Arabic Standard, same as ISO 9036
+arabic7         57389	# 0xe02d same as ISO 9036
+iso-ir-89       57389	# 0xe02d same as ISO 9036
+ISO-9036	57389	# 0xe02d 
+cp708	        708  	# 0x02c4 MSDOS Code Page 708 (Microsoft)
+ASMO-449E	709  	# 0x02c5 Arabic standard aka ASMO 449+
+ASMO-449+	709  	# 0x02c5 IBM CCSID 709 (Arabic Standard 449+)
+cp864     	864	# 0x0360 IBM CCSID 864 (Arabic DOS)
+cp420		420	# 0x01a4 IBM CCSID 420 (Arabic EBCDIC)
+ebcdic-cp-ar1	420	# 0x01a4 IBM CCSID 420 (Arabic EBCDIC)
+#
+# ISO-10646 is the specification for UCS-4.
+#
+ISO-10646	57392	# 0xe030
+UCS-4		57392	# 0xe030
+#
+unicode		57349	# 0xe005
+#
+east-europe	1250	# 0x04e2 (Microsoft Code Page 1250)
+CP1250		1250 	# 0x04e2 (Microsoft Code Page 1250)
+pc-slavic	1251 	# 0x04e3 (Microsoft Code Page 1251)
+CP1251		1251 	# 0x04e3 (Microsoft Code Page 1251)
+west-europe	1252 	# 0x04e4 (Microsoft Code Page 1252)
+CP1252		1252 	# 0x04e4 (Microsoft Code Page 1252)
+pc-greek	1253 	# 0x04e5 (Microsoft Code Page 1253)
+CP1253		1253 	# 0x04e5 (Microsoft Code Page 1253)
+pc-latin5	1254 	# 0x04e6 (Microsoft Code Page 1254)
+CP1254		1254 	# 0x04e6 (Microsoft Code Page 1254)
+pc-turkish	1254 	# 0x04e6 (Microsoft Code Page 1254)
+pc-hebrew	1255 	# 0x04e7 (Microsoft Code Page 1255)
+CP1255		1255 	# 0x04e7 (Microsoft Code Page 1255)
+pc-arabic	1256 	# 0x04e8 (Microsoft Code Page 1256)
+CP1256		1256 	# 0x04e8 (Microsoft Code Page 1256)
+pc-baltic	1257	# 0x04e9 (Microsoft Code Page 1257)
+CP1257		1257	# 0x04e9 (Microsoft Code Page 1257)
+#
+sjis		57350	# 0xe006
+Shift-JIS	57350	# 0xe006
+#
+ujis		57351	# 0xe007
+#
+eucJP		5050	# 0x13ba same as IBM CCSID 5050
+#
+big5		57352	# 0xe008
+Big-5		57352	# 0xe008
+cp950		57352	# 0xe008 Traditional Chinese MS Windows Code Page 950
+#
+sbig5		57353	# 0xe009
+Shift-Big-5	57353	# 0xe009
+#
+ccdc		57354	# 0xe00a
+#
+cccii		57355	# 0xe00b
+#
+Greek             737   # 0x02E1 - cannot find 737 CCSID but no conflict.
+greek		  737	# Olivetti CP 210
+#
+baltic		  775	# 0x0307 Baltic Rim
+#
+ksc		57356	# 0xe00c Korean (Wansung) KS C-5601-1987
+KS5601		57356	# 0xe00c Korean (Wansung) KS C-5601-1987
+cp949		57356	# 0xe00c Korean (Wansung) MS Windows Code Page 949
+#
+gb		57357	# 0xe00d
+GB2312-80	57357	# 0xe00d
+cp936    	57357	# 0xe00d Simplified Chinese Microsoft Windows 
+#
+EBCDIC		37	# 0x0025
+EBCDIC-US	37	# 0x0025
+#
+# Testing code sets
+#
+chngcase	57358	# 0xe00e
+bangA		57359	# 0xe00f
+shift1		57360	# 0xe010
+rot13		57361	# 0xe011
+swap0to9	57362	# 0xe012
+pcwin		57363	# 0xe013
+qacvtest        57365   # 0xe015
+swap09-nl       57366	# 0xe016
+qa-unix-client	57367	# 0xe017
+qa-unix-server	57368	# 0xe018
+qa-win-client	57369	# 0xe019
+#
+# Code set for ALS
+#
+Guobiao2312     57357	# 0xe00d
+#
+#
+MIK		57370   # 0xe01a (commonly used in Bulgaria)
+#
+utf8		57372   # 0xe01c
+#
+thai		57373	# 0xe01d (Thai 620-2533 (1990))
+thai620		57373	# 0xe01d (Thai 620-2533 (1990))
+#
+sopstw		57374	# 0xe01e (SOPS code set used in Taiwan)
+euctw		57375	# 0xe01f (EUC code set for Taiwan)
+cns		57375	# 0xe01f (EUC CNS code set for Taiwan)
+cns-extended	57378	# 0xe022 (Extended EUC CNS code set for Taiwan)
+eucxtw		57378	# 0xe022 (Extended EUC CNS code set for Taiwan)
+#
+tst		57376	# 0xe020 (For compatiblity, use qa-* instead)
+qa-win-950	57377	# 0xe021 (qa codeset using real MS 950 code page)
+qa-win-932	57379	# 0xe023 (qa codeset using real MS 932 code page)
+#
+KOI-8		57382	# 0xe026 (Russian code page)
+CSK		57383	# 0xe027 (Polish code page)
+mazovia		57384	# 0xe028 (Polish code page)
+maz		57384	# 0xe028 (Polish code page)
+#
+Roman8		57385	# 0xe029 (HP Roman 8)
+qa-win-unicode  57386   # 0xe02a (qa codeset using real Unicode code page)
+qa-unix-big5    57387   # 0xe02b (qa codeset for code page big5)
+urst2018-91     57388   # 0xe02c (Ukrainian Repulican STandard 2018-91)
+#
+# GLS locale names for IBM AIX 4.1 operating
+# system equivalent locales.
+#
+#Ar_AA.IBM-1046         1046    # 0x0416 IBM AIX locale (os/ibm/Ar_AA.IBM-1046)
+#ar_AA.ISO8859-6        1089    # 0x0441 IBM AIX locale (os/ibm/ar_AA.ISO8859-6)
+#bg_BG.ISO8859-5        915     # 0x0393 IBM AIX locale (os/ibm/bg_BG.ISO8859-5)
+#Ca_ES.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Ca_ES.IBM-850)
+#ca_ES.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/ca_ES.ISO8859-1)
+#cs_CZ.ISO8859-2        912     # 0x0390 IBM AIX locale (os/ibm/cs_CZ.ISO8859-2)
+#Da_DK                  850     # 0x0352 IBM AIX locale (os/ibm/Da_DK)
+#da_DK                  819     # 0x0333 IBM AIX locale (os/ibm/da_DK)
+#Da_DK.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Da_DK.IBM-850)
+#da_DK.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/da_DK.ISO8859-1)
+#De_CH                  850     # 0x0352 IBM AIX locale (os/ibm/De_CH)
+#de_CH                  819     # 0x0333 IBM AIX locale (os/ibm/de_CH)
+#De_CH.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/De_CH.IBM-850)
+#de_CH.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/de_CH.ISO8859-1)
+#De_DE                  850     # 0x0352 IBM AIX locale (os/ibm/De_DE)
+#de_DE                  819     # 0x0333 IBM AIX locale (os/ibm/de_DE)
+#De_DE.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/De_DE.IBM-850)
+#de_DE.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/de_DE.ISO8859-1)
+#el_GR.ISO8859-7        813     # 0x032d IBM AIX locale (os/ibm/el_GR.ISO8859-7)
+#En_GB                  850     # 0x0352 IBM AIX locale (os/ibm/En_GB)
+#en_GB                  819     # 0x0333 IBM AIX locale (os/ibm/en_GB)
+#En_GB.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/En_GB.IBM-850)
+#en_GB.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/en_GB.ISO8859-1)
+#En_US                  850     # 0x0352 IBM AIX locale (os/ibm/En_US)
+#en_US                  819     # 0x0333 IBM AIX locale (os/ibm/en_US)
+#En_US.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/En_US.IBM-850)
+#en_US.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/en_US.ISO8859-1)
+#Es_ES                  850     # 0x0352 IBM AIX locale (os/ibm/Es_ES)
+#es_ES                  819     # 0x0333 IBM AIX locale (os/ibm/es_ES)
+#Es_ES.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Es_ES.IBM-850)
+#es_ES.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/es_ES.ISO8859-1)
+#Fi_FI                  850     # 0x0352 IBM AIX locale (os/ibm/Fi_FI)
+#fi_FI                  819     # 0x0333 IBM AIX locale (os/ibm/fi_FI)
+#Fi_FI.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Fi_FI.IBM-850)
+#fi_FI.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/fi_FI.ISO8859-1)
+#Fr_BE                  850     # 0x0352 IBM AIX locale (os/ibm/Fr_BE)
+#fr_BE                  819     # 0x0333 IBM AIX locale (os/ibm/fr_BE)
+#Fr_BE.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Fr_BE.IBM-850)
+#fr_BE.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/fr_BE.ISO8859-1)
+#Fr_CA                  850     # 0x0352 IBM AIX locale (os/ibm/Fr_CA)
+#fr_CA                  819     # 0x0333 IBM AIX locale (os/ibm/fr_CA)
+#Fr_CA.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Fr_CA.IBM-850)
+#fr_CA.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/fr_CA.ISO8859-1)
+#Fr_CH                  850     # 0x0352 IBM AIX locale (os/ibm/Fr_CH)
+#fr_CH                  819     # 0x0333 IBM AIX locale (os/ibm/fr_CH)
+#Fr_CH.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Fr_CH.IBM-850)
+#fr_CH.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/fr_CH.ISO8859-1)
+#Fr_FR                  850     # 0x0352 IBM AIX locale (os/ibm/Fr_FR)
+#fr_FR                  819     # 0x0333 IBM AIX locale (os/ibm/fr_FR)
+#Fr_FR.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Fr_FR.IBM-850)
+#fr_FR.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/fr_FR.ISO8859-1)
+#hr_HR.ISO8859-2        912     # 0x0390 IBM AIX locale (os/ibm/hr_HR.ISO8859-2)
+#hu_HU.ISO8859-2        912     # 0x0390 IBM AIX locale (os/ibm/hu_HU.ISO8859-2)
+#Is_IS                  850     # 0x0352 IBM AIX locale (os/ibm/Is_IS)
+#is_IS                  819     # 0x0333 IBM AIX locale (os/ibm/is_IS)
+#Is_IS.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Is_IS.IBM-850)
+#is_IS.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/is_IS.ISO8859-1)
+#It_IT                  850     # 0x0352 IBM AIX locale (os/ibm/It_IT)
+#it_IT                  819     # 0x0333 IBM AIX locale (os/ibm/it_IT)
+#It_IT.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/It_IT.IBM-850)
+#it_IT.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/it_IT.ISO8859-1)
+#Iw_IL.IBM-856          850     # 0x0352 IBM AIX locale (os/ibm/Iw_IL.IBM-856)
+#iw_IL.ISO8859-8        916     # 0x0394 IBM AIX locale (os/ibm/iw_IL.ISO8859-8)
+#mk_MK.ISO8859-5        915     # 0x0393 IBM AIX locale (os/ibm/mk_MK.ISO8859-5)
+#Nl_BE                  850     # 0x0352 IBM AIX locale (os/ibm/Nl_BE)
+#nl_BE                  819     # 0x0333 IBM AIX locale (os/ibm/nl_BE)
+#Nl_BE.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Nl_BE.IBM-850)
+#nl_BE.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/nl_BE.ISO8859-1)
+#Nl_NL                  850     # 0x0352 IBM AIX locale (os/ibm/Nl_NL)
+#nl_NL                  819     # 0x0333 IBM AIX locale (os/ibm/nl_NL)
+#Nl_NL.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Nl_NL.IBM-850)
+#nl_NL.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/nl_NL.ISO8859-1)
+#No_NO                  850     # 0x0352 IBM AIX locale (os/ibm/No_NO)
+#no_NO                  819     # 0x0333 IBM AIX locale (os/ibm/no_NO)
+#No_NO.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/No_NO.IBM-850)
+#no_NO.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/no_NO.ISO8859-1)
+#pl_PL.ISO8859-2        912     # 0x0390 IBM AIX locale (os/ibm/pl_PL.ISO8859-2)
+#pt_BR.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/pt_BR.ISO8859-1)
+#Pt_PT                  850     # 0x0352 IBM AIX locale (os/ibm/Pt_PT)
+#pt_PT                  819     # 0x0333 IBM AIX locale (os/ibm/pt_PT)
+#Pt_PT.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Pt_PT.IBM-850)
+#pt_PT.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/pt_PT.ISO8859-1)
+#ro_RO.ISO8859-2        912     # 0x0390 IBM AIX locale (os/ibm/ro_RO.ISO8859-2)
+#ru_RU.ISO8859-5        915     # 0x0393 IBM AIX locale (os/ibm/ru_RU.ISO8859-5)
+#sh_SP.ISO8859-2        912     # 0x0390 IBM AIX locale (os/ibm/sh_SP.ISO8859-2)
+#sk_SK.ISO8859-2        912     # 0x0390 IBM AIX locale (os/ibm/sk_SK.ISO8859-2)
+#sl_SI.ISO8859-2        912     # 0x0390 IBM AIX locale (os/ibm/sl_SI.ISO8859-2)
+#sr_SP.ISO8859-5        915     # 0x0393 IBM AIX locale (os/ibm/sr_SP.ISO8859-5)
+#Sv_SE                  850     # 0x0352 IBM AIX locale (os/ibm/Sv_SE)
+#sv_SE                  819     # 0x0333 IBM AIX locale (os/ibm/sv_SE)
+#Sv_SE.IBM-850          850     # 0x0352 IBM AIX locale (os/ibm/Sv_SE.IBM-850)
+#sv_SE.ISO8859-1        819     # 0x0333 IBM AIX locale (os/ibm/sv_SE.ISO8859-1)
+#tr_TR.ISO8859-9        920     # 0x0398 IBM AIX locale (os/ibm/tr_TR.ISO8859-9)#
+#ar_AA                  1089    # 0x0441 IBM_AIX locale (os/ibm/ar_AA)
+#bg_BG                  915     # 0x0393 IBM_AIX locale (os/ibm/bg_BG)
+#ca_ES                  819     # 0x0333 IBM_AIX locale (os/ibm/ca_ES)
+#cs_CZ                  912     # 0x0390 IBM_AIX locale (os/ibm/cs_CZ)
+#el_GR                  813     # 0x032d IBM_AIX locale (os/ibm/el_GR)
+#hr_HR                  912     # 0x0390 IBM_AIX locale (os/ibm/hr_HR)
+#hu_HU                  912     # 0x0390 IBM_AIX locale (os/ibm/hu_HU)
+#iw_IL                  916     # 0x0394 IBM_AIX locale (os/ibm/iw_IL)
+#mk_MK                  915     # 0x0393 IBM_AIX locale (os/ibm/mk_MK)
+#pl_PL                  912     # 0x0390 IBM_AIX locale (os/ibm/pl_PL)
+#pt_BR                  819     # 0x0333 IBM_AIX locale (os/ibm/pt_BR)
+#ro_RO                  912     # 0x0390 IBM_AIX locale (os/ibm/ro_RO)
+#ru_RU                  915     # 0x0393 IBM_AIX locale (os/ibm/ru_RU)
+#sh_SP                  912     # 0x0390 IBM_AIX locale (os/ibm/sh_SP)
+#sk_SK                  912     # 0x0390 IBM_AIX locale (os/ibm/sk_SK)
+#sl_SI                  912     # 0x0390 IBM_AIX locale (os/ibm/sl_SI)
+#sr_SP                  915     # 0x0393 IBM_AIX locale (os/ibm/sr_SP)
+#tr_TR                  920     # 0x0398 IBM_AIX locale (os/ibm/tr_TR)
+#
+# GLS locale names for AT&T MP-RAS 3.0 operating
+# system equivalent locales.
+#
+#da			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/da)
+#da_DK.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/da_DK.850)
+#da_DK.865		865	# 0x0361 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/da_DK.865)
+#de			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de)
+#de_AT.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de_AT.437)
+#de_AT.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de_AT.850)
+#de_AT			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de_AT)
+#de_CH.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de_CH.437)
+#de_CH.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de_CH.850)
+#de_CH			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de_CH)
+#de_DE.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de_DE.437)
+#de_DE.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/de_DE.850)
+#el			813	# 0x032d AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/el)
+#en			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en)
+#en_AU.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_AU.437)
+#en_AU.646		1013	# 0x03f5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_AU.646)
+#en_AU.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_AU.850)
+#en_AU			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_AU)
+#en_CA.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_CA.437)
+#en_CA.646		1013	# 0x03f5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_CA.646)
+#en_CA.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_CA.850)
+#en_CA			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_CA)
+#en_GB.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_GB.437)
+#en_GB.646		1013	# 0x03f5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_GB.646)
+#en_GB.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_GB.850)
+#en_US.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_US.437)
+#en_US.646		1013	# 0x03f5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_US.646)
+#en_US.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_US.850)
+#en_US			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/en_US)
+#es			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/es)
+#es_ES.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/es_ES.437)
+#es_ES.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/es_ES.850)
+#fi			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fi)
+#fi_FI.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fi_FI.437)
+#fi_FI.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fi_FI.850)
+#fr			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr)
+#fr_BE.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_BE.437)
+#fr_BE.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_BE.850)
+#fr_BE			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_BE)
+#fr_CA.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_CA.850)
+#fr_CA.863		863	# 0x035f AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_CA.863)
+#fr_CA			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_CA)
+#fr_CH.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_CH.437)
+#fr_CH.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_CH.850)
+#fr_CH			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_CH)
+#fr_FR.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_FR.437)
+#fr_FR.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/fr_FR.850)
+#is			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/is)
+#is_IS.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/is_IS.850)
+#it			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/it)
+#it_CH.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/it_CH.437)
+#it_CH.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/it_CH.850)
+#it_CH			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/it_CH)
+#it_IT.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/it_IT.437)
+#it_IT.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/it_IT.850)
+#nl			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/nl)
+#nl_BE.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/nl_BE.437)
+#nl_BE.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/nl_BE.850)
+#nl_BE			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/nl_BE)
+#nl_NL.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/nl_NL.437)
+#nl_NL.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/nl_NL.850)
+#no			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/no)
+#no_NO.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/no_NO.850)
+#no_NO.865		865	# 0x0361 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/no_NO.865)
+#pl			912	# 0x0390 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/pl)
+#pt			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/pt)
+#pt_PT.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/pt_PT.850)
+#pt_PT.860		860	# 0x035c AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/pt_PT.860)
+#ru			915	# 0x0393 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/ru)
+#sh			912	# 0x0390 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/sh)
+#sk			912	# 0x0390 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/sk)
+#sv			819	# 0x0333 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/sv)
+#sv_SE.437		437	# 0x01b5 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/sv_SE.437)
+#sv_SE.850		850	# 0x0352 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/sv_SE.850)
+#tr			57346	# 0xe002 AT&T MP-RAS 3.0 locale (os/ncr_att.att_3.0/tr)
+#
+# GLS locale names for HP HP-UX 10.0 operating
+# system equivalent locales.
+#
+#ar_DZ.ara8		420	# 0x01a4 HP HP-UX 10.0 locale (os/hp/ar_DZ.ara8)
+#ar_SA.ara8		420	# 0x01a4 HP HP-UX 10.0 locale (os/hp/ar_SA.ara8)
+#ar_SA.iso6		1089	# 0x0441 HP HP-UX 10.0 locale (os/hp/ar_SA.iso6)
+#bg_BG.iso5		915	# 0x0393 HP HP-UX 10.0 locale (os/hp/bg_BG.iso5)
+#cs_CZ.iso2		912	# 0x0390 HP HP-UX 10.0 locale (os/hp/cs_CZ.iso2)
+#da_DK.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/da_DK.iso1)
+#da_DK.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/da_DK.rom8)
+#de_DE.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/de_DE.iso1)
+#de_DE.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/de_DE.rom8)
+#el_GR.gre8		875	# 0x036b HP HP-UX 10.0 locale (os/hp/el_GR.gre8)
+#el_GR.iso7		813	# 0x032d HP HP-UX 10.0 locale (os/hp/el_GR.iso7)
+#en_GB.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/en_GB.iso1)
+#en_GB.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/en_GB.rom8)
+#en_US.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/en_US.iso1)
+#en_US.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/en_US.rom8)
+#es_ES.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/es_ES.iso1)
+#es_ES.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/es_ES.rom8)
+#fi_FI.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/fi_FI.iso1)
+#fi_FI.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/fi_FI.rom8)
+#fr_CA.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/fr_CA.iso1)
+#fr_CA.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/fr_CA.rom8)
+#fr_FR.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/fr_FR.iso1)
+#fr_FR.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/fr_FR.rom8)
+#hr_HR.iso2		912	# 0x0390 HP HP-UX 10.0 locale (os/hp/hr_HR.iso2)
+#hu_HU.iso2		912	# 0x0390 HP HP-UX 10.0 locale (os/hp/hu_HU.iso2)
+#is_IS.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/is_IS.iso1)
+#is_IS.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/is_IS.rom8)
+#it_IT.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/it_IT.iso1)
+#it_IT.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/it_IT.rom8)
+#iw_IL.heb8		424	# 0x01a8 HP HP-UX 10.0 locale (os/hp/iw_IL.heb8)
+#iw_IL.iso8		916	# 0x0394 HP HP-UX 10.0 locale (os/hp/iw_IL.iso8)
+#nl_NL.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/nl_NL.iso1)
+#nl_NL.rom8		57385	# 0xHHHH HP HP-UX 10.0 locale (os/hp/nl_NL.rom8)
+#no_NO.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/no_NO.iso1)
+#no_NO.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/no_NO.rom8)
+#pl_PL.iso2		912	# 0x0390 HP HP-UX 10.0 locale (os/hp/pl_PL.iso2)
+#pt_PT.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/pt_PT.iso1)
+#pt_PT.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/pt_PT.rom8)
+#ro_RO.iso2		912	# 0x0390 HP HP-UX 10.0 locale (os/hp/ro_RO.iso2)
+#ru_RU.iso5		915	# 0x0393 HP HP-UX 10.0 locale (os/hp/ru_RU.iso5)
+#sk_SK.iso2		912	# 0x0390 HP HP-UX 10.0 locale (os/hp/sk_SK.iso2)
+#sl_SI.iso2		912	# 0x0390 HP HP-UX 10.0 locale (os/hp/sl_SI.iso2)
+#sv_SE.iso1		819	# 0x0333 HP HP-UX 10.0 locale (os/hp/sv_SE.iso1)
+#sv_SE.rom8		57385	# 0xe029 HP HP-UX 10.0 locale (os/hp/sv_SE.rom8)
+#tr_TR.iso9		920	# 0x0398 HP HP-UX 10.0 locale (os/hp/tr_TR.iso9)
+#tr_TR.tuk8		1026	# 0x0402 HP HP-UX 10.0 locale (os/hp/tr_TR.tuk8)
+#
+# GLS locale names for HP HP-UX 9.0 operating
+# system equivalent locales.
+#
+#american.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/american.iso88591@fold)
+#american.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/american.iso88591@nofold)
+#american@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/american@fold)
+#american@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/american@nofold)
+#arabic-w@fold		420	# 0x01a4 HP HP-UX 9.0 (os/hp/arabic-w@fold)
+#arabic-w@nofold		420	# 0x01a4 HP HP-UX 9.0 (os/hp/arabic-w@nofold)
+#arabic.iso88596@fold	1089	# 0x0441 HP HP-UX 9.0 (os/hp/arabic.iso88596@fold)
+#arabic.iso88596@nofold	1089	# 0x0441 HP HP-UX 9.0 (os/hp/arabic.iso88596@nofold)
+#arabic@fold		420	# 0x01a4 HP HP-UX 9.0 (os/hp/arabic@fold)
+#arabic@nofold		420	# 0x01a4 HP HP-UX 9.0 (os/hp/arabic@nofold)
+#bulgarian@fold		915	# 0x0393 HP HP-UX 9.0 (os/hp/bulgarian@fold)
+#bulgarian@nofold	915	# 0x0393 HP HP-UX 9.0 (os/hp/bulgarian@nofold)
+#c-french.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/c-french.iso88591@fold)
+#c-french.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/c-french.iso88591@nofold)
+#c-french@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/c-french@fold)
+#c-french@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/c-french@nofold)
+#czech@fold		912	# 0x0390 HP HP-UX 9.0 (os/hp/czech@fold)
+#czech@nofold		912	# 0x0390 HP HP-UX 9.0 (os/hp/czech@nofold)
+#danish.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/danish.iso88591@fold)
+#danish.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/danish.iso88591@nofold)
+#danish@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/danish@fold)
+#danish@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/danish@nofold)
+#dutch.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/dutch.iso88591@fold)
+#dutch.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/dutch.iso88591@nofold)
+#dutch@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/dutch@fold)
+#dutch@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/dutch@nofold)
+#english.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/english.iso88591@fold)
+#english.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/english.iso88591@nofold)
+#english@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/english@fold)
+#english@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/english@nofold)
+#finnish.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/finnish.iso88591@fold)
+#finnish.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/finnish.iso88591@nofold)
+#finnish@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/finnish@fold)
+#finnish@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/finnish@nofold)
+#french@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/french@fold)
+#french@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/french@nofold)
+#german.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/german.iso88591@fold)
+#german.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/german.iso88591@nofold)
+#german@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/german@fold)
+#german@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/german@nofold)
+#greek.iso88597@fold	813	# 0x032d HP HP-UX 9.0 (os/hp/greek.iso88597@fold)
+#greek.iso88597@nofold	813	# 0x032d HP HP-UX 9.0 (os/hp/greek.iso88597@nofold)
+#greek@fold		875	# 0x036b HP HP-UX 9.0 (os/hp/greek@fold)
+#greek@nofold		875	# 0x036b HP HP-UX 9.0 (os/hp/greek@nofold)
+#hebrew.iso88598@fold	916	# 0x0394 HP HP-UX 9.0 (os/hp/hebrew.iso88598@fold)
+#hebrew.iso88598@nofold	916	# 0x0394 HP HP-UX 9.0 (os/hp/hebrew.iso88598@nofold)
+#hebrew@fold		424	# 0x01a8 HP HP-UX 9.0 (os/hp/hebrew@fold)
+#hebrew@nofold		424	# 0x01a8 HP HP-UX 9.0 (os/hp/hebrew@nofold)
+#hungarian@fold		912	# 0x0390 HP HP-UX 9.0 (os/hp/hungarian@fold)
+#hungarian@nofold	912	# 0x0390 HP HP-UX 9.0 (os/hp/hungarian@nofold)
+#icelandic.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/icelandic.iso88591@fold)
+#icelandic.iso88591@nofold		819	# 0x0333 HP HP-UX 9.0 (os/hp/icelandic.iso88591@nofold)
+#icelandic@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/icelandic@fold)
+#icelandic@nofold	57385	# 0xe029 HP HP-UX 9.0 (os/hp/icelandic@nofold)
+#italian.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/italian.iso88591@fold)
+#italian.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/italian.iso88591@nofold)
+#italian@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/italian@fold)
+#italian@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/italian@nofold)
+#norwegian.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/norwegian.iso88591@fold)
+#norwegian.iso88591@nofold		819	# 0x0333 HP HP-UX 9.0 (os/hp/norwegian.iso88591@nofold)
+#norwegian@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/norwegian@fold)
+#norwegian@nofold	57385	# 0xe029 HP HP-UX 9.0 (os/hp/norwegian@nofold)
+#polish@fold		912	# 0x0390 HP HP-UX 9.0 (os/hp/polish@fold)
+#polish@nofold		912	# 0x0390 HP HP-UX 9.0 (os/hp/polish@nofold)
+#portuguese.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/portuguese.iso88591@fold)
+#portuguese.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/portuguese.iso88591@nofold)
+#portuguese@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/portuguese@fold)
+#portuguese@nofold	57385	# 0xe029 HP HP-UX 9.0 (os/hp/portuguese@nofold)
+#rumanian@fold		912	# 0x0390 HP HP-UX 9.0 (os/hp/rumanian@fold)
+#rumanian@nofold		912	# 0x0390 HP HP-UX 9.0 (os/hp/rumanian@nofold)
+#serbocroatian@fold	912	# 0x0390 HP HP-UX 9.0 (os/hp/serbocroatian@fold)
+#serbocroatian@nofold	912	# 0x0390 HP HP-UX 9.0 (os/hp/serbocroatian@nofold)
+#slovene@fold		912	# 0x0390 HP HP-UX 9.0 (os/hp/slovene@fold)
+#slovene@nofold		912	# 0x0390 HP HP-UX 9.0 (os/hp/slovene@nofold)
+#spanish.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/spanish.iso88591@fold)
+#spanish.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/spanish.iso88591@nofold)
+#spanish@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/spanish@fold)
+#spanish@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/spanish@nofold)
+#swedish.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/swedish.iso88591@fold)
+#swedish.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/swedish.iso88591@nofold)
+#swedish@fold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/swedish@fold)
+#swedish@nofold		57385	# 0xe029 HP HP-UX 9.0 (os/hp/swedish@nofold)
+#turkish.iso88599@fold	920	# 0x0398 HP HP-UX 9.0 (os/hp/turkish.iso88599@fold)
+#turkish.iso88599@nofold	920	# 0x0398 HP HP-UX 9.0 (os/hp/turkish.iso88599@nofold)
+#turkish@fold		1026	# 0x0402 HP HP-UX 9.0 (os/hp/turkish@fold)
+#turkish@nofold		1026	# 0x0402 HP HP-UX 9.0 (os/hp/turkish@nofold)
+#
+#american.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/american.iso88591)
+#c-french.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/c-french.iso88591)
+#danish.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/danish.iso88591)
+#dutch.iso88591		819	# 0x0333 HP HP-UX 9.0 (os/hp/dutch.iso88591)
+#english.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/english.iso88591)
+#finnish.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/finnish.iso88591)
+#french.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/french.iso88591)
+#french.iso88591@fold	819	# 0x0333 HP HP-UX 9.0 (os/hp/french.iso88591@fold)
+#french.iso88591@nofold	819	# 0x0333 HP HP-UX 9.0 (os/hp/french.iso88591@nofold)
+#german.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/german.iso88591)
+#icelandic.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/icelandic.iso88591)
+#italian.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/italian.iso88591)
+#norwegian.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/norwegian.iso88591)
+#portuguese.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/portuguese.iso88591)
+#spanish.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/spanish.iso88591)
+#swedish.iso88591	819	# 0x0333 HP HP-UX 9.0 (os/hp/swedish.iso88591)
+#american		819	# 0x0333 HP HP-UX 9.0 (os/hp/american)
+#arabic-w		420	# 0x01a4 HP HP-UX 9.0 (os/hp/arabic-w)
+#arabic.iso88596	1089	# 0x0441 HP HP-UX 9.0 (os/hp/arabic.iso88596)
+#arabic			1089	# 0x0441 HP HP-UX 9.0 (os/hp/arabic)
+#bulgarian		915	# 0x0393 HP HP-UX 9.0 (os/hp/bulgarian)
+#c-french		819	# 0x0333 HP HP-UX 9.0 (os/hp/c-french)
+#czech			912	# 0x0390 HP HP-UX 9.0 (os/hp/czech)
+#danish			57385	# 0xe029 HP HP-UX 9.0 (os/hp/danish)
+#dutch			57385	# 0xe029 HP HP-UX 9.0 (os/hp/dutch)
+#english		819	# 0x0333 HP HP-UX 9.0 (os/hp/english)
+#finnish		57385	# 0xe029 HP HP-UX 9.0 (os/hp/finnish)
+#french			57385	# 0xe029 HP HP-UX 9.0 (os/hp/french)
+#german			57385	# 0xe029 HP HP-UX 9.0 (os/hp/german)
+#greek.iso88597		813	# 0x032d HP HP-UX 9.0 (os/hp/greek.iso88597)
+#greek			875	# 0x036b HP HP-UX 9.0 (os/hp/greek)
+#hebrew.iso88598	916	# 0x0394 HP HP-UX 9.0 (os/hp/hebrew.iso88598)
+#hebrew			424	# 0x01a8 HP HP-UX 9.0 (os/hp/hebrew)
+#hungarian		912	# 0x0390 HP HP-UX 9.0 (os/hp/hungarian)
+#icelandic		57385	# 0xe029 HP HP-UX 9.0 (os/hp/icelandic)
+#italian		57385	# 0xe029 HP HP-UX 9.0 (os/hp/italian)
+#norwegian		57385	# 0xe029 HP HP-UX 9.0 (os/hp/norwegian)
+#polish			912	# 0x0390 HP HP-UX 9.0 (os/hp/polish)
+#portuguese		57385	# 0xe029 HP HP-UX 9.0 (os/hp/portuguese)
+#rumanian		912	# 0x0390 HP HP-UX 9.0 (os/hp/rumanian)
+#russian@fold		57382	# 0xe026 HP HP-UX 9.0 (os/hp/russian@fold)
+#russian@nofold		57382	# 0xe026 HP HP-UX 9.0 (os/hp/russian@nofold)
+#serbocroatian		912	# 0x0390 HP HP-UX 9.0 (os/hp/serbocroatian)
+#slovene		912	# 0x0390 HP HP-UX 9.0 (os/hp/slovene)
+#spanish		57385	# 0xe029 HP HP-UX 9.0 (os/hp/spanish)
+#swedish		57385	# 0xe029 HP HP-UX 9.0 (os/hp/swedish)
+#turkish.iso88599	920	# 0x0398 HP HP-UX 9.0 (os/hp/turkish.iso88599)
+#turkish		57385	# 0xe029 HP HP-UX 9.0 (os/hp/turkish)
+#
+# GLS locale names for Solaris 2.4 operating
+# system equivalent locales.
+#
+#de			819	# 0x0333 Solaris 2.4 locale (os/sun/de)
+#en_US			819	# 0x0333 Solaris 2.4 locale (os/sun/en_US)
+#es			819	# 0x0333 Solaris 2.4 locale (os/sun/es)
+#fr			819	# 0x0333 Solaris 2.4 locale (os/sun/fr)
+#it			819	# 0x0333 Solaris 2.4 locale (os/sun/it)
+#sv			819	# 0x0333 Solaris 2.4 locale (os/sun/sv)
+#iso_8859_1		819	# 0x0333 Solaris 2.4 locale (os/sun/iso_8859_1)
+#
+# GLS locale names for Siemens Nixdorf operating
+# system equivalent locales.
+#
+#Cz_CZ.852              852     # 0x0354 SNI locale (os/sni/Cz_CZ.852)
+#Cz_CZ.88592            912     # 0x0390 SNI locale (os/sni/Cz_CZ.88592)
+#Da_DK.850              850     # 0x0352 SNI locale (os/sni/Da_DK.850)
+#Da_DK.88591            819     # 0x0333 SNI locale (os/sni/Da_DK.88591)
+#De                     1011    # 0x03f3 SNI locale (os/sni/De)
+#De_DE.646              1011    # 0x03f3 SNI locale (os/sni/De_DE.646)
+#De_DE.646@TE           1011    # 0x03f3 SNI locale (os/sni/De_DE.646@TE)
+#De_DE.6937             6937    # 0x1b19 SNI locale (os/sni/De_DE.6937)
+#De_DE.6937@TE          6937    # 0x1b19 SNI locale (os/sni/De_DE.6937@TE)
+#De_DE.88591            819     # 0x0333 SNI locale (os/sni/De_DE.88591)
+#De_DE.88591@TE         819     # 0x0333 SNI locale (os/sni/De_DE.88591@TE)
+#De_AT.850              850     # 0x0352 SNI locale (os/sni/De_AT.850)
+#De_AT.88591            819     # 0x0352 SNI locale (os/sni/De_AT.88591)
+#De_CH.850              850     # 0x0352 SNI locale (os/sni/De_CH.850)
+#De_CH.88591            819     # 0x0333 SNI locale (os/sni/De_CH.88591)
+#El_GR.869              869     # 0x0365 SNI locale (os/sni/El_GR.869)
+#El_GR.88597            813     # 0x032d SNI locale (os/sni/El_GR.88597)
+#En                     364     # 0x016c SNI locale (os/sni/En)
+#En_GB.646              364     # 0x016c SNI locale (os/sni/En_GB.646)
+#En_GB.6937             6937    # 0x1b19 SNI locale (os/sni/En_GB.6937)
+#En_GB.88591            819     # 0x0333 SNI locale (os/sni/En_GB.88591)
+#En_US.ASCII            364     # 0x016c SNI locale (os/sni/En_US.ASCII)
+#En_GB.850              850     # 0x0352 SNI locale (os/sni/En_GB.850)
+#Es_CA.850              850     # 0x0352 SNI locale (os/sni/Es_CA.850)
+#Es_CA.88591            819     # 0x0333 SNI locale (os/sni/Es_CA.88591)
+#Es_ES.850              850     # 0x0352 SNI locale (os/sni/Es_ES.850)
+#Es_ES.88591            819     # 0x0333 SNI locale (os/sni/Es_ES.88591)
+#Fi_FI.850              850     # 0x0352 SNI locale (os/sni/Fi_FI.850)
+#Fi_FI.88591            819     # 0x0333 SNI locale (os/sni/Fi_FI.88591)
+#Fr_BE.850              850     # 0x0352 SNI locale (os/sni/Fr_BE.850)
+#Fr_BE.88591            819     # 0x0333 SNI locale (os/sni/Fr_BE.88591)
+#Fr_CA.850              850     # 0x0352 SNI locale (os/sni/Fr_CA.850)
+#Fr_CA.88591            819     # 0x0333 SNI locale (os/sni/Fr_CA.88591)
+#Fr_CH.850              850     # 0x0352 SNI locale (os/sni/Fr_CH.850)
+#Fr_CH.88591            819     # 0x0333 SNI locale (os/sni/Fr_CH.88591)
+#Fr_FR.850              850     # 0x0352 SNI locale (os/sni/Fr_FR.850)
+#Fr_FR.88591            819     # 0x0333 SNI locale (os/sni/Fr_FR.88591)
+#Hu_HU.852              852     # 0x0354 SNI locale (os/sni/Hu_HU.852)
+#Hu_HU.88592            912     # 0x0390 SNI locale (os/sni/Hu_HU.88592)
+#It_CH.850              850     # 0x0352 SNI locale (os/sni/It_CH.850)
+#It_CH.88591            819     # 0x0333 SNI locale (os/sni/It_CH.88591)
+#It_IT.850              850     # 0x0352 SNI locale (os/sni/It_IT.850)
+#It_IT.88591            819     # 0x0333 SNI locale (os/sni/It_IT.88591)
+#Nl_BE.850              850     # 0x0352 SNI locale (os/sni/Nl_BE.850)
+#Nl_BE.88591            819     # 0x0333 SNI locale (os/sni/Nl_BE.88591)
+#Nl_NL.850              850     # 0x0352 SNI locale (os/sni/Nl_NL.850)
+#Nl_NL.88591            819     # 0x0333 SNI locale (os/sni/Nl_NL.88591)
+#No_NO.850              850     # 0x0352 SNI locale (os/sni/No_NO.850)
+#No_NO.88591            819     # 0x0333 SNI locale (os/sni/No_NO.88591)
+#Pl_PL.852              852     # 0x0354 SNI locale (os/sni/Pl_PL.852)
+#Pl_PL.88592            912     # 0x0390 SNI locale (os/sni/Pl_PL.88592)
+#Pt_PT.850              850     # 0x0352 SNI locale (os/sni/Pt_PT.850)
+#Pt_PT.88591            819     # 0x0333 SNI locale (os/sni/Pt_PT.88591)
+#Ru_RU.866              866     # 0x0362 SNI locale (os/sni/Ru_RU.866)
+#Ru_RU.88595            915     # 0x0393 SNI locale (os/sni/Ru_RU.88595)
+#Sh_HR.852              852     # 0x0354 SNI locale (os/sni/Sh_HR.852)
+#Sh_HR.88592            912     # 0x0390 SNI locale (os/sni/Sh_HR.88592)
+#Sk_SK.852              852     # 0x0354 SNI locale (os/sni/Sk_SK.852)
+#Sk_SK.88592            912     # 0x0390 SNI locale (os/sni/Sk_SK.88592)
+#Sv_SE.850              850     # 0x0352 SNI locale (os/sni/Sv_SE.850)
+#Sv_SE.88591            819     # 0x0333 SNI locale (os/sni/Sv_SE.88591)
+#Tr_TR.857              857     # 0x0359 SNI locale (os/sni/Tr_TR.857)
+#Tr_TR.88599            920     # 0x0398 SNI locale (os/sni/Tr_TR.88599)
+#
+# GLS locale names for Silicon Graphics operating
+# system equivalent locales.
+#
+#cs		912	# 0x0390 SGI locale (os/sgi/cs)
+#da		819	# 0x0333 SGI locale (os/sgi/da)
+#de		819	# 0x0333 SGI locale (os/sgi/de)
+#de_AT		819	# 0x0333 SGI locale (os/sgi/de_AT)
+#de_CH		819	# 0x0333 SGI locale (os/sgi/de_CH)
+#el		813	# 0x032d SGI locale (os/sgi/el)
+#en		819	# 0x0333 SGI locale (os/sgi/en)
+#en_AU		819	# 0x0333 SGI locale (os/sgi/en_AU)
+#en_CA		819	# 0x0333 SGI locale (os/sgi/en_CA)
+#en_US		819	# 0x0333 SGI locale (os/sgi/en_US)
+#es		819	# 0x0333 SGI locale (os/sgi/es)
+#es_AR		819	# 0x0333 SGI locale (os/sgi/es_AR)
+#es_MX		819	# 0x0333 SGI locale (os/sgi/es_MX)
+#fi		819	# 0x0333 SGI locale (os/sgi/fi)
+#fr		819	# 0x0333 SGI locale (os/sgi/fr)
+#fr_BE		819	# 0x0333 SGI locale (os/sgi/fr_BE)
+#fr_CA		819	# 0x0333 SGI locale (os/sgi/fr_CA)
+#fr_CH		819	# 0x0333 SGI locale (os/sgi/fr_CH)
+#is		819	# 0x0333 SGI locale (os/sgi/is)
+#it		819	# 0x0333 SGI locale (os/sgi/it)
+#it_CH		819	# 0x0333 SGI locale (os/sgi/it_CH)
+#nl		819	# 0x0333 SGI locale (os/sgi/nl)
+#nl_BE		819	# 0x0333 SGI locale (os/sgi/nl_BE)
+#no		819	# 0x0333 SGI locale (os/sgi/no)
+#pl		912	# 0x0390 SGI locale (os/sgi/pl)
+#pt		819	# 0x0333 SGI locale (os/sgi/pt)
+#pt_BR		819	# 0x0333 SGI locale (os/sgi/pt_BR)
+#ru		915	# 0x0393 SGI locale (os/sgi/ru)
+#sk		912	# 0x0390 SGI locale (os/sgi/sk)
+#sv		819	# 0x0333 SGI locale (os/sgi/sv)
+#
+# GLS locale names for Sequent operating
+# system equivalent locales.
+#
+#da		819	# 0x0333 Sequent locale (os/sequent/da)
+#de		819	# 0x0333 Sequent locale (os/sequent/de)
+#de_AT		819	# 0x0333 Sequent locale (os/sequent/de_AT)
+#de_CH		819	# 0x0333 Sequent locale (os/sequent/de_CH)
+#en		819	# 0x0333 Sequent locale (os/sequent/en)
+#en_AU		819	# 0x0333 Sequent locale (os/sequent/en_AU)
+#en_US		819	# 0x0333 Sequent locale (os/sequent/en_US)
+#es		819	# 0x0333 Sequent locale (os/sequent/es)
+#fi		819	# 0x0333 Sequent locale (os/sequent/fi)
+#fr		819	# 0x0333 Sequent locale (os/sequent/fr)
+#fr_BE		819	# 0x0333 Sequent locale (os/sequent/fr_BE)
+#fr_CA		819	# 0x0333 Sequent locale (os/sequent/fr_CA)
+#fr_CH		819	# 0x0333 Sequent locale (os/sequent/fr_CH)
+#is		819	# 0x0333 Sequent locale (os/sequent/is)
+#it		819	# 0x0333 Sequent locale (os/sequent/it)
+#it_CH		819	# 0x0333 Sequent locale (os/sequent/it_CH)
+#nl		819	# 0x0333 Sequent locale (os/sequent/nl)
+#nl_BE		819	# 0x0333 Sequent locale (os/sequent/nl_BE)
+#no		819	# 0x0333 Sequent locale (os/sequent/no)
+#pt		819	# 0x0333 Sequent locale (os/sequent/pt)
+#sv		819	# 0x0333 Sequent locale (os/sequent/sv)
+#
+#
+# GLS locale names for SCO operating
+# system equivalent locales.
+#
+#de_DE.ISO8859-1		819	# 0x0333 SCO locale (os/sco/de_DE.ISO8859-1)
+#en_GB.ISO8859-1		819	# 0x0333 SCO locale (os/sco/en_GB.ISO8859-1)
+#en_US.ISO8859-1		819	# 0x0333 SCO locale (os/sco/en_US.ISO8859-1)
+#en_US.ascii			364	# 0x016c SCO locale (os/sco/en_US.ascii)
+#english_uk.8859		819	# 0x0333 SCO locale (os/sco/english_uk.8859)
+#english_uk.8859m		819	# 0x0333 SCO locale (os/sco/english_uk.8859m)
+#english_uk.ascii		364	# 0x016c SCO locale (os/sco/english_uk.ascii)
+#english_us.8859		819	# 0x0333 SCO locale (os/sco/english_us.8859)
+#english_us.8859m		819	# 0x0333 SCO locale (os/sco/english_us.8859m)
+#english_us.ascii		364	# 0x016c SCO locale (os/sco/english_us.ascii)
+#es_ES.ISO8859-1		819	# 0x0333 SCO locale (os/sco/es_ES.ISO8859-1)
+#fr_FR.ISO8859-1		819	# 0x0333 SCO locale (os/sco/fr_FR.ISO8859-1)
+#french_france.8859		819	# 0x0333 SCO locale (os/sco/french_france.8859)
+#french_france.8859m		819	# 0x0333 SCO locale (os/sco/french_france.8859m)
+#french_france.ascii		364	# 0x016c SCO locale (os/sco/french_france.ascii)
+#german_germany.8859		819	# 0x0333 SCO locale (os/sco/german_germany.8859)
+#german_germany.8859m		819	# 0x0333 SCO locale (os/sco/german_germany.8859m)
+#german_germany.ascii		364	# 0x016c SCO locale (os/sco/german_germany.ascii)
+#portuguese_brazil.8859		819	# 0x0333 SCO locale (os/sco/portuguese_brazil.8859)
+#portuguese_brazil.8859m	819	# 0x0333 SCO locale (os/sco/portuguese_brazil.8859m)
+#portuguese_brazil.ascii	364	# 0x016c SCO locale (os/sco/portuguese_brazil.ascii)
+#pt_BR.ISO8859-1		819	# 0x0333 SCO locale (os/sco/pt_BR.ISO8859-1)
+#spanish_america.8859		819	# 0x0333 SCO locale (os/sco/spanish_america.8859)
+#spanish_america.8859m		819	# 0x0333 SCO locale (os/sco/spanish_america.8859m)
+#spanish_america.ascii		364	# 0x016c SCO locale (os/sco/spanish_america.ascii)
+#spanish_spain.8859		819	# 0x0333 SCO locale (os/sco/spanish_spain.8859)
+#spanish_spain.8859m		819	# 0x0333 SCO locale (os/sco/spanish_spain.8859m)
+#spanish_spain.ascii		364	# 0x016c SCO locale (os/sco/spanish_spain.ascii)
+#
+# GLS locale names for DEC Alpha operating
+# system equivalent locales.
+#
+#da_DK.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/da_DK.ISO8859-1)
+#de_CH.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/de_CH.ISO8859-1)
+#de_DE.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/de_DE.ISO8859-1)
+#el_GR.ISO8859-7        813     # 0x032d DEC Alpha locale (os/dec_alpha/el_GR.ISO8859-7)
+#en_GB.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/en_GB.ISO8859-1)
+#en_US.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/en_US.ISO8859-1)
+#es_ES.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/es_ES.ISO8859-1)
+#fi_FI.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/fi_FI.ISO8859-1)
+#fr_BE.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/fr_BE.ISO8859-1)
+#fr_CA.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/fr_CA.ISO8859-1)
+#fr_CH.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/fr_CH.ISO8859-1)
+#fr_FR.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/fr_FR.ISO8859-1)
+#is_IS.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/is_IS.ISO8859-1)
+#it_IT.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/it_IT.ISO8859-1)
+#nl_BE.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/nl_BE.ISO8859-1)
+#nl_NL.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/nl_NL.ISO8859-1)
+#no_NO.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/no_NO.ISO8859-1)
+#pt_PT.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/pt_PT.ISO8859-1)
+#sv_SE.ISO8859-1        819     # 0x0333 DEC Alpha locale (os/dec_alpha/sv_SE.ISO8859-1)
+#tr_TR.ISO8859-9        920     # 0x0398 DEC Alpha locale (os/dec_alpha/tr_TR.ISO8859-9)
+#
+# GLS locale names for DG Intel operating
+# system equivalent locales.
+#
+#da                     819     # 0x0333 DG Intel locale (os/dg_intel/da)
+#da_DK.850              850     # 0x0352 DG Intel locale (os/dg_intel/da_DK.850)
+#da_DK.865              865     # 0x0361 DG Intel locale (os/dg_intel/da_DK.865)
+#da_DK                  819     # 0x0333 DG Intel locale (os/dg_intel/da_DK)
+#de                     819     # 0x0333 DG Intel locale (os/dg_intel/de)
+#de_AT.437              437     # 0x01b5 DG Intel locale (os/dg_intel/de_AT.437)
+#de_AT.850              850     # 0x0352 DG Intel locale (os/dg_intel/de_AT.850)
+#de_AT                  819     # 0x0333 DG Intel locale (os/dg_intel/de_AT)
+#de_CH.437              437     # 0x01b5 DG Intel locale (os/dg_intel/de_CH.437)
+#de_CH.850              850     # 0x0352 DG Intel locale (os/dg_intel/de_CH.850)
+#de_CH                  819     # 0x0333 DG Intel locale (os/dg_intel/de_CH)
+#de_DE.437              437     # 0x01b5 DG Intel locale (os/dg_intel/de_DE.437)
+#de_DE.850              850     # 0x0352 DG Intel locale (os/dg_intel/de_DE.850)
+#de_DE                  819     # 0x0333 DG Intel locale (os/dg_intel/de_DE)
+#el                     813     # 0x032d DG Intel locale (os/dg_intel/el)
+#el_GR                  813     # 0x032d DG Intel locale (os/dg_intel/el_GR)
+#en                     819     # 0x0333 DG Intel locale (os/dg_intel/en)
+#en_AU.437              437     # 0x01b5 DG Intel locale (os/dg_intel/en_AU.437)
+#en_AU.646              364     # 0x016c DG Intel locale (os/dg_intel/en_AU.646)
+#en_AU.850              850     # 0x0352 DG Intel locale (os/dg_intel/en_AU.850)
+#en_AU                  819     # 0x0333 DG Intel locale (os/dg_intel/en_AU)
+#en_CA.437              437     # 0x01b5 DG Intel locale (os/dg_intel/en_CA.437)
+#en_CA.646              364     # 0x016c DG Intel locale (os/dg_intel/en_CA.646)
+#en_CA.850              850     # 0x0352 DG Intel locale (os/dg_intel/en_CA.850)
+#en_CA.863              863     # 0x035f DG Intel locale (os/dg_intel/en_CA.863)
+#en_CA                  819     # 0x0333 DG Intel locale (os/dg_intel/en_CA)
+#en_GB.437              437     # 0x01b5 DG Intel locale (os/dg_intel/en_GB.437)
+#en_GB.646              364     # 0x016c DG Intel locale (os/dg_intel/en_GB.646)
+#en_GB.850              850     # 0x0352 DG Intel locale (os/dg_intel/en_GB.850)
+#en_GB                  819     # 0x0333 DG Intel locale (os/dg_intel/en_GB)
+#en_US.437              437     # 0x01b5 DG Intel locale (os/dg_intel/en_US.437)
+#en_US.646              364     # 0x016c DG Intel locale (os/dg_intel/en_US.646)
+#en_US.850              850     # 0x0352 DG Intel locale (os/dg_intel/en_US.850)
+#en_US                  819     # 0x0333 DG Intel locale (os/dg_intel/en_US)
+#es                     819     # 0x0333 DG Intel locale (os/dg_intel/es)
+#es_ES.437              437     # 0x01b5 DG Intel locale (os/dg_intel/es_ES.437)
+#es_ES.850              850     # 0x0352 DG Intel locale (os/dg_intel/es_ES.850)
+#es_ES                  819     # 0x0333 DG Intel locale (os/dg_intel/es_ES)
+#fi                     819     # 0x0333 DG Intel locale (os/dg_intel/fi)
+#fi_FI.437              437     # 0x01b5 DG Intel locale (os/dg_intel/fi_FI.437)
+#fi_FI.850              850     # 0x0352 DG Intel locale (os/dg_intel/fi_FI.850)
+#fi_FI                  819     # 0x0333 DG Intel locale (os/dg_intel/fi_FI)
+#fr                     819     # 0x0333 DG Intel locale (os/dg_intel/fr)
+#fr_BE.437              437     # 0x01b5 DG Intel locale (os/dg_intel/fr_BE.437)
+#fr_BE.850              850     # 0x0352 DG Intel locale (os/dg_intel/fr_BE.850)
+#fr_BE                  819     # 0x0333 DG Intel locale (os/dg_intel/fr_BE)
+#fr_CA.850              850     # 0x0352 DG Intel locale (os/dg_intel/fr_CA.850)
+#fr_CA.863              863     # 0x035f DG Intel locale (os/dg_intel/fr_CA.863)
+#fr_CA                  819     # 0x0333 DG Intel locale (os/dg_intel/fr_CA)
+#fr_CH.437              437     # 0x01b5 DG Intel locale (os/dg_intel/fr_CH.437)
+#fr_CH.850              850     # 0x0352 DG Intel locale (os/dg_intel/fr_CH.850)
+#fr_CH                  819     # 0x0333 DG Intel locale (os/dg_intel/fr_CH)
+#fr_FR.437              437     # 0x01b5 DG Intel locale (os/dg_intel/fr_FR.437)
+#fr_FR.850              850     # 0x0352 DG Intel locale (os/dg_intel/fr_FR.850)
+#fr_FR                  819     # 0x0333 DG Intel locale (os/dg_intel/fr_FR)
+#is                     819     # 0x0333 DG Intel locale (os/dg_intel/is)
+#is_IS.850              850     # 0x0352 DG Intel locale (os/dg_intel/is_IS.850)
+#is_IS                  819     # 0x0333 DG Intel locale (os/dg_intel/is_IS)
+#it                     819     # 0x0333 DG Intel locale (os/dg_intel/it)
+#it_CH.437              437     # 0x01b5 DG Intel locale (os/dg_intel/it_CH.437)
+#it_CH.850              850     # 0x0352 DG Intel locale (os/dg_intel/it_CH.850)
+#it_CH                  819     # 0x0333 DG Intel locale (os/dg_intel/it_CH)
+#it_IT.437              437     # 0x01b5 DG Intel locale (os/dg_intel/it_IT.437)
+#it_IT.850              850     # 0x0352 DG Intel locale (os/dg_intel/it_IT.850)
+#it_IT                  819     # 0x0333 DG Intel locale (os/dg_intel/it_IT)
+#nl                     819     # 0x0333 DG Intel locale (os/dg_intel/nl)
+#nl_BE.437              437     # 0x01b5 DG Intel locale (os/dg_intel/nl_BE.437)
+#nl_BE.850              850     # 0x0352 DG Intel locale (os/dg_intel/nl_BE.850)
+#nl_BE                  819     # 0x0333 DG Intel locale (os/dg_intel/nl_BE)
+#nl_NL.437              437     # 0x01b5 DG Intel locale (os/dg_intel/nl_NL.437)
+#nl_NL.850              850     # 0x0352 DG Intel locale (os/dg_intel/nl_NL.850)
+#nl_NL                  819     # 0x0333 DG Intel locale (os/dg_intel/nl_NL)
+#no                     819     # 0x0333 DG Intel locale (os/dg_intel/no)
+#no_NO.850              850     # 0x0352 DG Intel locale (os/dg_intel/no_NO.850)
+#no_NO.865              865     # 0x0361 DG Intel locale (os/dg_intel/no_NO.865)
+#no_NO                  819     # 0x0333 DG Intel locale (os/dg_intel/no_NO)
+#pl                     912     # 0x0390 DG Intel locale (os/dg_intel/pl)
+#pl_PL                  912     # 0x0390 DG Intel locale (os/dg_intel/pl_PL)
+#pt                     819     # 0x0333 DG Intel locale (os/dg_intel/pt)
+#pt_PT.850              850     # 0x0352 DG Intel locale (os/dg_intel/pt_PT.850)
+#pt_PT.860              860     # 0x035c DG Intel locale (os/dg_intel/pt_PT.860)
+#pt_PT                  819     # 0x0333 DG Intel locale (os/dg_intel/pt_PT)
+#ru                     915     # 0x0393 DG Intel locale (os/dg_intel/ru)
+#ru_SU                  915     # 0x0393 DG Intel locale (os/dg_intel/ru_SU)
+#sh                     912     # 0x0390 DG Intel locale (os/dg_intel/sh)
+#sh_YU                  912     # 0x0390 DG Intel locale (os/dg_intel/sh_YU)
+#sk                     912     # 0x0390 DG Intel locale (os/dg_intel/sk)
+#sv                     819     # 0x0333 DG Intel locale (os/dg_intel/sv)
+#sv_SE.437              437     # 0x01b5 DG Intel locale (os/dg_intel/sv_SE.437)
+#sv_SE.850              850     # 0x0352 DG Intel locale (os/dg_intel/sv_SE.850)
+#sv_SE                  819     # 0x0333 DG Intel locale (os/dg_intel/sv_SE)
+#tr                     920     # 0x0398 DG Intel locale (os/dg_intel/tr)
+#
+# GLS locale names for Windows 95 operating
+# system equivalent locales.
+#
+#danish                 1252    # 0x04e4 Win95 locale (os/win95/danish)
+#dutch-belgian          1252    # 0x04e4 Win95 locale (os/win95/dutch-belgian)
+#dutch                  1252    # 0x04e4 Win95 locale (os/win95/dutch)
+#english-aus            1252    # 0x04e4 Win95 locale (os/win95/english-aus)
+#english-can            1252    # 0x04e4 Win95 locale (os/win95/english-can)
+#english-nz             1252    # 0x04e4 Win95 locale (os/win95/english-nz)
+#english-uk             1252    # 0x04e4 Win95 locale (os/win95/english-uk)
+#english-usa            1252    # 0x04e4 Win95 locale (os/win95/english-usa)
+#english                1252    # 0x04e4 Win95 locale (os/win95/english)
+#finnish                1252    # 0x04e4 Win95 locale (os/win95/finnish)
+#french-belgian         1252    # 0x04e4 Win95 locale (os/win95/french-belgian)
+#french-canadian        1252    # 0x04e4 Win95 locale (os/win95/french-canadian)
+#french-swiss           1252    # 0x04e4 Win95 locale (os/win95/french-swiss)
+#french                 1252    # 0x04e4 Win95 locale (os/win95/french)
+#german-austrian        1252    # 0x04e4 Win95 locale (os/win95/german-austrian)
+#german-swiss           1252    # 0x04e4 Win95 locale (os/win95/german-swiss)
+#german                 1252    # 0x04e4 Win95 locale (os/win95/german)
+#icelandic              1252    # 0x04e4 Win95 locale (os/win95/icelandic)
+#italian-swiss          1252    # 0x04e4 Win95 locale (os/win95/italian-swiss)
+#italian                1252    # 0x04e4 Win95 locale (os/win95/italian)
+#norwegian-bokmal       1252    # 0x04e4 Win95 locale (os/win95/norwegian-bokmal)
+#norwegian-nynorsk      1252    # 0x04e4 Win95 locale (os/win95/norwegian-nynorsk)
+#portuguese-brazilian   1252    # 0x04e4 Win95 locale (os/win95/portuguese-brazilian)
+#portuguese             1252    # 0x04e4 Win95 locale (os/win95/portuguese)
+#spanish-mexican        1252    # 0x04e4 Win95 locale (os/win95/spanish-mexican)
+#spanish-modern         1252    # 0x04e4 Win95 locale (os/win95/spanish-modern)
+#spanish                1252    # 0x04e4 Win95 locale (os/win95/spanish)
+#swedish                1252    # 0x04e4 Win95 locale (os/win95/swedish)
+#
+# GLS locale names for Windows NT operating
+# system equivalent locales.
+#
+#czech                  1250    # 0x04e2 WinNT locale (os/winnt351/czech)
+#danish                 1252    # 0x04e4 WinNT locale (os/winnt351/danish)
+#dutch-belgian          1252    # 0x04e4 WinNT locale (os/winnt351/dutch-belgian)
+#dutch                  1252    # 0x04e4 WinNT locale (os/winnt351/dutch)
+#english-aus            1252    # 0x04e4 WinNT locale (os/winnt351/english-aus)
+#english-can            1252    # 0x04e4 WinNT locale (os/winnt351/english-can)
+#english-ire            1252    # 0x04e4 WinNT locale (os/winnt351/english-ire)
+#english-nz             1252    # 0x04e4 WinNT locale (os/winnt351/english-nz)
+#english-uk             1252    # 0x04e4 WinNT locale (os/winnt351/english-uk)
+#english-usa            1252    # 0x04e4 WinNT locale (os/winnt351/english-usa)
+#english                1252    # 0x04e4 WinNT locale (os/winnt351/english)
+#finnish                1252    # 0x04e4 WinNT locale (os/winnt351/finnish)
+#french-belgian         1252    # 0x04e4 WinNT locale (os/winnt351/french-belgian)
+#french-canadian        1252    # 0x04e4 WinNT locale (os/winnt351/french-canadian)
+#french-swiss           1252    # 0x04e4 WinNT locale (os/winnt351/french-swiss)
+#french                 1252    # 0x04e4 WinNT locale (os/winnt351/french)
+#german-austrian        1252    # 0x04e4 WinNT locale (os/winnt351/german-austrian)
+#german-swiss           1252    # 0x04e4 WinNT locale (os/winnt351/german-swiss)
+#german                 1252    # 0x04e4 WinNT locale (os/winnt351/german)
+#greek                  1253    # 0x04e5 WinNT locale (os/winnt351/greek)
+#hungarian              1250    # 0x04e2 WinNT locale (os/winnt351/hungarian)
+#icelandic              1252    # 0x04e4 WinNT locale (os/winnt351/icelandic)
+#italian-swiss          1252    # 0x04e4 WinNT locale (os/winnt351/italian-swiss)
+#italian                1252    # 0x04e4 WinNT locale (os/winnt351/italian)
+#norwegian-bokmal       1252    # 0x04e4 WinNT locale (os/winnt351/norwegian-bokmal)
+#norwegian-nynorsk      1252    # 0x04e4 WinNT locale (os/winnt351/norwegian-nynorsk)
+#norwegian              1252    # 0x04e4 WinNT locale (os/winnt351/norwegian)
+#polish                 1250    # 0x04e2 WinNT locale (os/winnt351/polish)
+#portuguese-brazilian   1252    # 0x04e4 WinNT locale (os/winnt351/portuguese-brazilian)
+#portuguese             1252    # 0x04e4 WinNT locale (os/winnt351/portuguese)
+#russian                1251    # 0x04e3 WinNT locale (os/winnt351/russian)
+#slovak                 1250    # 0x04e2 WinNT locale (os/winnt351/slovak)
+#spanish-mexican        1252    # 0x04e4 WinNT locale (os/winnt351/spanish-mexican)
+#spanish-modern         1252    # 0x04e4 WinNT locale (os/winnt351/spanish-modern)
+#spanish                1252    # 0x04e4 WinNT locale (os/winnt351/spanish)
+#swedish                1252    # 0x04e4 WinNT locale (os/winnt351/swedish)
+#turkish                1254    # 0x04e6 WinNT locale (os/winnt351/turkish)
+#
+#
+# GLS locale names for Pyramid operating
+# system equivalent locales.
+#
+#en_US                  819     # 0x0333 Pyramid locale (os/sni/en_US)
+#
+# GLS locale names for Unisys operating
+# system equivalent locales.
+#
+#cz             912     # 0x0390 Unisys locale (os/unisys/cz)
+#da             819     # 0x0333 Unisys locale (os/unisys/da)
+#da_DK.850      850     # 0x0352 Unisys locale (os/unisys/da_DK.850)
+#da_DK.865      865     # 0x0361 Unisys locale (os/unisys/da_DK.865)
+#de             819     # 0x0333 Unisys locale (os/unisys/de)
+#de_DE.437      437     # 0x01b5 Unisys locale (os/unisys/de_DE.437)
+#de_DE.850      850     # 0x0352 Unisys locale (os/unisys/de_DE.850)
+#de_AT          819     # 0x0333 Unisys locale (os/unisys/de_AT)
+#de_AT.437      437     # 0x01b5 Unisys locale (os/unisys/de_AT.437)
+#de_AT.850      850     # 0x0352 Unisys locale (os/unisys/de_AT.850)
+#de_CH          819     # 0x0333 Unisys locale (os/unisys/de_CH)
+#de_CH.437      437     # 0x01b5 Unisys locale (os/unisys/de_CH.437)
+#de_CH.850      850     # 0x0352 Unisys locale (os/unisys/de_CH.850)
+#el             813     # 0x032d Unisys locale (os/unisys/el)
+#en             819     # 0x0333 Unisys locale (os/unisys/en)
+#en_GB.437      437     # 0x01b5 Unisys locale (os/unisys/en_GB.437)
+#en_GB.646      364     # 0x016c Unisys locale (os/unisys/en_GB.646)
+#en_GB.850      850     # 0x0352 Unisys locale (os/unisys/en_GB.850)
+#en_AU          819     # 0x0333 Unisys locale (os/unisys/en_AU)
+#en_AU.437      437     # 0x01b5 Unisys locale (os/unisys/en_AU.437)
+#en_AU.646      364     # 0x016c Unisys locale (os/unisys/en_AU.646)
+#en_AU.850      850     # 0x0352 Unisys locale (os/unisys/en_AU.850)
+#en_CA          819     # 0x0333 Unisys locale (os/unisys/en_CA)
+#en_CA.437      437     # 0x01b5 Unisys locale (os/unisys/en_CA.437)
+#en_CA.646      364     # 0x016c Unisys locale (os/unisys/en_CA.646)
+#en_CA.850      850     # 0x0352 Unisys locale (os/unisys/en_CA.850)
+#en_CA.863      863     # 0x035f Unisys locale (os/unisys/en_CA.863)
+#en_US          819     # 0x0333 Unisys locale (os/unisys/en_US)
+#en_US.437      437     # 0x01b5 Unisys locale (os/unisys/en_US.437)
+#en_US.646      364     # 0x016c Unisys locale (os/unisys/en_US.646)
+#en_US.850      850     # 0x0352 Unisys locale (os/unisys/en_US.850)
+#es             819     # 0x0333 Unisys locale (os/unisys/es)
+#es_ES.437      437     # 0x01b5 Unisys locale (os/unisys/es_ES.437)
+#es_ES.850      850     # 0x0352 Unisys locale (os/unisys/es_ES.850)
+#fi             819     # 0x0333 Unisys locale (os/unisys/fi)
+#fi_FI.437      437     # 0x01b5 Unisys locale (os/unisys/fi_FI.437)
+#fi_FI.850      850     # 0x0352 Unisys locale (os/unisys/fi_FI.850)
+#fr             819     # 0x0333 Unisys locale (os/unisys/fr)
+#fr_FR.437      437     # 0x01b5 Unisys locale (os/unisys/fr_FR.437)
+#fr_FR.850      850     # 0x0352 Unisys locale (os/unisys/fr_FR.850)
+#fr_BE          819     # 0x0333 Unisys locale (os/unisys/fr_BE)
+#fr_BE.437      437     # 0x01b5 Unisys locale (os/unisys/fr_BE.437)
+#fr_BE.850      850     # 0x0352 Unisys locale (os/unisys/fr_BE.850)
+#fr_CA          819     # 0x0333 Unisys locale (os/unisys/fr_CA)
+#fr_CA.850      850     # 0x0352 Unisys locale (os/unisys/fr_CA.850)
+#fr_CA.863      863     # 0x035f Unisys locale (os/unisys/fr_CA.863)
+#fr_CH          819     # 0x0333 Unisys locale (os/unisys/fr_CH)
+#fr_CH.437      437     # 0x01b5 Unisys locale (os/unisys/fr_CH.437)
+#fr_CH.850      850     # 0x0352 Unisys locale (os/unisys/fr_CH.850)
+#is             819     # 0x0333 Unisys locale (os/unisys/is)
+#is_IS.850      850     # 0x0352 Unisys locale (os/unisys/is_IS.850)
+#it             819     # 0x0333 Unisys locale (os/unisys/it)
+#it_IT.437      437     # 0x01b5 Unisys locale (os/unisys/it_IT.437)
+#it_IT.850      850     # 0x0352 Unisys locale (os/unisys/it_IT.850)
+#it_CH          819     # 0x0333 Unisys locale (os/unisys/it_CH)
+#it_CH.437      437     # 0x01b5 Unisys locale (os/unisys/it_CH.437)
+#it_CH.850      850     # 0x0352 Unisys locale (os/unisys/it_CH.850)
+#nl             819     # 0x0333 Unisys locale (os/unisys/nl)
+#nl_NL.437      437     # 0x01b5 Unisys locale (os/unisys/nl_NL.437)
+#nl_NL.850      850     # 0x0352 Unisys locale (os/unisys/nl_NL.850)
+#nl_BE          819     # 0x0333 Unisys locale (os/unisys/nl_BE)
+#nl_BE.437      437     # 0x01b5 Unisys locale (os/unisys/nl_BE.437)
+#nl_BE.850      850     # 0x0352 Unisys locale (os/unisys/nl_BE.850)
+#no             819     # 0x0333 Unisys locale (os/unisys/no)
+#no_NO.850      850     # 0x0352 Unisys locale (os/unisys/no_NO.850)
+#no_NO.865      865     # 0x0361 Unisys locale (os/unisys/no_NO.865)
+#pl             912     # 0x0390 Unisys locale (os/unisys/pl)
+#pt             819     # 0x0333 Unisys locale (os/unisys/pt)
+#pt_BR          819     # 0x0333 Unisys locale (os/unisys/pt_BR)
+#pt_BR.850      850     # 0x0352 Unisys locale (os/unisys/pt_BR.850)
+#pt_BR.860      860     # 0x035c Unisys locale (os/unisys/pt_BR.860)
+#pt_PT.850      850     # 0x0352 Unisys locale (os/unisys/pt_PT.850)
+#pt_PT.860      860     # 0x035c Unisys locale (os/unisys/pt_PT.860)
+#ru             915     # 0x0393 Unisys locale (os/unisys/ru)
+#ru_RU.1251     1251    # 0x04e3 Unisys locale (os/unisys/ru_RU.1251)
+#ru_RU.866      866     # 0x0362 Unisys locale (os/unisys/ru_RU.866)
+#sh             912     # 0x0390 Unisys locale (os/unisys/sh)
+#sk             912     # 0x0390 Unisys locale (os/unisys/sk)
+#sv             819     # 0x0333 Unisys locale (os/unisys/sv)
+#sv_SE.437      437     # 0x01b5 Unisys locale (os/unisys/sv_SE.437)
+#sv_SE.850      850     # 0x0352 Unisys locale (os/unisys/sv_SE.850)
+#tr             57346   # 0xe002 Unisys locale (os/unisys/tr)
+#
+# GLS locale names for Solaris 2.5 operating
+# system equivalent locales.
+#
+#da		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/da)
+#de		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/de)
+#de_CH		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/de_CH)
+#en_AU		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/en_AU)
+#en_CA		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/en_CA)
+#en_IE		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/en_IE)
+#en_NZ		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/en_NZ)
+#en_UK		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/en_UK)
+#en_US		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/en_US)
+#es		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es)
+#es_AR		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_AR)
+#es_BO		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_BO)
+#es_CL		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_CL)
+#es_CO		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_CO)
+#es_CR		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_CR)
+#es_EC		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_EC)
+#es_GT		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_GT)
+#es_MX		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_MX)
+#es_NI		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_NI)
+#es_PA		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_PA)
+#es_PE		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_PE)
+#es_PY		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_PY)
+#es_SV		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_SV)
+#es_UY		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_UY)
+#es_VE		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/es_VE)
+#fr		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/fr)
+#fr_BE		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/fr_BE)
+#fr_CA		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/fr_CA)
+#it		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/it)
+#nl		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/nl)
+#nl_BE		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/nl_BE)
+#no		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/no)
+#pt		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/pt)
+#pt_BR		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/pt_BR)
+#su		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/su)
+#sv		819	# 0x0333 Solaris_2.5 locale (os/solaris_2.5/sv)
+#
+# GLS locale names for ICL operating
+# system equivalent locales.
+#
+#Da_DK.646		1017	# 0x03f9 ICL locale (os/icl/Da_DK.646)
+#Da_DK.88591		819	# 0x0333 ICL locale (os/icl/Da_DK.88591)
+#De_CH.646		1011	# 0x03f3 ICL locale (os/icl/De_CH.646)
+#De_CH.88591		819	# 0x0333 ICL locale (os/icl/De_CH.88591)
+#De_CH.8859_300		819	# 0x0333 ICL locale (os/icl/De_CH.8859_300)
+#De_DE.646		1011	# 0x03f3 ICL locale (os/icl/De_DE.646)
+#De_DE.88591		819	# 0x0333 ICL locale (os/icl/De_DE.88591)
+#De_DE.8859_300		819	# 0x0333 ICL locale (os/icl/De_DE.8859_300)
+#En_GB.646		364	# 0x016c ICL locale (os/icl/En_GB.646)
+#En_GB.88591		819	# 0x0333 ICL locale (os/icl/En_GB.88591)
+#En_GB.8859_300		819	# 0x0333 ICL locale (os/icl/En_GB.8859_300)
+#En_US.646		364	# 0x016c ICL locale (os/icl/En_US.646)
+#En_US.88591		819	# 0x0333 ICL locale (os/icl/En_US.88591)
+#En_US.8859_300		819	# 0x0333 ICL locale (os/icl/En_US.8859_300)
+#Es_ES.646		1014	# 0x03f6 ICL locale (os/icl/Es_ES.646)
+#Es_ES.88591		819	# 0x0333 ICL locale (os/icl/Es_ES.88591)
+#Es_ES.8859_300		819	# 0x0333 ICL locale (os/icl/Es_ES.8859_300)
+#Fr_CH.646		1010	# 0x03f2 ICL locale (os/icl/Fr_CH.646)
+#Fr_CH.88591		819	# 0x0333 ICL locale (os/icl/Fr_CH.88591)
+#Fr_CH.8859_300		819	# 0x0333 ICL locale (os/icl/Fr_CH.8859_300)
+#Fr_FR.646		1010	# 0x03f2 ICL locale (os/icl/Fr_FR.646)
+#Fr_FR.88591		819	# 0x0333 ICL locale (os/icl/Fr_FR.88591)
+#Fr_FR.8859_300		819	# 0x0333 ICL locale (os/icl/Fr_FR.8859_300)
+#Nl_NL.646		1019	# 0x03fb ICL locale (os/icl/Nl_NL.646)
+#Nl_NL.88591		819	# 0x0333 ICL locale (os/icl/Nl_NL.88591)
+#Nl_NL.8859_300		819	# 0x0333 ICL locale (os/icl/Nl_NL.8859_300)
+#No_NO.646		1016	# 0x03f8 ICL locale (os/icl/No_NO.646)
+#No_NO.88591		819	# 0x0333 ICL locale (os/icl/No_NO.88591)
+#No_NO.8859_300		819	# 0x0333 ICL locale (os/icl/No_NO.8859_300)
+#Pt_PT.646		1015	# 0x03f7 ICL locale (os/icl/Pt_PT.646)
+#Pt_PT.88591		819	# 0x0333 ICL locale (os/icl/Pt_PT.88591)
+#Pt_PT.8859_300		819	# 0x0333 ICL locale (os/icl/Pt_PT.8859_300)
+#Sv_SE.646		1018	# 0x03fa ICL locale (os/icl/Sv_SE.646)
+#Sv_SE.88591		819	# 0x0333 ICL locale (os/icl/Sv_SE.88591)
+#Sv_SE.8859_300		819	# 0x0333 ICL locale (os/icl/Sv_SE.8859_300)
+#
+# GLS locale names for Unixware operating
+# system equivalent locales.
+#
+#da			819	# 0x0333 Unixware locale (os/unixware/da)
+#da_DK.850		850	# 0x0352 Unixware locale (os/unixware/da_DK.850)
+#da_DK.865		865	# 0x0361 Unixware locale (os/unixware/da_DK.865)
+#de			819	# 0x0333 Unixware locale (os/unixware/de)
+#de_AT.437		437	# 0x01b5 Unixware locale (os/unixware/de_AT.437)
+#de_AT.850		850	# 0x0352 Unixware locale (os/unixware/de_AT.850)
+#de_AT			819	# 0x0333 Unixware locale (os/unixware/de_AT)
+#de_CH.437		437	# 0x01b5 Unixware locale (os/unixware/de_CH.437)
+#de_CH.850		850	# 0x0352 Unixware locale (os/unixware/de_CH.850)
+#de_CH			819	# 0x0333 Unixware locale (os/unixware/de_CH)
+#de_DE.437		437	# 0x01b5 Unixware locale (os/unixware/de_DE.437)
+#de_DE.850		850	# 0x0352 Unixware locale (os/unixware/de_DE.850)
+#en			819	# 0x0333 Unixware locale (os/unixware/en)
+#en_AU.437		437	# 0x01b5 Unixware locale (os/unixware/en_AU.437)
+#en_AU.646		364	# 0x016c Unixware locale (os/unixware/en_AU.646)
+#en_AU.850		850	# 0x0352 Unixware locale (os/unixware/en_AU.850)
+#en_AU			819	# 0x0333 Unixware locale (os/unixware/en_AU)
+#en_CA.437		437	# 0x01b5 Unixware locale (os/unixware/en_CA.437)
+#en_CA.646		364	# 0x016c Unixware locale (os/unixware/en_CA.646)
+#en_CA.850		850	# 0x0352 Unixware locale (os/unixware/en_CA.850)
+#en_CA			819	# 0x0333 Unixware locale (os/unixware/en_CA)
+#en_GB.437		437	# 0x01b5 Unixware locale (os/unixware/en_GB.437)
+#en_GB.646		364	# 0x016c Unixware locale (os/unixware/en_GB.646)
+#en_GB.850		850	# 0x0352 Unixware locale (os/unixware/en_GB.850)
+#en_IR.437		437	# 0x01b5 Unixware locale (os/unixware/en_IR.437)
+#en_IR.646		364	# 0x016c Unixware locale (os/unixware/en_IR.646)
+#en_IR.850		850	# 0x0352 Unixware locale (os/unixware/en_IR.850)
+#en_IR			819	# 0x0333 Unixware locale (os/unixware/en_IR)
+#en_NZ.437		437	# 0x01b5 Unixware locale (os/unixware/en_NZ.437)
+#en_NZ.646		364	# 0x016c Unixware locale (os/unixware/en_NZ.646)
+#en_NZ.850		850	# 0x0352 Unixware locale (os/unixware/en_NZ.850)
+#en_NZ			819	# 0x0333 Unixware locale (os/unixware/en_NZ)
+#en_US.437		437	# 0x01b5 Unixware locale (os/unixware/en_US.437)
+#en_US.646		364	# 0x016c Unixware locale (os/unixware/en_US.646)
+#en_US.850		850	# 0x0352 Unixware locale (os/unixware/en_US.850)
+#en_US			819	# 0x0333 Unixware locale (os/unixware/en_US)
+#es			819	# 0x0333 Unixware locale (os/unixware/es)
+#es_AR.437		437	# 0x01b5 Unixware locale (os/unixware/es_AR.437)
+#es_AR.850		850	# 0x0352 Unixware locale (os/unixware/es_AR.850)
+#es_AR			819	# 0x0333 Unixware locale (os/unixware/es_AR)
+#es_CL.437		437	# 0x01b5 Unixware locale (os/unixware/es_CL.437)
+#es_CL.850		850	# 0x0352 Unixware locale (os/unixware/es_CL.850)
+#es_CL			819	# 0x0333 Unixware locale (os/unixware/es_CL)
+#es_ES.437		437	# 0x01b5 Unixware locale (os/unixware/es_ES.437)
+#es_ES.850		850	# 0x0352 Unixware locale (os/unixware/es_ES.850)
+#es_MX.437		437	# 0x01b5 Unixware locale (os/unixware/es_MX.437)
+#es_MX.850		850	# 0x0352 Unixware locale (os/unixware/es_MX.850)
+#es_MX			819	# 0x0333 Unixware locale (os/unixware/es_MX)
+#es_VE.437		437	# 0x01b5 Unixware locale (os/unixware/es_VE.437)
+#es_VE.850		850	# 0x0352 Unixware locale (os/unixware/es_VE.850)
+#es_VE			819	# 0x0333 Unixware locale (os/unixware/es_VE)
+#fi			819	# 0x0333 Unixware locale (os/unixware/fi)
+#fi_FI.437		437	# 0x01b5 Unixware locale (os/unixware/fi_FI.437)
+#fi_FI.850		850	# 0x0352 Unixware locale (os/unixware/fi_FI.850)
+#fr			819	# 0x0333 Unixware locale (os/unixware/fr)
+#fr_BE.437		437	# 0x01b5 Unixware locale (os/unixware/fr_BE.437)
+#fr_BE.850		850	# 0x0352 Unixware locale (os/unixware/fr_BE.850)
+#fr_BE			819	# 0x0333 Unixware locale (os/unixware/fr_BE)
+#fr_CA.850		850	# 0x0352 Unixware locale (os/unixware/fr_CA.850)
+#fr_CA.863		863	# 0x035f Unixware locale (os/unixware/fr_CA.863)
+#fr_CA			819	# 0x0333 Unixware locale (os/unixware/fr_CA)
+#fr_CH.437		437	# 0x01b5 Unixware locale (os/unixware/fr_CH.437)
+#fr_CH.850		850	# 0x0352 Unixware locale (os/unixware/fr_CH.850)
+#fr_CH			819	# 0x0333 Unixware locale (os/unixware/fr_CH)
+#fr_FR.437		437	# 0x01b5 Unixware locale (os/unixware/fr_FR.437)
+#fr_FR.850		850	# 0x0352 Unixware locale (os/unixware/fr_FR.850)
+#is			819	# 0x0333 Unixware locale (os/unixware/is)
+#is_IS.850		850	# 0x0352 Unixware locale (os/unixware/is_IS.850)
+#it			819	# 0x0333 Unixware locale (os/unixware/it)
+#it_CH.437		437	# 0x01b5 Unixware locale (os/unixware/it_CH.437)
+#it_CH.850		850	# 0x0352 Unixware locale (os/unixware/it_CH.850)
+#it_CH			819	# 0x0333 Unixware locale (os/unixware/it_CH)
+#it_IT.437		437	# 0x01b5 Unixware locale (os/unixware/it_IT.437)
+#it_IT.850		850	# 0x0352 Unixware locale (os/unixware/it_IT.850)
+#nl			819	# 0x0333 Unixware locale (os/unixware/nl)
+#nl_BE.437		437	# 0x01b5 Unixware locale (os/unixware/nl_BE.437)
+#nl_BE.850		850	# 0x0352 Unixware locale (os/unixware/nl_BE.850)
+#nl_BE			819	# 0x0333 Unixware locale (os/unixware/nl_BE)
+#nl_NL.437		437	# 0x01b5 Unixware locale (os/unixware/nl_NL.437)
+#nl_NL.850		850	# 0x0352 Unixware locale (os/unixware/nl_NL.850)
+#no			819	# 0x0333 Unixware locale (os/unixware/no)
+#no_NO.850		850	# 0x0352 Unixware locale (os/unixware/no_NO.850)
+#no_NO.865		865	# 0x0361 Unixware locale (os/unixware/no_NO.865)
+#pt			819	# 0x0333 Unixware locale (os/unixware/pt)
+#pt_BR			819	# 0x0333 Unixware locale (os/unixware/pt_BR)
+#pt_PT.850		850	# 0x0352 Unixware locale (os/unixware/pt_PT.850)
+#pt_PT.860		860	# 0x035c Unixware locale (os/unixware/pt_PT.860)
+#sv			819	# 0x0333 Unixware locale (os/unixware/sv)
+#sv_SE.437		437	# 0x01b5 Unixware locale (os/unixware/sv_SE.437)
+#sv_SE.850		850	# 0x0352 Unixware locale (os/unixware/sv_SE.850)
+#
+#
+# GLS locale names for Data General 88K operating
+# system equivalent locales.
+#
+#da			819	# 0x0333 DG_88k locale (os/dg_88k/da)
+#da_DK.850		850	# 0x0352 DG_88k locale (os/dg_88k/da_DK.850)
+#da_DK.865		865	# 0x0361 DG_88k locale (os/dg_88k/da_DK.865)
+#da_DK			819	# 0x0333 DG_88k locale (os/dg_88k/da_DK)
+#de			819	# 0x0333 DG_88k locale (os/dg_88k/de)
+#de_AT.437		437	# 0x01b5 DG_88k locale (os/dg_88k/de_AT.437)
+#de_AT.850		850	# 0x0352 DG_88k locale (os/dg_88k/de_AT.850)
+#de_AT			819	# 0x0333 DG_88k locale (os/dg_88k/de_AT)
+#de_CH.437		437	# 0x01b5 DG_88k locale (os/dg_88k/de_CH.437)
+#de_CH.850		850	# 0x0352 DG_88k locale (os/dg_88k/de_CH.850)
+#de_CH			819	# 0x0333 DG_88k locale (os/dg_88k/de_CH)
+#de_DE.437		437	# 0x01b5 DG_88k locale (os/dg_88k/de_DE.437)
+#de_DE.850		850	# 0x0352 DG_88k locale (os/dg_88k/de_DE.850)
+#de_DE			819	# 0x0333 DG_88k locale (os/dg_88k/de_DE)
+#el			813	# 0x032d DG_88k locale (os/dg_88k/el)
+#el_GR			813	# 0x032d DG_88k locale (os/dg_88k/el_GR)
+#en			819	# 0x0333 DG_88k locale (os/dg_88k/en)
+#en_AU.437		437	# 0x01b5 DG_88k locale (os/dg_88k/en_AU.437)
+#en_AU.646		364	# 0x016c DG_88k locale (os/dg_88k/en_AU.646)
+#en_AU.850		850	# 0x0352 DG_88k locale (os/dg_88k/en_AU.850)
+#en_AU			819	# 0x0333 DG_88k locale (os/dg_88k/en_AU)
+#en_CA.437		437	# 0x01b5 DG_88k locale (os/dg_88k/en_CA.437)
+#en_CA.646		364	# 0x016c DG_88k locale (os/dg_88k/en_CA.646)
+#en_CA.850		850	# 0x0352 DG_88k locale (os/dg_88k/en_CA.850)
+#en_CA.863		863	# 0x035f DG_88k locale (os/dg_88k/en_CA.863)
+#en_CA			819	# 0x0333 DG_88k locale (os/dg_88k/en_CA)
+#en_GB.437		437	# 0x01b5 DG_88k locale (os/dg_88k/en_GB.437)
+#en_GB.646		364	# 0x016c DG_88k locale (os/dg_88k/en_GB.646)
+#en_GB.850		850	# 0x0352 DG_88k locale (os/dg_88k/en_GB.850)
+#en_GB			819	# 0x0333 DG_88k locale (os/dg_88k/en_GB)
+#en_US.437		437	# 0x01b5 DG_88k locale (os/dg_88k/en_US.437)
+#en_US.646		364	# 0x016c DG_88k locale (os/dg_88k/en_US.646)
+#en_US.850		850	# 0x0352 DG_88k locale (os/dg_88k/en_US.850)
+#en_US			819	# 0x0333 DG_88k locale (os/dg_88k/en_US)
+#es			819	# 0x0333 DG_88k locale (os/dg_88k/es)
+#es_ES.437		437	# 0x01b5 DG_88k locale (os/dg_88k/es_ES.437)
+#es_ES.850		850	# 0x0352 DG_88k locale (os/dg_88k/es_ES.850)
+#es_ES			819	# 0x0333 DG_88k locale (os/dg_88k/es_ES)
+#fi			819	# 0x0333 DG_88k locale (os/dg_88k/fi)
+#fi_FI.437		437	# 0x01b5 DG_88k locale (os/dg_88k/fi_FI.437)
+#fi_FI.850		850	# 0x0352 DG_88k locale (os/dg_88k/fi_FI.850)
+#fi_FI			819	# 0x0333 DG_88k locale (os/dg_88k/fi_FI)
+#fr			819	# 0x0333 DG_88k locale (os/dg_88k/fr)
+#fr_BE.437		437	# 0x01b5 DG_88k locale (os/dg_88k/fr_BE.437)
+#fr_BE.850		850	# 0x0352 DG_88k locale (os/dg_88k/fr_BE.850)
+#fr_BE			819	# 0x0333 DG_88k locale (os/dg_88k/fr_BE)
+#fr_CA.850		850	# 0x0352 DG_88k locale (os/dg_88k/fr_CA.850)
+#fr_CA.863		863	# 0x035f DG_88k locale (os/dg_88k/fr_CA.863)
+#fr_CA			819	# 0x0333 DG_88k locale (os/dg_88k/fr_CA)
+#fr_CH.437		437	# 0x01b5 DG_88k locale (os/dg_88k/fr_CH.437)
+#fr_CH.850		850	# 0x0352 DG_88k locale (os/dg_88k/fr_CH.850)
+#fr_CH			819	# 0x0333 DG_88k locale (os/dg_88k/fr_CH)
+#fr_FR.437		437	# 0x01b5 DG_88k locale (os/dg_88k/fr_FR.437)
+#fr_FR.850		850	# 0x0352 DG_88k locale (os/dg_88k/fr_FR.850)
+#fr_FR			819	# 0x0333 DG_88k locale (os/dg_88k/fr_FR)
+#is			819	# 0x0333 DG_88k locale (os/dg_88k/is)
+#is_IS.850		850	# 0x0352 DG_88k locale (os/dg_88k/is_IS.850)
+#is_IS			819	# 0x0333 DG_88k locale (os/dg_88k/is_IS)
+#it			819	# 0x0333 DG_88k locale (os/dg_88k/it)
+#it_CH.437		437	# 0x01b5 DG_88k locale (os/dg_88k/it_CH.437)
+#it_CH.850		850	# 0x0352 DG_88k locale (os/dg_88k/it_CH.850)
+#it_CH			819	# 0x0333 DG_88k locale (os/dg_88k/it_CH)
+#it_IT.437		437	# 0x01b5 DG_88k locale (os/dg_88k/it_IT.437)
+#it_IT.850		850	# 0x0352 DG_88k locale (os/dg_88k/it_IT.850)
+#it_IT			819	# 0x0333 DG_88k locale (os/dg_88k/it_IT)
+#nl			819	# 0x0333 DG_88k locale (os/dg_88k/nl)
+#nl_BE.437		437	# 0x01b5 DG_88k locale (os/dg_88k/nl_BE.437)
+#nl_BE.850		850	# 0x0352 DG_88k locale (os/dg_88k/nl_BE.850)
+#nl_BE			819	# 0x0333 DG_88k locale (os/dg_88k/nl_BE)
+#nl_NL.437		437	# 0x01b5 DG_88k locale (os/dg_88k/nl_NL.437)
+#nl_NL.850		850	# 0x0352 DG_88k locale (os/dg_88k/nl_NL.850)
+#nl_NL			819	# 0x0333 DG_88k locale (os/dg_88k/nl_NL)
+#no			819	# 0x0333 DG_88k locale (os/dg_88k/no)
+#no_NO.850		850	# 0x0352 DG_88k locale (os/dg_88k/no_NO.850)
+#no_NO.865		865	# 0x0361 DG_88k locale (os/dg_88k/no_NO.865)
+#no_NO			819	# 0x0333 DG_88k locale (os/dg_88k/no_NO)
+#pl			912	# 0x0390 DG_88k locale (os/dg_88k/pl)
+#pl_PL			912	# 0x0390 DG_88k locale (os/dg_88k/pl_PL)
+#pt			819	# 0x0333 DG_88k locale (os/dg_88k/pt)
+#pt_PT.850		850	# 0x0352 DG_88k locale (os/dg_88k/pt_PT.850)
+#pt_PT.860		860	# 0x035c DG_88k locale (os/dg_88k/pt_PT.860)
+#pt_PT			819	# 0x0333 DG_88k locale (os/dg_88k/pt_PT)
+#ru			915	# 0x0393 DG_88k locale (os/dg_88k/ru)
+#ru_SU			915	# 0x0393 DG_88k locale (os/dg_88k/ru_SU)
+#sh			912	# 0x0390 DG_88k locale (os/dg_88k/sh)
+#sh_YU			912	# 0x0390 DG_88k locale (os/dg_88k/sh_YU)
+#sk			912	# 0x0390 DG_88k locale (os/dg_88k/sk)
+#sv			819	# 0x0333 DG_88k locale (os/dg_88k/sv)
+#sv_SE.437		437	# 0x01b5 DG_88k locale (os/dg_88k/sv_SE.437)
+#sv_SE.850		850	# 0x0352 DG_88k locale (os/dg_88k/sv_SE.850)
+#sv_SE			819	# 0x0333 DG_88k locale (os/dg_88k/sv_SE)
+#tr			920	# 0x0398 DG_88k locale (os/dg_88k/tr)
+#
+# END OF REGISTRY

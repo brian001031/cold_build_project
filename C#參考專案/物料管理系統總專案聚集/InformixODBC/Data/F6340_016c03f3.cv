@@ -1,0 +1,47 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       016c03f3.cm
+#  Author:      Informix ELC
+#  Created:     Mon Sep 23 16:49:25 1996
+#  Description:
+#    Conversion file from ASCII 7-Bit to German Code Page 646(de)
+#    Registry value (Decimal):  From 364 to 1011
+#    Registry value (Hex): From 016c to 03f3
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      1
+<modified_date>       "09/23/1996"
+<source_codeset>      "ASCII 7-Bit"
+<target_codeset>      "German Code Page 646(de)"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x40	\x7f error  #  commercial at 
+\x5b	\x7f error  #  left square bracket 
+\x5c	\x7f error  #  reverse solidus 
+\x5d	\x7f error  #  right square bracket 
+\x7b	\x7f error  #  left curly bracket 
+\x7c	\x7f error  #  vertical line 
+\x7d	\x7f error  #  right curly bracket 
+\x7e	\x7f error  #  tilde accent 

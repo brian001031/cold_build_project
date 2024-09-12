@@ -1,0 +1,97 @@
+Release (Ver 第3版) 2016.08.01,By Brian
+//KeyPoint
+1.將原固定陣列轉換成動態陣列  List<string> g_lsData   --------------result:test OK!
+2.將原Bool g_bTry 布林變數,取消Debug                  --------------result:test OK!
+3.重新GetFile datagridview的內容清除並重新載入        --------------result:持續Debug 
+4.Insert單筆資料至本機端							  --------------result:test OK!	
+5.Insert全資料至本機端								  --------------result:開通中
+6.將Insert紀錄寫入log                                 --------------result:開通中 
+
+
+Release (Ver 第4版) 2016.08.02,By Brian
+1.重新GetFile datagridview的內容清除並重新載入	     --------------result:持續Debug 
+2.從資料庫(本機端)讀回                               --------------result:test OK!   
+3.增加檔案所屬路徑於欄位上			                 --------------result:test OK! 		   
+
+
+Release (Ver 第5版) 2016.08.03,By Brian
+1.Insert全資料至本機端											   result:test OK! 
+2.新增全域變數 g_sProgramPath(程式路徑)，套用函式無法正常運作      result:NG
+3.刪除資料庫Row Data                                               result:持續Debug  
+
+
+Release (Ver 第6版) 2016.08.05,By Brian 
+1.Insert至本機端資料表(mdb格式)									   result:test OK! 
+2.From本機端讀取資料表(mdb格式)								       result:test OK! 
+
+
+Release (Ver 第7版) 2016.08.12,By Brian 
+1.Insert至本機端資料表(mdb格式，主索引鍵為id)					   result:test OK! 
+2.檔案版本顯示狀況(Product Version)								   result:test OK! 
+3.寫入讀取LOG FILE											       result:test OK! 
+4.刪除Rows(支援多筆)											   result:test OK!
+5.Insert多筆(全複製)							                   result:持續Debug
+
+
+Release (Ver 第8版) 2016.08.15,By Brian 
+1.Insert多筆(全複製)										       result:test OK! 
+2.單筆及多筆交替使用									           result:test OK! 
+3.Datatable轉換Eecel											   result:開通中
+4.Web端資料庫函式												   result:開通中
+
+
+Release (Ver 第9版) 2016.08.16,By Brian 
+1.Insert資料庫 													   result:開通中 
+2.讀取/刪除資料庫/顯示檔案名稱list全隱藏					       result:test OK! 
+3.選取Datatable轉換指定顯示欄位								       result:test OK!
+4.全選取/取消												       result:DeBug中!
+PS:資料庫新增columns -> "Root"  //存放檔案資料夾路徑 
+
+
+Release (Ver 第10版) 2016.08.22,By Brian 
+1.Insert資料庫(一次 Insert 2個table:Datalog 及 DataTable1) 	       result:test OK!
+2..全選取/取消												       result:test OK!
+3.GetFile 且 Insert 相同欄位名稱ID出現ERROR                        result:Debug中!
+
+PS:新增資料庫Table -> "DataLog"  (columns 欄位-> "Group" 第8筆  )  //檔案群組辨識
+
+
+Release (Ver 第11版) 2016.08.25,By Brian 
+1.Insert資料庫(重新GetFile retry 正常) 						    result:test OK!
+2.SelectIndexChange可正常(單至多筆)								result:test OK!
+3.Insert資料庫(把SaveDate寫入DataTable顯示給使用者參考)         result:test OK!
+4.Insert資料庫(DataTable1)										result:開通中...
+
+
+Release (Ver 第12版) 2016.08.26,By Brian 
+1.Insert資料庫(DataTable1.DataLog)								result:test OK!
+
+
+Release (Ver 第13版) 2016.08.30,By Brian 
+1.Insert資料庫Insert到無Row Data,產生訊息告知使用者				 result:test OK!
+2.Insert資料庫到lbx_AddRowInfo,顯示的字串與實際Table表需要一致	 result:test OK!
+3.刪除資料庫(DataLog 資料表)				                     result:test OK!
+4.增加進度百分比表(GetFile)								         result:test OK!
+5.增加進度百分比表(Insert)								         result:test OK!
+6.GetFile ,Insert 按鍵啟動後，中途重複啟動功能避掉               result:test OK!
+
+Release (Ver 第14版) 2016.08.31,By Brian 
+1.刪除資料庫DataRow(跳出訊息提供使用者得知狀況)			         result:test OK!
+2.刪除Row 資料(單筆及多筆即時顯示) 	                             result:test OK!
+3.ckx_selectAll 全選方塊當有做工作切換就取消選取			     result:test OK!  
+4.dgv_dt1 Table 轉至 Excel										 result:開通中!   
+
+
+Release (Ver 第15版) 2016.09.01,By Brian 
+1.ListBox項目刪除後重新Insert正常顯示欄位的項目資訊		         result:test OK!
+2.加入權限登入機制											     result:test OK!
+3.dgv_dt1 Table 轉至 Excel										 result:test OK!   
+
+/***************************Bellow Down*****************************************/
+註: 
+      登入方法:在"資料比對工具"標籤 連按滑鼠兩次 (Double Click)即可
+      權限登入密碼:13579
+
+      目前只提供使用者INSERT 、READ 的功能 (~刪除功能只有開發者才有權限~)
+
+/********************************End********************************************/

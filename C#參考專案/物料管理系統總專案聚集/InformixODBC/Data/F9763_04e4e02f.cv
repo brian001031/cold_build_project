@@ -1,0 +1,72 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#       SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#
+#  Title:       e01ee02f.cv
+#  Author:      Informix ELC 
+#  Created:     Mon Dec 21 15:45:58 1998
+#  Description:
+#    		Conversion file from 1252 to 8859-15
+#    		Registry values (Decimal): From 1252 (57374) to 
+#    		Registry values (Hex): From e01e to 
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x1a and lossy conversion error
+#    is generated.
+#
+#**************************************************************************
+#
+<source_version>    1
+<modified_date>     "12/21/1998"
+<source_codeset>    "1252"
+<target_codeset>    "8859-15"
+
+\x00...\xff	\x00...	# Default everything onto itself
+\x82	\x1a error	# single low-9 quotation mark 
+\x83	\x1a error	# dutch guilder sign (ibm437 159) 
+\x84	\x1a error	# double low-9 quotation mark 
+\x85	\x1a error	# midline horizontal ellipsis 
+\x86	\x1a error	# dagger 
+\x87	\x1a error	# double dagger 
+\x88	\x1a error	# non-spacing circumflex accent (iso-ir-103 195) (character part) 
+\x89	\x1a error	# per mille sign 
+\x8b	\x1a error	# single left-pointing angle quotation mark 
+\x91	\x1a error	# left single quotation mark 
+\x92	\x1a error	# right single quotation mark 
+\x93	\x1a error	# left double quotation mark 
+\x94	\x1a error	# right double quotation mark 
+\x95	\x1a error	# bullet operator 
+\x96	\x1a error	# en dash 
+\x97	\x1a error	# em dash 
+\x98	\x1a error	# spacing tilde 
+\x99	\x1a error	# trade mark sign 
+\x9b	\x1a error	# single right-pointing angle quotation mark 
+\xa4    \x1a error	# currency symbol
+\xa6    \x1a error      # broken bar
+\xa8    \x1a error	# diaresis
+\xb4    \x1a error	# acute
+\xb8	\x1a error	# cedilla
+\xbc	\x1a error	# one quarter 
+\xbd	\x1a error	# one half
+\xbe	\x1a error	# three quarters
+\x80    \xa4            # euro symbol
+\x8a    \xa6            # latin capital letter s with caron 
+\x9a    \xa8            # latin small letter s with caron 
+\x8c    \xbc            # latin capital ligature oe 
+\x9c    \xbd            # latin small ligature oe 
+\x9f    \xbe            # latin capital letter y with diaeresis 
+

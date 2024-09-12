@@ -1,0 +1,54 @@
+{
+==========.===================.=========================================
+檔案代號:pof_file
+檔案名稱:條碼異動暫存檔
+檔案目的:紀錄條碼相關異動單據
+上游檔案:
+下游檔案:
+==========.===================.=========================================
+}
+create table ima_file
+(
+pof00     char(02),           {異動別:rvu00/sfp06                      }
+                              {10.採購入   17:倉退                     }
+                              {21:成套發料 22:超領  23:補料  24.耗材領 }
+                              {26:成套退料 27:超退  28:一般退29.耗材退 }
+                              {2A:退料報廢 2S:工單入                   }
+                              {30.調撥出   31:調撥入                   }
+                                       
+pof01     char(15),           {異動單據編號 rvv01/sfs01/sfv01          }
+pof02     smallint,           {異動單據項次 rvv02/sfs02/sfv03          }
+pof03     char(10),           {異動部門(內:採購部門rvu06/製造部門sfb82 }
+pof04     char(10),           {異動廠商(外:採購廠商rvu04/委外廠商sfb82 } 
+pof05     char(20),           {專案編號                                }
+pof06     char(15),           {QC單號  IQC(rvv01=qcs01)/FQ(sfu03)      }
+pof07     date,               {扣帳日期                                }
+pof08     char(01),           {no use                                  }
+pof09     char(01),           {no use                                  }
+pof10     char(01),           {no use                                  }
+
+pof11     char(20),           {料號     rvv31/sfs04/sfv04/             }
+pof111    char(30),           {中文品名 ima02                          }
+pof112    char(60),           {規格     ima021                         }
+pof12     char(10),           {倉庫     rvv32/sfs07/sfv05              }
+pof13     char(10),           {儲位     rvv33/sfs08/sfv06              }
+pof14     char(24),           {批號     rvv34/sfs09/sfv07              }
+pof15     char(04),           {單位     rvv35/sfs06/sfv08              }
+pof16     decimal(15,3),      {入庫量   rvv17/sfs05/sfv09              }
+pof17     char(01),           {樣品否   rvv25                          }
+pof18     char(15),           {來源單號 rvv04/sfv11                    }
+pof19     smallint,           {來源項次 rvv05                          }
+pof20     char(15),           {採購單號 rvv36                          }
+
+pofuser   char(10),           {資料建立者                              }
+pofudept  char(10),           {資料建立部門                            }
+pofudate  date                {資料建立日                              }
+pofmodu   char(10),           {資料修改者                              }
+pofmmdate date                {資料修改日                              }
+
+pofbconf   char(01),          {條碼與異動數量相同否(Y/N)               }
+pofbuser  char(10),           {條碼產生者                              }
+pofbdate  date                {條碼產生日                              }
+);
+create index pof_01 on pof_file (pof01,pof02);
+

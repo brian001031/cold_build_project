@@ -1,0 +1,47 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       03f3016c.cm
+#  Author:      Informix ELC
+#  Created:     Mon Sep 23 16:49:36 1996
+#  Description:
+#    Conversion file from German Code Page 646(de) to ASCII 7-Bit
+#    Registry value (Decimal):  From 1011 to 364
+#    Registry value (Hex): From 03f3 to 016c
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      1
+<modified_date>       "09/23/1996"
+<source_codeset>      "German Code Page 646(de)"
+<target_codeset>      "ASCII 7-Bit"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x40	\x7f error  #  section sign 
+\x5b	\x7f error  #  latin capital letter a with diaeresis 
+\x5c	\x7f error  #  latin capital letter o with diaeresis 
+\x5d	\x7f error  #  latin capital letter u with diaeresis 
+\x7b	\x7f error  #  latin small letter a with diaeresis 
+\x7c	\x7f error  #  latin small letter o with diaeresis 
+\x7d	\x7f error  #  latin small letter u with diaeresis 
+\x7e	\x7f error  #  latin small letter sharp s (german) 

@@ -1,0 +1,79 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       04e20390.cv
+#  Author:      Informix ELC
+#  Created:     Tue Jan 28 10:50:16 1997
+#  Description:
+#    Conversion file from Windows Code Page 1250 to ISO Code Page 8859-2
+#    Registry value (Decimal):  From 1250 to 912
+#    Registry value (Hex): From 04e2 to 0390
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x1a and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      2
+<modified_date>       "01/28/1997"
+<source_codeset>      "Windows Code Page 1250"
+<target_codeset>      "ISO Code Page 8859-2"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x82	\x1a error  #  single low-9 quotation mark 
+\x84	\x1a error  #  double low-9 quotation mark 
+\x85	\x1a error  #  midline horizontal ellipsis 
+\x86	\x1a error  #  dagger 
+\x87	\x1a error  #  double dagger 
+\x89	\x1a error  #  per mille sign 
+\x8a	\xa9        #  latin capital letter s with caron 
+\x8b	\x1a error  #  single left-pointing angle quotation mark 
+\x8c	\xa6        #  latin capital letter s with acute 
+\x8d	\xab        #  latin capital letter t with caron 
+\x8e	\xae        #  latin capital letter z with caron 
+\x8f	\xac        #  latin capital letter z with acute 
+\x91	\x1a error  #  left single quotation mark 
+\x92	\x1a error  #  right single quotation mark 
+\x93	\x1a error  #  left double quotation mark 
+\x94	\x1a error  #  right double quotation mark 
+\x95	\x1a error  #  bullet operator 
+\x96	\x1a error  #  en dash 
+\x97	\x1a error  #  em dash 
+\x99	\x1a error  #  trade mark sign 
+\x9a	\xb9        #  latin small letter s with caron 
+\x9b	\x1a error  #  single right-pointing angle quotation mark 
+\x9c	\xb6        #  latin small letter s with acute 
+\x9d	\xbb        #  latin small letter t with caron 
+\x9e	\xbe        #  latin small letter z with caron 
+\x9f	\xbc        #  latin small letter z with acute 
+\xa1	\xb7        #  caron 
+\xa5	\xa1        #  latin capital letter a with ogonek 
+\xa6	\x1a error  #  broken bar 
+\xa9	\x1a error  #  copyright sign 
+\xab	\x1a error  #  left-pointing double angle quotation mark 
+\xac	\x1a error  #  not sign 
+\xae	\x1a error  #  registered sign 
+\xb1	\x1a error  #  plus-minus sign 
+\xb5	\x1a error  #  micro sign 
+\xb6	\x1a error  #  pilcrow sign 
+\xb7	\x1a error  #  middle dot 
+\xb9	\xb1        #  latin small letter a with ogonek 
+\xbb	\x1a error  #  right-pointing double angle quotation mark 
+\xbc	\xa5        #  latin capital letter l with caron 
+\xbe	\xb5        #  latin small letter l with caron 

@@ -1,0 +1,105 @@
+
+                             RELEASE NOTES FOR
+                    Informix ESQL/C Programmer's Manual
+                            DATE:  7/19/200
+                             Version:  9.51
+
+Table of Contents
+I.   Overview
+II.  New Features
+ A.  Syntax changes in SQL to support 8.31 product
+III. Fixed Problems
+IV.  Known Problems and Limitations
+
+I.   OVERVIEW
+=============
+
+The purpose of these release notes is to make you aware of any special
+actions required to configure and use Informix ESQL/C on your computer.
+This file also describes new features and feature differences from earlier
+versions of this product and other Informix products, and how these
+differences affect current products. In addition, this file contains
+information about known bugs and their workarounds.
+
+This release notes document is not intended to be all-inclusive; it should
+be used as an addendum to the Informix ESQL/C Programmer's Manual, which
+provides thorough information about product features and behavior.
+
+These release notes are written for the following audience:
+
+  o System administrators who install Informix database servers
+
+  o Database administrators who control access to Informix databases
+
+  o Developers who write applications using Informix ESQL/C
+
+Version 9.51 of Informix ESQL/C has been tested with the following
+database server configurations:
+
+  o Informix Dynamic Server, Version 5.10
+
+  o Informix Dynamic Server, Versions 7.24 and 7.3x
+
+  o Informix Dynamic Server with Advanced Decision Support and Extended
+    Parallel Options, Version 8.21 and Extended Parallel Server, Version
+    8.3x
+
+  o Informix Dynamic Server with Universal Data Option, Version 9.2x
+    (Windows NT) and Informix Dynamic Server 2000, Version 9.2x (UNIX)
+
+  o Informix SE 7.24
+
+Informix ESQL/C includes source code files for many of the examples in the
+Informix ESQL/C Programmer's Manual. The installation process copies these
+source code files into the following directory: $INFORMIXDIR/demo/esql
+
+For more information about the example files for Informix ESQL/C, see the
+Introduction to the  Informix ESQL/C Programmer's Manual.
+
+
+II.  NEW FEATURES
+=================
+A.  Syntax changes in SQL to support 8.31 product
+Refer to ESQL/C doc notes for more details.
+
+Feature 12. Duplicate table to address the XPS server.
+
+
+
+III. FIXED PROBLEMS
+===================
+The following problems pertaining to ESQL/C have been fixed in CSDK 2.70 release.
+
+---------------------------------------------------------------------------
+| Bug Number      | Description                                           |
+|-------------------------------------------------------------------------|
+| 133682          | IN ESQL VERSION 9.30.UC1 THAT COMES WITH SDK 2.40,    |
+|                 | IF YOU DO NOT LEAVE ASPACE AFTER A LINE BEFORE A      |
+|                 | COMMENT, IT GIVE A SYNTAX ERROR                       |
+---------------------------------------------------------------------------
+| 135070          | USING AN ARRAY THAT IS MORE THAN 10 ENTRIES CAUSES    |
+|                 | ESQL COMPILE TO REPORT A -201 ERROR                   |
+---------------------------------------------------------------------------
+| 135792          | ENGINE CRASH CAUSE BY CLIENT SENDING PUTINSERT SQLI   |
+|                 | MESSAGE FOR A STATEMENT WHICH HAS BEEN FREED OR REUSED|
+---------------------------------------------------------------------------
+| 144171          | PROTOTYPE (DECLARATION) FOR LIBRARY FUNCTION SQLDONE()|
+|                 | NOT IN PROVIDED HEADERFILES                           |
+---------------------------------------------------------------------------
+| 144326          | RSETNULL(SQLDATE,PTR) USES AN 8BYTE VALUE FOR INTNULL |
+|                 | BUT DATE DATA TYPE IS ONLY 4 BYTES WHICH RESULTS IN   |
+|                 | BUS ERROR ON 64 BIT PLATFORMS                         |
+---------------------------------------------------------------------------
+| 149743          | COMPILING THE ESQL DEMO3 APPLICATION USING -THREAD    |
+|                 | OPTION CAUSES MEMORY LEAK                             |
+---------------------------------------------------------------------------
+
+
+IV.  Known Problems and Limitations
+
+---------------------------------------------------------------------------
+| Bug Number      | Description                                           | 
+---------------------------------------------------------------------------
+| 147315          | ARRAY FETCH DOES NOT SET INDICATOR CORRECTLY FOR NULL |
+|                 | BLOBS                                                 |
+---------------------------------------------------------------------------

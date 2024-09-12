@@ -1,0 +1,165 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       035404e2.cv
+#  Author:      Informix ELC
+#  Created:     Tue Jan 28 10:49:53 1997
+#  Description:
+#    Conversion file from IBM Code Page 852 to Windows Code Page 1250
+#    Registry value (Decimal):  From 852 to 1250
+#    Registry value (Hex): From 0354 to 04e2
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      2
+<modified_date>       "01/28/1997"
+<source_codeset>      "IBM Code Page 852"
+<target_codeset>      "Windows Code Page 1250"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x80	\xc7        #  latin capital letter c with cedilla 
+\x81	\xfc        #  latin small letter u with diaeresis 
+\x82	\xe9        #  latin small letter e with acute 
+\x83	\xe2        #  latin small letter a with circumflex 
+\x84	\xe4        #  latin small letter a with diaeresis 
+\x85	\xf9        #  latin small letter u with ring above 
+\x86	\xe6        #  latin small letter c with acute 
+\x87	\xe7        #  latin small letter c with cedilla 
+\x88	\xb3        #  latin small letter l with stroke 
+\x89	\xeb        #  latin small letter e with diaeresis 
+\x8a	\xd5        #  latin capital letter o with double acute 
+\x8b	\xf5        #  latin small letter o with double acute 
+\x8c	\xee        #  latin small letter i with circumflex 
+\x8d	\x8f        #  latin capital letter z with acute 
+\x8e	\xc4        #  latin capital letter a with diaeresis 
+\x8f	\xc6        #  latin capital letter c with acute 
+\x90	\xc9        #  latin capital letter e with acute 
+\x91	\xc5        #  latin capital letter l with acute 
+\x92	\xe5        #  latin small letter l with acute 
+\x93	\xf4        #  latin small letter o with circumflex 
+\x94	\xf6        #  latin small letter o with diaeresis 
+\x95	\xbc        #  latin capital letter l with caron 
+\x96	\xbe        #  latin small letter l with caron 
+\x97	\x8c        #  latin capital letter s with acute 
+\x98	\x9c        #  latin small letter s with acute 
+\x99	\xd6        #  latin capital letter o with diaeresis 
+\x9a	\xdc        #  latin capital letter u with diaeresis 
+\x9b	\x8d        #  latin capital letter t with caron 
+\x9c	\x9d        #  latin small letter t with caron 
+\x9d	\xa3        #  latin capital letter l with stroke 
+\x9e	\xd7        #  multiplication sign 
+\x9f	\xe8        #  latin small letter c with caron 
+\xa0	\xe1        #  latin small letter a with acute 
+\xa1	\xed        #  latin small letter i with acute 
+\xa2	\xf3        #  latin small letter o with acute 
+\xa3	\xfa        #  latin small letter u with acute 
+\xa4	\xa5        #  latin capital letter a with ogonek 
+\xa5	\xb9        #  latin small letter a with ogonek 
+\xa6	\x8e        #  latin capital letter z with caron 
+\xa7	\x9e        #  latin small letter z with caron 
+\xa8	\xca        #  latin capital letter e with ogonek 
+\xa9	\xea        #  latin small letter e with ogonek 
+\xaa	\xac        #  not sign 
+\xab	\x9f        #  latin small letter z with acute 
+\xac	\xc8        #  latin capital letter c with caron 
+\xad	\xba        #  latin small letter s with cedilla 
+\xae	\xab        #  left-pointing double angle quotation mark 
+\xaf	\xbb        #  right-pointing double angle quotation mark 
+\xb0	\x7f error  #  light shade 
+\xb1	\x7f error  #  medium shade 
+\xb2	\x7f error  #  dark shade 
+\xb3	\x7f error  #  box drawings light vertical 
+\xb4	\x7f error  #  box drawings light vertical and left 
+\xb5	\xc1        #  latin capital letter a with acute 
+\xb6	\xc2        #  latin capital letter a with circumflex 
+\xb7	\xcc        #  latin capital letter e with caron 
+\xb8	\xaa        #  latin capital letter s with cedilla 
+\xb9	\x7f error  #  box drawings heavy vertical and left 
+\xba	\x7f error  #  box drawings heavy vertical 
+\xbb	\x7f error  #  box drawings heavy down and left 
+\xbc	\x7f error  #  box drawings heavy up and left 
+\xbd	\xaf        #  latin capital letter z with dot above 
+\xbe	\xbf        #  latin small letter z with dot above 
+\xbf	\x7f error  #  box drawings light down and left 
+\xc0	\x7f error  #  box drawings light up and right 
+\xc1	\x7f error  #  box drawings light up and horizontal 
+\xc2	\x7f error  #  box drawings light down and horizontal 
+\xc3	\x7f error  #  box drawings light vertical and right 
+\xc4	\x7f error  #  box drawings light horizontal 
+\xc5	\x7f error  #  box drawings light vertical and horizontal 
+\xc6	\xc3        #  latin capital letter a with breve 
+\xc7	\xe3        #  latin small letter a with breve 
+\xc8	\x7f error  #  box drawings heavy up and right 
+\xc9	\x7f error  #  box drawings heavy down and right 
+\xca	\x7f error  #  box drawings heavy up and horizontal 
+\xcb	\x7f error  #  box drawings heavy down and horizontal 
+\xcc	\x7f error  #  box drawings heavy vertical and right 
+\xcd	\x7f error  #  box drawings heavy horizontal 
+\xce	\x7f error  #  box drawings heavy vertical and horizontal 
+\xcf	\xa4        #  currency sign 
+\xd0	\xf0        #  latin small letter d with stroke 
+\xd1	\xd0        #  latin capital letter d with stroke 
+\xd2	\xcf        #  latin capital letter d with caron 
+\xd3	\xcb        #  latin capital letter e with diaeresis 
+\xd4	\xef        #  latin small letter d with caron 
+\xd5	\xd2        #  latin capital letter n with caron 
+\xd6	\xcd        #  latin capital letter i with acute 
+\xd7	\xce        #  latin capital letter i with circumflex 
+\xd8	\xec        #  latin small letter e with caron 
+\xd9	\x7f error  #  box drawings light up and left 
+\xda	\x7f error  #  box drawings light down and right 
+\xdb	\x7f error  #  full block 
+\xdc	\x7f error  #  lower half block 
+\xdd	\xde        #  latin capital letter t with cedilla 
+\xde	\xd9        #  latin capital letter u with ring above 
+\xdf	\x7f error  #  upper half block 
+\xe0	\xd3        #  latin capital letter o with acute 
+\xe1	\xdf        #  latin small letter sharp s (german) 
+\xe2	\xd4        #  latin capital letter o with circumflex 
+\xe3	\xd1        #  latin capital letter n with acute 
+\xe4	\xf1        #  latin small letter n with acute 
+\xe5	\xf2        #  latin small letter n with caron 
+\xe6	\x8a        #  latin capital letter s with caron 
+\xe7	\x9a        #  latin small letter s with caron 
+\xe8	\xc0        #  latin capital letter r with acute 
+\xe9	\xda        #  latin capital letter u with acute 
+\xea	\xe0        #  latin small letter r with acute 
+\xeb	\xdb        #  latin capital letter u with double acute 
+\xec	\xfd        #  latin small letter y with acute 
+\xed	\xdd        #  latin capital letter y with acute 
+\xee	\xfe        #  latin small letter t with cedilla 
+\xef	\xb4        #  acute accent 
+\xf0	\xad        #  soft hyphen 
+\xf1	\xbd        #  double acute accent 
+\xf2	\xb2        #  ogonek 
+\xf3	\xa1        #  caron 
+\xf4	\xa2        #  breve 
+\xf5	\xa7        #  section sign 
+\xf6	\xf7        #  division sign 
+\xf7	\xb8        #  cedilla 
+\xf8	\xb0        #  degree sign 
+\xf9	\xa8        #  diaeresis 
+\xfa	\xff        #  dot above 
+\xfc	\xd8        #  latin capital letter r with caron 
+\xfd	\xf8        #  latin small letter r with caron 
+\xfe	\x7f error  #  black square 
+\xff	\xa0        #  no-break space 

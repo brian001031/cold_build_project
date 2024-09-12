@@ -1,0 +1,709 @@
+
+
+                          DOCUMENTATION NOTES FOR
+                    Informix ESQL/C Programmer's Manual
+                            DATE:  7/19/2001
+                             Version:  9.51
+
+Table of Contents
+I.   Overview
+II.  Informix Database Server Names
+III. 9.50 Documentation Notes
+ A.   Syntax changes in SQL to support new features in the 8.31 product. 
+IV.  9.40 Documentation Notes
+ A.   XA Support for MTS/DTC
+V.   9.30 Documentation Notes
+ A.   Support of Non-ANSI Datetime formats
+ B.   The deccvflt() Function
+ C.   The ifx_var_freevar() Function
+ D.   Precision for SMALLFLOAT and FLOAT conversions to DECIMAL
+ E.   IFX_NOZEROMDY Environment Variable
+ F.   Thread-Safe Applications
+ G.   Context Threaded Optimization
+VI.   Corrections and Changes to the Manual
+ A.   The ifx_var_dealloc() Function
+ B.   The ifx_var_alloc() Function
+ C.   LVARCHAR in ESQL/C
+ D.   TP/XA
+ E.   SqlFreeMem()
+ F.   Single Space into a host variable 
+
+
+
+I.   OVERVIEW 
+==============
+
+This document describes feature and performance topics not covered in the
+Informix ESQL/C Programmer's Manual or modified since publication.
+
+
+II.  INFORMIX DATABASE SERVER NAMES
+===================================
+
+This manual might not reflect the latest names of Informix database
+servers. The following table lists the database server versions and their
+corresponding names.
+
+---------------------------------------------------------------------------
+| Database Server    | Database Server Names                              |
+| Version Numbers    |                                                    |
+|-------------------------------------------------------------------------|
+| 5.x                | INFORMIX OnLine and INFORMIX SE                    |
+|-------------------------------------------------------------------------|
+| 7.1x, 7.2x         | INFORMIX OnLine Dynamic Server and                 |
+|                    | INFORMIX SE                                        |
+|-------------------------------------------------------------------------|
+| 7.3x              | Informix Dynamic Server                             |
+|-------------------------------------------------------------------------|
+| 8.1x               | INFORMIX OnLine XPS                                |
+|-------------------------------------------------------------------------|
+| 8.2x               | Informix Dynamic Server with Advanced Decision     |
+|                    | Support and Extended Parallel Options              |
+|-------------------------------------------------------------------------|
+| 8.3                | Informix Extended Parallel Server (XPS) or         |
+|                    | Informix Enterprise Decision Server                |
+|-------------------------------------------------------------------------|
+| 9.01, 9.1 through  | INFORMIX-Universal Server                          |
+| 9.13               |                                                    |
+|-------------------------------------------------------------------------|
+| 9.14               | Informix Dynamic Server with Universal Data Option |
+|-------------------------------------------------------------------------|
+| 9.2                | Informix Dynamic Server 2000                       |
+---------------------------------------------------------------------------
+ 
+
+III. 9.50 DOCUMENTATION NOTES
+=============================
+
+A. Syntax changes in SQL to support new features in the 8.31 product. 
+
+Feature 1: Duplicate table to address the XPS server. 
+
+This feature allows identical copies of a table to exist at each coserver in an
+XPS cluster. It provides better performance for read-only accesses to the table
+that occur from coservers that otherwise would not host the required data. A 
+primary goal is to support operations that read relatively small, relatively 
+static tables. 
+
+SQL Syntax:
+----------
+Duplicating a table
+CREATE DUPLICATE OF TABLE tabname
+    IN dbspacelist [ , dbspacelist ...]
+
+Where dbspacelist ::={ dbslice                }
+     { ( dbspace [  , dbspace ...])}
+
+Dropping duplicates
+DROP DUPLICATE OF TABLE tabname
+
+
+
+
+
+
+IV. 9.40 DOCUMENTATION NOTES
+=============================
+
+Informix Dynamic Server and Informix Internet Foundation 2000, version
+9.21, support XA transactions in a tightly-coupled mode, which allows you
+to use Microsoft Transaction Server as a transaction manager in the TP/XA
+environment.
+
+You can  use Microsoft Transaction Server only with a version of the
+Informix ODBC Driver that is current with or later than version 9.21 of
+the Informx database server.
+
+
+V.  9.30 DOCUMENTATION NOTES
+=============================
+
+
+A.   SUPPORT OF NON-ANSI DATETIME FORMATS
+-----------------------------------------
+
+Prior to this release, both the database server and ESQL/C required all
+datetime strings to be formatted using ANSI format 'YYYY-MM-DD
+HH:MM:SS.FFFFF' when converting a date-time string to the datetime data
+type, even if other formats were specified using the DBTIME, GL_DATETIME,
+or locale environment variables. When an ESQL/C program fetched a datetime
+value from the database server into a string host variable, it converted
+it using ANSI format. When the client converted a string to datetime type,
+which occurs only for insert cursors when the host variable type is a
+string and the target column is datetime, it requires the string be in
+ANSI format. This limitation makes it impossible to upgrade from Informix
+ALS (Asian Language Support) client/server products, which recognize non-
+ANSI datetime formats, to GLS (Global Language Support) client/server
+products. 
+
+This release of Informix ESQL/C implements support for non-ANSI datetime
+formats, which enables both ESQL/C programs and the database server to
+convert them correctly. 
+
+
+1.   New Environment Variable: USE_DTENV
+........................................
+
+To prevent the problem of backward compatibility this release of ESQL/C
+provides a new environment variable, USE_DTENV, to activate this feature.
+When USE_DTENV enables support of Non-ANSI datetime formats, both the
+ESQL/C program and the database server will expect and produce datetime
+strings in the format specified by the following environment variables, in
+order of precedence:
+
+1.   DBTIME
+
+2.   GL_DATETIME
+
+3.   CLIENT_LOCALE
+
+4.   LC_TIME (if DBNLS is set)
+
+5.   LANG (if DBNLs is set, but LC_TIME is not set)
+
+6.   ANSI format
+
+You can find these precedence rules in the Informix Guide to GLS
+Functionality, under the heading "Customizing Date and Time End-User
+Formats".
+
+The environment variable is passed from the ESQL/C program to the database
+server. Setting this environment variable for the database server alone
+will have no affect. You must set it for the ESQL/C client program, which
+passes it to the database server.
+
+To enable support for non-ANSI datetime formats, set USE_DTENV to 1 as
+shown in the following example:
+
+    USE_DTENV=1
+If the database server does not support non-ANSI datetime formats you
+should not set USE_DTENV for the ESQL/C client program. Doing so makes it
+possible for the ESQL/C program to fetch a datetime value into a string
+host variable and convert it to a non-ANSI formatted string. The program
+would not be able to bind this string to a datetime column, however, if
+the database server subsequently tries to convert the string to datetime
+because the database server expects ANSI format. The client would be able
+to convert strings to datetime (insert cursors) but because users are not
+normally aware when the client or the server performs the conversion, you
+should not set USE_DTENV when the database server does not support non-
+ANSI datetime formats.
+
+Both the client and server convert a datetime value to a string and
+convert date-time strings to datetime type values using the format
+specified by the GLS environment variable when the following conditions
+are true:
+
+  o Both client and server support the USE_DTENV feature
+
+  o USE_DTENV=1
+
+  o GLS datetime/locale environment variable set
+
+This applies to DB-Access load and unload commands and to the dbimport,
+dbexport and dbload utilities.
+
+Note: The USE_DTENV feature does not affect the interval data type.
+
+
+2.   Caveats
+............
+
+1.   Interval to string conversions and visa versa still must be in ANSI
+     format.
+
+2.   The qualifier for the environment variable that specifies datetime
+     string format must match the qualifier of the datetime column 100% for
+     string to datetime conversions because the format is used for parsing
+     the string. If the format doesn't match 100%, the string can't be
+     parsed correctly.
+
+Example:
+
+    DBTIME format: %m %d, %y
+    datetime column: datetime year to second
+    string value: "02 20, 96 - 10 hour 30 minute 15 second"
+An insert into this datetime column will fail with this DBTIME settings.
+It's missing the hour, minute,        second.
+
+The fix for this would require additional datetime formats for EACH
+qualifier possibility, so the correct format could be found for each
+qualifier. Example in no special order:
+
+    year to year - "%y"
+    year to month - "%m, %y"
+    year to day - "%m %d, %y"
+    month to month - "%m"
+    day to second - "%d - %H hour %M minute %S second"
+    hour to minute - "%H hour %M minute"
+    etc.
+3. For datetime to string conversions, if the datetime qualifier doesn't
+match the datetime format then we follow these rules:
+
+  o If datetime format has fewer fields then the datetime qualifier then
+    the string will match the datetime format and the extra datetime
+    fields from the datetime value are excluded:
+
+Example (DBTIME has too few fields):
+
+    DBTIME format: %m %d, %y
+                  Columns: datetime year to fraction (5)
+                  Value inserted previously: July 13 1999 10:12:13.12345
+     
+                  String conversion:
+                     "07 13, 99"
+  o If datetime format has more 'lesser' datetime fields then the
+    datetime qualifier, then the missing fields are filled with zeros:
+
+Example (datetime value has missing lesser datetime fields):
+
+    DBTIME format: %m %d, %y %H:%M:%S
+    Columns: datetime year to day
+    Value inserted previously: July 13 1999
+     
+    String conversion:
+    "07 13, 99 00:00:00"
+  o If datetime format has more 'greater' datetime fields then the
+    datetime qualifier, then the missing fields are filled with values
+    taken from the current time.
+
+    Example (datetime value has missing greater datetime fields):
+
+    DBTIME format: %m %d, %y %H:%M:%S
+    Columns: datetime hour to second
+    Value inserted previously: 10:56:11
+    current date: July 13, 1999
+    String conversion:
+    "07 13, 99 10:56:11"
+
+3.   Rationale
+..............
+
+The current requirement is that all datetime strings must be in ANSI
+format. This makes it impossible for users who wish to upgrade from
+Informix ALS client/server to GLS client/server products. ALS
+client/server products recognized non-ANSI datetime formats.
+
+Both client and server currently support non-ANSI date formats, but not
+datetime. With this feature Informix will no longer discriminate against
+non-ANSI datetime formats.
+
+
+4.   Effects on existing code
+.............................
+
+There's no affect on existing code, but there is an affect on old data
+files generated by DB-Access or the database administrator tools. These
+files will have datetime values as ANSI formatted strings. You should not
+set USE_DTENV when loading this data with a client and server that both
+support non-ANSI datetime formats.
+
+When USE_DTENV is set and one of the GLS datetime environment variables
+specifies a different datetime string format, DB-Access displays can be
+affected.
+
+The ANSI format is 25 characters. If the format specified through one of
+the GLS datetime environment variables is less than or greater than the
+maximum length of the 25 character ANSI standard datetime literal, the DB-
+Access display will be affected.
+
+Example: 
+
+    DBTIME is set to '%b %d, %Y %H:%M:%S' and the datetime
+    value is 1999-07-09 10:11:12. The value will be displayed as
+    'July 09, 1999 10:11:12'.
+
+B.   THE DECCVFLT() FUNCTION
+----------------------------
+
+The deccvflt() function has inadvertently gone undocumented in previous
+versions of the ESQL/C manual. 
+
+The deccvflt() function converts a C float type number into an ESQL/C
+decimal type number.
+
+
+1.   Syntax
+...........
+
+     int deccvflt(flt_val, dec_val)
+
+     float flt_val;
+
+     dec_t *dec_val;
+
+flt_val   is the float value that deccvflt() converts to a decimal type
+value.
+
+dec_val   is a pointer to a decimal structure where deccvflt() places the
+result of the conversion.
+
+
+2.   Return Codes
+.................
+
+0    The conversion was successful.
+
+<0   The conversion failed.
+
+Example
+
+    /*
+       * deccvflt.ec *
+       The following program converts two float type numbers to DECIMAL
+    numbers
+       and displays the results.
+    */
+    #include <stdio.h>
+    EXEC SQL include decimal;
+    char result[41];
+    main()
+    {
+        int x;
+        dec_t num;
+        float f = 2147483647;
+        printf("DECCVFLT Sample ESQL Program running.\n\n");
+        printf("Number 1 (float) = 1234.5678901234\n");
+        if (x = deccvflt((float)1234.5678901234, &num))
+         {
+         printf("Error %d in converting double1 to DECIMAL\n", x);
+         exit(1);
+         }
+        if (x = dectoasc(&num, result, sizeof(result), -1))
+         {
+         printf("Error %d in converting DECIMAL1 to string\n", x);
+         exit(1);
+         }
+        result[40] = '\0';
+        printf("  String Value = %s\n", result);
+        printf("Number 2 (float) = %.1f\n", f);
+        if (x = deccvflt(f, &num))
+         {
+         printf("Error %d in converting float2 to DECIMAL\n", x);
+         exit(1);
+         }
+        if (x = dectoasc(&num, result, sizeof(result), -1))
+         {
+         printf("Error %d in converting DECIMAL2 to string\n", x);
+         exit(1);
+         }
+        result[40] = '\0';
+        printf("  String Value = %s\n", result);
+        printf("\nDECCVFLT Sample Program over.\n\n");
+        exit(0);
+    }
+Output
+
+    DECCVFLT Sample ESQL Program running.
+    Number 1 (float) = 1234.5678901234
+      String Value = 1234.56787                              
+    Number 2 (float) = 2147483648.0
+      String Value = 2147483650.0                            
+    DECCVFLT Sample Program over.
+
+C.   THE IFX_VAR_FREEVAR() FUNCTION
+-----------------------------------
+
+The ifx_var_freevar() function frees the memory that has been allocated
+for the var binary and lvarchar pointer host variables. 
+
+
+1.   Syntax
+...........
+
+     int ifx_var_freevar(var_bin)
+
+          var binary *var_bin;
+
+var_bin   is the address of the "var binary" or "lvarchar pointer" host
+variable.
+
+
+2.   Usage
+..........
+
+Whenever you have a "var binary" or "lvarchar pointer" host variable, as
+shown in the following example, you must explicitly free the memory that
+is allocated for it by using the ifx_var_freevar() function.
+
+    EXEC SQL var binary 'polygon' poly;
+    EXEC SQL lvarchar *c;
+The following example illustrates the use of ifx_var_freevar() you must
+explicitly free memory that has been allocated for these "var binary" &
+"lvarchar pointer" host variables with the ifx_var_freevar() function:
+
+    ifx_var_freevar(&poly);
+    ifx_var_freevar(&c);
+If you do not call ifx_var_dealloc() to deallocate memory that has been
+allocated for the data buffer of the "var binary" host variable,
+"ifx_var_freevar()" would do it for you and then it frees the memory of
+the "var binary" & "lvarchar pointer" host variables.  After
+"ifx_var_freevar()" was called, "poly" and "c" would be set to null.
+
+
+3.   Return Codes
+.................
+
+0    The function was successful.
+
+<0   The function was not successful and the return value indicates the
+cause of the error.
+
+
+4.   Related Functions
+......................
+
+ifx_var_flag(), ifx_var_alloc(), ifx_var_dealloc()
+
+
+D.   PRECISION FOR SMALLFLOAT AND FLOAT CONVERSIONS TO DECIMAL
+--------------------------------------------------------------
+
+Decimal precision for FLOAT and SMALLFLOAT conversions to DECIMAL data
+type has been increased from 8 (SMALLFLOAT) and 16 (FLOAT) to 9 and 17,
+respectively. You might experience differences in decimal precision after
+FLOAT/SMALLFLOAT to DECIMAL conversions. The functions deccvflt()
+(SMALLFLOAT to DECIMAL conversion) and deccvdbl() (FLOAT to DECIMAL
+conversion), which have converted float numbers to decimal numbers with 8
+digit and 16 digit precision, now have 9 digit and 17 digit precision.
+
+For more information on the impact and scope of this feature, refer to the
+Release Notes file for this release of ESQL/C. The following section
+describes the IFX_USE_PREC_16 environment variable, which provides
+backward compatibility.
+
+
+1.   IFX_USE_PREC_16 Environment Variable
+.........................................
+
+A new environment variable IFX_USE_PREC_16 can be used to revert the
+precision to 8/16 for all SMALLFLOAT/FLOAT to DECIMAL conversions by a
+client ESQL/C program. Note that this environment variable affects the
+client only and is not sent to the server.
+
+When IFX_USE_PREC_16 is set to 1, a 9/17 client product will only use 8/16
+precision to perform all SMALLFLOAT/FLOAT to DECIMAL conversions.
+
+
+E.   IFX_NOZEROMDY ENVIRONMENT VARIABLE
+---------------------------------------
+
+The environment variable IFX_NOZEROMDY has been added to change the
+default behavior of the DATE data type and several ESQL/C date related
+library functions. If IFX_NOZEROMDY is not set (the default), the date
+value 00/00/0000 (4 digit year) is accepted as a null date in a DATE data
+type or as input to the ESQL/C library functions rdefmtdate(),and
+rstrdate(). The function rmdyjul() also treats the input date as a null
+date if all 3 fields in the mdy input array are all zeros.   If
+IFX_NOZEROMDY is set to 1, the date value 00/00/0000 and mdy input array
+fields of all zeros will be treated as an invalid date.
+
+For more information, refer to the Release Notes for this release of ESQL/C.
+
+
+F.   THREAD-SAFE APPLICATIONS
+-----------------------------
+
+Chapter 13 of  the INFORMIX-Informix ESQL/C Programmer's Manual, Version
+9.2, states the following:
+
+"The DCE thread library, which the Open Software Foundation(OSF) developed
+creates a standard interface for thread-safe applications."
+
+If DCE is not available on your platform, ESQL/C can use POSIX thread
+libraries or Sun Solaris thread libraries as well.
+
+
+1.   Linking Thread-Safe Libraries
+..................................
+
+If your platform supports DCE, POSIX or Solaris thread packages, you must
+install them on the same client computer as ESQL/C.
+
+SOL and POSIX are also valid options for the THREADLIB environment variable.
+
+
+G.   CONTEXT THREADED OPTIMIZATION
+----------------------------------
+
+Informix ESQL/C allows developers to specify the runtime context that will
+be used for a set of statements. A runtime context will hold all the
+thread specific data that ESQL/C must maintain, ie. connections and their
+current states, cursors and their current states etc.
+
+The feature allows ESQL/C programmers to improve the performance of their
+MESQL/C applications. By using the SQLCONTEXT definitions and directives,
+the number of thread-specific data block lookups can be reduced.
+
+The following embedded SQL statements support the definition and usage of
+runtime contexts:
+
+    SQLCONTEXT context_var;
+    PARAMETER SQLCONTEXT param_context_var;
+    BEGIN SQLCONTEXT OPTIMIZATION;
+    END SQLCONTEXT OPTIMIZATION;
+The SQLCONTEXT definition and statements are only recognized when the esql
+-thread option is used. If the -thread option is not specified, the
+statements are ignored.
+
+The use of the SQLCONTEXT statements will cause the ESQL/C preprocessor to
+generate code in the .c file that differs from the generated code when no
+SQLCONTEXT statements are present.
+
+  o The following SQLCONTEXT definition will generate code to define and
+    to set the value of the SQLCONTEXT to the handle of the runtime
+    context:
+
+    SQLCONTEXT context_var;
+
+  o The following SQLCONTEXT definition can be used to generate code to
+    define a parameter that contains the handle of the runtime context:
+
+    PARAMETER SQLCONTEXT param_context_var;
+
+  o The following BEGIN SQLCONTEXT directive will cause all statements
+    positionally following it in the source file to use the indicated
+    runtime context until the END CONTEXT directive is seen:
+
+    BEGIN SQLCONTEXT OPTIMIZATION;
+
+    END SQLCONTEXT OPTIMIZATION;
+
+The END SQLCONTEXT directive should appear before the end of the scope of
+the SQLTCONTEXT definition in use or compile time errors will occur for
+"undefined symbol sql_context_var".
+
+
+VI.   CORRECTIONS AND CHANGES TO THE MANUAL
+==========================================
+
+
+A.   THE IFX_VAR_DEALLOC() FUNCTION
+-----------------------------------
+
+The Informix ESQL/C Programmer's Manual currently says, "you must
+explicitly deallocate memory that has been allocated to the var binary
+host variable." This statement should be changed to say, "you must
+explicitly deallocate memory that has been allocated to the data buffer of
+a var binary host variable."
+
+
+B.   THE IFX_VAR_ALLOC() FUNCTION
+---------------------------------
+
+The Informix ESQL/C Programmer's Manual currently says, "you must
+explicitly allocate memory for the data of a var binary host variable with
+the ifx_var_alloc() function." This statement should be changed to say,
+"you must explicitly allocate memory for the data buffer of a var binary
+host variable with the ifx_var_alloc() function."
+
+
+C.   LVARCHAR IN ESQL/C
+-----------------------
+
+The Informix ESQL/C Programmer's Manual has two tables in Chapter 3 that
+currently say:
+
+---------------------------------------------------------------------------
+| SQL Data Type                    | ESQL/C or C Data Type                |
+|-------------------------------------------------------------------------|
+| CHAR (n)                         | fixchar array [ n] or                |
+|                                  |                                      |
+|                                  | string array [ n + 1]                |
+|-------------------------------------------------------------------------|
+| LVARCHAR                         | lvarchar                             |
+|-------------------------------------------------------------------------|
+| VARCHAR (m,x)                    | varchar [ m + 1] or                  |
+|                                  |                                      |
+|                                  | string array [ m + 1]                |
+---------------------------------------------------------------------------
+
+The LVARCHAR entry should be changed to say,
+
+---------------------------------------------------------------------------
+| SQL Data Type                    | ESQL/C or C Data Type                |
+|-------------------------------------------------------------------------|
+| LVARCHAR                         | lvarchar array [ n + 1]              |
+|                                  |                                      |
+|                                  | where "n" is the length of the       |
+|                                  | longest string that might be         |
+|                                  | stored in the LVARCHAR field.        |
+---------------------------------------------------------------------------
+
+
+D.   TP/XA
+----------
+
+In Chapter 3 of the TP/XA Programmer's Manual, Version 9.13, in the
+section, "Building Servers for an X/Open DTP Environment", step 3 says:
+
+"3. Link the object file created in step 1 with the TP/XA library called
+$INFORMIXDIR/lib/esql/libinfxxa.a"
+
+The name of this library was changed in Version 9.13. The name of the
+libraries Version 9.13 are libifxa.a (non-threaded) or libthxa.a (threaded).
+
+
+E.   SQLFREEMEM()
+-----------------
+
+You can use the SqlFreeMem() function to tell ESQL/C when memory can be
+free. The prototype is:
+
+    void FAR PASCAL SqlFreeMem( void far * MemAddr, int FreeType );
+
+MemAddr is the address of the memory to be freed.
+
+FreeType is the type of memory to be freed and can have the following
+values:
+
+  o STRING_FREE
+
+    free memory allocated to a string, i.e. a string returned by dececvt()
+    or decfcvt().
+
+  o SQLDA_FREE
+
+    free a sqlda structure returned by a $describe (into sqlda) statement
+
+  o CONN_FREE
+
+    (MemAddr is ignored.) Free information in the application information
+    block that cannot be freed on sqlexit (or exit). This frees all
+    dynamically allocated cursors, memory pointed to by those cursors, and
+    the tables that keep track of the cursors. It frees only for the
+    current connection. If the user has done one or more GetConnect calls,
+    the user must do a SetConnect and SqlFreeMem for each connection
+    (including the default connection). This call does not free allocated
+    descriptors that the user could have, but did not, free with a
+    $deallocate descriptor.
+
+NOTE 1: Do a CONN-FREE before issuing sqlexit().
+
+NOTE 2: Doing a CONN-FREE frees memory that the ESQL/C program may have
+saved the address of. See the next section for how the keep this from
+happening.
+
+
+1.   Coding Changes Needed to Use SqlFreeMem(), CONN_FREE
+.........................................................
+
+The DECLARE and PREPARE statements allow you to specify cursor ids and
+statement ids either statically (with hard-coded named strings) or
+dynamically (with a host variable that contains the cursor name or
+statement id). If your ESQL/C application reuses cursors that have been
+named statically, you may experience memory-leak problems. If you use
+SqlFreeMem (NULL, CONN), this frees all of the dynamically allocated
+cursors and trying to use the saved address will result in a GPF if the
+freed memory is re-used.
+
+To avoid problems, use dynamic ids. That is, use host variables to hold
+the cursor names and statement is in DECLARE and PREPARE.
+
+F. SINGLE SPACE INTO A HOST VARIABLE
+____________________________________
+
+The following paragraph is NOT applicable.
+
+INFORMIX-ESQL/C Programmer's Manual, Volume 1, Version 9.21, April 1999,
+Part No. 000-5424, Page No. 4-6, Sub Heading: The String Data Type, 3rd
+paragraph.

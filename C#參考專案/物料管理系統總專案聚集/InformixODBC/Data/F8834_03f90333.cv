@@ -1,0 +1,45 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       03f90333.cm
+#  Author:      Informix ELC
+#  Created:     Mon Feb 10 17:14 1997
+#  Description:
+#    Conversion file from Danish ASCII 7-Bit to ISO 8859-1
+#    Registry value (Decimal):  From 1017 to ISO 8859-1
+#    Registry value (Hex): From 03f9 to 0333
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+<source_version>    1
+<modified_date>     "02/10/1997"
+<source_codeset>    "ISO-7-Danish"
+<target_codeset>    "8859-1"
+
+\x00...\xff     \x00... # Default everything onto itself
+\x5b	\xc6        #  latin capital letter ae 
+\x5c	\xd8        #  latin capital letter o with stroke 
+\x5d	\xc5        #  latin capital letter a with ring above 
+\x5e	\xdc        #  latin capital letter u with diaeresis 
+\x7b	\xe6        #  latin small letter ae 
+\x7c	\xf8        #  latin small letter o with stroke 
+\x7d	\xe5        #  latin small letter a with ring above 
+\x7e	\xfc        #  latin small letter u with diaeresis 

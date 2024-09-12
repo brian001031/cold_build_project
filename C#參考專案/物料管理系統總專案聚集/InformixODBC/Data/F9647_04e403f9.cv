@@ -1,0 +1,166 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       04e403f9.cm
+#  Author:      Informix ELC
+#  Created:     Thu Oct 05 15:19:01 1995
+#  Description:
+#    Conversion file from Windows Code Page 1252 to Danish ASCII 7-Bit
+#    Registry value (Decimal):  From 04e4 to 1017
+#    Registry value (Hex): From 04e4 to 03f9
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+<source_version>    2
+<modified_date>     "02/12/1997"
+<source_codeset>    "1252"
+<target_codeset>    "ISO-7-Danish"
+
+\x00...\xff     \x00... # Default everything onto itself
+\x5b	\x7f error
+\x5c	\x7f error
+\x5d	\x7f error
+\x5e	\x7f error
+\x7b	\x7f error
+\x7c	\x7f error
+\x7d	\x7f error
+\x7e	\x7f error
+\x80    \x7f error # No Euro-sign in ISO-7-Danish
+\x82	\x7f error
+\x83	\x7f error
+\x84	\x7f error
+\x85	\x7f error
+\x86	\x7f error
+\x87	\x7f error
+\x88	\x7f error
+\x89	\x7f error
+\x8a	\x7f error
+\x8b	\x7f error
+\x8c	\x7f error
+\x91	\x7f error
+\x92	\x7f error
+\x93	\x7f error
+\x94	\x7f error
+\x95	\x7f error
+\x96	\x7f error
+\x97	\x7f error
+\x98	\x7f error
+\x99	\x7f error
+\x9a	\x7f error
+\x9b	\x7f error
+\x9c	\x7f error
+\x9f	\x7f error
+\xa0	\x7f error
+\xa1	\x7f error
+\xa2	\x7f error
+\xa3	\x7f error
+\xa4	\x7f error
+\xa5	\x7f error
+\xa6	\x7f error
+\xa7	\x7f error
+\xa8	\x7f error
+\xa9	\x7f error
+\xaa	\x7f error
+\xab	\x7f error
+\xac	\x7f error
+\xad	\x7f error
+\xae	\x7f error
+\xaf	\x7f error
+\xb0	\x7f error
+\xb1	\x7f error
+\xb2	\x7f error
+\xb3	\x7f error
+\xb4	\x7f error
+\xb5	\x7f error
+\xb6	\x7f error
+\xb7	\x7f error
+\xb8	\x7f error
+\xb9	\x7f error
+\xba	\x7f error
+\xbb	\x7f error
+\xbc	\x7f error
+\xbd	\x7f error
+\xbe	\x7f error
+\xbf	\x7f error
+\xc0	\x7f error
+\xc1	\x7f error
+\xc2	\x7f error
+\xc3	\x7f error
+\xc4	\x7f error
+\xc5	\x5d
+\xc6	\x5b
+\xc7	\x7f error
+\xc8	\x7f error
+\xc9	\x7f error
+\xca	\x7f error
+\xcb	\x7f error
+\xcc	\x7f error
+\xcd	\x7f error
+\xce	\x7f error
+\xcf	\x7f error
+\xd0	\x7f error
+\xd1	\x7f error
+\xd2	\x7f error
+\xd3	\x7f error
+\xd4	\x7f error
+\xd5	\x7f error
+\xd6	\x7f error
+\xd7	\x7f error
+\xd8	\x5c
+\xd9	\x7f error
+\xda	\x7f error
+\xdb	\x7f error
+\xdc	\x5e
+\xdd	\x7f error
+\xde	\x7f error
+\xdf	\x7f error
+\xe0	\x7f error
+\xe1	\x7f error
+\xe2	\x7f error
+\xe3	\x7f error
+\xe4	\x7f error
+\xe5	\x7d
+\xe6	\x7b
+\xe7	\x7f error
+\xe8	\x7f error
+\xe9	\x7f error
+\xea	\x7f error
+\xeb	\x7f error
+\xec	\x7f error
+\xed	\x7f error
+\xee	\x7f error
+\xef	\x7f error
+\xf0	\x7f error
+\xf1	\x7f error
+\xf2	\x7f error
+\xf3	\x7f error
+\xf4	\x7f error
+\xf5	\x7f error
+\xf6	\x7f error
+\xf7	\x7f error
+\xf8	\x7c
+\xf9	\x7f error
+\xfa	\x7f error
+\xfb	\x7f error
+\xfc	\x7e
+\xfd	\x7f error
+\xfe	\x7f error
+\xff	\x7f error

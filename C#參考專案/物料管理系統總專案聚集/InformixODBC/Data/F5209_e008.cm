@@ -1,0 +1,537 @@
+###########################################################################
+#
+#                         INFORMIX SOFTWARE, INC.
+#
+#                            PROPRIETARY DATA
+#
+#      THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF
+#      INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#      CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR
+#      DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT
+#      SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#      THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#      SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE.
+#      UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW.
+#
+#
+#  Title:      Big Five charmap
+#  Sccsid:
+#  Description:
+#
+#              Big Five charmap description for GLS library.
+#              This charmap is based on the X/Open definition.
+#
+###########################################################################
+
+<source_version>                3
+<modified_date>                 "01/DEC/99"
+<code_set_name>                 "big5"
+
+#
+#       CHARMAP
+#
+
+CHARMAP
+
+#       Portable Character Set
+<NUL>                   \x00
+<SOH>                   \x01
+<STX>                   \x02
+<ETX>                   \x03
+<EOT>                   \x04
+<ENQ>                   \x05
+<ACK>                   \x06
+<alert>                 \x07
+<BEL>                   \x07    ALTERNATE SYMBOL
+<backspace>             \x08
+<BS>                    \x08    ALTERNATE SYMBOL
+<tab>                   \x09
+<HT>                    \x09    ALTERNATE SYMBOL
+<newline>               \x0a
+<LF>                    \x0a    ALTERNATE SYMBOL
+<vertical-tab>          \x0b
+<VT>                    \x0b    ALTERNATE SYMBOL
+<form-feed>             \x0c
+<FF>                    \x0c    ALTERNATE SYMBOL
+<carriage-return>       \x0d
+<CR>                    \x0d    ALTERNATE SYMBOL
+<SO>                    \x0e
+<SI>                    \x0f
+<DLE>                   \x10
+<DC1>                   \x11
+<DC2>                   \x12
+<DC3>                   \x13
+<DC4>                   \x14
+<NAK>                   \x15
+<SYN>                   \x16
+<ETB>                   \x17
+<CAN>                   \x18
+<EM>                    \x19
+<SUB>                   \x1a
+<ESC>                   \x1b
+<IS4>                   \x1c
+<FS>                    \x1c    ALTERNATE SYMBOL
+<IS3>                   \x1d
+<GS>                    \x1d    ALTERNATE SYMBOL
+<IS2>                   \x1e
+<RS>                    \x1e    ALTERNATE SYMBOL
+<IS1>                   \x1f
+<US>                    \x1f    ALTERNATE SYMBOL
+<space>                 \x20
+<exclamation-mark>      \x21
+<quotation-mark>        \x22
+<number-sign>           \x23
+<dollar-sign>           \x24
+<percent-sign>          \x25
+<ampersand>             \x26
+<apostrophe>            \x27
+<left-parenthesis>      \x28
+<right-parenthesis>     \x29
+<asterisk>              \x2a
+<plus-sign>             \x2b
+<comma>                 \x2c
+<hyphen>                \x2d
+<hyphen-minus>          \x2d    ALTERNATE SYMBOL
+<period>                \x2e
+<full-stop>             \x2e    ALTERNATE SYMBOL
+<slash>                 \x2f
+<solidus>               \x2f    ALTERNATE SYMBOL
+<zero>                  \x30
+<one>                   \x31
+<two>                   \x32
+<three>                 \x33
+<four>                  \x34
+<five>                  \x35
+<six>                   \x36
+<seven>                 \x37
+<eight>                 \x38
+<nine>                  \x39
+<colon>                 \x3a
+<semicolon>             \x3b
+<less-than-sign>        \x3c
+<equals-sign>           \x3d
+<greater-than-sign>     \x3e
+<question-mark>         \x3f
+<commercial-at>         \x40
+<A>                     \x41
+<B>                     \x42
+<C>                     \x43
+<D>                     \x44
+<E>                     \x45
+<F>                     \x46
+<G>                     \x47
+<H>                     \x48
+<I>                     \x49
+<J>                     \x4a
+<K>                     \x4b
+<L>                     \x4c
+<M>                     \x4d
+<N>                     \x4e
+<O>                     \x4f
+<P>                     \x50
+<Q>                     \x51
+<R>                     \x52
+<S>                     \x53
+<T>                     \x54
+<U>                     \x55
+<V>                     \x56
+<W>                     \x57
+<X>                     \x58
+<Y>                     \x59
+<Z>                     \x5a
+<left-square-bracket>   \x5b
+<backslash>             \x5c
+<reverse-solidus>       \x5c    ALTERNATE SYMBOL
+<right-square-bracket>  \x5d
+<circumflex>            \x5e
+<circumflex-accent>     \x5e    ALTERNATE SYMBOL
+<underscore>            \x5f
+<underline>             \x5f    ALTERNATE SYMBOL
+<low-line>              \x5f    ALTERNATE SYMBOL
+<grave-accent>          \x60
+<a>                     \x61
+<b>                     \x62
+<c>                     \x63
+<d>                     \x64
+<e>                     \x65
+<f>                     \x66
+<g>                     \x67
+<h>                     \x68
+<i>                     \x69
+<j>                     \x6a
+<k>                     \x6b
+<l>                     \x6c
+<m>                     \x6d
+<n>                     \x6e
+<o>                     \x6f
+<p>                     \x70
+<q>                     \x71
+<r>                     \x72
+<s>                     \x73
+<t>                     \x74
+<u>                     \x75
+<v>                     \x76
+<w>                     \x77
+<x>                     \x78
+<y>                     \x79
+<z>                     \x7a
+<left-curly-bracket>    \x7b
+<left-brace>            \x7b    ALTERNATE SYMBOL
+<vertical-line>         \x7c
+<right-curly-bracket>   \x7d
+<right-brace>           \x7d    ALTERNATE SYMBOL
+<tilde>                 \x7e
+<DEL>                   \x7f
+
+# Big5 high byte \xa1 - \xfe, low byte \x40 - \x7e and \xa1 - \xfe
+
+<ixtw10000>...<ixtw10062>     \xa1\x40
+<ixtw10100>...<ixtw10162>     \xa2\x40
+<ixtw10200>...<ixtw10262>     \xa3\x40
+<ixtw10300>...<ixtw10362>     \xa4\x40
+<ixtw10400>...<ixtw10462>     \xa5\x40
+<ixtw10500>...<ixtw10562>     \xa6\x40
+<ixtw10600>...<ixtw10662>     \xa7\x40
+<ixtw10700>...<ixtw10762>     \xa8\x40
+<ixtw10800>...<ixtw10862>     \xa9\x40
+<ixtw10900>...<ixtw10962>     \xaa\x40
+<ixtw11000>...<ixtw11062>     \xab\x40
+<ixtw11100>...<ixtw11162>     \xac\x40
+<ixtw11200>...<ixtw11262>     \xad\x40
+<ixtw11300>...<ixtw11362>     \xae\x40
+<ixtw11400>...<ixtw11462>     \xaf\x40
+<ixtw11500>...<ixtw11562>     \xb0\x40
+<ixtw11600>...<ixtw11662>     \xb1\x40
+<ixtw11700>...<ixtw11762>     \xb2\x40
+<ixtw11800>...<ixtw11862>     \xb3\x40
+<ixtw11900>...<ixtw11962>     \xb4\x40
+<ixtw12000>...<ixtw12062>     \xb5\x40
+<ixtw12100>...<ixtw12162>     \xb6\x40
+<ixtw12200>...<ixtw12262>     \xb7\x40
+<ixtw12300>...<ixtw12362>     \xb8\x40
+<ixtw12400>...<ixtw12462>     \xb9\x40
+<ixtw12500>...<ixtw12562>     \xba\x40
+<ixtw12600>...<ixtw12662>     \xbb\x40
+<ixtw12700>...<ixtw12762>     \xbc\x40
+<ixtw12800>...<ixtw12862>     \xbd\x40
+<ixtw12900>...<ixtw12962>     \xbe\x40
+<ixtw13000>...<ixtw13062>     \xbf\x40
+<ixtw13100>...<ixtw13162>     \xc0\x40
+<ixtw13200>...<ixtw13262>     \xc1\x40
+<ixtw13300>...<ixtw13362>     \xc2\x40
+<ixtw13400>...<ixtw13462>     \xc3\x40
+<ixtw13500>...<ixtw13562>     \xc4\x40
+<ixtw13600>...<ixtw13662>     \xc5\x40
+<ixtw13700>...<ixtw13762>     \xc6\x40
+<ixtw13800>...<ixtw13862>     \xc7\x40
+<ixtw13900>...<ixtw13962>     \xc8\x40
+<ixtw14000>...<ixtw14062>     \xc9\x40
+<ixtw14100>...<ixtw14162>     \xca\x40
+<ixtw14200>...<ixtw14262>     \xcb\x40
+<ixtw14300>...<ixtw14362>     \xcc\x40
+<ixtw14400>...<ixtw14462>     \xcd\x40
+<ixtw14500>...<ixtw14562>     \xce\x40
+<ixtw14600>...<ixtw14662>     \xcf\x40
+<ixtw14700>...<ixtw14762>     \xd0\x40
+<ixtw14800>...<ixtw14862>     \xd1\x40
+<ixtw14900>...<ixtw14962>     \xd2\x40
+<ixtw15000>...<ixtw15062>     \xd3\x40
+<ixtw15100>...<ixtw15162>     \xd4\x40
+<ixtw15200>...<ixtw15262>     \xd5\x40
+<ixtw15300>...<ixtw15362>     \xd6\x40
+<ixtw15400>...<ixtw15462>     \xd7\x40
+<ixtw15500>...<ixtw15562>     \xd8\x40
+<ixtw15600>...<ixtw15662>     \xd9\x40
+<ixtw15700>...<ixtw15762>     \xda\x40
+<ixtw15800>...<ixtw15862>     \xdb\x40
+<ixtw15900>...<ixtw15962>     \xdc\x40
+<ixtw16000>...<ixtw16062>     \xdd\x40
+<ixtw16100>...<ixtw16162>     \xde\x40
+<ixtw16200>...<ixtw16262>     \xdf\x40
+<ixtw16300>...<ixtw16362>     \xe0\x40
+<ixtw16400>...<ixtw16462>     \xe1\x40
+<ixtw16500>...<ixtw16562>     \xe2\x40
+<ixtw16600>...<ixtw16662>     \xe3\x40
+<ixtw16700>...<ixtw16762>     \xe4\x40
+<ixtw16800>...<ixtw16862>     \xe5\x40
+<ixtw16900>...<ixtw16962>     \xe6\x40
+<ixtw17000>...<ixtw17062>     \xe7\x40
+<ixtw17100>...<ixtw17162>     \xe8\x40
+<ixtw17200>...<ixtw17262>     \xe9\x40
+<ixtw17300>...<ixtw17362>     \xea\x40
+<ixtw17400>...<ixtw17462>     \xeb\x40
+<ixtw17500>...<ixtw17562>     \xec\x40
+<ixtw17600>...<ixtw17662>     \xed\x40
+<ixtw17700>...<ixtw17762>     \xee\x40
+<ixtw17800>...<ixtw17862>     \xef\x40
+<ixtw17900>...<ixtw17962>     \xf0\x40
+<ixtw18000>...<ixtw18062>     \xf1\x40
+<ixtw18100>...<ixtw18162>     \xf2\x40
+<ixtw18200>...<ixtw18262>     \xf3\x40
+<ixtw18300>...<ixtw18362>     \xf4\x40
+<ixtw18400>...<ixtw18462>     \xf5\x40
+<ixtw18500>...<ixtw18562>     \xf6\x40
+<ixtw18600>...<ixtw18662>     \xf7\x40
+<ixtw18700>...<ixtw18762>     \xf8\x40
+<ixtw18800>...<ixtw18862>     \xf9\x40
+#
+# user-defined character high byte \xfa\x40 - \xfe\x7e
+#
+<ixtw18900>...<ixtw18962>     \xfa\x40
+<ixtw19000>...<ixtw19062>     \xfb\x40
+<ixtw19100>...<ixtw19162>     \xfc\x40
+<ixtw19200>...<ixtw19262>     \xfd\x40
+<ixtw19300>...<ixtw19362>     \xfe\x40
+#
+# Rarely used characters.
+#
+<ixtw20000>...<ixtw20093>     \xa1\xa1
+<ixtw20100>...<ixtw20193>     \xa2\xa1
+<ixtw20200>...<ixtw20293>     \xa3\xa1
+<ixtw20300>...<ixtw20393>     \xa4\xa1
+<ixtw20400>...<ixtw20493>     \xa5\xa1
+<ixtw20500>...<ixtw20593>     \xa6\xa1
+<ixtw20600>...<ixtw20693>     \xa7\xa1
+<ixtw20700>...<ixtw20793>     \xa8\xa1
+<ixtw20800>...<ixtw20893>     \xa9\xa1
+<ixtw20900>...<ixtw20993>     \xaa\xa1
+<ixtw21000>...<ixtw21093>     \xab\xa1
+<ixtw21100>...<ixtw21193>     \xac\xa1
+<ixtw21200>...<ixtw21293>     \xad\xa1
+<ixtw21300>...<ixtw21393>     \xae\xa1
+<ixtw21400>...<ixtw21493>     \xaf\xa1
+<ixtw21500>...<ixtw21593>     \xb0\xa1
+<ixtw21600>...<ixtw21693>     \xb1\xa1
+<ixtw21700>...<ixtw21793>     \xb2\xa1
+<ixtw21800>...<ixtw21893>     \xb3\xa1
+<ixtw21900>...<ixtw21993>     \xb4\xa1
+<ixtw22000>...<ixtw22093>     \xb5\xa1
+<ixtw22100>...<ixtw22193>     \xb6\xa1
+<ixtw22200>...<ixtw22293>     \xb7\xa1
+<ixtw22300>...<ixtw22393>     \xb8\xa1
+<ixtw22400>...<ixtw22493>     \xb9\xa1
+<ixtw22500>...<ixtw22593>     \xba\xa1
+<ixtw22600>...<ixtw22693>     \xbb\xa1
+<ixtw22700>...<ixtw22793>     \xbc\xa1
+<ixtw22800>...<ixtw22893>     \xbd\xa1
+<ixtw22900>...<ixtw22993>     \xbe\xa1
+<ixtw23000>...<ixtw23093>     \xbf\xa1
+<ixtw23100>...<ixtw23193>     \xc0\xa1
+<ixtw23200>...<ixtw23293>     \xc1\xa1
+<ixtw23300>...<ixtw23393>     \xc2\xa1
+<ixtw23400>...<ixtw23493>     \xc3\xa1
+<ixtw23500>...<ixtw23593>     \xc4\xa1
+<ixtw23600>...<ixtw23693>     \xc5\xa1
+<ixtw23700>...<ixtw23793>     \xc6\xa1
+<ixtw23800>...<ixtw23893>     \xc7\xa1
+<ixtw23900>...<ixtw23993>     \xc8\xa1
+<ixtw24000>...<ixtw24093>     \xc9\xa1
+<ixtw24100>...<ixtw24193>     \xca\xa1
+<ixtw24200>...<ixtw24293>     \xcb\xa1
+<ixtw24300>...<ixtw24393>     \xcc\xa1
+<ixtw24400>...<ixtw24493>     \xcd\xa1
+<ixtw24500>...<ixtw24593>     \xce\xa1
+<ixtw24600>...<ixtw24693>     \xcf\xa1
+<ixtw24700>...<ixtw24793>     \xd0\xa1
+<ixtw24800>...<ixtw24893>     \xd1\xa1
+<ixtw24900>...<ixtw24993>     \xd2\xa1
+<ixtw25000>...<ixtw25093>     \xd3\xa1
+<ixtw25100>...<ixtw25193>     \xd4\xa1
+<ixtw25200>...<ixtw25293>     \xd5\xa1
+<ixtw25300>...<ixtw25393>     \xd6\xa1
+<ixtw25400>...<ixtw25493>     \xd7\xa1
+<ixtw25500>...<ixtw25593>     \xd8\xa1
+<ixtw25600>...<ixtw25693>     \xd9\xa1
+<ixtw25700>...<ixtw25793>     \xda\xa1
+<ixtw25800>...<ixtw25893>     \xdb\xa1
+<ixtw25900>...<ixtw25993>     \xdc\xa1
+<ixtw26000>...<ixtw26093>     \xdd\xa1
+<ixtw26100>...<ixtw26193>     \xde\xa1
+<ixtw26200>...<ixtw26293>     \xdf\xa1
+<ixtw26300>...<ixtw26393>     \xe0\xa1
+<ixtw26400>...<ixtw26493>     \xe1\xa1
+<ixtw26500>...<ixtw26593>     \xe2\xa1
+<ixtw26600>...<ixtw26693>     \xe3\xa1
+<ixtw26700>...<ixtw26793>     \xe4\xa1
+<ixtw26800>...<ixtw26893>     \xe5\xa1
+<ixtw26900>...<ixtw26993>     \xe6\xa1
+<ixtw27000>...<ixtw27093>     \xe7\xa1
+<ixtw27100>...<ixtw27193>     \xe8\xa1
+<ixtw27200>...<ixtw27293>     \xe9\xa1
+<ixtw27300>...<ixtw27393>     \xea\xa1
+<ixtw27400>...<ixtw27493>     \xeb\xa1
+<ixtw27500>...<ixtw27593>     \xec\xa1
+<ixtw27600>...<ixtw27693>     \xed\xa1
+<ixtw27700>...<ixtw27793>     \xee\xa1
+<ixtw27800>...<ixtw27893>     \xef\xa1
+<ixtw27900>...<ixtw27993>     \xf0\xa1
+<ixtw28000>...<ixtw28093>     \xf1\xa1
+<ixtw28100>...<ixtw28193>     \xf2\xa1
+<ixtw28200>...<ixtw28293>     \xf3\xa1
+<ixtw28300>...<ixtw28393>     \xf4\xa1
+<ixtw28400>...<ixtw28493>     \xf5\xa1
+<ixtw28500>...<ixtw28593>     \xf6\xa1
+<ixtw28600>...<ixtw28693>     \xf7\xa1
+<ixtw28700>...<ixtw28793>     \xf8\xa1
+<ixtw28800>...<ixtw28893>     \xf9\xa1
+#
+# user-defined character high byte \xfa\xa1 - \xfe\xfe
+#
+<ixtw28900>...<ixtw28993>     \xfa\xa1
+<ixtw29000>...<ixtw29093>     \xfb\xa1
+<ixtw29100>...<ixtw29193>     \xfc\xa1
+<ixtw29200>...<ixtw29293>     \xfd\xa1
+<ixtw29300>...<ixtw29393>     \xfe\xa1
+#
+# user-defined character
+# round-trip codeset conversion placeholders
+# \x8e\x40 - \xa0\xfe, \x81\x40 - \x8d\xfe
+#
+<ixtw30000>...<ixtw30062>     \x8e\x40
+<ixtw30100>...<ixtw30162>     \x8f\x40
+<ixtw30200>...<ixtw30262>     \x90\x40
+<ixtw30300>...<ixtw30362>     \x91\x40
+<ixtw30400>...<ixtw30462>     \x92\x40
+<ixtw30500>...<ixtw30562>     \x93\x40
+<ixtw30600>...<ixtw30662>     \x94\x40
+<ixtw30700>...<ixtw30762>     \x95\x40
+<ixtw30800>...<ixtw30862>     \x96\x40
+<ixtw30900>...<ixtw30962>     \x97\x40
+<ixtw31000>...<ixtw31062>     \x98\x40
+<ixtw31100>...<ixtw31162>     \x99\x40
+<ixtw31200>...<ixtw31262>     \x9a\x40
+<ixtw31300>...<ixtw31362>     \x9b\x40
+<ixtw31400>...<ixtw31462>     \x9c\x40
+<ixtw31500>...<ixtw31562>     \x9d\x40
+<ixtw31600>...<ixtw31662>     \x9e\x40
+<ixtw31700>...<ixtw31762>     \x9f\x40
+<ixtw31800>...<ixtw31862>     \xa0\x40
+<ixtw31900>...<ixtw31993>     \x8e\xa1
+<ixtw32000>...<ixtw32093>     \x8f\xa1
+<ixtw32100>...<ixtw32193>     \x90\xa1
+<ixtw32200>...<ixtw32293>     \x91\xa1
+<ixtw32300>...<ixtw32393>     \x92\xa1
+<ixtw32400>...<ixtw32493>     \x93\xa1
+<ixtw32500>...<ixtw32593>     \x94\xa1
+<ixtw32600>...<ixtw32693>     \x95\xa1
+<ixtw32700>...<ixtw32793>     \x96\xa1
+<ixtw32800>...<ixtw32893>     \x97\xa1
+<ixtw32900>...<ixtw32993>     \x98\xa1
+<ixtw33000>...<ixtw33093>     \x99\xa1
+<ixtw33100>...<ixtw33193>     \x9a\xa1
+<ixtw33200>...<ixtw33293>     \x9b\xa1
+<ixtw33300>...<ixtw33393>     \x9c\xa1
+<ixtw33400>...<ixtw33493>     \x9d\xa1
+<ixtw33500>...<ixtw33593>     \x9e\xa1
+<ixtw33600>...<ixtw33693>     \x9f\xa1
+<ixtw33700>...<ixtw33793>     \xa0\xa1
+<ixtw33800>...<ixtw33862>     \x81\x40
+<ixtw33900>...<ixtw33962>     \x82\x40
+<ixtw34000>...<ixtw34062>     \x83\x40
+<ixtw34100>...<ixtw34162>     \x84\x40
+<ixtw34200>...<ixtw34262>     \x85\x40
+<ixtw34300>...<ixtw34362>     \x86\x40
+<ixtw34400>...<ixtw34462>     \x87\x40
+<ixtw34500>...<ixtw34562>     \x88\x40
+<ixtw34600>...<ixtw34662>     \x89\x40
+<ixtw34700>...<ixtw34762>     \x8a\x40
+<ixtw34800>...<ixtw34862>     \x8b\x40
+<ixtw34900>...<ixtw34962>     \x8c\x40
+<ixtw35000>...<ixtw35062>     \x8d\x40
+<ixtw35100>...<ixtw35193>     \x81\xa1
+<ixtw35200>...<ixtw35293>     \x82\xa1
+<ixtw35300>...<ixtw35393>     \x83\xa1
+<ixtw35400>...<ixtw35493>     \x84\xa1
+<ixtw35500>...<ixtw35593>     \x85\xa1
+<ixtw35600>...<ixtw35693>     \x86\xa1
+<ixtw35700>...<ixtw35793>     \x87\xa1
+<ixtw35800>...<ixtw35893>     \x88\xa1
+<ixtw35900>...<ixtw35993>     \x89\xa1
+<ixtw36000>...<ixtw36093>     \x8a\xa1
+<ixtw36100>...<ixtw36193>     \x8b\xa1
+<ixtw36200>...<ixtw36293>     \x8c\xa1
+<ixtw36300>...<ixtw36393>     \x8d\xa1
+
+#
+#  Alternate symbol names for two-byte versions of the underscore,
+#  numeric and English alphabetic characters.  
+#
+#  Note: It is not clear what is the correct encoding of the two-byte 
+#  underscore character. The three codepoints a15a, a1c4 and a1c5 are 
+#  displayed as underscore in different environments. 
+#  According to Code Page 950 (Big5) in "Developing International 
+#  Software for Windows 95 and Windows NT", the correct codepoint is a1c5. 
+#  Chinese Windows 95 currently encodes two-byte underscore in a1c5.
+#  However, Chinese Windows NT currently encodes two-byte underscore in a1c4.
+#
+
+#<two-byte-underscore>	\xa1\xc5	ALTERNATE SYMBOL	# b20036
+
+<two-byte-0>		\xa2\xaf	ALTERNATE SYMBOL	# b20114
+<two-byte-1>		\xa2\xb0	ALTERNATE SYMBOL	# b20115
+<two-byte-2>		\xa2\xb1	ALTERNATE SYMBOL	# b20116
+<two-byte-3>		\xa2\xb2	ALTERNATE SYMBOL	# b20117
+<two-byte-4>		\xa2\xb3	ALTERNATE SYMBOL	# b20118
+<two-byte-5>		\xa2\xb4	ALTERNATE SYMBOL	# b20119
+<two-byte-6>		\xa2\xb5	ALTERNATE SYMBOL	# b20120
+<two-byte-7>		\xa2\xb6	ALTERNATE SYMBOL	# b20121
+<two-byte-8>		\xa2\xb7	ALTERNATE SYMBOL	# b20122
+<two-byte-9>		\xa2\xb8	ALTERNATE SYMBOL	# b20123
+
+<two-byte-A>		\xa2\xcf	ALTERNATE SYMBOL	# b20146
+<two-byte-B>		\xa2\xd0	ALTERNATE SYMBOL	# b20147
+<two-byte-C>		\xa2\xd1	ALTERNATE SYMBOL	# b20148
+<two-byte-D>		\xa2\xd2	ALTERNATE SYMBOL	# b20149
+<two-byte-E>		\xa2\xd3	ALTERNATE SYMBOL	# b20150
+<two-byte-F>		\xa2\xd4	ALTERNATE SYMBOL	# b20151
+<two-byte-G>		\xa2\xd5	ALTERNATE SYMBOL	# b20152
+<two-byte-H>		\xa2\xd6	ALTERNATE SYMBOL	# b20153
+<two-byte-I>		\xa2\xd7	ALTERNATE SYMBOL	# b20154
+<two-byte-J>		\xa2\xd8	ALTERNATE SYMBOL	# b20155
+<two-byte-K>		\xa2\xd9	ALTERNATE SYMBOL	# b20156
+<two-byte-L>		\xa2\xda	ALTERNATE SYMBOL	# b20157
+<two-byte-M>		\xa2\xdb	ALTERNATE SYMBOL	# b20158
+<two-byte-N>		\xa2\xdc	ALTERNATE SYMBOL	# b20159
+<two-byte-O>		\xa2\xdd	ALTERNATE SYMBOL	# b20160
+<two-byte-P>		\xa2\xde	ALTERNATE SYMBOL	# b20161
+<two-byte-Q>		\xa2\xdf	ALTERNATE SYMBOL	# b20162
+<two-byte-R>		\xa2\xe0	ALTERNATE SYMBOL	# b20163
+<two-byte-S>		\xa2\xe1	ALTERNATE SYMBOL	# b20164
+<two-byte-T>		\xa2\xe2	ALTERNATE SYMBOL	# b20165
+<two-byte-U>		\xa2\xe3	ALTERNATE SYMBOL	# b20166
+<two-byte-V>		\xa2\xe4	ALTERNATE SYMBOL	# b20167
+<two-byte-W>		\xa2\xe5	ALTERNATE SYMBOL	# b20168
+<two-byte-X>		\xa2\xe6	ALTERNATE SYMBOL	# b20169
+<two-byte-Y>		\xa2\xe7	ALTERNATE SYMBOL	# b20170
+<two-byte-Z>		\xa2\xe8	ALTERNATE SYMBOL	# b20171
+
+<two-byte-a>		\xa2\xe9	ALTERNATE SYMBOL	# b20172
+<two-byte-b>		\xa2\xea	ALTERNATE SYMBOL	# b20173
+<two-byte-c>		\xa2\xeb	ALTERNATE SYMBOL	# b20174
+<two-byte-d>		\xa2\xec	ALTERNATE SYMBOL	# b20175
+<two-byte-e>		\xa2\xed	ALTERNATE SYMBOL	# b20176
+<two-byte-f>		\xa2\xee	ALTERNATE SYMBOL	# b20177
+<two-byte-g>		\xa2\xef	ALTERNATE SYMBOL	# b20178
+<two-byte-h>		\xa2\xf0	ALTERNATE SYMBOL	# b20179
+<two-byte-i>		\xa2\xf1	ALTERNATE SYMBOL	# b20180
+<two-byte-j>		\xa2\xf2	ALTERNATE SYMBOL	# b20181
+<two-byte-k>		\xa2\xf3	ALTERNATE SYMBOL	# b20182
+<two-byte-l>		\xa2\xf4	ALTERNATE SYMBOL	# b20183
+<two-byte-m>		\xa2\xf5	ALTERNATE SYMBOL	# b20184
+<two-byte-n>		\xa2\xf6	ALTERNATE SYMBOL	# b20185
+<two-byte-o>		\xa2\xf7	ALTERNATE SYMBOL	# b20186
+<two-byte-p>		\xa2\xf8	ALTERNATE SYMBOL	# b20187
+<two-byte-q>		\xa2\xf9	ALTERNATE SYMBOL	# b20188
+<two-byte-r>		\xa2\xfa	ALTERNATE SYMBOL	# b20189
+<two-byte-s>		\xa2\xfb	ALTERNATE SYMBOL	# b20190
+<two-byte-t>		\xa2\xfc	ALTERNATE SYMBOL	# b20191
+<two-byte-u>		\xa2\xfd	ALTERNATE SYMBOL	# b20192
+<two-byte-v>		\xa2\xfe	ALTERNATE SYMBOL	# b20193
+
+<two-byte-w>		\xa3\x40	ALTERNATE SYMBOL	# b10200
+<two-byte-x>		\xa3\x41	ALTERNATE SYMBOL	# b10201
+<two-byte-y>		\xa3\x42	ALTERNATE SYMBOL	# b10202
+<two-byte-z>		\xa3\x43	ALTERNATE SYMBOL	# b10203
+
+END CHARMAP

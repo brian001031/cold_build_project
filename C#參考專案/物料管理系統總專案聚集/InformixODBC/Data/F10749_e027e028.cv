@@ -1,0 +1,66 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       e027e028.cm
+#  Author:      Informix ELC
+#  Created:     Wed May 22 16:29:24 1996
+#  Description:
+#    Conversion file from Polish CSK to Polish Code Page Mazovia
+#    Registry value (Decimal):  From 57383 to 57384
+#    Registry value (Hex): From e027 to e028
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      1
+<modified_date>       "06/07/1996"
+<source_codeset>      "Polish CSK"
+<target_codeset>      "Polish Code Page Mazovia"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x80	\x8f        #  latin capital letter a with ogonek 
+\x81	\x95        #  latin capital letter c with acute 
+\x82	\x90        #  latin capital letter e with ogonek 
+\x83	\x9c        #  latin capital letter l with stroke 
+\x84	\xa5        #  latin capital letter n with acute 
+\x85	\xa3        #  latin capital letter o with acute 
+\x86	\x98        #  latin capital letter s with acute 
+\x87	\xa0        #  latin capital letter z with acute 
+\x88	\xa1        #  latin capital letter z with dot above 
+\x8d	\x7f error  #  latin small letter i with grave 
+\x8f	\x7f error  #  latin capital letter a with ring above 
+\x90	\x7f error  #  latin capital letter e with acute 
+\x91	\x7f error  #  latin small letter ae 
+\x92	\x7f error  #  latin capital letter ae 
+\x95	\x7f error  #  latin small letter o with grave 
+\x98	\x7f error  #  latin small letter y with diaeresis 
+\x9b	\x7f error  #  cent sign 
+\x9c	\x7f error  #  pound sign 
+\x9e	\x9b        #  currency sign (Polish) 
+\xa0	\x86        #  latin small letter a with ogonek 
+\xa1	\x8d        #  latin small letter c with acute 
+\xa2	\x91        #  latin small letter e with ogonek 
+\xa3	\x92        #  latin small letter l with stroke 
+\xa5	\xa2        #  latin small letter o with acute 
+\xa6	\x9e        #  latin small letter s with acute 
+\xa7	\xa6        #  latin small letter z with acute 
+\xa8	\xa7        #  latin small letter z with dot above 

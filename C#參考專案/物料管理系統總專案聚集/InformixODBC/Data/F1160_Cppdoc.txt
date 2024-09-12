@@ -1,0 +1,625 @@
+
+                          DOCUMENTATION NOTES FOR
+                     INFORMIX-OBJECT INTERFACE FOR C++
+                            DATE:  7/19/2001
+                             Version:  2.82
+
+Table of Contents
+I.   Overview
+II.  Database Server Name Changes
+III. Row and Collection Type Value Objects
+ A.   Creating Row Type Value Objects Without An Open Connection
+ B.   Creating Collection Type Value Objects Without An Open
+      Connection
+IV.  Operations On Large Objects With A Checked-Out Connection
+V.   New Constructors For ITINT8
+VI.  New ITFactoryList::GetInitState() Function
+ A.   SQL Strings Passed To Object Interface For C++ Member
+      Functions
+VII. Use Of ITValue::Printable With Null Value Objects
+VIII. Accessing Smart Large Objects In Nondefault SBSpaces
+IX.  Use Of ITString &Trim(const char *pmc)
+X.   Assumptions About Your Locale
+XI.  Binary Parameter Support
+
+I.   OVERVIEW
+=============
+
+The purpose of these documentation notes is to make you aware of features
+not described in the INFORMIX Object Interface for C++ Programmer's Guide,
+Version 2.5, which is the latest version of the guide.
+
+
+II.  DATABASE SERVER NAME CHANGES
+=================================
+
+Since publication of the INFORMIX Object Interface for C++ Programmer's
+Guide, Informix has simplified its database server product offerings.
+References in the guide to INFORMIX OnLine Dynamic Server apply equally
+to  Informix Dynamic Server. References to INFORMIX-Universal Server apply
+equally to Informix Dynamic Server 2000, Version 9.2.
+
+
+III. ROW AND COLLECTION TYPE VALUE OBJECTS
+==========================================
+
+In previous versions of Object Interface for C++, it was not possible to
+create row or collection type value objects without an open connection.
+Object Interface for C++, Version2.70 allows these objects to be created,
+using the following methods.
+
+
+A.   CREATING ROW TYPE VALUE OBJECTS WITHOUT AN OPEN CONNECTION
+---------------------------------------------------------------
+
+The process consists of two steps:
+
+1.   Create the ITTypeInfo object for the row type.
+
+2.   Instantiate the row type value object using the
+     ITFactoryList::DatumToValue() method and pass to it an ITMVDesc
+     structure whose members are populated appropriately. 
+
+The row type object returned this way is a null row, which can be modified
+using ITRow::FromPrintable(). Because the row type object has been created
+without an open connection, the underlying data of the row type value
+object cannot be modified with ITDatum::SetData() or retrieved with
+ITDatum::Data() (where ITDatum is an interface exposed by a row type value
+object). However, the remaining ITRow methods are not affected.
+
+The following example illustrates how to create a row type value object
+without an open connection:
+
+    #include <iostream.h>
+    #include <it.h>
+    int 
+    main()
+    {
+                 ITConnection conn;
+                 ITMVDesc desc;
+                 ITTypeInfo colType(conn,"integer", 4,-1,-1,-1,1);
+                 ITTypeInfo *ptrcolType = &colType;
+                 ITString colName = "int_val";
+                 ITTypeInfo newti(conn,"row(int_val integer)", 1, 
+                      &ptrcolType, &colName, NULL );
+                 desc.vf_origtypeinfo = (ITTypeInfo *) &newti;
+                 desc.vf_connection = &conn;
+                 desc.vf_typedesc = NULL;
+                 desc.vf_preservedata = NULL;
+                 desc.vf_outerunknown = NULL;
+                 desc.vf_datalength = newti.Size();
+                 desc.vf_libmivaluetype = MI_NULL_VALUE;
+                 desc.vf_data = NULL; 
+                 ITValue *val = ITFactoryList::DatumToValue (desc);
+                 val->FromPrintable("row(1)");
+                 cout << val->Printable() << endl;
+                 val->Release();
+    }
+
+B.   CREATING COLLECTION TYPE VALUE OBJECTS WITHOUT AN OPEN CONNECTION
+----------------------------------------------------------------------
+
+You can create collection type value objects without an open connection
+using a process similar to creating row types. As with row types,
+ITDatum::Data() and ITDatum::SetData() cannot be used to retrieve or
+modify values from a collection type created without an open connection.
+
+The following example illustrates how to create a collection type value
+object without an open connection:
+
+         #include <iostream.h>
+         #include <it.h>
+         int 
+         main()
+         {
+                 ITConnection conn;
+                 ITMVDesc desc;
+                 ITTypeInfo memberType(conn,"integer", 4,-1,-1,-1,1);
+                 ITTypeInfo newti( conn, "set(integer not null)", 
+                 "set", memberType, NULL );
+                 desc.vf_origtypeinfo = (ITTypeInfo *) &newti;
+                 desc.vf_connection = &conn;
+                 desc.vf_typedesc = NULL;
+                 desc.vf_preservedata = NULL;
+                 desc.vf_outerunknown = NULL;
+                 desc.vf_datalength = newti.Size();
+                 desc.vf_libmivaluetype = MI_NULL_VALUE;
+                 desc.vf_data = NULL; 
+                 ITValue *val = ITFactoryList::DatumToValue (desc);
+                 val->FromPrintable("set{1}");
+                 cout << val->Printable() << endl;
+                 val->Release();
+         }
+
+IV.  OPERATIONS ON LARGE OBJECTS WITH A CHECKED-OUT CONNECTION
+==============================================================
+
+Operations can now be performed on large objects within a fetched row even
+though the connection is still checked out (locked). A connection is
+checked out after the ITQuery::ExecForIteration() method returns multiple
+rows in the result set. It remains checked out until either the last row
+in the result set has been fetched with ITQuery::NextRow() or the query
+processing has been terminated by calling ITQuery::Finish(). While a
+connection is checked out, no other query can be executed on that
+connection. 
+
+
+V.   NEW CONSTRUCTORS FOR ITINT8
+================================
+
+In previous Object Interface for C++ releases, there was the single ITInt8
+constructor (described on page 5-21 of the INFORMIX Object Interface for
+C++ Programmer's Guide, Version 2.5):
+
+        ITInt8();
+In Version2.70, new constructors allow you to create objects using each of
+the built-in numeric types as initialization arguments. This eliminates
+the need to explicitly assign a numeric type that is not an int8 (for
+example, int) to an ITInt8 object before comparing it with an ITInt8 object.
+
+Following are the new constructors:
+
+         ITInt8( const int );
+         ITInt8( const long );
+         ITInt8( const float );
+         ITInt8( const double );
+         ITInt8( const mi_int8 );
+         ITInt8( const ITString & );
+         #ifdef IT_COMPILER_HAS_LONG_LONG
+         ITInt8( const IT_LONG_LONG );
+         #endif
+The last constructor is compiler-dependent and is defined only if the C++
+compiler supports the data type LONG_LONG. 
+
+In previous releases, to initialize an ITInt8 object, the application had
+to assign a value to an ITInt8 object using the assignment operator (=),
+as follows: 
+
+         int i = 100;
+         ITInt8 i8;
+         i8 = i;
+         if ( i8 == (ITInt8)i )
+With Version2.70, the assignment can be replaced by an ITInt8 constructor
+call:
+
+         int i = 100;
+         ITInt8 i8(i); // or ITInt8 i8(100);
+         if ( i8 == (ITInt8)i )
+
+VI.  NEW ITFACTORYLIST::GETINITSTATE() FUNCTION
+===============================================
+
+Under some circumstances, the Object Interface for C++ library might be
+loaded into memory but not properly initialized. For example, if the
+environment variable CLIENT_LOCALE is set to an invalid locale, the GLS
+library will not properly initialize, and thus the Object Interface for
+C++ library will also not properly initialize.
+
+To allow Object Interface for C++ application programs to verify that
+initialization succeeded, several new members have been added to the
+ITFactoryList class (defined in the public header file
+$INFORMIXDIR/incl/c++/itcppop.h):
+
+         class IT_EXPORTCLASS ITFactoryList 
+         {
+         ...
+         public:
+         // These are the built-in factory list initialization state
+         values
+         enum InitState { NOTINIT, INITING, INITED };
+         // This function can be used to determine if the built-in
+         factory
+         // list initialized properly. It returns
+         ITFactoryList::NOTINIT
+         // if initialization failed.
+         static InitState GetInitState();
+         ...
+         };
+The user application should call GetInitState() prior to using any Object
+Interface for C++ classes or interfaces to determine if Object Interface
+for C++ initialized properly, as follows:
+
+         main(int, char *)
+         {
+         // check that Object Interface for C++ DLL initialized ok
+         if (ITFactoryList::GetInitState() == ITFactoryList::NOTINIT)
+         {
+         cout << "Error: Object Interface for C++ DLL not
+         initialized" << 
+               endl;
+         cout << "Error: exiting program" << endl;
+         return -1;
+         }
+         ...
+         
+
+A.   SQL STRINGS PASSED TO OBJECT INTERFACE FOR C++ MEMBER FUNCTIONS
+--------------------------------------------------------------------
+
+The following Object Interface for C++ member functions take as an
+argument an ITString object, which must be a single valid SQL statement:
+
+   ITCursor::Prepare()
+
+   ITQuery::ExecForStatus()
+
+   ITQuery::ExecOneRow
+
+   ITQuery::ExecForIteration
+
+   ITQuery::ExecToSet
+
+   ITStatement::Prepare()
+
+The string may not be multiple SQL statements separated with semicolon (;)
+statement delimiters.
+
+
+VII. USE OF ITVALUE::PRINTABLE WITH NULL VALUE OBJECTS
+======================================================
+
+An Object Interface for C++ value object can encapsulate a datum fetched
+from a database or a datum that is to be inserted into a database. A value
+object exists only in the client application, and the datum encapsulated
+by it can be written to the database using prepared statements
+encapsulated by ITStatement objects or, if an updatable cursor is used, by
+ITCursor::UpdateCurrent.
+
+After it fetches a row from a database in which there are columns
+containing SQL NULL entries (that is, with no data), ITValue::Printable
+called on a value object matching a NULL column will return the string
+"null." The string "null" is informational only.
+
+Likewise, after ITValue::SetNull is called to set a value object to null
+(where the term "null" means SQL NULL: that is, no data), calls to
+ITValue::Printable return the string "null" for that value object to
+indicate that the value object contains no data. 
+
+In the special case where an Object Interface for C++ application program
+actually inserted the valid data string "null" into a value object (for
+example, by calling ITValue::FromPrintable("null") or by fetching it from
+a database), the application could still distinguish between a null value
+object and a value object containing the valid data "null" by calling the
+function ITValue::IsNull on the value object. ITValue::IsNull will return
+true if the value object is null and false if the value object contains
+the valid data "null." Calling ITValue::IsNull is the preferred way to
+determine if a value object contains no data and should be used instead of
+ITValue::Printable. 
+
+
+VIII. ACCESSING SMART LARGE OBJECTS IN NONDEFAULT SBSPACES
+==========================================================
+
+One way to access smart large objects in nondefault spaces is to call the
+client-side DataBlade API functions that create, initialize and set the
+column-level characteristics of a large object specification structure and
+then pass a pointer to this structure (MI_LO_SPEC *LO_spec) to the
+overloaded Object Interface for C++ function. 
+
+        ITBool CreateLO( MI_LO_SPEC *LO_spec,
+                         int flags=IT_LO_WRONLY | IT_LO_APPEND) ;
+A better way is to introduce a new C++ class to encapsulate a large object
+specification structure and possibly modify the existing
+ITLargeObjectManager class to support passing the column-level storage
+characteristics of smart large objects as encapsulated C++ objects for use
+by ITLargeObjectManager::CreateLO. 
+
+Here is a description of the short-term solution. Prior to calling
+CreateLO, the following DataBlade API call will set the fields of LO_spec
+to the column-level storage characteristics of column dolmdolm1.testdata,
+which is the CLOB column: 
+
+           res = mi_lo_colinfo_by_name(miconn,
+                                       (const char *)"dolmdolm1.testdata",
+                                       LO_spec);
+Among the attributes for column testdata is the sbspace location specified
+by the PUT clause when table dolmdolm1 is created. The smart large object
+location attribute will be used by CreateLO (which calls DataBlade API
+function mi_lo_create) when it creates the smart large object.
+
+Here is the complete, modified test case with the new solution:
+
+    >>>>>>>>>>>> Begin modified test case with new solution >>>>>>>>>>>>
+    #include <stdlib.h>
+    #include <iostream.h>
+    #include <it.h>
+    int
+    main(int argc, const char *argv[])
+    {
+        ITDBInfo dbinfo;
+        ITConnection conn;
+        char buf[1024];
+        int i;
+        ITString types[2];
+        ITString sqlcmd;
+        types[0] = "VARCHAR";
+        types[1] = "VARCHAR";
+        cout << " INFORMIXSERVER   : ";
+        cin.getline(buf, sizeof(buf));
+        if (!dbinfo.SetSystem(buf)){
+         cout << "Could not set system " << endl;
+         return (1);
+        }              
+        cout << " DATABASE : ";
+        cin.getline(buf, sizeof(buf));  
+        if (!dbinfo.SetDatabase(buf)){
+         cout << "Could not set database " << endl;
+         return (1);
+        }
+        cout << " USER     : ";
+        cin.getline(buf, sizeof(buf));
+        if (!dbinfo.SetUser(buf)){
+         cout << "Could not set user " << endl;
+         return (1);
+        }
+        cout << " PASSWORD : ";
+        cin.getline(buf, sizeof(buf));
+        if (!dbinfo.SetPassword(buf)){
+         cout << "Could not set password " << endl;
+         return (1);
+        }       
+        if (!conn.Open(dbinfo) || conn.Error()) {
+        if (!conn.Open() || conn.Error()) {
+         cout << "Could not open database " << endl;
+         return (1);
+        }                         
+        cout << "Start Transaction ..." << endl;
+        if (!conn.SetTransaction(ITConnection::Begin)) {
+         cout << "Could not start transaction " << endl;
+         return (1);
+        }                   
+          
+       ITStatement stmt(conn);
+        cout << " SBLOBSPACE : ";
+        cin.getline(buf, sizeof(buf));
+        sqlcmd = "create table dolmdolm1 (";
+        sqlcmd.Append("uid integer primary key,");
+        sqlcmd.Append("testdata CLOB)");
+        sqlcmd.Append(" PUT testdata in (");
+        sqlcmd.Append(buf);
+        sqlcmd.Append(") lock mode row;");
+        cout << sqlcmd << endl;
+        if (stmt.Error()) {
+         cout << "Could not create statement " << endl;
+         return (1);
+        }              
+        if (!stmt.Prepare(sqlcmd)) {
+         cout << "Could not prepare create statement " << endl;
+         return (1);
+        }                         
+        if (!stmt.Exec())  {
+         cout << "Could not execute create statement " << endl;
+         return (1);
+        }                         
+        if (!stmt.Drop()) {
+         cout << "Could not drop create statement " << endl;
+         return (1);
+        }               
+        cout << "Please monitor your sblobspaces, [return to continue]";
+        cin.getline(buf, sizeof(buf));
+        /************* begin new solution code **************************/
+        MI_LO_SPEC *LO_spec = NULL;
+        MI_CONNECTION *miconn = NULL;
+        mi_integer res;
+        ITLargeObjectManager lo(conn);
+        miconn = conn.GetConn();
+        if (miconn != NULL)
+        {
+           res = mi_lo_spec_init(miconn, &LO_spec);
+           if (res == MI_ERROR)
+           {
+              cout << "stmt_test: mi_lo_spec_init failed!" << endl;
+              return (1);
+           }
+           res = mi_lo_colinfo_by_name(miconn,
+                                       (const char *)"dolmdolm1.testdata",
+                                       LO_spec);
+           if (res != MI_ERROR)
+           {
+               cout << endl << "Create a large object. Please wait ..." <<
+               endl;
+               ITBool status = false;
+               status = lo.CreateLO(LO_spec, IT_LO_WRONLY | IT_LO_APPEND);
+               if (status = true)
+               {
+                  for (i = 0; i < 1000; i++)
+                      lo.Write("123456789012345678901234567890123456789012
+                      3456789
+                      012345678901234567890123456789012345678901234567890"
+                      ,100);
+               }
+               else
+         {
+                  cout << "stmt_test: CreateLO w/non-default sbspace
+                  failed!" <<
+                  endl;
+                  return (1);
+               }
+           }
+           else
+           {
+              cout << "stmt_test: mi_lo_colinfo_by_name failed!" << endl;
+              return (1);
+           }
+        }
+        else
+        {
+           cout << "stmt_test: conn.GetConn returned NULL!" << endl;
+           return (1);
+        }
+        /************* end new solution code **************************/
+        cout << "The default sblobspace has changed" << endl;
+        cout << "Please monitor your sblobspaces, [return to continue]";
+        cin.getline(buf, sizeof(buf));
+        
+        cout << endl << "inserting row into dolmdolm1" << endl;
+        if (!stmt.Prepare("insert into dolmdolm1 values (?,?);",2,types))
+        {
+         cout << "Could not prepare insert cursor " << endl;
+         return (1);
+        }
+        ITValue *param;
+        param = stmt.Param(0);
+        param->FromPrintable("0");
+        param->Release();
+        param = stmt.Param(1);
+        param->FromPrintable(lo.HandleText());
+        param->Release();
+        if (!stmt.Exec())  {
+         cout << "Could not execute insert statement " << endl;
+         return (1);
+        }                         
+        if (!stmt.Drop()) {
+         cout << "Could not drop insert statement " << endl;
+         return (1);
+        }    
+        cout << endl;
+        cout << "Please monitor your sblobspaces." << endl; 
+        cout << "The large object is still stored within the default
+        sblobspace." << endl;
+        cout << "[return to continue]";
+        cin.getline(buf, sizeof(buf));
+       /* 
+        cout << "Rollback Transaction ..." << endl;
+        if (!conn.SetTransaction(ITConnection::Abort)) {
+         cout << "Could not rollback transaction " << endl;
+         return (1);
+        }       
+       */ 
+        cout << "Commit Transaction ..." << endl;
+        if (!conn.SetTransaction(ITConnection::Commit)) {
+         cout << "Could not commit transaction " << endl;
+         return (1);
+        }       
+        conn.Close();
+        cout << endl;
+        return 0;
+    }
+    >>>>>>>>>>>> End modified test case with new solution >>>>>>>>>>>>>>
+
+IX.  USE OF ITSTRING &TRIM(CONST CHAR *PMC)
+===========================================
+
+The member function ITString::Trim(const char *c) is specified  to trim
+the single, rightmost occurrence of the character (not string)  starting
+at 'c' within the string encapsulated by an ITString object. The INFORMIX
+Object Interface for C++ Programmer's Guide, Version 2.5, indicates on
+page 5-37 that the rightmost occurrence of the pmc (pointer to multibyte
+character) string is trimmed.  
+
+Trim() encapsulates searching for the rightmost character (which could be
+a multibyte byte character in a given locale) of the encapsulated string
+and truncation of that character. The search is performed by calling
+ITLocale::MRScan, which in turn encapsulates calling the GLS API function
+ifx_gl_mbsrchr(). 
+
+
+X.   ASSUMPTIONS ABOUT YOUR LOCALE
+==================================
+
+The examples in the INFORMIX Object Interface for C++ Programmer's Guide
+are written with the assumption that you are using the default locale
+en_us.8859-1 on UNIX, or the default locale en_us.1252 on Windows. These
+locales support U.S. English format conventions for dates, times, and
+currency. In addition, the en_us.8859-1 locale supports the ISO 8859-1
+code set. On Windows, you must use codeset conversion files to and from
+en_us.1252 and ISO 8859-1. However, you can change the client locale on
+Windows to en_us.8859-1 so no codeset conversion is needed to support ISO
+8859-1. 
+
+
+XI.  BINARY PARAMETER SUPPORT
+=============================
+
+Informix Object Interface for C++ now supports passing binary data as
+parameters in prepared SQL DML statements DELETE, INSERT, UPDATE, and
+SELECT. SQL DELETE, INSERT, and UPDATE statements with parameters can be
+prepared and executed using class ITStatement and SQL SELECT statements
+with parameters can be executed using class ITCursor. 
+
+Previously, Object Interface for C++ supported binding of parameters using
+only the text representation of the data as set by
+ITValue::FromPrintable,even though the client-side DataBlade API (on which
+Object Interface for C++ relies to perform all database connectivity and
+SQL requests) supports binding parameters in both binary and text mode.
+This restriction is now removed.
+
+Because binary support was missing, user applications had to define custom
+value interfaces derived from ITValue or ITDatum in which the
+FromPrintable method is implemented in order to support passing values of
+user-defined types (UDTs) in text mode. In Informix SQL, UDTs are
+implemented as SQL types OPAQUE and DISTINCT.  Although providing custom
+value object interfaces for UDTs is highly desirable in a well-behaved
+Object Interface for C++ application, support for passing binary
+parameters is a viable alternative that requires much less effort of the
+application programmer and may completely satisfy the application needs in
+some cases. 
+
+No changes were made to the Object Interface for C++ interface to support
+binary parameters. Rather, existing member functions were reimplemented
+and existing applications will continue to work without changes. User
+applications can set parameters either using ITValue::FromPrintable, as
+before, or by setting parameters directly from binary data.
+
+Here is an example of how Informix Object Interface for C++ can be used to
+set a parameter to binary data in a prepared INSERT statement. The example
+uses the table CUSTOMER in the demonstration database STORES7: 
+
+    #include <it.h>
+    #include <iostream.h>
+    int main()
+    {
+        ITDBInfo db("stores7");
+        ITConnection conn(db);
+        conn.Open();
+        if( conn.Error() )
+        {
+            cout << "Couldn't open connection" << endl;
+            return -1;
+        }
+        ITQuery query( conn );
+        ITRow *row;
+        // Create the value object encapsulating the datum of SQL type
+    CHAR(15)
+        // by fetching a row from the database and calling ITRow::Column()
+        if( !(row = query.ExecOneRow( "select lname from customer;" )) )
+        {
+            cout << "Couldn't select from table customer" << endl;
+            return -1;
+        }
+        ITValue *col = row->Column( 0 );
+        if( !col )
+        {
+            cout << "couldn't instantiate lname column value" << endl;
+            return -1;
+        }
+        row->Release();
+        ITDatum *datum;
+        col->QueryInterface( ITDatumIID, (void **)&datum );
+        if( !datum )
+        {
+            cout << "couldn't get lname column datum" << endl;
+            return -1;
+        }
+        col->Release();
+        // Prepare SQL INSERT statement, set the parameter to the value
+    object that
+        // encapsulates lname column value and execute INSERT
+        ITStatement stmt( conn );
+        if( !stmt.Prepare( "insert into customer (lname) values ( ? );" ) )
+        {
+            cout << "Could not prepare insert into table customer" << endl;
+            return -1;
+        }
+        if( !stmt.SetParam( 0, datum ) )
+        {
+            cout << "Could not set statement parameter" << endl;
+            return -1;
+        }
+        if( !stmt.Exec() )
+        {
+            cout << "Could not execute the statement" << endl;
+            return -1;
+        }
+        return 0;
+    }

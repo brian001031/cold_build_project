@@ -1,0 +1,774 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 9">
+<meta name=Originator content="Microsoft Word 9">
+<link rel=File-List href="./INFODBCREL_files/filelist.xml">
+<link rel=Edit-Time-Data href="./INFODBCREL_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>ODBC Release Notes</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>vinoy</o:Author>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>vinoy</o:LastAuthor>
+  <o:Revision>4</o:Revision>
+  <o:TotalTime>25</o:TotalTime>
+  <o:Created>2001-07-19T23:40:00Z</o:Created>
+  <o:LastSaved>2001-07-31T21:41:00Z</o:LastSaved>
+  <o:Pages>5</o:Pages>
+  <o:Words>1231</o:Words>
+  <o:Characters>7019</o:Characters>
+  <o:Company>Informix Software Inc.</o:Company>
+  <o:Lines>58</o:Lines>
+  <o:Paragraphs>14</o:Paragraphs>
+  <o:CharactersWithSpaces>8619</o:CharactersWithSpaces>
+  <o:Version>9.3821</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<style>
+<!--
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{margin-right:0in;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+@list l0
+	{mso-list-id:2035761517;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-81902752 1169695220 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l0:level1
+	{mso-level-number-format:roman-upper;
+	mso-level-tab-stop:.75in;
+	mso-level-number-position:left;
+	margin-left:.75in;
+	text-indent:-.5in;
+	font-family:Arial;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+</head>
+
+<body lang=EN-US link=blue vlink=blue style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<p class=MsoNormal><span style='font-family:Arial'>Informix Online</span> <br>
+<span style='font-family:Arial'>Documentation</span> </p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:13.5pt;font-family:Arial'>RELEASE NOTES FOR</span> </p>
+
+<p align=center style='text-align:center'><span style='font-size:18.0pt;
+font-family:Arial'>Informix ODBC Driver</span> </p>
+
+<p align=center style='text-align:center'><span style='font-family:Arial'>Date:
+7/31/2001</span> </p>
+
+<p align=center style='text-align:center'><span style='font-family:Arial'>Version:
+3.34 &amp; 3.80</span></p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p class=MsoNormal><span style='font-size:13.5pt;font-family:Arial'>Table of
+Contents</span> </p>
+
+<p style='margin-left:.75in;text-indent:-.5in;mso-list:l0 level1 lfo2;
+tab-stops:list .75in'><![if !supportLists]><span style='font-family:Arial'>I.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span style='font-family:Arial'><a href="#1">Overview
+of Release Notes</a></span> </p>
+
+<p style='margin-left:.75in;text-indent:-.5in;mso-list:l0 level1 lfo2;
+tab-stops:list .75in'><![if !supportLists]><span style='font-family:Arial'>II.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span style='font-family:Arial'><a href="#2">Database
+Server Names and Versions</a></span> </p>
+
+<p style='margin-left:.75in;text-indent:-.5in;mso-list:l0 level1 lfo2;
+tab-stops:list .75in'><![if !supportLists]><span style='font-family:Arial'>III.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span style='font-family:Arial'><a href="#3">New
+Attributes</a></span> </p>
+
+<p style='margin-left:.75in;text-indent:-.5in;mso-list:l0 level1 lfo2;
+tab-stops:list .75in'><![if !supportLists]><span style='font-family:Arial'>IV.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span style='font-family:Arial'><a href="#4">XA Support</a></span>
+</p>
+
+<p style='margin-left:.75in;text-indent:-.5in;mso-list:l0 level1 lfo2;
+tab-stops:list .75in'><![if !supportLists]><span style='font-family:Arial'>V.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span style='font-family:Arial'><a href="#5">Unicode Support</a></span>
+</p>
+
+<p style='margin-left:.75in;text-indent:-.5in;mso-list:l0 level1 lfo2;
+tab-stops:list .75in'><![if !supportLists]><span style='font-family:Arial'>VI.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span style='font-family:Arial'><a href="#Compilation">Compilation
+Issues on Windows</a></span></p>
+
+<p style='margin-left:.75in;text-indent:-.5in;mso-list:l0 level1 lfo2;
+tab-stops:list .75in'><![if !supportLists]><span style='font-family:Arial'>VII.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span style='font-family:Arial'><a href="#6">Fixed Problems</a></span>
+</p>
+
+<p style='margin-left:.75in;text-indent:-.5in;mso-list:l0 level1 lfo2;
+tab-stops:list .75in'><![if !supportLists]><span style='font-family:Arial'>VIII.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span style='font-family:Arial'><a href="#7">Known
+Problems and Limitations</a></span> </p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p class=MsoNormal><a name=1></a><b><span style='font-family:Arial'>I. Overview
+of Release Notes</span></b> </p>
+
+<p><span style='font-family:Arial'>The purpose of these release notes is to
+make you aware of any special</span> <br>
+<span style='font-family:Arial'>actions required to configure and use the
+Informix ODBC Driver on your</span> <br>
+<span style='font-family:Arial'>computer. This file also contains information
+about known bugs and their</span> <br>
+<span style='font-family:Arial'>workarounds.</span> </p>
+
+<p><span style='font-family:Arial'>This release notes document is not intended
+to be all-inclusive; it should</span> <br>
+<span style='font-family:Arial'>be used as an addendum to the Informix ODBC
+Driver manual, which provides</span> <br>
+<span style='font-family:Arial'>thorough information about product features and
+behavior.</span> </p>
+
+<p><span style='font-family:Arial'>This release will support 2 ODBC drivers
+3.34 and 3.80, the latter is</span> <br>
+<span style='font-family:Arial'>Unicode enabled. The future releases of ODBC
+drivers will have only</span> <br>
+<span style='font-family:Arial'>one driver with both the capabilities.</span> <br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>These release notes are written for the
+following audience:</span> </p>
+
+<p><span style='font-family:Arial'>+ System administrators who install Informix
+database servers</span> <br>
+<span style='font-family:Arial'>+ Database administrators who control access to
+Informix databases</span> <br>
+<span style='font-family:Arial'>+ Developers who write applications using ODBC</span>
+</p>
+
+<p><span style='font-family:Arial'>Version 3.34 &amp; 3.80 of Informix ODBC
+Driver has been tested with the following</span> <br>
+<span style='font-family:Arial'>database server configurations:</span> </p>
+
+<p><span style='font-family:Arial'>+ Informix Dynamic Server, Version 5.10</span>
+<br>
+<span style='font-family:Arial'>+ Informix Dynamic Server, Versions 7.24 and
+7.3x</span> <br>
+<span style='font-family:Arial'>+ Informix Dynamic Server with Advanced
+Decision Support and Extended</span> <br>
+<span style='font-family:Arial'>Parallel Options, Version 8.21 and Extended
+Parallel Server, Version</span> <br>
+<span style='font-family:Arial'>8.3x</span> <br>
+<span style='font-family:Arial'>+ Informix Dynamic Server with Universal Data
+Option, Version 9.14</span> <br>
+<span style='font-family:Arial'>(Windows NT) and Informix Dynamic Server 2000,
+Version 9.2x (UNIX)</span> </p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p><a name=2></a><b><span style='font-family:Arial'>II. Database Server Names
+and Versions</span></b> </p>
+
+<p><span style='font-family:Arial'>This manual might not reflect the latest
+names of Informix database</span> <br>
+<span style='font-family:Arial'>servers. The following table lists the database
+server versions and their</span> <br>
+<span style='font-family:Arial'>corresponding names.</span> <br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>Database Server Version Database Server
+Names</span> <br>
+<span style='font-family:Arial'>Numbers</span> <br>
+<span style='font-family:Arial'>5.x INFORMIX-OnLine and INFORMIX-SE</span> <br>
+<span style='font-family:Arial'>7.1x, 7.2x INFORMIX-OnLine Dynamic Server and
+INFORMIX-SE</span> <br>
+<span style='font-family:Arial'>7.3x Informix Dynamic Server</span> <br>
+<span style='font-family:Arial'>8.1x INFORMIX-OnLine XPS</span> <br>
+<span style='font-family:Arial'>8.2x Informix Dynamic Server with Advanced
+Decision</span> <br>
+<span style='font-family:Arial'>Support and Extended Parallel Options</span> <br>
+<span style='font-family:Arial'>8.3 Informix Extended Parallel Server (XPS) or</span>
+<br>
+<span style='font-family:Arial'>Informix Enterprise Decision Server</span> <br>
+<span style='font-family:Arial'>9.01, 9.1 through 9.13 INFORMIX-Universal
+Server</span> <br>
+<span style='font-family:Arial'>9.14 Informix Dynamic Server with Universal
+Data</span> <br>
+<span style='font-family:Arial'>Option</span> <br>
+<span style='font-family:Arial'>9.2 Informix Dynamic Server 2000</span> </p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p><a name=3></a><b><span style='font-family:Arial'>III. New Features</span></b>
+</p>
+
+<p><span style='font-family:Arial'>ODBC Driver 3.34 &amp; 3.80</span> <br>
+<span style='font-family:Arial'>Support for XA</span> <br>
+<span style='font-family:Arial'>ODBC Driver 3.80</span> <br>
+<span style='font-family:Arial'>Support for Unicode</span> </p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p><a name=4></a><b><span style='font-family:Arial'>IV. XA Support (on 3.34 and
+3.80 driver)</span></b> </p>
+
+<p><span style='font-family:Arial'>This section describes the new XA API with
+this release of the Informix</span> <br>
+<span style='font-family:Arial'>ODBC Driver.</span> </p>
+
+<p><span style='font-family:Arial'>/* Function for acquiring the xa_switch
+structure</span> <br>
+<span style='font-family:Arial'>* defined by Informix RM</span> <br>
+<span style='font-family:Arial'>*/</span> </p>
+
+<p><span style='font-family:Arial'>struct xa_switch_t * _fninfx_xa_switch( void
+);</span> <br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>/* Function for obtaining the Environment</span>
+<br>
+<span style='font-family:Arial'>* handle associated with an XA Connection</span>
+<br>
+<span style='font-family:Arial'>*/</span> </p>
+
+<p><span style='font-family:Arial'>RETCODE IFMX_SQLGetXaHenv(int, HENV *);</span>
+<br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>/* Function for obtaining the Database
+handle</span> <br>
+<span style='font-family:Arial'>* associated with an XA Connection</span> <br>
+<span style='font-family:Arial'>*/</span> </p>
+
+<p><span style='font-family:Arial'>RETCODE IFMX_SQLGetXaHdbc(int, HDBC *);</span>
+</p>
+
+<p><span style='font-family:Arial'>#endif /* __INFXCLI_H */</span> <br>
+&nbsp; </p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p><a name=5></a><b><span style='font-family:Arial'>V. Unicode Support on ODBC
+3.80 driver (only)</span></b> <br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>An ODBC application may be making calls to
+Unicode enabled ODBC API's</span> <br>
+<span style='font-family:Arial'>( Unicode enabled ODBC Application.)</span> <br>
+<span style='font-family:Arial'>OR</span> <br>
+<span style='font-family:Arial'>An application may be making calls to only
+ASCII ODBC api's.</span> <br>
+<span style='font-family:Arial'>( ASCII ODBC application ).</span> </p>
+
+<p><span style='font-family:Arial'>A Unicode enabled application must be linked
+to Unicode enabled driver.</span> <br>
+<span style='font-family:Arial'>A non-Unicode enabled application may be linked
+to either a Unicode enabled</span> <br>
+<span style='font-family:Arial'>driver or a ASCII driver.</span> <br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>Compiling Unicode enabled ODBC Application:</span>
+<br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>1) As Informix ODBC driver supports
+different flavors of Unicode.</span> <br>
+<span style='font-family:Arial'>The flavor of Unicode application uses has to
+be indicated at</span> <br>
+<span style='font-family:Arial'>compile time by setting a compile time flag.</span>
+</p>
+
+<p><span style='font-family:Arial'>The compile time flags are -DUTF8, -DUCS2
+and -DUCS4.</span> </p>
+
+<p><span style='font-family:Arial'>IF NO FLAG IS SET AT COMPILE TIME , DEFAULT
+IS -DUCS4.</span> <br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>Running Unicode enabled ODBC application.</span>
+</p>
+
+<p><span style='font-family:Arial'>1) Type of Unicode to be used by application
+must be indicated in .odbc.ini</span> <br>
+<span style='font-family:Arial'>file. This is done by setting UNICODE to
+appropriate value in the</span> <br>
+<span style='font-family:Arial'>[ODBC] section of ini file.</span> </p>
+
+<p><span style='font-family:Arial'>It may be set as follows.</span> </p>
+
+<p><span style='font-family:Arial'>[ODBC]</span> <br>
+<span style='font-family:Arial'>UNICODE=UCS-4</span> </p>
+
+<p><span style='font-family:Arial'>The supported values are UCS-2 , UTF-8 and
+UCS-4.</span> <br>
+<span style='font-family:Arial'>IF NOTHING IS SET THEN TYPE OF UNICODE USED
+DEFAULTS TO UTF-8.</span> <br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>Please note that</span> <br>
+<span style='font-family:Arial'>If no compile time flag is set, default is
+UCS4,</span> <br>
+<span style='font-family:Arial'>while if no UNICODE is set in ini file default
+is UTF-8.</span> </p>
+
+<p><span style='font-family:Arial'>Thus a Unicode enabled application must set
+compile time as well as</span> <br>
+<span style='font-family:Arial'>runtime flag to indicate type of Unicode used.</span>
+</p>
+
+<p><span style='font-family:Arial'>If an application is linking to Merant
+Driver Manager and using</span> <br>
+<span style='font-family:Arial'>Unicode enabled ODBC driver, UNICODE has to be
+set to UTF-8 in the</span> <br>
+<span style='font-family:Arial'>ini file and ASCII code sets and the
+application must be</span> <br>
+<span style='font-family:Arial'>compiled with '-DUTF8'.</span> </p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p class=MsoNormal><br>
+&nbsp;</p>
+
+<p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;</span><b><span
+style='font-family:Arial'>VI. <a name=Compilation>Compilation Issues on Windows</a><o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-family:Arial'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>In case the installation path of Informix ODBC contains<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>multiple spaces in it, one
+needs to take care of the following points<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>during compilation and at
+runtime<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>a) The value assigned to
+the environment variable INFORMIXDIR<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>should not be embedded
+within double quotes<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>b) The include directive
+(/I) should be followed by a qualified<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>path within double quotes if
+this path has multiple spaces in it. e.g.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>/I&quot;$(INFORMIXDIR)\incl\cli&quot;<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+
+<p><a name=6></a><b><span style='font-family:Arial'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></b></p>
+
+<p><b><span style='font-family:Arial'>VII. Fixed Problems</span></b> <br>
+&nbsp; </p>
+
+<table border=1 cellpadding=0 width="100%" style='width:100.0%;mso-cellspacing:
+ 1.5pt;mso-padding-alt:0in 0in 0in 0in'>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>Bug Number&nbsp;</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>Description</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>129096</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>USING FULLY-QUALIFIED HOST
+  NAME IN ODBC DRIVER SETUP CORRUPTS REGISTRY</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>133605</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>THE ESCAPE SEQUENCE FOR
+  TIMESTAMP IS NOT INTERPRETTED IF THERE IS NO SPACE BETWEEN THE TS AND THE
+  FIRST QUOTE</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>134342</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>USING THE CONCAT SCALAR
+  FUNCTION WITH A CASE EXPRESSION AS ONE OF THE ARGUMENTS GENERATES A SYNTAX
+  ERROR IN THE ODBC DRIVER&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>134886</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>RUNNING A SELECT STATEMENT
+  USING ODBC 3.32 (AND 3.32) CAUSES AN ERROR -363. THIS PROBLEM IS BASED ON THE
+  PROBLEM 128336</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>135350</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>ERROR &quot;ROWID DOES NOT
+  EXIST&quot; (-857) OCCURRED WHEN A QUERY AGAINST A FRAGMENTED TABLE IN
+  MICROSOFT MSQUERY</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>144636</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>A DSN-LESS CONNECTION
+  PRODUCES A 'ARITHMETIC EXCEPTION (CORE DUMPED)' OR DIVIDE BY ZERO ERROR ON
+  SUN</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>145167</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>&nbsp;IF ACCESS 2000 IS
+  USED TO LINK A TABLE USING ODBC 3.32 AN INTERVAL DATA TYPE IN THE LINKED
+  TABLE IS DISPLYED AS GARBAGE</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>145267</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>ERROR -395 WHEN TRYING TO
+  EXECUTE MULTIPLE OUTER JOINS USING ODBC SYNTAX. WORKS FINE WHEN THE NATIVE
+  INFORMIX SQL SYNTAX IS USED</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>145463</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>ODBC DRIVER SEGV WHEN
+  INSERTING A TEXT VALUE THAT CONTAINS A COMMA CHARACTER (',')&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>146334&nbsp;</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>WHEN CREATING A DSN, IF
+  INCORRECT INFORMATION IS ENTERED&nbsp; THE ERROR MESSAGE REPORTED IS
+  &quot;UNSPECIFIED SYSTEM ERROR&quot;</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>146592</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>THE VALUE FOR &quot;VMB
+  CHARACTER&quot; IN THE ENVIRONMENT TAB OF THE DATA SOURCE ADMINISTRATOR IS
+  GETTING CHANGED FROM&nbsp; ESTIMATE TO EXACT WIHTOUT USER ACTION</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>147062</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>MEMORY LEAK IN ODBC 3.33
+  AND 3.80 BETA WHEN CALLING&nbsp; TO SQLEXECDIRECT()&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>147282</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>SQLDESCRIBECOL FAILS TO
+  REPORT CORRECT NULLABILITY OF&nbsp; OF UNDERLYING COLUMN DUE TO FIX FOR BUG
+  117497</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>147284</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>MTS TRANSACTIONS HUNG AND
+  LEFT SOME OF THE CONNECTIONS HANGING FOREVER ON THE SERVER SIDE&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+  yes">&nbsp;</span>144195<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>GET NONSENSE ERROR OF
+  INCORRECT PARSING OF UPDATE STATEMENT WITH &quot;INLINE&quot; TEXT BLOB
+  THROUGH ODBC<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+  yes">&nbsp;</span>147307<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>SQLDRIVERCONNECT RETURNS
+  UNSPECIFIED SYSTEM ERROR WHEN CONNECTION IS LOST<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+  yes">&nbsp;</span>149522<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>ERROR -617 RETURNED IN
+  SOME CONDITIONS INSERTING A TEXT VIA ODBC EVEN IN PATCH CSDK 2.60.TC2X4 THAT
+  FIXES BUG # 145463<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+  yes">&nbsp;</span>149804<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>USING A COM OBJECT IF A
+  DSNLESS CONNECTION HANGS CONNECTING TO SERVER 'A'. A 2ND DSNLESS CONNECTION
+  WILL HANG CONNECTION TO SERVER 'B'.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+  yes">&nbsp;</span>149962<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>INSERT VIA ODBC OF 2
+  ADJACENT STRINGS (2ND ONE BEING<span style="mso-spacerun: yes">&nbsp;
+  </span>A TEXT) RETURNS ERROR -236 WITH CSDK 2.60.TC2X7 OR &#8211;617 WITH ANOTHER
+  CSDK VERSION<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'><span style="mso-spacerun:
+  yes">&nbsp;</span>150663<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>MTS TRANSACTION ENLISTMENT
+  FAILS WITH MICROSOFT EFAIL MESSAGE GENERAL ERROR<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><br>
+&nbsp; </p>
+
+<p><a name=7></a><b><span style='font-family:Arial'>VIII. Known Problems and
+Limitations</span> <br>
+&nbsp; <o:p></o:p></b></p>
+
+<table border=1 cellpadding=0 width="100%" style='width:100.0%;mso-cellspacing:
+ 1.5pt;mso-padding-alt:0in 0in 0in 0in'>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>Bug Number</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>Description</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>&nbsp;147990</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>AN ASCII APPLICATION
+  SHOULD SET UNICODE=UCS-4 IF IT IS&nbsp; USING UNICODE ENABLED DRIVER&nbsp;
+  EVEN IF IT IS NOT MAKING&nbsp; ANY UNICODE API CALLS</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>&nbsp;147648</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>&nbsp;THE UNICODE CALLS
+  (WITH W SUFFIX) AND ANSI CALLS CANNOT&nbsp; BE MIXED WITH UCS-2 AND UTF-8
+  SETTINGS</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>&nbsp;148457</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>CALLS TO SQLGETINFOW BEFORE
+  ESTABLISHING A CONNECTION MAY RESULT IN CORE DUMP WHEN USING UCS-2 OR UTF-8
+  UNICODE TYPE</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>&nbsp;147203</span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=MsoNormal><span style='font-family:Arial'>AN ODBC APPLICATION CAN
+  NOT BIND ARGUMENTS FOR A CLIENT FUNCTION USING SQL_C_WCHAR</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><br>
+&nbsp; <br>
+&nbsp; </p>
+
+<p><span style='font-family:Arial'>Copyright (c) 2001, Informix Software, Inc. All
+rights reserved</span> </p>
+
+</div>
+
+</body>
+
+</html>

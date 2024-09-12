@@ -1,0 +1,313 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#       SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#
+#  Title:       04e2.cm
+#  Author:      John Griffin
+#  Created:     Thu Aug 03 09:19:05 1995
+#  Description:
+#    Character Map for 1250
+#    Registry value (Decimal): CCSID 1250
+#    Registry values (Hex): CCSID 04e2
+#
+#    This file is the character map for the character set specified above.
+#    Its purpose is to define the mapping of characters to their positions
+#    in the character table.
+#
+#**************************************************************************
+
+<source_version>                1
+<modified_date>                 "07/27/1995"
+<code_set_name>                 "CP1250"
+
+CHARMAP
+<NUL>                       \x00
+<SOH>                       \x01
+<STX>                       \x02
+<ETX>                       \x03
+<EOT>                       \x04
+<ENQ>                       \x05
+<ACK>                       \x06
+<BEL>                       \x07
+<alert>                     \x07
+<backspace>                 \x08
+<tab>                       \x09
+<newline>                   \x0a
+<vertical-tab>              \x0b
+<form-feed>                 \x0c
+<carriage-return>           \x0d
+<SO>                        \x0e
+<SI>                        \x0f
+<DLE>                       \x10
+<DC1>                       \x11
+<DC2>                       \x12
+<DC3>                       \x13
+<DC4>                       \x14
+<NAK>                       \x15
+<SYN>                       \x16
+<ETB>                       \x17
+<CAN>                       \x18
+<EM>                        \x19
+<SUB>                       \x1a
+<ESC>                       \x1b
+<IS4>                       \x1c
+<IS3>                       \x1d
+<IS2>                       \x1e
+<IS1>                       \x1f
+<SP>                        \x20
+<space>                     \x20
+<exclamation-mark>          \x21
+<quotation-mark>            \x22
+<number-sign>               \x23
+<dollar-sign>               \x24
+<percent-sign>              \x25
+<ampersand>                 \x26
+<apostrophe>                \x27
+<left-parenthesis>          \x28
+<right-parenthesis>         \x29
+<asterisk>                  \x2a
+<plus-sign>                 \x2b
+<comma>                     \x2c
+<hyphen>                    \x2d
+<hyphen-minus>              \x2d
+<period>                    \x2e
+<full-stop>                 \x2e
+<slash>                     \x2f
+<solidus>                   \x2f
+<zero>                      \x30
+<one>                       \x31
+<two>                       \x32
+<three>                     \x33
+<four>                      \x34
+<five>                      \x35
+<six>                       \x36
+<seven>                     \x37
+<eight>                     \x38
+<nine>                      \x39
+<colon>                     \x3a
+<semicolon>                 \x3b
+<less-than-sign>            \x3c
+<equals-sign>               \x3d
+<greater-than-sign>         \x3e
+<question-mark>             \x3f
+<commercial-at>             \x40
+<A>                         \x41
+<B>                         \x42
+<C>                         \x43
+<D>                         \x44
+<E>                         \x45
+<F>                         \x46
+<G>                         \x47
+<H>                         \x48
+<I>                         \x49
+<J>                         \x4a
+<K>                         \x4b
+<L>                         \x4c
+<M>                         \x4d
+<N>                         \x4e
+<O>                         \x4f
+<P>                         \x50
+<Q>                         \x51
+<R>                         \x52
+<S>                         \x53
+<T>                         \x54
+<U>                         \x55
+<V>                         \x56
+<W>                         \x57
+<X>                         \x58
+<Y>                         \x59
+<Z>                         \x5a
+<left-square-bracket>       \x5b
+<reverse-solidus>           \x5c
+<backslash>                 \x5c
+<right-square-bracket>      \x5d
+<circumflex>                \x5e
+<circumflex-accent>         \x5e
+<underscore>                \x5f
+<low-line>                  \x5f
+<grave-accent>              \x60
+<a>                         \x61
+<b>                         \x62
+<c>                         \x63
+<d>                         \x64
+<e>                         \x65
+<f>                         \x66
+<g>                         \x67
+<h>                         \x68
+<i>                         \x69
+<j>                         \x6a
+<k>                         \x6b
+<l>                         \x6c
+<m>                         \x6d
+<n>                         \x6e
+<o>                         \x6f
+<p>                         \x70
+<q>                         \x71
+<r>                         \x72
+<s>                         \x73
+<t>                         \x74
+<u>                         \x75
+<v>                         \x76
+<w>                         \x77
+<x>                         \x78
+<y>                         \x79
+<z>                         \x7a
+<left-brace>                \x7b
+<left-curly-brace>          \x7b
+<vertical-line>             \x7c
+<right-brace>               \x7d
+<right-curly-brace>         \x7d
+<tilde>                     \x7e
+<DEL>                       \x7f
+<undefined-char-00001>      \x80
+<undefined-char-00002>      \x81
+<low-9-quotation>           \x82
+<undefined-char-00003>      \x83
+<low-99-quotation>          \x84
+<horizontal-ellipsis>       \x85
+<dagger>                    \x86
+<double-dagger>             \x87
+<undefined-char-00004>      \x88
+<per-mille>                 \x89
+<S-caron>                   \x8a
+<single-left-angle-quote>   \x8b
+<S-acute>                   \x8c
+<T-caron>                   \x8d
+<Z-caron>                   \x8e
+<Z-acute>                   \x8f
+<undefined-char-00005>      \x90
+<left-single-quotation>     \x91
+<right-single-quotation>    \x92
+<left-double-quotation>     \x93
+<right-double-quotation>    \x94
+<bullet>                    \x95
+<en-dash>                   \x96
+<em-dash>                   \x97
+<undefined-char-00006>      \x98
+<trade-mark>                \x99
+<s-caron>                   \x9a
+<single-right-angle-quote>  \x9b
+<s-acute>                   \x9c
+<t-caron>                   \x9d
+<z-caron>                   \x9e
+<z-acute>                   \x9f
+<nobreakspace>              \xa0
+<caron>                     \xa1
+<breve>                     \xa2
+<L-stroke>                  \xa3
+<currency>                  \xa4
+<A-ogonek>                  \xa5
+<broken-bar>                \xa6
+<section>                   \xa7
+<diaresis>                  \xa8
+<copyright>                 \xa9
+<S-cedilla>                 \xaa
+<guillemot-left>            \xab
+<not>                       \xac
+<dash>                      \xad
+<registered>                \xae
+<Z-dot-above>               \xaf
+<degree>                    \xb0
+<plus-minus>                \xb1
+<ogonek>                    \xb2
+<l-stroke>                  \xb3
+<acute>                     \xb4
+<mu>                        \xb5
+<paragraph>                 \xb6
+<dot>                       \xb7
+<cedilla>                   \xb8
+<a-ogonek>                  \xb9
+<s-cedilla>                 \xba
+<guillemot-right>           \xbb
+<L-caron>                   \xbc
+<double-acute>              \xbd
+<l-caron>                   \xbe
+<z-dot-above>               \xbf
+<R-acute>                   \xc0
+<A-acute>                   \xc1
+<A-circumflex>              \xc2
+<A-breve>                   \xc3
+<A-diaresis>                \xc4
+<A-diaeresis>               \xc4
+<L-acute>                   \xc5
+<C-acute>                   \xc6
+<C-cedilla>                 \xc7
+<C-caron>                   \xc8
+<E-acute>                   \xc9
+<E-ogonek>                  \xca
+<E-diaeresis>               \xcb
+<E-diaresis>                \xcb
+<E-caron>                   \xcc
+<I-acute>                   \xcd
+<I-circumflex>              \xce
+<D-caron>                   \xcf
+<D-stroke>                  \xd0
+<N-acute>                   \xd1
+<N-caron>                   \xd2
+<O-acute>                   \xd3
+<O-circumflex>              \xd4
+<O-double-acute>            \xd5
+<O-diaeresis>               \xd6
+<O-diaresis>                \xd6
+<multiply>                  \xd7
+<R-caron>                   \xd8
+<U-ring-above>              \xd9
+<U-acute>                   \xda
+<U-double-acute>            \xdb
+<U-diaresis>                \xdc
+<U-diaeresis>               \xdc
+<Y-acute>                   \xdd
+<T-cedilla>                 \xde
+<s-sharp>                   \xdf
+<r-acute>                   \xe0
+<a-acute>                   \xe1
+<a-circumflex>              \xe2
+<a-breve>                   \xe3
+<a-diaeresis>               \xe4
+<a-diaresis>                \xe4
+<l-acute>                   \xe5
+<c-acute>                   \xe6
+<c-cedilla>                 \xe7
+<c-caron>                   \xe8
+<e-acute>                   \xe9
+<e-ogonek>                  \xea
+<e-diaeresis>               \xeb
+<e-diaresis>                \xeb
+<e-caron>                   \xec
+<i-acute>                   \xed
+<i-circumflex>              \xee
+<d-caron>                   \xef
+<d-stroke>                  \xf0
+<n-acute>                   \xf1
+<n-caron>                   \xf2
+<o-acute>                   \xf3
+<o-circumflex>              \xf4
+<o-double-acute>            \xf5
+<o-diaresis>                \xf6
+<o-diaeresis>               \xf6
+<divide>                    \xf7
+<division>                  \xf7
+<r-caron>                   \xf8
+<u-ring-above>              \xf9
+<u-acute>                   \xfa
+<u-double-acute>            \xfb
+<u-diaresis>                \xfc
+<u-diaeresis>               \xfc
+<y-acute>                   \xfd
+<t-cedilla>                 \xfe
+<dot-above>                 \xff
+END CHARMAP

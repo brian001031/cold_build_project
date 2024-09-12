@@ -1,0 +1,1427 @@
+###########################################################################
+#
+#                         INFORMIX SOFTWARE, INC.
+#
+#                            PROPRIETARY DATA
+#
+#      THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF
+#      INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#      CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR
+#      DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT
+#      SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#      THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#      SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE.
+#      UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW.
+#
+#
+#  Title:      Big Five locale
+#  Sccsid:
+#  Description:
+#
+#              Big Five locale description for GLS library.
+#              This locale is based on the X/Open definition.
+#
+#  Modification:
+#              rhuang@informix.com Mon Aug 7 17:15:19 TWN 1995
+#              -   Provide display width extension for multibyte characters.
+#              pstephen 11 Dec 1996
+#              -   Removed LC_COLLATE section.  Defining collation for a 
+#              only some characters caused all others to collate with zero
+#	       weight.  No LC_COLLATE section means codeset order collation.
+#              pstephen 23 Jan 1997
+#              -   Added two-byte versions of digits 0-9 and
+#	       letters A-Z and a-z, to appropriate categories so they
+#	       can be used as identifiers.  Previously they were 
+#	       classified as punctuation.
+#	       - Also added num_positive_sign definition (empty)
+#
+###########################################################################
+
+<source_version>                4
+<modified_date>                 "01/DEC/99"
+<language>                      "Chinese"
+<territory>                     "Taiwan"
+<modifier>                      "None"
+
+#
+#
+#       LC_CTYPE
+#
+#
+
+LC_CTYPE
+#
+# upper class
+#
+#       upper case letters in ASCII
+# 	two-byte A...Z at a2cf...a2e8 inclusive
+#
+upper   <A>;...;<Z>;\
+        <two-byte-A>;...;<two-byte-Z>
+#
+#
+#
+#
+# lower class
+#
+#       lower case letters in ASCII
+# 	two-byte a...v at a2e9...a2fe inclusive 
+# 	two-byte w...z at a340...a343 inclusive 
+#
+lower   <a>;...;<z>;\
+        <two-byte-a>;...;<two-byte-v>;\
+        <two-byte-w>;...;<two-byte-z>
+#
+# alpha class
+#
+#       default to upper and lower
+# Frequently used characters \xa4\x40 - \xc6\x7e
+# Rarely used characters \xc9\x40 - \xf9\xd5, supplement \xf9\xd6 - \xf9\xfe
+# User-defined characters
+#
+alpha   <A>;...;<Z>;\
+        <a>;...;<z>;\
+#
+# 	two-byte 0...9 at a2af...a2b8 inclusive 
+#    		nb two byte 0..9 classified as 'alpha' -- cannot classify 
+#    		alternative digits in 'digit' category.
+# 	two-byte A...Z at a2cf...a2e8 inclusive
+# 	two-byte a...v at a2e9...a2fe inclusive 
+# 	two-byte w...z at a340...a343 inclusive 
+        <two-byte-0>;...;<two-byte-9>;\
+        <two-byte-A>;...;<two-byte-Z>;\
+        <two-byte-a>;...;<two-byte-v>;\
+        <two-byte-w>;...;<two-byte-z>;\
+#
+# 	two-byte version of underscore (a1c5?) classified as 'alpha' so 
+# 	that it is valid in identifiers.
+#       Currently commented out since it is not clear what is the correct
+#       codepoint for this character.  It has been left in the 'punct'
+#       category instead until this issue is resolved.
+#       <two-byte-underscore>;\
+#
+        <ixtw10300>;...;<ixtw10362>;\
+        <ixtw10400>;...;<ixtw10462>;\
+        <ixtw10500>;...;<ixtw10562>;\
+        <ixtw10600>;...;<ixtw10662>;\
+        <ixtw10700>;...;<ixtw10762>;\
+        <ixtw10800>;...;<ixtw10862>;\
+        <ixtw10900>;...;<ixtw10962>;\
+        <ixtw11000>;...;<ixtw11062>;\
+        <ixtw11100>;...;<ixtw11162>;\
+        <ixtw11200>;...;<ixtw11262>;\
+        <ixtw11300>;...;<ixtw11362>;\
+        <ixtw11400>;...;<ixtw11462>;\
+        <ixtw11500>;...;<ixtw11562>;\
+        <ixtw11600>;...;<ixtw11662>;\
+        <ixtw11700>;...;<ixtw11762>;\
+        <ixtw11800>;...;<ixtw11862>;\
+        <ixtw11900>;...;<ixtw11962>;\
+        <ixtw12000>;...;<ixtw12062>;\
+        <ixtw12100>;...;<ixtw12162>;\
+        <ixtw12200>;...;<ixtw12262>;\
+        <ixtw12300>;...;<ixtw12362>;\
+        <ixtw12400>;...;<ixtw12462>;\
+        <ixtw12500>;...;<ixtw12562>;\
+        <ixtw12600>;...;<ixtw12662>;\
+        <ixtw12700>;...;<ixtw12762>;\
+        <ixtw12800>;...;<ixtw12862>;\
+        <ixtw12900>;...;<ixtw12962>;\
+        <ixtw13000>;...;<ixtw13062>;\
+        <ixtw13100>;...;<ixtw13162>;\
+        <ixtw13200>;...;<ixtw13262>;\
+        <ixtw13300>;...;<ixtw13362>;\
+        <ixtw13400>;...;<ixtw13462>;\
+        <ixtw13500>;...;<ixtw13562>;\
+        <ixtw13600>;...;<ixtw13662>;\
+        <ixtw13700>;...;<ixtw13762>;\
+        <ixtw20300>;...;<ixtw20393>;\
+        <ixtw20400>;...;<ixtw20493>;\
+        <ixtw20500>;...;<ixtw20593>;\
+        <ixtw20600>;...;<ixtw20693>;\
+        <ixtw20700>;...;<ixtw20793>;\
+        <ixtw20800>;...;<ixtw20893>;\
+        <ixtw20900>;...;<ixtw20993>;\
+        <ixtw21000>;...;<ixtw21093>;\
+        <ixtw21100>;...;<ixtw21193>;\
+        <ixtw21200>;...;<ixtw21293>;\
+        <ixtw21300>;...;<ixtw21393>;\
+        <ixtw21400>;...;<ixtw21493>;\
+        <ixtw21500>;...;<ixtw21593>;\
+        <ixtw21600>;...;<ixtw21693>;\
+        <ixtw21700>;...;<ixtw21793>;\
+        <ixtw21800>;...;<ixtw21893>;\
+        <ixtw21900>;...;<ixtw21993>;\
+        <ixtw22000>;...;<ixtw22093>;\
+        <ixtw22100>;...;<ixtw22193>;\
+        <ixtw22200>;...;<ixtw22293>;\
+        <ixtw22300>;...;<ixtw22393>;\
+        <ixtw22400>;...;<ixtw22493>;\
+        <ixtw22500>;...;<ixtw22593>;\
+        <ixtw22600>;...;<ixtw22693>;\
+        <ixtw22700>;...;<ixtw22793>;\
+        <ixtw22800>;...;<ixtw22893>;\
+        <ixtw22900>;...;<ixtw22993>;\
+        <ixtw23000>;...;<ixtw23093>;\
+        <ixtw23100>;...;<ixtw23193>;\
+        <ixtw23200>;...;<ixtw23293>;\
+        <ixtw23300>;...;<ixtw23393>;\
+        <ixtw23400>;...;<ixtw23493>;\
+        <ixtw23500>;...;<ixtw23593>;\
+        <ixtw23600>;...;<ixtw23693>;\
+        <ixtw14000>;...;<ixtw14062>;\
+        <ixtw14100>;...;<ixtw14162>;\
+        <ixtw14200>;...;<ixtw14262>;\
+        <ixtw14300>;...;<ixtw14362>;\
+        <ixtw14400>;...;<ixtw14462>;\
+        <ixtw14500>;...;<ixtw14562>;\
+        <ixtw14600>;...;<ixtw14662>;\
+        <ixtw14700>;...;<ixtw14762>;\
+        <ixtw14800>;...;<ixtw14862>;\
+        <ixtw14900>;...;<ixtw14962>;\
+        <ixtw15000>;...;<ixtw15062>;\
+        <ixtw15100>;...;<ixtw15162>;\
+        <ixtw15200>;...;<ixtw15262>;\
+        <ixtw15300>;...;<ixtw15362>;\
+        <ixtw15400>;...;<ixtw15462>;\
+        <ixtw15500>;...;<ixtw15562>;\
+        <ixtw15600>;...;<ixtw15662>;\
+        <ixtw15700>;...;<ixtw15762>;\
+        <ixtw15800>;...;<ixtw15862>;\
+        <ixtw15900>;...;<ixtw15962>;\
+        <ixtw16000>;...;<ixtw16062>;\
+        <ixtw16100>;...;<ixtw16162>;\
+        <ixtw16200>;...;<ixtw16262>;\
+        <ixtw16300>;...;<ixtw16362>;\
+        <ixtw16400>;...;<ixtw16462>;\
+        <ixtw16500>;...;<ixtw16562>;\
+        <ixtw16600>;...;<ixtw16662>;\
+        <ixtw16700>;...;<ixtw16762>;\
+        <ixtw16800>;...;<ixtw16862>;\
+        <ixtw16900>;...;<ixtw16962>;\
+        <ixtw17000>;...;<ixtw17062>;\
+        <ixtw17100>;...;<ixtw17162>;\
+        <ixtw17200>;...;<ixtw17262>;\
+        <ixtw17300>;...;<ixtw17362>;\
+        <ixtw17400>;...;<ixtw17462>;\
+        <ixtw17500>;...;<ixtw17562>;\
+        <ixtw17600>;...;<ixtw17662>;\
+        <ixtw17700>;...;<ixtw17762>;\
+        <ixtw17800>;...;<ixtw17862>;\
+        <ixtw17900>;...;<ixtw17962>;\
+        <ixtw18000>;...;<ixtw18062>;\
+        <ixtw18100>;...;<ixtw18162>;\
+        <ixtw18200>;...;<ixtw18262>;\
+        <ixtw18300>;...;<ixtw18362>;\
+        <ixtw18400>;...;<ixtw18462>;\
+        <ixtw18500>;...;<ixtw18562>;\
+        <ixtw18600>;...;<ixtw18662>;\
+        <ixtw18700>;...;<ixtw18762>;\
+        <ixtw18800>;...;<ixtw18862>;\
+#
+# user-defined character high byte \xfa\x40 - \xfe\x7e
+#
+        <ixtw18900>;...;<ixtw18962>;\
+        <ixtw19000>;...;<ixtw19062>;\
+        <ixtw19100>;...;<ixtw19162>;\
+        <ixtw19200>;...;<ixtw19262>;\
+        <ixtw19300>;...;<ixtw19362>;\
+#
+# Rarely used characters - Plane II
+#
+        <ixtw24000>;...;<ixtw24093>;\
+        <ixtw24100>;...;<ixtw24193>;\
+        <ixtw24200>;...;<ixtw24293>;\
+        <ixtw24300>;...;<ixtw24393>;\
+        <ixtw24400>;...;<ixtw24493>;\
+        <ixtw24500>;...;<ixtw24593>;\
+        <ixtw24600>;...;<ixtw24693>;\
+        <ixtw24700>;...;<ixtw24793>;\
+        <ixtw24800>;...;<ixtw24893>;\
+        <ixtw24900>;...;<ixtw24993>;\
+        <ixtw25000>;...;<ixtw25093>;\
+        <ixtw25100>;...;<ixtw25193>;\
+        <ixtw25200>;...;<ixtw25293>;\
+        <ixtw25300>;...;<ixtw25393>;\
+        <ixtw25400>;...;<ixtw25493>;\
+        <ixtw25500>;...;<ixtw25593>;\
+        <ixtw25600>;...;<ixtw25693>;\
+        <ixtw25700>;...;<ixtw25793>;\
+        <ixtw25800>;...;<ixtw25893>;\
+        <ixtw25900>;...;<ixtw25993>;\
+        <ixtw26000>;...;<ixtw26093>;\
+        <ixtw26100>;...;<ixtw26193>;\
+        <ixtw26200>;...;<ixtw26293>;\
+        <ixtw26300>;...;<ixtw26393>;\
+        <ixtw26400>;...;<ixtw26493>;\
+        <ixtw26500>;...;<ixtw26593>;\
+        <ixtw26600>;...;<ixtw26693>;\
+        <ixtw26700>;...;<ixtw26793>;\
+        <ixtw26800>;...;<ixtw26893>;\
+        <ixtw26900>;...;<ixtw26993>;\
+        <ixtw27000>;...;<ixtw27093>;\
+        <ixtw27100>;...;<ixtw27193>;\
+        <ixtw27200>;...;<ixtw27293>;\
+        <ixtw27300>;...;<ixtw27393>;\
+        <ixtw27400>;...;<ixtw27493>;\
+        <ixtw27500>;...;<ixtw27593>;\
+        <ixtw27600>;...;<ixtw27693>;\
+        <ixtw27700>;...;<ixtw27793>;\
+        <ixtw27800>;...;<ixtw27893>;\
+        <ixtw27900>;...;<ixtw27993>;\
+        <ixtw28000>;...;<ixtw28093>;\
+        <ixtw28100>;...;<ixtw28193>;\
+        <ixtw28200>;...;<ixtw28293>;\
+        <ixtw28300>;...;<ixtw28393>;\
+        <ixtw28400>;...;<ixtw28493>;\
+        <ixtw28500>;...;<ixtw28593>;\
+        <ixtw28600>;...;<ixtw28693>;\
+        <ixtw28700>;...;<ixtw28793>;\
+        <ixtw28800>;...;<ixtw28893>;\
+#
+# user-defined character high byte \xfa\xa1 - \xfe\xfe
+#
+        <ixtw28900>;...;<ixtw28993>;\
+        <ixtw29000>;...;<ixtw29093>;\
+        <ixtw29100>;...;<ixtw29193>;\
+        <ixtw29200>;...;<ixtw29293>;\
+        <ixtw29300>;...;<ixtw29393>;\
+#
+# user-defined characters and round-trip codeset conversion placeholders
+# \x8e\x40 - \xa0\xfe, \x81\x40 - \x8d\xfe
+#
+        <ixtw30000>;...;<ixtw30062>;\
+        <ixtw30100>;...;<ixtw30162>;\
+        <ixtw30200>;...;<ixtw30262>;\
+        <ixtw30300>;...;<ixtw30362>;\
+        <ixtw30400>;...;<ixtw30462>;\
+        <ixtw30500>;...;<ixtw30562>;\
+        <ixtw30600>;...;<ixtw30662>;\
+        <ixtw30700>;...;<ixtw30762>;\
+        <ixtw30800>;...;<ixtw30862>;\
+        <ixtw30900>;...;<ixtw30962>;\
+        <ixtw31000>;...;<ixtw31062>;\
+        <ixtw31100>;...;<ixtw31162>;\
+        <ixtw31200>;...;<ixtw31262>;\
+        <ixtw31300>;...;<ixtw31362>;\
+        <ixtw31400>;...;<ixtw31462>;\
+        <ixtw31500>;...;<ixtw31562>;\
+        <ixtw31600>;...;<ixtw31662>;\
+        <ixtw31700>;...;<ixtw31762>;\
+        <ixtw31800>;...;<ixtw31862>;\
+        <ixtw31900>;...;<ixtw31993>;\
+        <ixtw32000>;...;<ixtw32093>;\
+        <ixtw32100>;...;<ixtw32193>;\
+        <ixtw32200>;...;<ixtw32293>;\
+        <ixtw32300>;...;<ixtw32393>;\
+        <ixtw32400>;...;<ixtw32493>;\
+        <ixtw32500>;...;<ixtw32593>;\
+        <ixtw32600>;...;<ixtw32693>;\
+        <ixtw32700>;...;<ixtw32793>;\
+        <ixtw32800>;...;<ixtw32893>;\
+        <ixtw32900>;...;<ixtw32993>;\
+        <ixtw33000>;...;<ixtw33093>;\
+        <ixtw33100>;...;<ixtw33193>;\
+        <ixtw33200>;...;<ixtw33293>;\
+        <ixtw33300>;...;<ixtw33393>;\
+        <ixtw33400>;...;<ixtw33493>;\
+        <ixtw33500>;...;<ixtw33593>;\
+        <ixtw33600>;...;<ixtw33693>;\
+        <ixtw33700>;...;<ixtw33793>;\
+        <ixtw33800>;...;<ixtw33862>;\
+        <ixtw33900>;...;<ixtw33962>;\
+        <ixtw34000>;...;<ixtw34062>;\
+        <ixtw34100>;...;<ixtw34162>;\
+        <ixtw34200>;...;<ixtw34262>;\
+        <ixtw34300>;...;<ixtw34362>;\
+        <ixtw34400>;...;<ixtw34462>;\
+        <ixtw34500>;...;<ixtw34562>;\
+        <ixtw34600>;...;<ixtw34662>;\
+        <ixtw34700>;...;<ixtw34762>;\
+        <ixtw34800>;...;<ixtw34862>;\
+        <ixtw34900>;...;<ixtw34962>;\
+        <ixtw35000>;...;<ixtw35062>;\
+        <ixtw35100>;...;<ixtw35193>;\
+        <ixtw35200>;...;<ixtw35293>;\
+        <ixtw35300>;...;<ixtw35393>;\
+        <ixtw35400>;...;<ixtw35493>;\
+        <ixtw35500>;...;<ixtw35593>;\
+        <ixtw35600>;...;<ixtw35693>;\
+        <ixtw35700>;...;<ixtw35793>;\
+        <ixtw35800>;...;<ixtw35893>;\
+        <ixtw35900>;...;<ixtw35993>;\
+        <ixtw36000>;...;<ixtw36093>;\
+        <ixtw36100>;...;<ixtw36193>;\
+        <ixtw36200>;...;<ixtw36293>;\
+        <ixtw36300>;...;<ixtw36393>
+
+#
+# digit class
+#
+digit   <zero>;...;<nine>
+
+#
+# xdigit class
+#
+xdigit  <zero>;...;<nine>;\
+        <A>;...;<F>;\
+        <a>;...;<f>
+#
+# blank class
+#
+blank   <tab>;<space>;<ixtw10000>
+#
+# space class
+#
+#       space characters in C locale
+#
+space   <tab>;\
+        <newline>;\
+        <vertical-tab>;\
+        <form-feed>;\
+        <carriage-return>;\
+        <space>;\
+        <ixtw10000>
+#
+# cntrl class
+#
+#       same as C locale
+# Big5 Control Supp a3c0 - a3e0, a3e1 - a3fe
+#
+cntrl   <NUL>;...;<IS1>;\
+        <DEL>;\
+        <ixtw20231>;...;<ixtw20293>
+#
+# punct class
+#
+# Big5 Special Fonts a140 - a3bf
+#
+punct   <exclamation-mark>;...;<slash>;\
+        <colon>;...;<commercial-at>;\
+        <left-square-bracket>;...;<grave-accent>;\
+        <left-brace>;...;<tilde>;\
+        <ixtw10001>;...;<ixtw10062>;\
+        <ixtw10100>;...;<ixtw10162>;\
+# 	Note: ixtw10200 to ixtw10203 are two-byte w to z 
+        <ixtw10204>;...;<ixtw10262>;\
+        <ixtw20000>;...;<ixtw20035>;\
+# 	Note: ixtw20036 (a1c5?) is allegedly the two-byte underscore character
+#       <two-byte-underscore>.  This should be classified as 'alpha' so
+# 	that it is valid in identifiers.  However, there is currently some
+#       confusion about whether a1c5 is the correct encoding.  ixtw20036 is 
+#       currently classified as punct until this is resolved.
+        <ixtw20036>;\
+        <ixtw20037>;...;<ixtw20093>;\
+        <ixtw20100>;...;<ixtw20113>;\
+# 	Note: ixtw20114 to ixtw20123 are two-byte 0 to 9 
+        <ixtw20124>;...;<ixtw20145>;\
+# 	Note: ixtw20146 to ixtw20171 are two-byte A to Z 
+# 	Note: ixtw20172 to ixtw20193 are two-byte a to v 
+        <ixtw20200>;...;<ixtw20230>
+
+#
+# graph
+#
+#       upper, lower, alpha, digit, xdigit
+# Big5 Special Fonts a140 - a3bf
+# Frequently used character A440 - C67E
+# Rarely used characters c940 - f9d5
+# User-defined characters and round-trip placeholders
+#
+graph   <exclamation-mark>;...;<tilde>;\
+        <ixtw10001>;...;<ixtw10062>;\
+        <ixtw10100>;...;<ixtw10162>;\
+        <ixtw10200>;...;<ixtw10262>;\
+        <ixtw20000>;...;<ixtw20093>;\
+        <ixtw20100>;...;<ixtw20193>;\
+        <ixtw20200>;...;<ixtw20230>;\
+        <ixtw10300>;...;<ixtw10362>;\
+        <ixtw10400>;...;<ixtw10462>;\
+        <ixtw10500>;...;<ixtw10562>;\
+        <ixtw10600>;...;<ixtw10662>;\
+        <ixtw10700>;...;<ixtw10762>;\
+        <ixtw10800>;...;<ixtw10862>;\
+        <ixtw10900>;...;<ixtw10962>;\
+        <ixtw11000>;...;<ixtw11062>;\
+        <ixtw11100>;...;<ixtw11162>;\
+        <ixtw11200>;...;<ixtw11262>;\
+        <ixtw11300>;...;<ixtw11362>;\
+        <ixtw11400>;...;<ixtw11462>;\
+        <ixtw11500>;...;<ixtw11562>;\
+        <ixtw11600>;...;<ixtw11662>;\
+        <ixtw11700>;...;<ixtw11762>;\
+        <ixtw11800>;...;<ixtw11862>;\
+        <ixtw11900>;...;<ixtw11962>;\
+        <ixtw12000>;...;<ixtw12062>;\
+        <ixtw12100>;...;<ixtw12162>;\
+        <ixtw12200>;...;<ixtw12262>;\
+        <ixtw12300>;...;<ixtw12362>;\
+        <ixtw12400>;...;<ixtw12462>;\
+        <ixtw12500>;...;<ixtw12562>;\
+        <ixtw12600>;...;<ixtw12662>;\
+        <ixtw12700>;...;<ixtw12762>;\
+        <ixtw12800>;...;<ixtw12862>;\
+        <ixtw12900>;...;<ixtw12962>;\
+        <ixtw13000>;...;<ixtw13062>;\
+        <ixtw13100>;...;<ixtw13162>;\
+        <ixtw13200>;...;<ixtw13262>;\
+        <ixtw13300>;...;<ixtw13362>;\
+        <ixtw13400>;...;<ixtw13462>;\
+        <ixtw13500>;...;<ixtw13562>;\
+        <ixtw13600>;...;<ixtw13662>;\
+        <ixtw13700>;...;<ixtw13762>;\
+        <ixtw20300>;...;<ixtw20393>;\
+        <ixtw20400>;...;<ixtw20493>;\
+        <ixtw20500>;...;<ixtw20593>;\
+        <ixtw20600>;...;<ixtw20693>;\
+        <ixtw20700>;...;<ixtw20793>;\
+        <ixtw20800>;...;<ixtw20893>;\
+        <ixtw20900>;...;<ixtw20993>;\
+        <ixtw21000>;...;<ixtw21093>;\
+        <ixtw21100>;...;<ixtw21193>;\
+        <ixtw21200>;...;<ixtw21293>;\
+        <ixtw21300>;...;<ixtw21393>;\
+        <ixtw21400>;...;<ixtw21493>;\
+        <ixtw21500>;...;<ixtw21593>;\
+        <ixtw21600>;...;<ixtw21693>;\
+        <ixtw21700>;...;<ixtw21793>;\
+        <ixtw21800>;...;<ixtw21893>;\
+        <ixtw21900>;...;<ixtw21993>;\
+        <ixtw22000>;...;<ixtw22093>;\
+        <ixtw22100>;...;<ixtw22193>;\
+        <ixtw22200>;...;<ixtw22293>;\
+        <ixtw22300>;...;<ixtw22393>;\
+        <ixtw22400>;...;<ixtw22493>;\
+        <ixtw22500>;...;<ixtw22593>;\
+        <ixtw22600>;...;<ixtw22693>;\
+        <ixtw22700>;...;<ixtw22793>;\
+        <ixtw22800>;...;<ixtw22893>;\
+        <ixtw22900>;...;<ixtw22993>;\
+        <ixtw23000>;...;<ixtw23093>;\
+        <ixtw23100>;...;<ixtw23193>;\
+        <ixtw23200>;...;<ixtw23293>;\
+        <ixtw23300>;...;<ixtw23393>;\
+        <ixtw23400>;...;<ixtw23493>;\
+        <ixtw23500>;...;<ixtw23593>;\
+        <ixtw23600>;...;<ixtw23693>;\
+        <ixtw14000>;...;<ixtw14062>;\
+        <ixtw14100>;...;<ixtw14162>;\
+        <ixtw14200>;...;<ixtw14262>;\
+        <ixtw14300>;...;<ixtw14362>;\
+        <ixtw14400>;...;<ixtw14462>;\
+        <ixtw14500>;...;<ixtw14562>;\
+        <ixtw14600>;...;<ixtw14662>;\
+        <ixtw14700>;...;<ixtw14762>;\
+        <ixtw14800>;...;<ixtw14862>;\
+        <ixtw14900>;...;<ixtw14962>;\
+        <ixtw15000>;...;<ixtw15062>;\
+        <ixtw15100>;...;<ixtw15162>;\
+        <ixtw15200>;...;<ixtw15262>;\
+        <ixtw15300>;...;<ixtw15362>;\
+        <ixtw15400>;...;<ixtw15462>;\
+        <ixtw15500>;...;<ixtw15562>;\
+        <ixtw15600>;...;<ixtw15662>;\
+        <ixtw15700>;...;<ixtw15762>;\
+        <ixtw15800>;...;<ixtw15862>;\
+        <ixtw15900>;...;<ixtw15962>;\
+        <ixtw16000>;...;<ixtw16062>;\
+        <ixtw16100>;...;<ixtw16162>;\
+        <ixtw16200>;...;<ixtw16262>;\
+        <ixtw16300>;...;<ixtw16362>;\
+        <ixtw16400>;...;<ixtw16462>;\
+        <ixtw16500>;...;<ixtw16562>;\
+        <ixtw16600>;...;<ixtw16662>;\
+        <ixtw16700>;...;<ixtw16762>;\
+        <ixtw16800>;...;<ixtw16862>;\
+        <ixtw16900>;...;<ixtw16962>;\
+        <ixtw17000>;...;<ixtw17062>;\
+        <ixtw17100>;...;<ixtw17162>;\
+        <ixtw17200>;...;<ixtw17262>;\
+        <ixtw17300>;...;<ixtw17362>;\
+        <ixtw17400>;...;<ixtw17462>;\
+        <ixtw17500>;...;<ixtw17562>;\
+        <ixtw17600>;...;<ixtw17662>;\
+        <ixtw17700>;...;<ixtw17762>;\
+        <ixtw17800>;...;<ixtw17862>;\
+        <ixtw17900>;...;<ixtw17962>;\
+        <ixtw18000>;...;<ixtw18062>;\
+        <ixtw18100>;...;<ixtw18162>;\
+        <ixtw18200>;...;<ixtw18262>;\
+        <ixtw18300>;...;<ixtw18362>;\
+        <ixtw18400>;...;<ixtw18462>;\
+        <ixtw18500>;...;<ixtw18562>;\
+        <ixtw18600>;...;<ixtw18662>;\
+        <ixtw18700>;...;<ixtw18762>;\
+        <ixtw18800>;...;<ixtw18862>;\
+#
+# user-defined character high byte \xfa\x40 - \xfe\x7e
+#
+        <ixtw18900>;...;<ixtw18962>;\
+        <ixtw19000>;...;<ixtw19062>;\
+        <ixtw19100>;...;<ixtw19162>;\
+        <ixtw19200>;...;<ixtw19262>;\
+        <ixtw19300>;...;<ixtw19362>;\
+#
+# Rarely used character Phase II
+#
+        <ixtw24000>;...;<ixtw24093>;\
+        <ixtw24100>;...;<ixtw24193>;\
+        <ixtw24200>;...;<ixtw24293>;\
+        <ixtw24300>;...;<ixtw24393>;\
+        <ixtw24400>;...;<ixtw24493>;\
+        <ixtw24500>;...;<ixtw24593>;\
+        <ixtw24600>;...;<ixtw24693>;\
+        <ixtw24700>;...;<ixtw24793>;\
+        <ixtw24800>;...;<ixtw24893>;\
+        <ixtw24900>;...;<ixtw24993>;\
+        <ixtw25000>;...;<ixtw25093>;\
+        <ixtw25100>;...;<ixtw25193>;\
+        <ixtw25200>;...;<ixtw25293>;\
+        <ixtw25300>;...;<ixtw25393>;\
+        <ixtw25400>;...;<ixtw25493>;\
+        <ixtw25500>;...;<ixtw25593>;\
+        <ixtw25600>;...;<ixtw25693>;\
+        <ixtw25700>;...;<ixtw25793>;\
+        <ixtw25800>;...;<ixtw25893>;\
+        <ixtw25900>;...;<ixtw25993>;\
+        <ixtw26000>;...;<ixtw26093>;\
+        <ixtw26100>;...;<ixtw26193>;\
+        <ixtw26200>;...;<ixtw26293>;\
+        <ixtw26300>;...;<ixtw26393>;\
+        <ixtw26400>;...;<ixtw26493>;\
+        <ixtw26500>;...;<ixtw26593>;\
+        <ixtw26600>;...;<ixtw26693>;\
+        <ixtw26700>;...;<ixtw26793>;\
+        <ixtw26800>;...;<ixtw26893>;\
+        <ixtw26900>;...;<ixtw26993>;\
+        <ixtw27000>;...;<ixtw27093>;\
+        <ixtw27100>;...;<ixtw27193>;\
+        <ixtw27200>;...;<ixtw27293>;\
+        <ixtw27300>;...;<ixtw27393>;\
+        <ixtw27400>;...;<ixtw27493>;\
+        <ixtw27500>;...;<ixtw27593>;\
+        <ixtw27600>;...;<ixtw27693>;\
+        <ixtw27700>;...;<ixtw27793>;\
+        <ixtw27800>;...;<ixtw27893>;\
+        <ixtw27900>;...;<ixtw27993>;\
+        <ixtw28000>;...;<ixtw28093>;\
+        <ixtw28100>;...;<ixtw28193>;\
+        <ixtw28200>;...;<ixtw28293>;\
+        <ixtw28300>;...;<ixtw28393>;\
+        <ixtw28400>;...;<ixtw28493>;\
+        <ixtw28500>;...;<ixtw28593>;\
+        <ixtw28600>;...;<ixtw28693>;\
+        <ixtw28700>;...;<ixtw28793>;\
+        <ixtw28800>;...;<ixtw28893>;\
+#
+# user-defined character high byte \xfa\xa1 - \xfe\xfe
+#
+        <ixtw28900>;...;<ixtw28993>;\
+        <ixtw29000>;...;<ixtw29093>;\
+        <ixtw29100>;...;<ixtw29193>;\
+        <ixtw29200>;...;<ixtw29293>;\
+        <ixtw29300>;...;<ixtw29393>;\
+#
+# user-defined characters and round-trip codeset conversion placeholders
+# \x8e\x40 - \xa0\xfe, \x81\x40 - \x8d\xfe
+#
+        <ixtw30000>;...;<ixtw30062>;\
+        <ixtw30100>;...;<ixtw30162>;\
+        <ixtw30200>;...;<ixtw30262>;\
+        <ixtw30300>;...;<ixtw30362>;\
+        <ixtw30400>;...;<ixtw30462>;\
+        <ixtw30500>;...;<ixtw30562>;\
+        <ixtw30600>;...;<ixtw30662>;\
+        <ixtw30700>;...;<ixtw30762>;\
+        <ixtw30800>;...;<ixtw30862>;\
+        <ixtw30900>;...;<ixtw30962>;\
+        <ixtw31000>;...;<ixtw31062>;\
+        <ixtw31100>;...;<ixtw31162>;\
+        <ixtw31200>;...;<ixtw31262>;\
+        <ixtw31300>;...;<ixtw31362>;\
+        <ixtw31400>;...;<ixtw31462>;\
+        <ixtw31500>;...;<ixtw31562>;\
+        <ixtw31600>;...;<ixtw31662>;\
+        <ixtw31700>;...;<ixtw31762>;\
+        <ixtw31800>;...;<ixtw31862>;\
+        <ixtw31900>;...;<ixtw31993>;\
+        <ixtw32000>;...;<ixtw32093>;\
+        <ixtw32100>;...;<ixtw32193>;\
+        <ixtw32200>;...;<ixtw32293>;\
+        <ixtw32300>;...;<ixtw32393>;\
+        <ixtw32400>;...;<ixtw32493>;\
+        <ixtw32500>;...;<ixtw32593>;\
+        <ixtw32600>;...;<ixtw32693>;\
+        <ixtw32700>;...;<ixtw32793>;\
+        <ixtw32800>;...;<ixtw32893>;\
+        <ixtw32900>;...;<ixtw32993>;\
+        <ixtw33000>;...;<ixtw33093>;\
+        <ixtw33100>;...;<ixtw33193>;\
+        <ixtw33200>;...;<ixtw33293>;\
+        <ixtw33300>;...;<ixtw33393>;\
+        <ixtw33400>;...;<ixtw33493>;\
+        <ixtw33500>;...;<ixtw33593>;\
+        <ixtw33600>;...;<ixtw33693>;\
+        <ixtw33700>;...;<ixtw33793>;\
+        <ixtw33800>;...;<ixtw33862>;\
+        <ixtw33900>;...;<ixtw33962>;\
+        <ixtw34000>;...;<ixtw34062>;\
+        <ixtw34100>;...;<ixtw34162>;\
+        <ixtw34200>;...;<ixtw34262>;\
+        <ixtw34300>;...;<ixtw34362>;\
+        <ixtw34400>;...;<ixtw34462>;\
+        <ixtw34500>;...;<ixtw34562>;\
+        <ixtw34600>;...;<ixtw34662>;\
+        <ixtw34700>;...;<ixtw34762>;\
+        <ixtw34800>;...;<ixtw34862>;\
+        <ixtw34900>;...;<ixtw34962>;\
+        <ixtw35000>;...;<ixtw35062>;\
+        <ixtw35100>;...;<ixtw35193>;\
+        <ixtw35200>;...;<ixtw35293>;\
+        <ixtw35300>;...;<ixtw35393>;\
+        <ixtw35400>;...;<ixtw35493>;\
+        <ixtw35500>;...;<ixtw35593>;\
+        <ixtw35600>;...;<ixtw35693>;\
+        <ixtw35700>;...;<ixtw35793>;\
+        <ixtw35800>;...;<ixtw35893>;\
+        <ixtw35900>;...;<ixtw35993>;\
+        <ixtw36000>;...;<ixtw36093>;\
+        <ixtw36100>;...;<ixtw36193>;\
+        <ixtw36200>;...;<ixtw36293>;\
+        <ixtw36300>;...;<ixtw36393>
+
+#
+# print
+#
+#       space
+#       upper, lower, alpha, digit, xdigit
+
+print   <space>;...;<tilde>;\
+        <ixtw10000>;...;<ixtw10062>;\
+        <ixtw10100>;...;<ixtw10162>;\
+        <ixtw10200>;...;<ixtw10262>;\
+        <ixtw20000>;...;<ixtw20093>;\
+        <ixtw20100>;...;<ixtw20193>;\
+        <ixtw20200>;...;<ixtw20230>;\
+        <ixtw10300>;...;<ixtw10362>;\
+        <ixtw10400>;...;<ixtw10462>;\
+        <ixtw10500>;...;<ixtw10562>;\
+        <ixtw10600>;...;<ixtw10662>;\
+        <ixtw10700>;...;<ixtw10762>;\
+        <ixtw10800>;...;<ixtw10862>;\
+        <ixtw10900>;...;<ixtw10962>;\
+        <ixtw11000>;...;<ixtw11062>;\
+        <ixtw11100>;...;<ixtw11162>;\
+        <ixtw11200>;...;<ixtw11262>;\
+        <ixtw11300>;...;<ixtw11362>;\
+        <ixtw11400>;...;<ixtw11462>;\
+        <ixtw11500>;...;<ixtw11562>;\
+        <ixtw11600>;...;<ixtw11662>;\
+        <ixtw11700>;...;<ixtw11762>;\
+        <ixtw11800>;...;<ixtw11862>;\
+        <ixtw11900>;...;<ixtw11962>;\
+        <ixtw12000>;...;<ixtw12062>;\
+        <ixtw12100>;...;<ixtw12162>;\
+        <ixtw12200>;...;<ixtw12262>;\
+        <ixtw12300>;...;<ixtw12362>;\
+        <ixtw12400>;...;<ixtw12462>;\
+        <ixtw12500>;...;<ixtw12562>;\
+        <ixtw12600>;...;<ixtw12662>;\
+        <ixtw12700>;...;<ixtw12762>;\
+        <ixtw12800>;...;<ixtw12862>;\
+        <ixtw12900>;...;<ixtw12962>;\
+        <ixtw13000>;...;<ixtw13062>;\
+        <ixtw13100>;...;<ixtw13162>;\
+        <ixtw13200>;...;<ixtw13262>;\
+        <ixtw13300>;...;<ixtw13362>;\
+        <ixtw13400>;...;<ixtw13462>;\
+        <ixtw13500>;...;<ixtw13562>;\
+        <ixtw13600>;...;<ixtw13662>;\
+        <ixtw13700>;...;<ixtw13762>;\
+        <ixtw20300>;...;<ixtw20393>;\
+        <ixtw20400>;...;<ixtw20493>;\
+        <ixtw20500>;...;<ixtw20593>;\
+        <ixtw20600>;...;<ixtw20693>;\
+        <ixtw20700>;...;<ixtw20793>;\
+        <ixtw20800>;...;<ixtw20893>;\
+        <ixtw20900>;...;<ixtw20993>;\
+        <ixtw21000>;...;<ixtw21093>;\
+        <ixtw21100>;...;<ixtw21193>;\
+        <ixtw21200>;...;<ixtw21293>;\
+        <ixtw21300>;...;<ixtw21393>;\
+        <ixtw21400>;...;<ixtw21493>;\
+        <ixtw21500>;...;<ixtw21593>;\
+        <ixtw21600>;...;<ixtw21693>;\
+        <ixtw21700>;...;<ixtw21793>;\
+        <ixtw21800>;...;<ixtw21893>;\
+        <ixtw21900>;...;<ixtw21993>;\
+        <ixtw22000>;...;<ixtw22093>;\
+        <ixtw22100>;...;<ixtw22193>;\
+        <ixtw22200>;...;<ixtw22293>;\
+        <ixtw22300>;...;<ixtw22393>;\
+        <ixtw22400>;...;<ixtw22493>;\
+        <ixtw22500>;...;<ixtw22593>;\
+        <ixtw22600>;...;<ixtw22693>;\
+        <ixtw22700>;...;<ixtw22793>;\
+        <ixtw22800>;...;<ixtw22893>;\
+        <ixtw22900>;...;<ixtw22993>;\
+        <ixtw23000>;...;<ixtw23093>;\
+        <ixtw23100>;...;<ixtw23193>;\
+        <ixtw23200>;...;<ixtw23293>;\
+        <ixtw23300>;...;<ixtw23393>;\
+        <ixtw23400>;...;<ixtw23493>;\
+        <ixtw23500>;...;<ixtw23593>;\
+        <ixtw23600>;...;<ixtw23693>;\
+        <ixtw14000>;...;<ixtw14062>;\
+        <ixtw14100>;...;<ixtw14162>;\
+        <ixtw14200>;...;<ixtw14262>;\
+        <ixtw14300>;...;<ixtw14362>;\
+        <ixtw14400>;...;<ixtw14462>;\
+        <ixtw14500>;...;<ixtw14562>;\
+        <ixtw14600>;...;<ixtw14662>;\
+        <ixtw14700>;...;<ixtw14762>;\
+        <ixtw14800>;...;<ixtw14862>;\
+        <ixtw14900>;...;<ixtw14962>;\
+        <ixtw15000>;...;<ixtw15062>;\
+        <ixtw15100>;...;<ixtw15162>;\
+        <ixtw15200>;...;<ixtw15262>;\
+        <ixtw15300>;...;<ixtw15362>;\
+        <ixtw15400>;...;<ixtw15462>;\
+        <ixtw15500>;...;<ixtw15562>;\
+        <ixtw15600>;...;<ixtw15662>;\
+        <ixtw15700>;...;<ixtw15762>;\
+        <ixtw15800>;...;<ixtw15862>;\
+        <ixtw15900>;...;<ixtw15962>;\
+        <ixtw16000>;...;<ixtw16062>;\
+        <ixtw16100>;...;<ixtw16162>;\
+        <ixtw16200>;...;<ixtw16262>;\
+        <ixtw16300>;...;<ixtw16362>;\
+        <ixtw16400>;...;<ixtw16462>;\
+        <ixtw16500>;...;<ixtw16562>;\
+        <ixtw16600>;...;<ixtw16662>;\
+        <ixtw16700>;...;<ixtw16762>;\
+        <ixtw16800>;...;<ixtw16862>;\
+        <ixtw16900>;...;<ixtw16962>;\
+        <ixtw17000>;...;<ixtw17062>;\
+        <ixtw17100>;...;<ixtw17162>;\
+        <ixtw17200>;...;<ixtw17262>;\
+        <ixtw17300>;...;<ixtw17362>;\
+        <ixtw17400>;...;<ixtw17462>;\
+        <ixtw17500>;...;<ixtw17562>;\
+        <ixtw17600>;...;<ixtw17662>;\
+        <ixtw17700>;...;<ixtw17762>;\
+        <ixtw17800>;...;<ixtw17862>;\
+        <ixtw17900>;...;<ixtw17962>;\
+        <ixtw18000>;...;<ixtw18062>;\
+        <ixtw18100>;...;<ixtw18162>;\
+        <ixtw18200>;...;<ixtw18262>;\
+        <ixtw18300>;...;<ixtw18362>;\
+        <ixtw18400>;...;<ixtw18462>;\
+        <ixtw18500>;...;<ixtw18562>;\
+        <ixtw18600>;...;<ixtw18662>;\
+        <ixtw18700>;...;<ixtw18762>;\
+        <ixtw18800>;...;<ixtw18862>;\
+#
+# user-defined character high byte \xfa\x40 - \xfe\x7e
+#
+        <ixtw18900>;...;<ixtw18962>;\
+        <ixtw19000>;...;<ixtw19062>;\
+        <ixtw19100>;...;<ixtw19162>;\
+        <ixtw19200>;...;<ixtw19262>;\
+        <ixtw19300>;...;<ixtw19362>;\
+#
+# Rarely used characters - Phase II
+#
+        <ixtw24000>;...;<ixtw24093>;\
+        <ixtw24100>;...;<ixtw24193>;\
+        <ixtw24200>;...;<ixtw24293>;\
+        <ixtw24300>;...;<ixtw24393>;\
+        <ixtw24400>;...;<ixtw24493>;\
+        <ixtw24500>;...;<ixtw24593>;\
+        <ixtw24600>;...;<ixtw24693>;\
+        <ixtw24700>;...;<ixtw24793>;\
+        <ixtw24800>;...;<ixtw24893>;\
+        <ixtw24900>;...;<ixtw24993>;\
+        <ixtw25000>;...;<ixtw25093>;\
+        <ixtw25100>;...;<ixtw25193>;\
+        <ixtw25200>;...;<ixtw25293>;\
+        <ixtw25300>;...;<ixtw25393>;\
+        <ixtw25400>;...;<ixtw25493>;\
+        <ixtw25500>;...;<ixtw25593>;\
+        <ixtw25600>;...;<ixtw25693>;\
+        <ixtw25700>;...;<ixtw25793>;\
+        <ixtw25800>;...;<ixtw25893>;\
+        <ixtw25900>;...;<ixtw25993>;\
+        <ixtw26000>;...;<ixtw26093>;\
+        <ixtw26100>;...;<ixtw26193>;\
+        <ixtw26200>;...;<ixtw26293>;\
+        <ixtw26300>;...;<ixtw26393>;\
+        <ixtw26400>;...;<ixtw26493>;\
+        <ixtw26500>;...;<ixtw26593>;\
+        <ixtw26600>;...;<ixtw26693>;\
+        <ixtw26700>;...;<ixtw26793>;\
+        <ixtw26800>;...;<ixtw26893>;\
+        <ixtw26900>;...;<ixtw26993>;\
+        <ixtw27000>;...;<ixtw27093>;\
+        <ixtw27100>;...;<ixtw27193>;\
+        <ixtw27200>;...;<ixtw27293>;\
+        <ixtw27300>;...;<ixtw27393>;\
+        <ixtw27400>;...;<ixtw27493>;\
+        <ixtw27500>;...;<ixtw27593>;\
+        <ixtw27600>;...;<ixtw27693>;\
+        <ixtw27700>;...;<ixtw27793>;\
+        <ixtw27800>;...;<ixtw27893>;\
+        <ixtw27900>;...;<ixtw27993>;\
+        <ixtw28000>;...;<ixtw28093>;\
+        <ixtw28100>;...;<ixtw28193>;\
+        <ixtw28200>;...;<ixtw28293>;\
+        <ixtw28300>;...;<ixtw28393>;\
+        <ixtw28400>;...;<ixtw28493>;\
+        <ixtw28500>;...;<ixtw28593>;\
+        <ixtw28600>;...;<ixtw28693>;\
+        <ixtw28700>;...;<ixtw28793>;\
+        <ixtw28800>;...;<ixtw28893>;\
+#
+# user-defined character high byte \xfa\xa1 - \xfe\xfe
+#
+        <ixtw28900>;...;<ixtw28993>;\
+        <ixtw29000>;...;<ixtw29093>;\
+        <ixtw29100>;...;<ixtw29193>;\
+        <ixtw29200>;...;<ixtw29293>;\
+        <ixtw29300>;...;<ixtw29393>;\
+#
+# user-defined characters and round-trip codeset conversion placeholders
+# \x8e\x40 - \xa0\xfe, \x81\x40 - \x8d\xfe
+#
+        <ixtw30000>;...;<ixtw30062>;\
+        <ixtw30100>;...;<ixtw30162>;\
+        <ixtw30200>;...;<ixtw30262>;\
+        <ixtw30300>;...;<ixtw30362>;\
+        <ixtw30400>;...;<ixtw30462>;\
+        <ixtw30500>;...;<ixtw30562>;\
+        <ixtw30600>;...;<ixtw30662>;\
+        <ixtw30700>;...;<ixtw30762>;\
+        <ixtw30800>;...;<ixtw30862>;\
+        <ixtw30900>;...;<ixtw30962>;\
+        <ixtw31000>;...;<ixtw31062>;\
+        <ixtw31100>;...;<ixtw31162>;\
+        <ixtw31200>;...;<ixtw31262>;\
+        <ixtw31300>;...;<ixtw31362>;\
+        <ixtw31400>;...;<ixtw31462>;\
+        <ixtw31500>;...;<ixtw31562>;\
+        <ixtw31600>;...;<ixtw31662>;\
+        <ixtw31700>;...;<ixtw31762>;\
+        <ixtw31800>;...;<ixtw31862>;\
+        <ixtw31900>;...;<ixtw31993>;\
+        <ixtw32000>;...;<ixtw32093>;\
+        <ixtw32100>;...;<ixtw32193>;\
+        <ixtw32200>;...;<ixtw32293>;\
+        <ixtw32300>;...;<ixtw32393>;\
+        <ixtw32400>;...;<ixtw32493>;\
+        <ixtw32500>;...;<ixtw32593>;\
+        <ixtw32600>;...;<ixtw32693>;\
+        <ixtw32700>;...;<ixtw32793>;\
+        <ixtw32800>;...;<ixtw32893>;\
+        <ixtw32900>;...;<ixtw32993>;\
+        <ixtw33000>;...;<ixtw33093>;\
+        <ixtw33100>;...;<ixtw33193>;\
+        <ixtw33200>;...;<ixtw33293>;\
+        <ixtw33300>;...;<ixtw33393>;\
+        <ixtw33400>;...;<ixtw33493>;\
+        <ixtw33500>;...;<ixtw33593>;\
+        <ixtw33600>;...;<ixtw33693>;\
+        <ixtw33700>;...;<ixtw33793>;\
+        <ixtw33800>;...;<ixtw33862>;\
+        <ixtw33900>;...;<ixtw33962>;\
+        <ixtw34000>;...;<ixtw34062>;\
+        <ixtw34100>;...;<ixtw34162>;\
+        <ixtw34200>;...;<ixtw34262>;\
+        <ixtw34300>;...;<ixtw34362>;\
+        <ixtw34400>;...;<ixtw34462>;\
+        <ixtw34500>;...;<ixtw34562>;\
+        <ixtw34600>;...;<ixtw34662>;\
+        <ixtw34700>;...;<ixtw34762>;\
+        <ixtw34800>;...;<ixtw34862>;\
+        <ixtw34900>;...;<ixtw34962>;\
+        <ixtw35000>;...;<ixtw35062>;\
+        <ixtw35100>;...;<ixtw35193>;\
+        <ixtw35200>;...;<ixtw35293>;\
+        <ixtw35300>;...;<ixtw35393>;\
+        <ixtw35400>;...;<ixtw35493>;\
+        <ixtw35500>;...;<ixtw35593>;\
+        <ixtw35600>;...;<ixtw35693>;\
+        <ixtw35700>;...;<ixtw35793>;\
+        <ixtw35800>;...;<ixtw35893>;\
+        <ixtw35900>;...;<ixtw35993>;\
+        <ixtw36000>;...;<ixtw36093>;\
+        <ixtw36100>;...;<ixtw36193>;\
+        <ixtw36200>;...;<ixtw36293>;\
+        <ixtw36300>;...;<ixtw36393>
+
+#
+# reserved codepoints \xc6\xa1 - \xc8\xfe
+#
+unclassified <ixtw13800>;...;<ixtw13862>;\
+             <ixtw13900>;...;<ixtw13962>;\
+             <ixtw23700>;...;<ixtw23793>;\
+             <ixtw23800>;...;<ixtw23893>;\
+             <ixtw23900>;...;<ixtw23993>
+
+#
+# toupper and tolower
+#
+
+toupper (<a>,<A>);(<b>,<B>);(<c>,<C>);(<d>,<D>);(<e>,<E>);\
+        (<f>,<F>);(<g>,<G>);(<h>,<H>);(<i>,<I>);(<j>,<J>);\
+        (<k>,<K>);(<l>,<L>);(<m>,<M>);(<n>,<N>);(<o>,<O>);\
+        (<p>,<P>);(<q>,<Q>);(<r>,<R>);(<s>,<S>);(<t>,<T>);\
+        (<u>,<U>);(<v>,<V>);(<w>,<W>);(<x>,<X>);(<y>,<Y>);\
+        (<z>,<Z>);\
+        (<two-byte-a>,<two-byte-A>);\
+	(<two-byte-b>,<two-byte-B>);\
+	(<two-byte-c>,<two-byte-C>);\
+	(<two-byte-d>,<two-byte-D>);\
+	(<two-byte-e>,<two-byte-E>);\
+        (<two-byte-f>,<two-byte-F>);\
+	(<two-byte-g>,<two-byte-G>);\
+	(<two-byte-h>,<two-byte-H>);\
+	(<two-byte-i>,<two-byte-I>);\
+	(<two-byte-j>,<two-byte-J>);\
+        (<two-byte-k>,<two-byte-K>);\
+	(<two-byte-l>,<two-byte-L>);\
+	(<two-byte-m>,<two-byte-M>);\
+	(<two-byte-n>,<two-byte-N>);\
+	(<two-byte-o>,<two-byte-O>);\
+        (<two-byte-p>,<two-byte-P>);\
+	(<two-byte-q>,<two-byte-Q>);\
+	(<two-byte-r>,<two-byte-R>);\
+	(<two-byte-s>,<two-byte-S>);\
+	(<two-byte-t>,<two-byte-T>);\
+        (<two-byte-u>,<two-byte-U>);\
+	(<two-byte-v>,<two-byte-V>);\
+	(<two-byte-w>,<two-byte-W>);\
+	(<two-byte-x>,<two-byte-X>);\
+	(<two-byte-y>,<two-byte-Y>);\
+        (<two-byte-z>,<two-byte-Z>)
+
+
+tolower (<A>,<a>);(<B>,<b>);(<C>,<c>);(<D>,<d>);(<E>,<e>);\
+        (<F>,<f>);(<G>,<g>);(<H>,<h>);(<I>,<i>);(<J>,<j>);\
+        (<K>,<k>);(<L>,<l>);(<M>,<m>);(<N>,<n>);(<O>,<o>);\
+        (<P>,<p>);(<Q>,<q>);(<R>,<r>);(<S>,<s>);(<T>,<t>);\
+        (<U>,<u>);(<V>,<v>);(<W>,<w>);(<X>,<x>);(<Y>,<y>);\
+        (<Z>,<z>);\
+        (<two-byte-A>,<two-byte-a>);\
+	(<two-byte-B>,<two-byte-b>);\
+	(<two-byte-C>,<two-byte-c>);\
+	(<two-byte-D>,<two-byte-d>);\
+	(<two-byte-E>,<two-byte-e>);\
+        (<two-byte-F>,<two-byte-f>);\
+	(<two-byte-G>,<two-byte-g>);\
+	(<two-byte-H>,<two-byte-h>);\
+	(<two-byte-I>,<two-byte-i>);\
+	(<two-byte-J>,<two-byte-j>);\
+        (<two-byte-K>,<two-byte-k>);\
+	(<two-byte-L>,<two-byte-l>);\
+	(<two-byte-M>,<two-byte-m>);\
+	(<two-byte-N>,<two-byte-n>);\
+	(<two-byte-O>,<two-byte-o>);\
+        (<two-byte-P>,<two-byte-p>);\
+	(<two-byte-Q>,<two-byte-q>);\
+	(<two-byte-R>,<two-byte-r>);\
+	(<two-byte-S>,<two-byte-s>);\
+	(<two-byte-T>,<two-byte-t>);\
+        (<two-byte-U>,<two-byte-u>);\
+	(<two-byte-V>,<two-byte-v>);\
+	(<two-byte-W>,<two-byte-w>);\
+	(<two-byte-X>,<two-byte-x>);\
+	(<two-byte-Y>,<two-byte-y>);\
+        (<two-byte-Z>,<two-byte-z>)
+
+
+#
+# full_width
+#
+#      GLS-specific ctype
+#      to specify full width (2 column) display width characters
+#
+
+full_width      <ixtw10000>;...;<ixtw10062>;\
+                <ixtw10100>;...;<ixtw10162>;\
+                <ixtw10200>;...;<ixtw10262>;\
+                <ixtw10300>;...;<ixtw10362>;\
+                <ixtw10400>;...;<ixtw10462>;\
+                <ixtw10500>;...;<ixtw10562>;\
+                <ixtw10600>;...;<ixtw10662>;\
+                <ixtw10700>;...;<ixtw10762>;\
+                <ixtw10800>;...;<ixtw10862>;\
+                <ixtw10900>;...;<ixtw10962>;\
+                <ixtw11000>;...;<ixtw11062>;\
+                <ixtw11100>;...;<ixtw11162>;\
+                <ixtw11200>;...;<ixtw11262>;\
+                <ixtw11300>;...;<ixtw11362>;\
+                <ixtw11400>;...;<ixtw11462>;\
+                <ixtw11500>;...;<ixtw11562>;\
+                <ixtw11600>;...;<ixtw11662>;\
+                <ixtw11700>;...;<ixtw11762>;\
+                <ixtw11800>;...;<ixtw11862>;\
+                <ixtw11900>;...;<ixtw11962>;\
+                <ixtw12000>;...;<ixtw12062>;\
+                <ixtw12100>;...;<ixtw12162>;\
+                <ixtw12200>;...;<ixtw12262>;\
+                <ixtw12300>;...;<ixtw12362>;\
+                <ixtw12400>;...;<ixtw12462>;\
+                <ixtw12500>;...;<ixtw12562>;\
+                <ixtw12600>;...;<ixtw12662>;\
+                <ixtw12700>;...;<ixtw12762>;\
+                <ixtw12800>;...;<ixtw12862>;\
+                <ixtw12900>;...;<ixtw12962>;\
+                <ixtw13000>;...;<ixtw13062>;\
+                <ixtw13100>;...;<ixtw13162>;\
+                <ixtw13200>;...;<ixtw13262>;\
+                <ixtw13300>;...;<ixtw13362>;\
+                <ixtw13400>;...;<ixtw13462>;\
+                <ixtw13500>;...;<ixtw13562>;\
+                <ixtw13600>;...;<ixtw13662>;\
+                <ixtw13700>;...;<ixtw13762>;\
+                <ixtw13800>;...;<ixtw13862>;\
+                <ixtw13900>;...;<ixtw13962>;\
+                <ixtw14000>;...;<ixtw14062>;\
+                <ixtw14100>;...;<ixtw14162>;\
+                <ixtw14200>;...;<ixtw14262>;\
+                <ixtw14300>;...;<ixtw14362>;\
+                <ixtw14400>;...;<ixtw14462>;\
+                <ixtw14500>;...;<ixtw14562>;\
+                <ixtw14600>;...;<ixtw14662>;\
+                <ixtw14700>;...;<ixtw14762>;\
+                <ixtw14800>;...;<ixtw14862>;\
+                <ixtw14900>;...;<ixtw14962>;\
+                <ixtw15000>;...;<ixtw15062>;\
+                <ixtw15100>;...;<ixtw15162>;\
+                <ixtw15200>;...;<ixtw15262>;\
+                <ixtw15300>;...;<ixtw15362>;\
+                <ixtw15400>;...;<ixtw15462>;\
+                <ixtw15500>;...;<ixtw15562>;\
+                <ixtw15600>;...;<ixtw15662>;\
+                <ixtw15700>;...;<ixtw15762>;\
+                <ixtw15800>;...;<ixtw15862>;\
+                <ixtw15900>;...;<ixtw15962>;\
+                <ixtw16000>;...;<ixtw16062>;\
+                <ixtw16100>;...;<ixtw16162>;\
+                <ixtw16200>;...;<ixtw16262>;\
+                <ixtw16300>;...;<ixtw16362>;\
+                <ixtw16400>;...;<ixtw16462>;\
+                <ixtw16500>;...;<ixtw16562>;\
+                <ixtw16600>;...;<ixtw16662>;\
+                <ixtw16700>;...;<ixtw16762>;\
+                <ixtw16800>;...;<ixtw16862>;\
+                <ixtw16900>;...;<ixtw16962>;\
+                <ixtw17000>;...;<ixtw17062>;\
+                <ixtw17100>;...;<ixtw17162>;\
+                <ixtw17200>;...;<ixtw17262>;\
+                <ixtw17300>;...;<ixtw17362>;\
+                <ixtw17400>;...;<ixtw17462>;\
+                <ixtw17500>;...;<ixtw17562>;\
+                <ixtw17600>;...;<ixtw17662>;\
+                <ixtw17700>;...;<ixtw17762>;\
+                <ixtw17800>;...;<ixtw17862>;\
+                <ixtw17900>;...;<ixtw17962>;\
+                <ixtw18000>;...;<ixtw18062>;\
+                <ixtw18100>;...;<ixtw18162>;\
+                <ixtw18200>;...;<ixtw18262>;\
+                <ixtw18300>;...;<ixtw18362>;\
+                <ixtw18400>;...;<ixtw18462>;\
+                <ixtw18500>;...;<ixtw18562>;\
+                <ixtw18600>;...;<ixtw18662>;\
+                <ixtw18700>;...;<ixtw18762>;\
+                <ixtw18800>;...;<ixtw18862>;\
+                <ixtw18900>;...;<ixtw18962>;\
+                <ixtw19000>;...;<ixtw19062>;\
+                <ixtw19100>;...;<ixtw19162>;\
+                <ixtw19200>;...;<ixtw19262>;\
+                <ixtw19300>;...;<ixtw19362>;\
+                <ixtw20000>;...;<ixtw20093>;\
+                <ixtw20100>;...;<ixtw20193>;\
+                <ixtw20200>;...;<ixtw20293>;\
+                <ixtw20300>;...;<ixtw20393>;\
+                <ixtw20400>;...;<ixtw20493>;\
+                <ixtw20500>;...;<ixtw20593>;\
+                <ixtw20600>;...;<ixtw20693>;\
+                <ixtw20700>;...;<ixtw20793>;\
+                <ixtw20800>;...;<ixtw20893>;\
+                <ixtw20900>;...;<ixtw20993>;\
+                <ixtw21000>;...;<ixtw21093>;\
+                <ixtw21100>;...;<ixtw21193>;\
+                <ixtw21200>;...;<ixtw21293>;\
+                <ixtw21300>;...;<ixtw21393>;\
+                <ixtw21400>;...;<ixtw21493>;\
+                <ixtw21500>;...;<ixtw21593>;\
+                <ixtw21600>;...;<ixtw21693>;\
+                <ixtw21700>;...;<ixtw21793>;\
+                <ixtw21800>;...;<ixtw21893>;\
+                <ixtw21900>;...;<ixtw21993>;\
+                <ixtw22000>;...;<ixtw22093>;\
+                <ixtw22100>;...;<ixtw22193>;\
+                <ixtw22200>;...;<ixtw22293>;\
+                <ixtw22300>;...;<ixtw22393>;\
+                <ixtw22400>;...;<ixtw22493>;\
+                <ixtw22500>;...;<ixtw22593>;\
+                <ixtw22600>;...;<ixtw22693>;\
+                <ixtw22700>;...;<ixtw22793>;\
+                <ixtw22800>;...;<ixtw22893>;\
+                <ixtw22900>;...;<ixtw22993>;\
+                <ixtw23000>;...;<ixtw23093>;\
+                <ixtw23100>;...;<ixtw23193>;\
+                <ixtw23200>;...;<ixtw23293>;\
+                <ixtw23300>;...;<ixtw23393>;\
+                <ixtw23400>;...;<ixtw23493>;\
+                <ixtw23500>;...;<ixtw23593>;\
+                <ixtw23600>;...;<ixtw23693>;\
+                <ixtw23700>;...;<ixtw23793>;\
+                <ixtw23800>;...;<ixtw23893>;\
+                <ixtw23900>;...;<ixtw23993>;\
+                <ixtw24000>;...;<ixtw24093>;\
+                <ixtw24100>;...;<ixtw24193>;\
+                <ixtw24200>;...;<ixtw24293>;\
+                <ixtw24300>;...;<ixtw24393>;\
+                <ixtw24400>;...;<ixtw24493>;\
+                <ixtw24500>;...;<ixtw24593>;\
+                <ixtw24600>;...;<ixtw24693>;\
+                <ixtw24700>;...;<ixtw24793>;\
+                <ixtw24800>;...;<ixtw24893>;\
+                <ixtw24900>;...;<ixtw24993>;\
+                <ixtw25000>;...;<ixtw25093>;\
+                <ixtw25100>;...;<ixtw25193>;\
+                <ixtw25200>;...;<ixtw25293>;\
+                <ixtw25300>;...;<ixtw25393>;\
+                <ixtw25400>;...;<ixtw25493>;\
+                <ixtw25500>;...;<ixtw25593>;\
+                <ixtw25600>;...;<ixtw25693>;\
+                <ixtw25700>;...;<ixtw25793>;\
+                <ixtw25800>;...;<ixtw25893>;\
+                <ixtw25900>;...;<ixtw25993>;\
+                <ixtw26000>;...;<ixtw26093>;\
+                <ixtw26100>;...;<ixtw26193>;\
+                <ixtw26200>;...;<ixtw26293>;\
+                <ixtw26300>;...;<ixtw26393>;\
+                <ixtw26400>;...;<ixtw26493>;\
+                <ixtw26500>;...;<ixtw26593>;\
+                <ixtw26600>;...;<ixtw26693>;\
+                <ixtw26700>;...;<ixtw26793>;\
+                <ixtw26800>;...;<ixtw26893>;\
+                <ixtw26900>;...;<ixtw26993>;\
+                <ixtw27000>;...;<ixtw27093>;\
+                <ixtw27100>;...;<ixtw27193>;\
+                <ixtw27200>;...;<ixtw27293>;\
+                <ixtw27300>;...;<ixtw27393>;\
+                <ixtw27400>;...;<ixtw27493>;\
+                <ixtw27500>;...;<ixtw27593>;\
+                <ixtw27600>;...;<ixtw27693>;\
+                <ixtw27700>;...;<ixtw27793>;\
+                <ixtw27800>;...;<ixtw27893>;\
+                <ixtw27900>;...;<ixtw27993>;\
+                <ixtw28000>;...;<ixtw28093>;\
+                <ixtw28100>;...;<ixtw28193>;\
+                <ixtw28200>;...;<ixtw28293>;\
+                <ixtw28300>;...;<ixtw28393>;\
+                <ixtw28400>;...;<ixtw28493>;\
+                <ixtw28500>;...;<ixtw28593>;\
+                <ixtw28600>;...;<ixtw28693>;\
+                <ixtw28700>;...;<ixtw28793>;\
+                <ixtw28800>;...;<ixtw28893>;\
+                <ixtw28900>;...;<ixtw28993>;\
+                <ixtw29000>;...;<ixtw29093>;\
+                <ixtw29100>;...;<ixtw29193>;\
+                <ixtw29200>;...;<ixtw29293>;\
+                <ixtw29300>;...;<ixtw29393>;\
+                <ixtw30000>;...;<ixtw30062>;\
+                <ixtw30100>;...;<ixtw30162>;\
+                <ixtw30200>;...;<ixtw30262>;\
+                <ixtw30300>;...;<ixtw30362>;\
+                <ixtw30400>;...;<ixtw30462>;\
+                <ixtw30500>;...;<ixtw30562>;\
+                <ixtw30600>;...;<ixtw30662>;\
+                <ixtw30700>;...;<ixtw30762>;\
+                <ixtw30800>;...;<ixtw30862>;\
+                <ixtw30900>;...;<ixtw30962>;\
+                <ixtw31000>;...;<ixtw31062>;\
+                <ixtw31100>;...;<ixtw31162>;\
+                <ixtw31200>;...;<ixtw31262>;\
+                <ixtw31300>;...;<ixtw31362>;\
+                <ixtw31400>;...;<ixtw31462>;\
+                <ixtw31500>;...;<ixtw31562>;\
+                <ixtw31600>;...;<ixtw31662>;\
+                <ixtw31700>;...;<ixtw31762>;\
+                <ixtw31800>;...;<ixtw31862>;\
+                <ixtw31900>;...;<ixtw31993>;\
+                <ixtw32000>;...;<ixtw32093>;\
+                <ixtw32100>;...;<ixtw32193>;\
+                <ixtw32200>;...;<ixtw32293>;\
+                <ixtw32300>;...;<ixtw32393>;\
+                <ixtw32400>;...;<ixtw32493>;\
+                <ixtw32500>;...;<ixtw32593>;\
+                <ixtw32600>;...;<ixtw32693>;\
+                <ixtw32700>;...;<ixtw32793>;\
+                <ixtw32800>;...;<ixtw32893>;\
+                <ixtw32900>;...;<ixtw32993>;\
+                <ixtw33000>;...;<ixtw33093>;\
+                <ixtw33100>;...;<ixtw33193>;\
+                <ixtw33200>;...;<ixtw33293>;\
+                <ixtw33300>;...;<ixtw33393>;\
+                <ixtw33400>;...;<ixtw33493>;\
+                <ixtw33500>;...;<ixtw33593>;\
+                <ixtw33600>;...;<ixtw33693>;\
+                <ixtw33700>;...;<ixtw33793>;\
+                <ixtw33800>;...;<ixtw33862>;\
+                <ixtw33900>;...;<ixtw33962>;\
+                <ixtw34000>;...;<ixtw34062>;\
+                <ixtw34100>;...;<ixtw34162>;\
+                <ixtw34200>;...;<ixtw34262>;\
+                <ixtw34300>;...;<ixtw34362>;\
+                <ixtw34400>;...;<ixtw34462>;\
+                <ixtw34500>;...;<ixtw34562>;\
+                <ixtw34600>;...;<ixtw34662>;\
+                <ixtw34700>;...;<ixtw34762>;\
+                <ixtw34800>;...;<ixtw34862>;\
+                <ixtw34900>;...;<ixtw34962>;\
+                <ixtw35000>;...;<ixtw35062>;\
+                <ixtw35100>;...;<ixtw35193>;\
+                <ixtw35200>;...;<ixtw35293>;\
+                <ixtw35300>;...;<ixtw35393>;\
+                <ixtw35400>;...;<ixtw35493>;\
+                <ixtw35500>;...;<ixtw35593>;\
+                <ixtw35600>;...;<ixtw35693>;\
+                <ixtw35700>;...;<ixtw35793>;\
+                <ixtw35800>;...;<ixtw35893>;\
+                <ixtw35900>;...;<ixtw35993>;\
+                <ixtw36000>;...;<ixtw36093>;\
+                <ixtw36100>;...;<ixtw36193>;\
+                <ixtw36200>;...;<ixtw36293>;\
+                <ixtw36300>;...;<ixtw36393>
+
+
+END LC_CTYPE
+
+#
+#
+#       LC_MONETARY
+#
+#
+
+LC_MONETARY
+
+int_curr_symbol         "<T><W><D><space>"
+currency_symbol         "<N><T><dollar-sign>"
+mon_decimal_point       "<period>"
+mon_thousands_sep       "<comma>"
+mon_grouping            3
+positive_sign           ""
+negative_sign           "<hyphen>"
+int_frac_digits         2
+frac_digits             2
+p_cs_precedes           1
+p_sep_by_space          0
+n_cs_precedes           1
+n_sep_by_space          0
+p_sign_posn             1
+n_sign_posn             1
+
+END LC_MONETARY
+
+#
+#
+#       LC_NUMERIC
+#
+#
+
+LC_NUMERIC
+
+decimal_point           "<period>"
+thousands_sep           "<comma>"
+grouping                3;0
+num_negative_sign       "<hyphen-minus>"
+num_positive_sign       ""
+
+END LC_NUMERIC
+
+#
+#
+#       LC_TIME
+#
+#
+
+LC_TIME
+
+d_t_fmt "<percent-sign><E><Y><percent-sign><b>\
+        <percent-sign><period><one><d><ixtw20372><space><ixtw11116><ixtw21932>\
+        <percent-sign><a><comma><space><percent-sign><H><ixtw21340>\
+        <percent-sign><M><ixtw20331><percent-sign><S><ixtw21176>"
+d_fmt   "<percent-sign><E><Y><percent-sign><b>\
+        <percent-sign><period><one><d><ixtw20372><space><ixtw11116><ixtw21932>\
+        <percent-sign><a>"
+t_fmt   "<percent-sign><H><ixtw21340><percent-sign><M><ixtw20331><percent-sign><S>\
+        <ixtw21176>"
+day             "<ixtw11116><ixtw21932><ixtw20372>";\
+                "<ixtw11116><ixtw21932><ixtw10300>";\
+                "<ixtw11116><ixtw21932><ixtw10307>";\
+                "<ixtw11116><ixtw21932><ixtw10320>";\
+                "<ixtw11116><ixtw21932><ixtw10460>";\
+                "<ixtw11116><ixtw21932><ixtw20312>";\
+                "<ixtw11116><ixtw21932><ixtw20326>"
+abday           "<ixtw20372>";\
+                "<ixtw10300>";\
+                "<ixtw10307>";\
+                "<ixtw10320>";\
+                "<ixtw10460>";\
+                "<ixtw20312>";\
+                "<ixtw20326>"
+mon             "<ixtw10300><ixtw20374>";\
+                "<ixtw10307><ixtw20374>";\
+                "<ixtw10320><ixtw20374>";\
+                "<ixtw10460><ixtw20374>";\
+                "<ixtw20312><ixtw20374>";\
+                "<ixtw20326><ixtw20374>";\
+                "<ixtw10303><ixtw20374>";\
+                "<ixtw10311><ixtw20374>";\
+                "<ixtw10305><ixtw20374>";\
+                "<ixtw10317><ixtw20374>";\
+                "<ixtw10317><ixtw10300><ixtw20374>";\
+                "<ixtw10317><ixtw10307><ixtw20374>"
+abmon           "<one><ixtw20374>";\
+                "<two><ixtw20374>";\
+                "<three><ixtw20374>";\
+                "<four><ixtw20374>";\
+                "<five><ixtw20374>";\
+                "<six><ixtw20374>";\
+                "<seven><ixtw20374>";\
+                "<eight><ixtw20374>";\
+                "<nine><ixtw20374>";\
+                "<one><zero><ixtw20374>";\
+                "<one><one><ixtw20374>";\
+                "<one><two><ixtw20374>"
+am_pm           "<ixtw10323><ixtw20339>";"<ixtw10321><ixtw20339>"
+era_d_fmt       "<percent-sign><E><Y><ixtw10562>"
+era_t_fmt       "<percent-sign><H><ixtw21340><percent-sign><M><ixtw20331>\
+                <percent-sign><S><ixtw21176>"
+era_d_t_fmt     "<percent-sign><E><Y><percent-sign><b>\
+                <percent-sign><period><one><d><ixtw20372><space><ixtw11116><ixtw21932>\
+                <percent-sign><a><comma><space><percent-sign><H><ixtw21340>\
+                <percent-sign><M><ixtw20331><percent-sign><S><ixtw21176>"
+era            "<hyphen><colon><one><colon><one><nine><one><one>\
+                <slash><one><two><slash><three><one><colon>\
+                <hyphen><asterisk><colon><ixtw20432><ixtw21573><ixtw11037><colon>\
+                <hyphen><colon><percent-sign><E><C><percent-sign><E><y><ixtw10562>";\
+                "<plus-sign><colon><two><colon><one><nine><one><three>\
+                <slash><zero><one><slash><zero><one><colon><plus-sign>\
+                <asterisk><colon><ixtw20303><ixtw22055><ixtw20432><ixtw21573><colon>\
+                <colon><percent-sign><E><C><percent-sign><E><y><ixtw10562>";\
+                "<plus-sign><colon><one><colon><one><nine><one><two><slash>\
+                <zero><one><slash><zero><one><colon><one><nine><one><two>\
+                <slash><one><two><slash><three><one><colon><ixtw20303><ixtw22055>\
+                <ixtw20432><ixtw21573><colon><colon><percent-sign><E><C>\
+                <ixtw20323><ixtw10562>"
+t_fmt_ampm      "<percent-sign><H><ixtw21340><percent-sign><M><ixtw20331>\
+                <percent-sign><S><ixtw21176>"
+
+END LC_TIME

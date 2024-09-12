@@ -1,0 +1,76 @@
+  Informix Online
+   Documentation
+  ------------------------------------------------------------------------
+
+                             RELEASE NOTES FOR
+
+                          Informix OLE DB Provider
+
+                               Date: 7/19/2001
+
+                               Version: 2.60
+  ------------------------------------------------------------------------
+
+Table of Contents
+
+     I.   Overview of Release Notes
+     II.  Informix Database Server Compatibility
+     III. Known Problems
+     IV . Fixed Problems
+
+  ------------------------------------------------------------------------
+
+I. Overview of Release Notes
+
+The purpose of these release notes is to make you aware of any special
+actions required to configure and use Informix OLE DB Provider on your
+computer. This file also describes new features and feature differences
+from earlier versions of this product. In addition, this file contains
+information about known bugs and their workarounds.
+
+This release notes document is not intended to be all-inclusive; it should
+be used as an addendum to the Informix OLE DB Provider Programmer's Guide,
+which provides thorough information about product features and behavior.
+
+These release notes are written for the following audience:
+
+   + System administrators who install Informix OLE DB Provider
+   + Developers who write client applications using Informix OLE DB
+     Provider
+
+  ------------------------------------------------------------------------
+
+II. Informix Database Server Compatibility
+
+Client-side OLE DB Provider is compatible with versions 7.3x, 8.2x, 9.1x,
+and 9.2 of the Informix database server.
+  ------------------------------------------------------------------------
+
+III. Known Problems
+
+---------------------------------------------------------------------------
+| Bug Number | Description                                                |
+---------------------------------------------------------------------------
+| 151282     | FOR A DATABASE WITH LOG MOD ANSI, INSERT FAILS WHEN IT IS  |
+|            | IN DISTRIBUTED TRANSACTION                                 |
+---------------------------------------------------------------------------
+
+
+
+IV. Fixed Problems
+
+---------------------------------------------------------------------------
+| Bug Number | Description                                                |
+---------------------------------------------------------------------------
+| 144767     | MEMORY LEAK CRASHES VISUAL BASIC WHEN USING PREPARED       |
+|            | INSERT STATEMENT TO LOAD INTO A TEXT COLUMN                |
+---------------------------------------------------------------------------
+| 145462     | ERROR -324 AMBIGUOUS COLUMN(ROWID) ON SELECT USING ADO     |
+|            | RECORDSET WITH ADOPENKEYSET AND ADLOCKREADONLY             |
+---------------------------------------------------------------------------
+| 145636     | MEMORY LEAK AT INSERTION OF BLOBS IN COLUMN OF TYPE BYTE   |
+---------------------------------------------------------------------------
+
+
+Informix OLE DB Provider
+Copyright (c) 2001, Informix Software, Inc. All rights reserved

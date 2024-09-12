@@ -1,0 +1,48 @@
+
+
+                          DOCUMENTATION NOTES FOR
+                 INFORMIX ODBC Driver Programmer's Manual
+                            DATE:  7/19/2001
+                             Version:  3.34 & 3.80
+
+Table of Contents
+I.   Overview
+II.  Corrections and Changes to the Manual
+
+I.   OVERVIEW
+=============
+
+This document describes feature and performance topics not covered in the
+current release of the Informix ODBC Driver Programmer's Manual.
+
+Additionally, you may want to look at some of the documentation notes for
+manuals that are distributed with your Informix database server. These
+notes include information about the following products and features that
+might affect your client application:
+
+  o DataBlade API
+
+  o Error messages
+
+  o GLS functionality
+
+  o SQL
+
+To see these documentation notes, look in one of the following database
+server directories. If you need information about these directories,
+contact your DBA. 
+
+---------------------------------------------------------------------------
+| Platform               | Directory for Documentation Notes              |
+|-------------------------------------------------------------------------|
+| UNIX                   | $INFORMIXDIR/release/en_us/0333                |
+|-------------------------------------------------------------------------|
+| Windows                | $INFORMIXDIR\release\en_us\04e4                |
+---------------------------------------------------------------------------
+
+
+II.  CORRECTIONS AND CHANGES TO THE MANUAL
+==========================================
+
+- In Informix ODBC driver, DBPATH is useful only for SE engine. The user should
+not set DBPATH for online server. 

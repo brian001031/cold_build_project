@@ -1,0 +1,174 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#       SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#
+#  Title:       035203f3.cv
+#  Author:      John Griffin
+#  Created:     Thu Jul 27 15:46:09 1995
+#  Description:
+#    Conversion file from 850 to 646de
+#    Registry values (Decimal): From 850 to 1011
+#    Registry values (Hex): From 0352 to 03f3
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#**************************************************************************
+#
+<source_version>    1
+<modified_date>     "07/27/1995"
+<source_codeset>    "850"
+<target_codeset>    "646de"
+
+\x00...\xff	\x00...	# Default everything onto itself
+\x40	\x7f error	# commercial at 
+\x5b	\x7f error	# left square bracket 
+\x5c	\x7f error	# reverse solidus 
+\x5d	\x7f error	# right square bracket 
+\x7b	\x7f error	# left curly bracket 
+\x7c	\x7f error	# vertical line 
+\x7d	\x7f error	# right curly bracket 
+\x7e	\x7f error	# tilde 
+\x80	\x7f error	# latin capital letter c with cedilla 
+\x81	\x7d		# latin small letter u with diaeresis 
+\x82	\x7f error	# latin small letter e with acute 
+\x83	\x7f error	# latin small letter a with circumflex 
+\x84	\x7b		# latin small letter a with diaeresis 
+\x85	\x7f error	# latin small letter a with grave 
+\x86	\x7f error	# latin small letter a with ring above 
+\x87	\x7f error	# latin small letter c with cedilla 
+\x88	\x7f error	# latin small letter e with circumflex 
+\x89	\x7f error	# latin small letter e with diaeresis 
+\x8a	\x7f error	# latin small letter e with grave 
+\x8b	\x7f error	# latin small letter i with diaeresis 
+\x8c	\x7f error	# latin small letter i with circumflex 
+\x8d	\x7f error	# latin small letter i with grave 
+\x8e	\x5b		# latin capital letter a with diaeresis 
+\x8f	\x7f error	# latin capital letter a with ring above 
+\x90	\x7f error	# latin capital letter e with acute 
+\x91	\x7f error	# latin small letter ae 
+\x92	\x7f error	# latin capital letter ae 
+\x93	\x7f error	# latin small letter o with circumflex 
+\x94	\x7c		# latin small letter o with diaeresis 
+\x95	\x7f error	# latin small letter o with grave 
+\x96	\x7f error	# latin small letter u with circumflex 
+\x97	\x7f error	# latin small letter u with grave 
+\x98	\x7f error	# latin small letter y with diaeresis 
+\x99	\x5c		# latin capital letter o with diaeresis 
+\x9a	\x5d		# latin capital letter u with diaeresis 
+\x9b	\x7f error	# latin small letter o with stroke 
+\x9c	\x7f error	# pound sign 
+\x9d	\x7f error	# latin capital letter o with stroke 
+\x9e	\x7f error	# multiplication sign 
+\x9f	\x7f error	# dutch guilder sign (ibm437 159) 
+\xa0	\x7f error	# latin small letter a with acute 
+\xa1	\x7f error	# latin small letter i with acute 
+\xa2	\x7f error	# latin small letter o with acute 
+\xa3	\x7f error	# latin small letter u with acute 
+\xa4	\x7f error	# latin small letter n with tilde 
+\xa5	\x7f error	# latin capital letter n with tilde 
+\xa6	\x7f error	# feminine ordinal indicator 
+\xa7	\x7f error	# masculine ordinal indicator 
+\xa8	\x7f error	# inverted question mark 
+\xa9	\x7f error	# registered sign 
+\xaa	\x7f error	# not sign 
+\xab	\x7f error	# vulgar fraction one half 
+\xac	\x7f error	# vulgar fraction one quarter 
+\xad	\x7f error	# inverted exclamation mark 
+\xae	\x7f error	# left-pointing double angle quotation mark 
+\xaf	\x7f error	# right-pointing double angle quotation mark 
+\xb0	\x7f error	# light shade 
+\xb1	\x7f error	# medium shade 
+\xb2	\x7f error	# dark shade 
+\xb3	\x7f error	# box drawings light vertical 
+\xb4	\x7f error	# box drawings light vertical and left 
+\xb5	\x7f error	# latin capital letter a with acute 
+\xb6	\x7f error	# latin capital letter a with circumflex 
+\xb7	\x7f error	# latin capital letter a with grave 
+\xb8	\x7f error	# copyright sign 
+\xb9	\x7f error	# box drawings heavy vertical and left 
+\xba	\x7f error	# box drawings heavy vertical 
+\xbb	\x7f error	# box drawings heavy down and left 
+\xbc	\x7f error	# box drawings heavy up and left 
+\xbd	\x7f error	# cent sign 
+\xbe	\x7f error	# yen sign 
+\xbf	\x7f error	# box drawings light down and left 
+\xc0	\x7f error	# box drawings light up and right 
+\xc1	\x7f error	# box drawings light up and horizontal 
+\xc2	\x7f error	# box drawings light down and horizontal 
+\xc3	\x7f error	# box drawings light vertical and right 
+\xc4	\x7f error	# box drawings light horizontal 
+\xc5	\x7f error	# box drawings light vertical and horizontal 
+\xc6	\x7f error	# latin small letter a with tilde 
+\xc7	\x7f error	# latin capital letter a with tilde 
+\xc8	\x7f error	# box drawings heavy up and right 
+\xc9	\x7f error	# box drawings heavy down and right 
+\xca	\x7f error	# box drawings heavy up and horizontal 
+\xcb	\x7f error	# box drawings heavy down and horizontal 
+\xcc	\x7f error	# box drawings heavy vertical and right 
+\xcd	\x7f error	# box drawings heavy horizontal 
+\xce	\x7f error	# box drawings heavy vertical and horizontal 
+\xcf	\x7f error	# currency sign 
+\xd0	\x7f error	# latin small letter eth (icelandic) 
+\xd1	\x7f error	# latin capital letter eth (icelandic) 
+\xd2	\x7f error	# latin capital letter e with circumflex 
+\xd3	\x7f error	# latin capital letter e with diaeresis 
+\xd4	\x7f error	# latin capital letter e with grave 
+\xd5	\x7f error	# latin small letter i dotless 
+\xd6	\x7f error	# latin capital letter i with acute 
+\xd7	\x7f error	# latin capital letter i with circumflex 
+\xd8	\x7f error	# latin capital letter i with diaeresis 
+\xd9	\x7f error	# box drawings light up and left 
+\xda	\x7f error	# box drawings light down and right 
+\xdb	\x7f error	# full block 
+\xdc	\x7f error	# lower half block 
+\xdd	\x7f error	# broken bar 
+\xde	\x7f error	# latin capital letter i with grave 
+\xdf	\x7f error	# upper half block 
+\xe0	\x7f error	# latin capital letter o with acute 
+\xe1	\x7e		# latin small letter sharp s (german) 
+\xe2	\x7f error	# latin capital letter o with circumflex 
+\xe3	\x7f error	# latin capital letter o with grave 
+\xe4	\x7f error	# latin small letter o with tilde 
+\xe5	\x7f error	# latin capital letter o with tilde 
+\xe6	\x7f error	# micro sign 
+\xe7	\x7f error	# latin small letter thorn (icelandic) 
+\xe8	\x7f error	# latin capital letter thorn (icelandic) 
+\xe9	\x7f error	# latin capital letter u with acute 
+\xea	\x7f error	# latin capital letter u with circumflex 
+\xeb	\x7f error	# latin capital letter u with grave 
+\xec	\x7f error	# latin small letter y with acute 
+\xed	\x7f error	# latin capital letter y with acute 
+\xee	\x7f error	# macron 
+\xef	\x7f error	# acute accent 
+\xf0	\x7f error	# soft hyphen 
+\xf1	\x7f error	# plus-minus sign 
+\xf2	\x7f error	# double low line 
+\xf3	\x7f error	# vulgar fraction three quarters 
+\xf4	\x7f error	# pilcrow sign 
+\xf5	\x40		# section sign 
+\xf6	\x7f error	# division sign 
+\xf7	\x7f error	# cedilla 
+\xf8	\x7f error	# degree sign 
+\xf9	\x7f error	# diaeresis 
+\xfa	\x7f error	# middle dot 
+\xfb	\x7f error	# superscript one 
+\xfc	\x7f error	# superscript three 
+\xfd	\x7f error	# superscript two 
+\xfe	\x7f error	# black square 
+\xff	\x7f error	# no-break space 

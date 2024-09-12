@@ -1,0 +1,305 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       016c.cm
+#  Author:      Informix ELC
+#  Created:     Thu Jun 06 14:20:31 1996
+#  Description:
+#    Character Map for ASCII 7-Bit
+#    Registry value (Decimal):  364
+#    Registry value (Hex):      016c
+#
+#    This file is the character map for the character set specified above.
+#    Its purpose is to define the mapping of characters to their positions
+#    in the character table.
+#
+#*************************************************************************
+<source_version>    1
+<modified_date>     "09/08/1995"
+<code_set_name>     "ASCII"
+
+CHARMAP
+<NUL>                       \x00
+<SOH>                       \x01
+<STX>                       \x02
+<ETX>                       \x03
+<EOT>                       \x04
+<ENQ>                       \x05
+<ACK>                       \x06
+<BEL>                       \x07
+<alert>                     \x07    ALTERNATE SYMBOL
+<backspace>                 \x08
+<tab>                       \x09
+<newline>                   \x0a
+<vertical-tab>              \x0b
+<form-feed>                 \x0c
+<carriage-return>           \x0d
+<SO>                        \x0e
+<SI>                        \x0f
+<DLE>                       \x10
+<DC1>                       \x11
+<DC2>                       \x12
+<DC3>                       \x13
+<DC4>                       \x14
+<NAK>                       \x15
+<SYN>                       \x16
+<ETB>                       \x17
+<CAN>                       \x18
+<EM>                        \x19
+<SUB>                       \x1a
+<ESC>                       \x1b
+<IS4>                       \x1c
+<IS3>                       \x1d
+<IS2>                       \x1e
+<IS1>                       \x1f
+<SP>                        \x20
+<space>                     \x20    ALTERNATE SYMBOL
+<exclamation-mark>          \x21
+<exclamation-point>         \x21    ALTERNATE SYMBOL
+<quotation-mark>            \x22
+<number-sign>               \x23
+<dollar-sign>               \x24
+<percent-sign>              \x25
+<ampersand>                 \x26
+<apostrophe>                \x27
+<left-parenthesis>          \x28
+<right-parenthesis>         \x29
+<asterisk>                  \x2a
+<plus-sign>                 \x2b
+<comma>                     \x2c
+<hyphen-minus>              \x2d
+<hyphen>                    \x2d    ALTERNATE SYMBOL
+<full-stop>                 \x2e
+<period>                    \x2e    ALTERNATE SYMBOL
+<slash>                     \x2f
+<solidus>                   \x2f    ALTERNATE SYMBOL
+<zero>                      \x30
+<one>                       \x31
+<two>                       \x32
+<three>                     \x33
+<four>                      \x34
+<five>                      \x35
+<six>                       \x36
+<seven>                     \x37
+<eight>                     \x38
+<nine>                      \x39
+<colon>                     \x3a
+<semicolon>                 \x3b
+<less-than-sign>            \x3c
+<equals-sign>               \x3d
+<greater-than-sign>         \x3e
+<question-mark>             \x3f
+<commercial-at>             \x40
+<A>                         \x41
+<B>                         \x42
+<C>                         \x43
+<D>                         \x44
+<E>                         \x45
+<F>                         \x46
+<G>                         \x47
+<H>                         \x48
+<I>                         \x49
+<J>                         \x4a
+<K>                         \x4b
+<L>                         \x4c
+<M>                         \x4d
+<N>                         \x4e
+<O>                         \x4f
+<P>                         \x50
+<Q>                         \x51
+<R>                         \x52
+<S>                         \x53
+<T>                         \x54
+<U>                         \x55
+<V>                         \x56
+<W>                         \x57
+<X>                         \x58
+<Y>                         \x59
+<Z>                         \x5a
+<left-square-bracket>       \x5b
+<backslash>                 \x5c
+<reverse-solidus>           \x5c    ALTERNATE SYMBOL
+<right-square-bracket>      \x5d
+<circumflex-accent>         \x5e
+<circumflex>                \x5e    ALTERNATE SYMBOL
+<low-line>                  \x5f
+<underscore>                \x5f    ALTERNATE SYMBOL
+<grave-accent>              \x60
+<a>                         \x61
+<b>                         \x62
+<c>                         \x63
+<d>                         \x64
+<e>                         \x65
+<f>                         \x66
+<g>                         \x67
+<h>                         \x68
+<i>                         \x69
+<j>                         \x6a
+<k>                         \x6b
+<l>                         \x6c
+<m>                         \x6d
+<n>                         \x6e
+<o>                         \x6f
+<p>                         \x70
+<q>                         \x71
+<r>                         \x72
+<s>                         \x73
+<t>                         \x74
+<u>                         \x75
+<v>                         \x76
+<w>                         \x77
+<x>                         \x78
+<y>                         \x79
+<z>                         \x7a
+<left-brace>                \x7b
+<left-curly-bracket>        \x7b    ALTERNATE SYMBOL
+<left-curly-brace>          \x7b    ALTERNATE SYMBOL
+<vertical-line>             \x7c
+<right-brace>               \x7d
+<right-curly-bracket>       \x7d    ALTERNATE SYMBOL
+<right-curly-brack>         \x7d    ALTERNATE SYMBOL
+<tilde>                     \x7e
+<DEL>                       \x7f
+<undefined-char-00000>      \x80
+<undefined-char-00001>      \x81
+<undefined-char-00002>      \x82
+<undefined-char-00003>      \x83
+<undefined-char-00004>      \x84
+<undefined-char-00005>      \x85
+<undefined-char-00006>      \x86
+<undefined-char-00007>      \x87
+<undefined-char-00008>      \x88
+<undefined-char-00009>      \x89
+<undefined-char-00010>      \x8a
+<undefined-char-00011>      \x8b
+<undefined-char-00012>      \x8c
+<undefined-char-00013>      \x8d
+<undefined-char-00014>      \x8e
+<undefined-char-00015>      \x8f
+<undefined-char-00016>      \x90
+<undefined-char-00017>      \x91
+<undefined-char-00018>      \x92
+<undefined-char-00019>      \x93
+<undefined-char-00020>      \x94
+<undefined-char-00021>      \x95
+<undefined-char-00022>      \x96
+<undefined-char-00023>      \x97
+<undefined-char-00024>      \x98
+<undefined-char-00025>      \x99
+<undefined-char-00026>      \x9a
+<undefined-char-00027>      \x9b
+<undefined-char-00028>      \x9c
+<undefined-char-00029>      \x9d
+<undefined-char-00030>      \x9e
+<undefined-char-00031>      \x9f
+<undefined-char-00032>      \xa0
+<undefined-char-00033>      \xa1
+<undefined-char-00034>      \xa2
+<undefined-char-00035>      \xa3
+<undefined-char-00036>      \xa4
+<undefined-char-00037>      \xa5
+<undefined-char-00038>      \xa6
+<undefined-char-00039>      \xa7
+<undefined-char-00040>      \xa8
+<undefined-char-00041>      \xa9
+<undefined-char-00042>      \xaa
+<undefined-char-00043>      \xab
+<undefined-char-00044>      \xac
+<undefined-char-00045>      \xad
+<undefined-char-00046>      \xae
+<undefined-char-00047>      \xaf
+<undefined-char-00048>      \xb0
+<undefined-char-00049>      \xb1
+<undefined-char-00050>      \xb2
+<undefined-char-00051>      \xb3
+<undefined-char-00052>      \xb4
+<undefined-char-00053>      \xb5
+<undefined-char-00054>      \xb6
+<undefined-char-00055>      \xb7
+<undefined-char-00056>      \xb8
+<undefined-char-00057>      \xb9
+<undefined-char-00058>      \xba
+<undefined-char-00059>      \xbb
+<undefined-char-00060>      \xbc
+<undefined-char-00061>      \xbd
+<undefined-char-00062>      \xbe
+<undefined-char-00063>      \xbf
+<undefined-char-00064>      \xc0
+<undefined-char-00065>      \xc1
+<undefined-char-00066>      \xc2
+<undefined-char-00067>      \xc3
+<undefined-char-00068>      \xc4
+<undefined-char-00069>      \xc5
+<undefined-char-00070>      \xc6
+<undefined-char-00071>      \xc7
+<undefined-char-00072>      \xc8
+<undefined-char-00073>      \xc9
+<undefined-char-00074>      \xca
+<undefined-char-00075>      \xcb
+<undefined-char-00076>      \xcc
+<undefined-char-00077>      \xcd
+<undefined-char-00078>      \xce
+<undefined-char-00079>      \xcf
+<undefined-char-00080>      \xd0
+<undefined-char-00081>      \xd1
+<undefined-char-00082>      \xd2
+<undefined-char-00083>      \xd3
+<undefined-char-00084>      \xd4
+<undefined-char-00085>      \xd5
+<undefined-char-00086>      \xd6
+<undefined-char-00087>      \xd7
+<undefined-char-00088>      \xd8
+<undefined-char-00089>      \xd9
+<undefined-char-00090>      \xda
+<undefined-char-00091>      \xdb
+<undefined-char-00092>      \xdc
+<undefined-char-00093>      \xdd
+<undefined-char-00094>      \xde
+<undefined-char-00095>      \xdf
+<undefined-char-00096>      \xe0
+<undefined-char-00097>      \xe1
+<undefined-char-00098>      \xe2
+<undefined-char-00099>      \xe3
+<undefined-char-00100>      \xe4
+<undefined-char-00101>      \xe5
+<undefined-char-00102>      \xe6
+<undefined-char-00103>      \xe7
+<undefined-char-00104>      \xe8
+<undefined-char-00105>      \xe9
+<undefined-char-00106>      \xea
+<undefined-char-00107>      \xeb
+<undefined-char-00108>      \xec
+<undefined-char-00109>      \xed
+<undefined-char-00110>      \xee
+<undefined-char-00111>      \xef
+<undefined-char-00112>      \xf0
+<undefined-char-00113>      \xf1
+<undefined-char-00114>      \xf2
+<undefined-char-00115>      \xf3
+<undefined-char-00116>      \xf4
+<undefined-char-00117>      \xf5
+<undefined-char-00118>      \xf6
+<undefined-char-00119>      \xf7
+<undefined-char-00120>      \xf8
+<undefined-char-00121>      \xf9
+<undefined-char-00122>      \xfa
+<undefined-char-00123>      \xfb
+<undefined-char-00124>      \xfc
+<undefined-char-00125>      \xfd
+<undefined-char-00126>      \xfe
+<undefined-char-00127>      \xff
+END CHARMAP

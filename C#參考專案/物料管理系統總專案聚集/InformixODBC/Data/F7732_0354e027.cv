@@ -1,0 +1,125 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       0354e027.cm
+#  Author:      Informix ELC
+#  Created:     Wed May 22 16:29:22 1996
+#  Description:
+#    Conversion file from IBM Code Page 852 to Polish CSK
+#    Registry value (Decimal):  From 852 to 57383
+#    Registry value (Hex): From 0354 to e027
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      1
+<modified_date>       "06/07/1996"
+<source_codeset>      "IBM Code Page 852"
+<target_codeset>      "Polish CSK"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x80	\x7f error  #  latin capital letter c with cedilla 
+\x81	\x7f error  #  latin small letter u with diaeresis 
+\x82	\x7f error  #  latin small letter e with acute 
+\x83	\x7f error  #  latin small letter a with circumflex 
+\x84	\x7f error  #  latin small letter a with diaeresis 
+\x85	\x7f error  #  latin small letter u with ring above 
+\x86	\xa1        #  latin small letter c with acute 
+\x87	\x7f error  #  latin small letter c with cedilla 
+\x88	\xa3        #  latin small letter l with stroke 
+\x8a	\x7f error  #  latin capital letter o with double acute 
+\x8b	\x7f error  #  latin small letter o with double acute 
+\x8d	\x87        #  latin capital letter z with acute 
+\x8f	\x81        #  latin capital letter c with acute 
+\x91	\x7f error  #  latin capital letter l with acute 
+\x92	\x7f error  #  latin small letter l with acute 
+\x95	\x7f error  #  latin capital letter l with caron 
+\x96	\x7f error  #  latin small letter l with caron 
+\x97	\x86        #  latin capital letter s with acute 
+\x98	\xa6        #  latin small letter s with acute 
+\x9b	\x7f error  #  latin capital letter t with caron 
+\x9c	\x7f error  #  latin small letter t with caron 
+\x9d	\x83        #  latin capital letter l with stroke 
+\x9e	\x7f error  #  multiplication sign 
+\x9f	\x7f error  #  latin small letter c with caron 
+\xa0	\x7f error  #  latin small letter a with acute 
+\xa1	\x7f error  #  latin small letter i with acute 
+\xa2	\xa5        #  latin small letter o with acute 
+\xa3	\x7f error  #  latin small letter u with acute 
+\xa4	\x80        #  latin capital letter a with ogonek 
+\xa5	\xa0        #  latin small letter a with ogonek 
+\xa6	\x7f error  #  latin capital letter z with caron 
+\xa7	\x7f error  #  latin small letter z with caron 
+\xa8	\x82        #  latin capital letter e with ogonek 
+\xa9	\xa2        #  latin small letter e with ogonek 
+\xab	\xa7        #  latin small letter z with acute 
+\xac	\x7f error  #  latin capital letter c with caron 
+\xad	\x7f error  #  latin small letter s with cedilla 
+\xb5	\x7f error  #  latin capital letter a with acute 
+\xb6	\x7f error  #  latin capital letter a with circumflex 
+\xb7	\x7f error  #  latin capital letter e with caron 
+\xb8	\x7f error  #  latin capital letter s with cedilla 
+\xbd	\x88        #  latin capital letter z with dot above 
+\xbe	\xa8        #  latin small letter z with dot above 
+\xc6	\x7f error  #  latin capital letter a with breve 
+\xc7	\x7f error  #  latin small letter a with breve 
+\xcf	\x7f error  #  currency sign 
+\xd0	\x7f error  #  latin small letter d with stroke 
+\xd1	\x7f error  #  latin capital letter d with stroke 
+\xd2	\x7f error  #  latin capital letter d with caron 
+\xd3	\x7f error  #  latin capital letter e with diaeresis 
+\xd4	\x7f error  #  latin small letter d with caron 
+\xd5	\x7f error  #  latin capital letter n with caron 
+\xd6	\x7f error  #  latin capital letter i with acute 
+\xd7	\x7f error  #  latin capital letter i with circumflex 
+\xd8	\x7f error  #  latin small letter e with caron 
+\xdd	\x7f error  #  latin capital letter t with cedilla 
+\xde	\x7f error  #  latin capital letter u with ring above 
+\xe0	\x85        #  latin capital letter o with acute 
+\xe1	\x7f error  #  latin small letter sharp s (german) 
+\xe2	\x7f error  #  latin capital letter o with circumflex 
+\xe3	\x84        #  latin capital letter n with acute 
+\xe4	\xa4        #  latin small letter n with acute 
+\xe5	\x7f error  #  latin small letter n with caron 
+\xe6	\x7f error  #  latin capital letter s with caron 
+\xe7	\x7f error  #  latin small letter s with caron 
+\xe8	\x7f error  #  latin capital letter r with acute 
+\xe9	\x7f error  #  latin capital letter u with acute 
+\xea	\x7f error  #  latin small letter r with acute 
+\xeb	\x7f error  #  latin capital letter u with double acute 
+\xec	\x7f error  #  latin small letter y with acute 
+\xed	\x7f error  #  latin capital letter y with acute 
+\xee	\x7f error  #  latin small letter t with cedilla 
+\xef	\x7f error  #  acute accent 
+\xf0	\x7f error  #  soft hyphen 
+\xf1	\x7f error  #  double acute accent 
+\xf2	\x7f error  #  ogonek 
+\xf3	\x7f error  #  caron 
+\xf4	\x7f error  #  breve 
+\xf5	\x7f error  #  section sign 
+\xf7	\x7f error  #  cedilla 
+\xf8	\x7f error  #  degree sign 
+\xf9	\x7f error  #  diaeresis 
+\xfa	\x7f error  #  dot above 
+\xfb	\x7f error  #  latin small letter u with double acute 
+\xfc	\x7f error  #  latin capital letter r with caron 
+\xfd	\x7f error  #  latin small letter r with caron 

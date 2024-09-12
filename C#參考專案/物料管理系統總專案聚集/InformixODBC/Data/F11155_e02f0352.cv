@@ -1,0 +1,166 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#       SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#
+#  Title:       e02f0352.cv
+#  Author:      Informix ELC 
+#  Created:     Mon Dec 21 15:45:54 1998
+#  Description:
+#    		Conversion file from 8859-15 to 850
+#    		Registry values (Decimal): From 819 to 850
+#    		Registry values (Hex): From 0333 to 0352
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#**************************************************************************
+#
+<source_version>    1
+<modified_date>     "12/21/1998"
+<source_codeset>    "8859-15"
+<target_codeset>    "850"
+
+\x00...\xff	\x00...	# Default everything onto itself
+\x80	\x7f error	# padding character (pad) 
+\x81	\x7f error	# high octet preset (hop) 
+\x82	\x7f error	# break permitted here (bph) 
+\x83	\x7f error	# no break here (nbh) 
+\x84	\x7f error	# index (ind) 
+\x85	\x7f error	# next line (nel) 
+\x86	\x7f error	# start of selected area (ssa) 
+\x87	\x7f error	# end of selected area (esa) 
+\x88	\x7f error	# character tabulation set (hts) 
+\x89	\x7f error	# character tabulation with justification (htj) 
+\x8a	\x7f error	# line tabulation set (vts) 
+\x8b	\x7f error	# partial line forward (pld) 
+\x8c	\x7f error	# partial line backward (plu) 
+\x8d	\x7f error	# reverse line feed (ri) 
+\x8e	\x7f error	# single-shift two (ss2) 
+\x8f	\x7f error	# single-shift three (ss3) 
+\x90	\x7f error	# device control string (dcs) 
+\x91	\x7f error	# private use one (pu1) 
+\x92	\x7f error	# private use two (pu2) 
+\x93	\x7f error	# set transmit state (sts) 
+\x94	\x7f error	# cancel character (cch) 
+\x95	\x7f error	# message waiting (mw) 
+\x96	\x7f error	# start of guarded area (spa) 
+\x97	\x7f error	# end of guarded area (epa) 
+\x98	\x7f error	# start of string (sos) 
+\x99	\x7f error	# single graphic character introducer (sgci) 
+\x9a	\x7f error	# single character introducer (sci) 
+\x9b	\x7f error	# control sequence introducer (csi) 
+\x9c	\x7f error	# string terminator (st) 
+\x9d	\x7f error	# operating system command (osc) 
+\x9e	\x7f error	# privacy message (pm) 
+\x9f	\x7f error	# application program command (apc) 
+\xa0	\xff		# no-break space 
+\xa1	\xad		# inverted exclamation mark 
+\xa2	\xbd		# cent sign 
+\xa3	\x9c		# pound sign 
+\xa4	\x7f error      # euro sign 
+\xa5	\xbe		# yen sign 
+\xa6	\x7f error      # Capital S caron 
+\xa7	\xf5		# section sign 
+\xa8	\x7f error      # s caron 
+\xa9	\xb8		# copyright sign 
+\xaa	\xa6		# feminine ordinal indicator 
+\xab	\xae		# left-pointing double angle quotation mark 
+\xac	\xaa		# not sign 
+\xad	\xf0		# soft hyphen 
+\xae	\xa9		# registered sign 
+\xaf	\xee		# macron 
+\xb0	\xf8		# degree sign 
+\xb1	\xf1		# plus-minus sign 
+\xb2	\xfd		# superscript two 
+\xb3	\xfc		# superscript three 
+\xb4	\x7f error      # Capital Z caron
+\xb5	\xe6		# micro sign 
+\xb6	\xf4		# pilcrow sign 
+\xb7	\xfa		# middle dot 
+\xb8	\x7f error      # z caron
+\xb9	\xfb		# superscript one 
+\xba	\xa7		# masculine ordinal indicator 
+\xbb	\xaf		# right-pointing double angle quotation mark 
+\xbc	\x7f error      # Capital OE ligature 
+\xbd	\x7f error      # oe ligature 
+\xbe	\x7f error      # Capital Y diaresis
+\xbf	\xa8		# inverted question mark 
+\xc0	\xb7		# latin capital letter a with grave 
+\xc1	\xb5		# latin capital letter a with acute 
+\xc2	\xb6		# latin capital letter a with circumflex 
+\xc3	\xc7		# latin capital letter a with tilde 
+\xc4	\x8e		# latin capital letter a with diaeresis 
+\xc5	\x8f		# latin capital letter a with ring above 
+\xc6	\x92		# latin capital letter ae 
+\xc7	\x80		# latin capital letter c with cedilla 
+\xc8	\xd4		# latin capital letter e with grave 
+\xc9	\x90		# latin capital letter e with acute 
+\xca	\xd2		# latin capital letter e with circumflex 
+\xcb	\xd3		# latin capital letter e with diaeresis 
+\xcc	\xde		# latin capital letter i with grave 
+\xcd	\xd6		# latin capital letter i with acute 
+\xce	\xd7		# latin capital letter i with circumflex 
+\xcf	\xd8		# latin capital letter i with diaeresis 
+\xd0	\xd1		# latin capital letter eth (icelandic) 
+\xd1	\xa5		# latin capital letter n with tilde 
+\xd2	\xe3		# latin capital letter o with grave 
+\xd3	\xe0		# latin capital letter o with acute 
+\xd4	\xe2		# latin capital letter o with circumflex 
+\xd5	\xe5		# latin capital letter o with tilde 
+\xd6	\x99		# latin capital letter o with diaeresis 
+\xd7	\x9e		# multiplication sign 
+\xd8	\x9d		# latin capital letter o with stroke 
+\xd9	\xeb		# latin capital letter u with grave 
+\xda	\xe9		# latin capital letter u with acute 
+\xdb	\xea		# latin capital letter u with circumflex 
+\xdc	\x9a		# latin capital letter u with diaeresis 
+\xdd	\xed		# latin capital letter y with acute 
+\xde	\xe8		# latin capital letter thorn (icelandic) 
+\xdf	\xe1		# latin small letter sharp s (german) 
+\xe0	\x85		# latin small letter a with grave 
+\xe1	\xa0		# latin small letter a with acute 
+\xe2	\x83		# latin small letter a with circumflex 
+\xe3	\xc6		# latin small letter a with tilde 
+\xe4	\x84		# latin small letter a with diaeresis 
+\xe5	\x86		# latin small letter a with ring above 
+\xe6	\x91		# latin small letter ae 
+\xe7	\x87		# latin small letter c with cedilla 
+\xe8	\x8a		# latin small letter e with grave 
+\xe9	\x82		# latin small letter e with acute 
+\xea	\x88		# latin small letter e with circumflex 
+\xeb	\x89		# latin small letter e with diaeresis 
+\xec	\x8d		# latin small letter i with grave 
+\xed	\xa1		# latin small letter i with acute 
+\xee	\x8c		# latin small letter i with circumflex 
+\xef	\x8b		# latin small letter i with diaeresis 
+\xf0	\xd0		# latin small letter eth (icelandic) 
+\xf1	\xa4		# latin small letter n with tilde 
+\xf2	\x95		# latin small letter o with grave 
+\xf3	\xa2		# latin small letter o with acute 
+\xf4	\x93		# latin small letter o with circumflex 
+\xf5	\xe4		# latin small letter o with tilde 
+\xf6	\x94		# latin small letter o with diaeresis 
+\xf7	\xf6		# division sign 
+\xf8	\x9b		# latin small letter o with stroke 
+\xf9	\x97		# latin small letter u with grave 
+\xfa	\xa3		# latin small letter u with acute 
+\xfb	\x96		# latin small letter u with circumflex 
+\xfc	\x81		# latin small letter u with diaeresis 
+\xfd	\xec		# latin small letter y with acute 
+\xfe	\xe7		# latin small letter thorn (icelandic) 
+\xff	\x98		# latin small letter y with diaeresis 

@@ -1,0 +1,46 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       03f904e4.cm
+#  Author:      Informix ELC
+#  Created:     Thu Oct 05 15:19:21 1995
+#  Description:
+#    Conversion file from Danish ASCII 7-Bit to Windows Code Page 1252
+#    Registry value (Decimal):  From 1017 to 1252
+#    Registry value (Hex): From 03f9 to 04e4
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+<source_version>    2
+<modified_date>     "02/12/1997"
+<source_codeset>    "ISO-7-Danish"
+<target_codeset>    "1252"
+
+\x00...\xff     \x00... # Default everything onto itself
+\x5b	\xc6
+\x5c	\xd8
+\x5d	\xc5
+\x5e	\xdc
+\x7b	\xe6
+\x7c	\xf8
+\x7d	\xe5
+\x7e	\xfc
+\x80    \x1a error # No Euro-sign in ISO-7-Danish

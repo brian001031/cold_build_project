@@ -1,0 +1,85 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       039004e2.cv
+#  Author:      Informix ELC
+#  Created:     Tue Jan 28 10:50:30 1997
+#  Description:
+#    Conversion file from ISO Code Page 8859-2 to Windows Code Page 1250
+#    Registry value (Decimal):  From 912 to 1250
+#    Registry value (Hex): From 0390 to 04e2
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      2
+<modified_date>       "01/28/1997"
+<source_codeset>      "ISO Code Page 8859-2"
+<target_codeset>      "Windows Code Page 1250"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x80	\x7f error  #  padding character (pad) 
+\x81	\x7f error  #  high octet preset (hop) 
+\x82	\x7f error  #  break permitted here (bph) 
+\x83	\x7f error  #  no break here (nbh) 
+\x84	\x7f error  #  index (ind) 
+\x85	\x7f error  #  next line (nel) 
+\x86	\x7f error  #  start of selected area (ssa) 
+\x87	\x7f error  #  end of selected area (esa) 
+\x88	\x7f error  #  character tabulation set (hts) 
+\x89	\x7f error  #  character tabulation with justification (htj) 
+\x8a	\x7f error  #  line tabulation set (vts) 
+\x8b	\x7f error  #  partial line forward (pld) 
+\x8c	\x7f error  #  partial line backward (plu) 
+\x8d	\x7f error  #  reverse line feed (ri) 
+\x8e	\x7f error  #  single-shift two (ss2) 
+\x8f	\x7f error  #  single-shift three (ss3) 
+\x90	\x7f error  #  device control string (dcs) 
+\x91	\x7f error  #  private use one (pu1) 
+\x92	\x7f error  #  private use two (pu2) 
+\x93	\x7f error  #  set transmit state (sts) 
+\x94	\x7f error  #  cancel character (cch) 
+\x95	\x7f error  #  message waiting (mw) 
+\x96	\x7f error  #  start of guarded area (spa) 
+\x97	\x7f error  #  end of guarded area (epa) 
+\x98	\x7f error  #  start of string (sos) 
+\x99	\x7f error  #  single graphic character introducer (sgci) 
+\x9a	\x7f error  #  single character introducer (sci) 
+\x9b	\x7f error  #  control sequence introducer (csi) 
+\x9c	\x7f error  #  string terminator (st) 
+\x9d	\x7f error  #  operating system command (osc) 
+\x9e	\x7f error  #  privacy message (pm) 
+\x9f	\x7f error  #  application program command (apc) 
+\xa1	\xa5        #  latin capital letter a with ogonek 
+\xa5	\xbc        #  latin capital letter l with caron 
+\xa6	\x8c        #  latin capital letter s with acute 
+\xa9	\x8a        #  latin capital letter s with caron 
+\xab	\x8d        #  latin capital letter t with caron 
+\xac	\x8f        #  latin capital letter z with acute 
+\xae	\x8e        #  latin capital letter z with caron 
+\xb1	\xb9        #  latin small letter a with ogonek 
+\xb5	\xbe        #  latin small letter l with caron 
+\xb6	\x9c        #  latin small letter s with acute 
+\xb7	\xa1        #  caron 
+\xb9	\x9a        #  latin small letter s with caron 
+\xbb	\x9d        #  latin small letter t with caron 
+\xbc	\x9f        #  latin small letter z with acute 
+\xbe	\x9e        #  latin small letter z with caron 

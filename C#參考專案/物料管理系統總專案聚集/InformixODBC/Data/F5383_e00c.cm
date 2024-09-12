@@ -1,0 +1,276 @@
+############################################################################
+#
+#                         INFORMIX SOFTWARE, INC.
+#
+#                            PROPRIETARY DATA
+#
+#      THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF
+#      INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#      CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR
+#      DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT
+#      SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#      THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#      SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE.
+#      UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW.
+#
+#    Charmap source file for: Korean 5601-1987
+#
+############################################################################
+
+<source_version>  1
+
+<modified_date>   "6/7/1995"
+
+<code_set_name>   "ksc"
+
+
+CHARMAP  
+
+#	ASCII
+
+<NUL>                   \x00
+<SOH>                   \x01
+<STX>                   \x02
+<ETX>                   \x03
+<EOT>                   \x04
+<ENQ>                   \x05
+<ACK>                   \x06
+<alert>                 \x07
+<BEL>                   \x07    ALTERNATE SYMBOL
+<backspace>             \x08
+<BS>                    \x08    ALTERNATE SYMBOL
+<tab>                   \x09
+<HT>                    \x09    ALTERNATE SYMBOL
+<newline>               \x0a
+<LF>                    \x0a    ALTERNATE SYMBOL
+<vertical-tab>          \x0b
+<VT>                    \x0b    ALTERNATE SYMBOL
+<form-feed>             \x0c
+<FF>                    \x0c    ALTERNATE SYMBOL
+<carriage-return>       \x0d
+<CR>                    \x0d    ALTERNATE SYMBOL
+<SO>                    \x0e
+<SI>                    \x0f
+<DLE>                   \x10
+<DC1>                   \x11
+<DC2>                   \x12
+<DC3>                   \x13
+<DC4>                   \x14
+<NAK>                   \x15
+<SYN>                   \x16
+<ETB>                   \x17
+<CAN>                   \x18
+<EM>                    \x19
+<SUB>                   \x1a
+<ESC>                   \x1b
+<IS4>                   \x1c
+<FS>                    \x1c    ALTERNATE SYMBOL
+<IS3>                   \x1d
+<GS>                    \x1d    ALTERNATE SYMBOL
+<IS2>                   \x1e
+<RS>                    \x1e    ALTERNATE SYMBOL
+<IS1>                   \x1f
+<US>                    \x1f    ALTERNATE SYMBOL
+<space>                 \x20
+<exclamation-mark>      \x21
+<quotation-mark>        \x22
+<number-sign>           \x23
+<dollar-sign>           \x24
+<percent-sign>          \x25
+<ampersand>             \x26
+<apostrophe>            \x27
+<left-parenthesis>      \x28
+<right-parenthesis>     \x29
+<asterisk>              \x2a
+<plus-sign>             \x2b
+<comma>                 \x2c
+<hyphen>                \x2d
+<hyphen-minus>          \x2d    ALTERNATE SYMBOL
+<period>                \x2e
+<full-stop>             \x2e    ALTERNATE SYMBOL
+<slash>                 \x2f
+<solidus>               \x2f    ALTERNATE SYMBOL
+<zero>                  \x30
+<one>                   \x31
+<two>                   \x32
+<three>                 \x33
+<four>                  \x34
+<five>                  \x35
+<six>                   \x36
+<seven>                 \x37
+<eight>                 \x38
+<nine>                  \x39
+<colon>                 \x3a
+<semicolon>             \x3b
+<less-than-sign>        \x3c
+<equals-sign>           \x3d
+<greater-than-sign>     \x3e
+<question-mark>         \x3f
+<commercial-at>         \x40
+<A>                     \x41
+<B>                     \x42
+<C>                     \x43
+<D>                     \x44
+<E>                     \x45
+<F>                     \x46
+<G>                     \x47
+<H>                     \x48
+<I>                     \x49
+<J>                     \x4a
+<K>                     \x4b
+<L>                     \x4c
+<M>                     \x4d
+<N>                     \x4e
+<O>                     \x4f
+<P>                     \x50
+<Q>                     \x51
+<R>                     \x52
+<S>                     \x53
+<T>                     \x54
+<U>                     \x55
+<V>                     \x56
+<W>                     \x57
+<X>                     \x58
+<Y>                     \x59
+<Z>                     \x5a
+<left-square-bracket>   \x5b
+<backslash>             \x5c
+<reverse-solidus>       \x5c    ALTERNATE SYMBOL
+<right-square-bracket>  \x5d
+<circumflex>            \x5e
+<circumflex-accent>     \x5e    ALTERNATE SYMBOL
+<underscore>            \x5f
+<underline>             \x5f    ALTERNATE SYMBOL
+<low-line>              \x5f    ALTERNATE SYMBOL
+<grave-accent>          \x60
+<a>                     \x61
+<b>                     \x62
+<c>                     \x63
+<d>                     \x64
+<e>                     \x65
+<f>                     \x66
+<g>                     \x67
+<h>                     \x68
+<i>                     \x69
+<j>                     \x6a
+<k>                     \x6b
+<l>                     \x6c
+<m>                     \x6d
+<n>                     \x6e
+<o>                     \x6f
+<p>                     \x70
+<q>                     \x71
+<r>                     \x72
+<s>                     \x73
+<t>                     \x74
+<u>                     \x75
+<v>                     \x76
+<w>                     \x77
+<x>                     \x78
+<y>                     \x79
+<z>                     \x7a
+<left-curly-bracket>    \x7b
+<left-brace>            \x7b    ALTERNATE SYMBOL
+<vertical-line>         \x7c
+<right-curly-bracket>   \x7d
+<right-brace>           \x7d    ALTERNATE SYMBOL
+<tilde>                 \x7e
+<DEL>                   \x7f
+
+<ks0101>...<ks0194>		\xa1\xa1
+<ks0201>...<ks0294>		\xa2\xa1
+<ks0301>...<ks0394>		\xa3\xa1
+<ks0401>...<ks0494>		\xa4\xa1
+<ks0501>...<ks0594>		\xa5\xa1
+<ks0601>...<ks0694>		\xa6\xa1
+<ks0701>...<ks0794>		\xa7\xa1
+<ks0801>...<ks0894>		\xa8\xa1
+<ks0901>...<ks0994>		\xa9\xa1
+<ks1001>...<ks1094>		\xaa\xa1
+<ks1101>...<ks1194>		\xab\xa1
+<ks1201>...<ks1294>		\xac\xa1
+<ks1301>...<ks1394>		\xad\xa1
+<ks1401>...<ks1494>		\xae\xa1
+<ks1501>...<ks1594>		\xaf\xa1
+<ks1601>...<ks1694>		\xb0\xa1
+<ks1701>...<ks1794>		\xb1\xa1
+<ks1801>...<ks1894>		\xb2\xa1
+<ks1901>...<ks1994>		\xb3\xa1
+<ks2001>...<ks2094>		\xb4\xa1
+<ks2101>...<ks2194>		\xb5\xa1
+<ks2201>...<ks2294>		\xb6\xa1
+<ks2301>...<ks2394>		\xb7\xa1
+<ks2401>...<ks2494>		\xb8\xa1
+<ks2501>...<ks2594>		\xb9\xa1
+<ks2601>...<ks2694>		\xba\xa1
+<ks2701>...<ks2794>		\xbb\xa1
+<ks2801>...<ks2894>		\xbc\xa1
+<ks2901>...<ks2994>		\xbd\xa1
+<ks3001>...<ks3094>		\xbe\xa1
+<ks3101>...<ks3194>		\xbf\xa1
+<ks3201>...<ks3294>		\xc0\xa1
+<ks3301>...<ks3394>		\xc1\xa1
+<ks3401>...<ks3494>		\xc2\xa1
+<ks3501>...<ks3594>		\xc3\xa1
+<ks3601>...<ks3694>		\xc4\xa1
+<ks3701>...<ks3794>		\xc5\xa1
+<ks3801>...<ks3894>		\xc6\xa1
+<ks3901>...<ks3994>		\xc7\xa1
+<ks4001>...<ks4094>		\xc8\xa1
+<ks4101>...<ks4194>		\xc9\xa1
+<ks4201>...<ks4294>		\xca\xa1
+<ks4301>...<ks4394>		\xcb\xa1
+<ks4401>...<ks4494>		\xcc\xa1
+<ks4501>...<ks4594>		\xcd\xa1
+<ks4601>...<ks4694>		\xce\xa1
+<ks4701>...<ks4794>		\xcf\xa1
+<ks4801>...<ks4894>		\xd0\xa1
+<ks4901>...<ks4994>		\xd1\xa1
+<ks5001>...<ks5094>		\xd2\xa1
+<ks5101>...<ks5194>		\xd3\xa1
+<ks5201>...<ks5294>		\xd4\xa1
+<ks5301>...<ks5394>		\xd5\xa1
+<ks5401>...<ks5494>		\xd6\xa1
+<ks5501>...<ks5594>		\xd7\xa1
+<ks5601>...<ks5694>		\xd8\xa1
+<ks5701>...<ks5794>		\xd9\xa1
+<ks5801>...<ks5894>		\xda\xa1
+<ks5901>...<ks5994>		\xdb\xa1
+<ks6001>...<ks6094>		\xdc\xa1
+<ks6101>...<ks6194>		\xdd\xa1
+<ks6201>...<ks6294>		\xde\xa1
+<ks6301>...<ks6394>		\xdf\xa1
+<ks6401>...<ks6494>		\xe0\xa1
+<ks6501>...<ks6594>		\xe1\xa1
+<ks6601>...<ks6694>		\xe2\xa1
+<ks6701>...<ks6794>		\xe3\xa1
+<ks6801>...<ks6894>		\xe4\xa1
+<ks6901>...<ks6994>		\xe5\xa1
+<ks7001>...<ks7094>		\xe6\xa1
+<ks7101>...<ks7194>		\xe7\xa1
+<ks7201>...<ks7294>		\xe8\xa1
+<ks7301>...<ks7394>		\xe9\xa1
+<ks7401>...<ks7494>		\xea\xa1
+<ks7501>...<ks7594>		\xeb\xa1
+<ks7601>...<ks7694>		\xec\xa1
+<ks7701>...<ks7794>             \xed\xa1
+<ks7801>...<ks7894>		\xee\xa1
+<ks7901>...<ks7994>             \xef\xa1
+<ks8001>...<ks8094>             \xf0\xa1
+<ks8101>...<ks8194>             \xf1\xa1
+<ks8201>...<ks8294>             \xf2\xa1
+<ks8301>...<ks8394>             \xf3\xa1
+<ks8401>...<ks8494>             \xf4\xa1
+<ks8501>...<ks8594>             \xf5\xa1
+<ks8601>...<ks8694>             \xf6\xa1
+<ks8701>...<ks8794>             \xf7\xa1
+<ks8801>...<ks8894>             \xf8\xa1
+<ks8901>...<ks8994>             \xf9\xa1
+<ks9001>...<ks9094>             \xfa\xa1
+<ks9101>...<ks9194>             \xfb\xa1
+<ks9201>...<ks9294>             \xfc\xa1
+<ks9301>...<ks9394>             \xfd\xa1
+<ks9401>...<ks9494>             \xfe\xa1
+
+END CHARMAP

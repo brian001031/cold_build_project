@@ -1,0 +1,909 @@
+###########################################################################
+#
+#			   INFORMIX SOFTWARE, INC.
+#
+#			      PROPRIETARY DATA
+#
+#	THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#	INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#	CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#	DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#	SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#	THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#	SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#	UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW.
+#
+#
+#   Title:	e006.lc
+#   Sccsid:	%W%    %G%    %U%
+#   Description:
+#		ja_JP.sjis locale
+#
+###########################################################################
+
+<source_version>	3
+
+<modified_date>		"01/26/1996"
+
+<language>		"Japanese"
+<territory>		"Japan"
+
+<modifier>		"None"
+
+#############
+LC_CTYPE
+#############
+
+## upper class
+##
+##	upper case letters in ASCII and JIS X 0208
+
+upper	<A>;...;<Z>;\
+	<j0333>;...;<j0358>;\
+	<j0601>;...;<j0624>;\
+	<j0701>;...;<j0733>
+
+## lower class
+##
+##	lower case letters in ASCII and JIS X 0208
+
+lower	<a>;...;<z>;\
+	<j0365>;...;<j0390>;\
+	<j0633>;...;<j0656>;\
+	<j0749>;...;<j0763>;\
+	<j0764>;...;<j0781>
+
+## alpha class
+##
+##	default to upper and lower
+##	and
+##	Kana                      in JIS X 0201,
+##	Hiragana, Katakana, Kanji in JIS X 0208,
+##	Number                    in JIS X 0208,
+##	Level 1 and 2 Kanji       in JIS X 0208.
+##
+
+alpha	<kana_WO>;...;<kana_tsu>;\
+	<prolongedsound>;\
+	<kana_A>;...;<kana_N>;\
+	<voicedsound>;<semivoicedsound>;\
+# JIS X 0208
+#  Special Hiragana and Katakana and Kanji.
+	<j0111>;<j0112>;\
+	<j0119>;...;<j0128>;\
+#  Number (0-9)
+	<j0316>;...;<j0325>;\
+#  Hiragana
+	<j0401>;...;<j0483>;\
+#  Katakana
+	<j0501>;...;<j0563>;\
+	<j0564>;...;<j0586>;\
+#  Level 1 Kanji
+	<j1601>;...;<j1694>;\
+	<j1701>;...;<j1763>;\
+	<j1764>;...;<j1794>;\
+	<j1801>;...;<j1894>;\
+	<j1901>;...;<j1963>;\
+	<j1964>;...;<j1994>;\
+	<j2001>;...;<j2094>;\
+	<j2101>;...;<j2163>;\
+	<j2164>;...;<j2194>;\
+	<j2201>;...;<j2294>;\
+	<j2301>;...;<j2363>;\
+	<j2364>;...;<j2394>;\
+	<j2401>;...;<j2494>;\
+	<j2501>;...;<j2563>;\
+	<j2564>;...;<j2594>;\
+	<j2601>;...;<j2694>;\
+	<j2701>;...;<j2763>;\
+	<j2764>;...;<j2794>;\
+	<j2801>;...;<j2894>;\
+	<j2901>;...;<j2963>;\
+	<j2964>;...;<j2994>;\
+	<j3001>;...;<j3094>;\
+	<j3101>;...;<j3163>;\
+	<j3164>;...;<j3194>;\
+	<j3201>;...;<j3294>;\
+	<j3301>;...;<j3363>;\
+	<j3364>;...;<j3394>;\
+	<j3401>;...;<j3494>;\
+	<j3501>;...;<j3563>;\
+	<j3564>;...;<j3594>;\
+	<j3601>;...;<j3694>;\
+	<j3701>;...;<j3763>;\
+	<j3764>;...;<j3794>;\
+	<j3801>;...;<j3894>;\
+	<j3901>;...;<j3963>;\
+	<j3964>;...;<j3994>;\
+	<j4001>;...;<j4094>;\
+	<j4101>;...;<j4163>;\
+	<j4164>;...;<j4194>;\
+	<j4201>;...;<j4294>;\
+	<j4301>;...;<j4363>;\
+	<j4364>;...;<j4394>;\
+	<j4401>;...;<j4494>;\
+	<j4501>;...;<j4563>;\
+	<j4564>;...;<j4594>;\
+	<j4601>;...;<j4694>;\
+	<j4701>;...;<j4763>;\
+	<j4764>;...;<j4794>;\
+#  Level 2 Kanji
+	<j4801>;...;<j4894>;\
+	<j4901>;...;<j4963>;\
+	<j4964>;...;<j4994>;\
+	<j5001>;...;<j5094>;\
+	<j5101>;...;<j5163>;\
+	<j5164>;...;<j5194>;\
+	<j5201>;...;<j5294>;\
+	<j5301>;...;<j5363>;\
+	<j5364>;...;<j5394>;\
+	<j5401>;...;<j5494>;\
+	<j5501>;...;<j5563>;\
+	<j5564>;...;<j5594>;\
+	<j5601>;...;<j5694>;\
+	<j5701>;...;<j5763>;\
+	<j5764>;...;<j5794>;\
+	<j5801>;...;<j5894>;\
+	<j5901>;...;<j5963>;\
+	<j5964>;...;<j5994>;\
+	<j6001>;...;<j6094>;\
+	<j6101>;...;<j6163>;\
+	<j6164>;...;<j6194>;\
+	<j6201>;...;<j6294>;\
+	<j6301>;...;<j6363>;\
+	<j6364>;...;<j6394>;\
+	<j6401>;...;<j6494>;\
+	<j6501>;...;<j6563>;\
+	<j6564>;...;<j6594>;\
+	<j6601>;...;<j6694>;\
+	<j6701>;...;<j6763>;\
+	<j6764>;...;<j6794>;\
+	<j6801>;...;<j6894>;\
+	<j6901>;...;<j6963>;\
+	<j6964>;...;<j6994>;\
+	<j7001>;...;<j7094>;\
+	<j7101>;...;<j7163>;\
+	<j7164>;...;<j7194>;\
+	<j7201>;...;<j7294>;\
+	<j7301>;...;<j7363>;\
+	<j7364>;...;<j7394>;\
+	<j7401>;...;<j7494>;\
+	<j7501>;...;<j7563>;\
+	<j7564>;...;<j7594>;\
+	<j7601>;...;<j7694>;\
+	<j7701>;...;<j7763>;\
+	<j7764>;...;<j7794>;\
+	<j7801>;...;<j7894>;\
+	<j7901>;...;<j7963>;\
+	<j7964>;...;<j7994>;\
+	<j8001>;...;<j8094>;\
+	<j8101>;...;<j8163>;\
+	<j8164>;...;<j8194>;\
+	<j8201>;...;<j8294>;\
+	<j8301>;...;<j8363>;\
+	<j8364>;...;<j8394>;\
+	<j8401>;...;<j8494>
+
+## space class
+##
+##	space characters in ASCII and JIS X 0208
+
+space	<tab>;\
+	<newline>;\
+	<vertical-tab>;\
+	<form-feed>;\
+	<carriage-return>;\
+	<space>;\
+	<j0101>
+
+## blank class
+##
+##	blank characters in ASCII and JIS X 0208
+
+blank	<tab>;\
+	<space>;\
+	<j0101>
+
+## cntrl class
+##
+##	cntrl characters in ASCII
+
+cntrl   <NUL>;...;<IS1>;\
+	<DEL>
+
+## digit class
+##
+
+digit	<zero>;...;<nine>
+
+## xdigit class
+##
+
+xdigit	<zero>;...;<nine>;\
+	<A>;...;<F>;\
+	<a>;...;<f>
+
+## graph
+##
+##	upper, lower, alpha, digit, xdigit, punct
+##	JIS X0201 printable characters
+##	JIS X0208 printable characters
+##	JIS X0212 printable characters
+##
+## graph automatically includes
+##	upper, lower, alpha, digit, xdigit, and punct.
+
+graph	\
+# JIS X 0201
+	<kana_fullstop>;...;<kana_conjunctive>;\
+# JIS X 0208 Character Gryph defined area.
+#  Special sign
+	<j0102>;...;<j0110>;\
+	<j0113>;...;<j0118>;\
+	<j0129>;...;<j0163>;\
+	<j0164>;...;<j0194>;\
+	<j0201>;...;<j0214>;\
+	<j0226>;...;<j0233>;\
+	<j0242>;...;<j0248>;\
+	<j0260>;...;<j0274>;\
+	<j0282>;...;<j0289>;\
+	<j0294>;\
+	<j0801>;...;<j0832>;\
+# JIS X 0208 Character Gryph undefined area.
+	<j0215>;...;<j0225>;\
+	<j0234>;...;<j0241>;\
+	<j0249>;...;<j0259>;\
+	<j0275>;...;<j0281>;\
+	<j0290>;...;<j0293>;\
+	<j0301>;...;<j0315>;\
+	<j0326>;...;<j0332>;\
+	<j0359>;...;<j0363>;\
+	<j0364>;\
+	<j0391>;...;<j0394>;\
+	<j0484>;...;<j0494>;\
+	<j0587>;...;<j0594>;\
+	<j0625>;...;<j0632>;\
+	<j0657>;...;<j0694>;\
+	<j0734>;...;<j0748>;\
+	<j0782>;...;<j0794>;\
+	<j0833>;...;<j0894>;\
+	<j0901>;...;<j0963>;\
+	<j0964>;...;<j0994>;\
+	<j1001>;...;<j1094>;\
+	<j1101>;...;<j1163>;\
+	<j1164>;...;<j1194>;\
+	<j1201>;...;<j1294>;\
+	<j1301>;...;<j1363>;\
+	<j1364>;...;<j1394>;\
+	<j1401>;...;<j1494>;\
+	<j1501>;...;<j1563>;\
+	<j1564>;...;<j1594>;\
+	<j8501>;...;<j8563>;\
+	<j8564>;...;<j8594>;\
+	<j8601>;...;<j8694>;\
+	<j8701>;...;<j8763>;\
+	<j8764>;...;<j8794>;\
+	<j8801>;...;<j8894>;\
+	<j8901>;...;<j8963>;\
+	<j8964>;...;<j8994>;\
+	<j9001>;...;<j9094>;\
+	<j9101>;...;<j9163>;\
+	<j9164>;...;<j9194>;\
+	<j9201>;...;<j9294>;\
+	<j9301>;...;<j9363>;\
+	<j9364>;...;<j9394>;\
+	<j9401>;...;<j9494>;\
+# Shift-JIS user defined characters
+	<judc0101>;...;<judc0163>;\
+	<judc0164>;...;<judc0194>;\
+	<judc0201>;...;<judc0294>;\
+	<judc0301>;...;<judc0363>;\
+	<judc0364>;...;<judc0394>;\
+	<judc0401>;...;<judc0494>;\
+	<judc0501>;...;<judc0563>;\
+	<judc0564>;...;<judc0594>;\
+	<judc0601>;...;<judc0694>;\
+	<judc0701>;...;<judc0763>;\
+	<judc0764>;...;<judc0794>;\
+	<judc0801>;...;<judc0894>;\
+	<judc0901>;...;<judc0963>;\
+	<judc0964>;...;<judc0994>;\
+	<judc1001>;...;<judc1094>;\
+	<judc1101>;...;<judc1163>;\
+	<judc1164>;...;<judc1194>;\
+	<judc1201>;...;<judc1294>;\
+	<judc1301>;...;<judc1363>;\
+	<judc1364>;...;<judc1394>;\
+	<judc1401>;...;<judc1494>;\
+	<judc1501>;...;<judc1563>;\
+	<judc1564>;...;<judc1594>;\
+	<judc1601>;...;<judc1694>;\
+	<judc1701>;...;<judc1763>;\
+	<judc1764>;...;<judc1794>;\
+	<judc1801>;...;<judc1894>;\
+	<judc1901>;...;<judc1963>;\
+	<judc1964>;...;<judc1994>;\
+	<judc2001>;...;<judc2094>;\
+	<judc2101>;...;<judc2163>;\
+	<judc2164>;...;<judc2194>;\
+	<judc2201>;...;<judc2294>;\
+	<judc2301>;...;<judc2363>;\
+	<judc2364>;...;<judc2394>;\
+	<judc2401>;...;<judc2494>;\
+	<judc2501>;...;<judc2563>;\
+	<judc2564>;...;<judc2594>;\
+	<judc2601>;...;<judc2694>
+
+## print
+##
+## print automatically includes
+##	upper, lower, alpha, digit, xdigit, punct, and the space character
+##	with its corresponding equivalents.
+
+print	<space>;<j0101>;\
+# JIS X 0201
+	<kana_fullstop>;...;<kana_conjunctive>;\
+# JIS X 0208 Character Gryph defined area.
+#  Special sign
+	<j0102>;...;<j0110>;\
+	<j0113>;...;<j0118>;\
+	<j0129>;...;<j0163>;\
+	<j0164>;...;<j0194>;\
+	<j0201>;...;<j0214>;\
+	<j0226>;...;<j0233>;\
+	<j0242>;...;<j0248>;\
+	<j0260>;...;<j0274>;\
+	<j0282>;...;<j0289>;\
+	<j0294>;\
+	<j0801>;...;<j0832>;\
+# JIS X 0208 Character Gryph undefined area.
+	<j0215>;...;<j0225>;\
+	<j0234>;...;<j0241>;\
+	<j0249>;...;<j0259>;\
+	<j0275>;...;<j0281>;\
+	<j0290>;...;<j0293>;\
+	<j0301>;...;<j0315>;\
+	<j0326>;...;<j0332>;\
+	<j0359>;...;<j0363>;\
+	<j0364>;\
+	<j0391>;...;<j0394>;\
+	<j0484>;...;<j0494>;\
+	<j0587>;...;<j0594>;\
+	<j0625>;...;<j0632>;\
+	<j0657>;...;<j0694>;\
+	<j0734>;...;<j0748>;\
+	<j0782>;...;<j0794>;\
+	<j0833>;...;<j0894>;\
+	<j0901>;...;<j0963>;\
+	<j0964>;...;<j0994>;\
+	<j1001>;...;<j1094>;\
+	<j1101>;...;<j1163>;\
+	<j1164>;...;<j1194>;\
+	<j1201>;...;<j1294>;\
+	<j1301>;...;<j1363>;\
+	<j1364>;...;<j1394>;\
+	<j1401>;...;<j1494>;\
+	<j1501>;...;<j1563>;\
+	<j1564>;...;<j1594>;\
+	<j8501>;...;<j8563>;\
+	<j8564>;...;<j8594>;\
+	<j8601>;...;<j8694>;\
+	<j8701>;...;<j8763>;\
+	<j8764>;...;<j8794>;\
+	<j8801>;...;<j8894>;\
+	<j8901>;...;<j8963>;\
+	<j8964>;...;<j8994>;\
+	<j9001>;...;<j9094>;\
+	<j9101>;...;<j9163>;\
+	<j9164>;...;<j9194>;\
+	<j9201>;...;<j9294>;\
+	<j9301>;...;<j9363>;\
+	<j9364>;...;<j9394>;\
+	<j9401>;...;<j9494>;\
+# Shift-JIS user defined characters
+	<judc0101>;...;<judc0163>;\
+	<judc0164>;...;<judc0194>;\
+	<judc0201>;...;<judc0294>;\
+	<judc0301>;...;<judc0363>;\
+	<judc0364>;...;<judc0394>;\
+	<judc0401>;...;<judc0494>;\
+	<judc0501>;...;<judc0563>;\
+	<judc0564>;...;<judc0594>;\
+	<judc0601>;...;<judc0694>;\
+	<judc0701>;...;<judc0763>;\
+	<judc0764>;...;<judc0794>;\
+	<judc0801>;...;<judc0894>;\
+	<judc0901>;...;<judc0963>;\
+	<judc0964>;...;<judc0994>;\
+	<judc1001>;...;<judc1094>;\
+	<judc1101>;...;<judc1163>;\
+	<judc1164>;...;<judc1194>;\
+	<judc1201>;...;<judc1294>;\
+	<judc1301>;...;<judc1363>;\
+	<judc1364>;...;<judc1394>;\
+	<judc1401>;...;<judc1494>;\
+	<judc1501>;...;<judc1563>;\
+	<judc1564>;...;<judc1594>;\
+	<judc1601>;...;<judc1694>;\
+	<judc1701>;...;<judc1763>;\
+	<judc1764>;...;<judc1794>;\
+	<judc1801>;...;<judc1894>;\
+	<judc1901>;...;<judc1963>;\
+	<judc1964>;...;<judc1994>;\
+	<judc2001>;...;<judc2094>;\
+	<judc2101>;...;<judc2163>;\
+	<judc2164>;...;<judc2194>;\
+	<judc2201>;...;<judc2294>;\
+	<judc2301>;...;<judc2363>;\
+	<judc2364>;...;<judc2394>;\
+	<judc2401>;...;<judc2494>;\
+	<judc2501>;...;<judc2563>;\
+	<judc2564>;...;<judc2594>;\
+	<judc2601>;...;<judc2694>
+
+##
+## punct class
+##
+
+punct	<exclamation-mark>;...;<slash>;\
+	<colon>;...;<commercial-at>;\
+	<left-square-bracket>;...;<grave-accent>;\
+	<left-brace>;...;<tilde>
+
+## user defined classes -  "non_begin" and "non_end" for kinsoku processing
+##
+
+non_begin	<j0102>; <j0103>; <j0104>; <j0105>; <j0107>;\
+		<j0108>; <j0109>; <j0110>; <j0111>; <j0112>;\
+		<j0125>; <j0128>; <j0129>; <j0130>;\
+		<j0139>; <j0141>; <j0143>; <j0145>; <j0147>;\
+		<j0149>; <j0151>; <j0153>; <j0155>; <j0157>;\
+		<j0159>;\
+		<j0175>; <j0176>; <j0177>; <j0178>; <j0183>;\
+		<j0401>; <j0403>; <j0405>; <j0407>; <j0409>;\
+		<j0435>; <j0467>; <j0469>; <j0471>; <j0478>;\
+		<j0501>; <j0503>; <j0505>; <j0507>; <j0509>;\
+		<j0535>; <j0567>; <j0569>; <j0571>; <j0578>;\
+		<j0585>; <j0586>
+
+non_end		<j0138>; <j0140>; <j0142>; <j0144>;\
+		<j0146>; <j0148>; <j0150>; <j0152>; <j0154>;\
+		<j0156>; <j0158>; <j0179>; <j0180>; <j0182>;\
+		<j0184>; <j0187>; <j0188>
+
+## full_width
+##
+##	GLS specific ctype
+##	for characters whose display width is full width (2 bytes)
+
+full_width	<j0101>;...;<j0163>;\
+		<j0164>;...;<j0194>;\
+		<j0201>;...;<j0294>;\
+		<j0301>;...;<j0363>;\
+		<j0364>;...;<j0394>;\
+		<j0401>;...;<j0494>;\
+		<j0501>;...;<j0563>;\
+		<j0564>;...;<j0594>;\
+		<j0601>;...;<j0694>;\
+		<j0701>;...;<j0763>;\
+		<j0764>;...;<j0794>;\
+		<j0801>;...;<j0894>;\
+		<j0901>;...;<j0963>;\
+		<j0964>;...;<j0994>;\
+		<j1001>;...;<j1094>;\
+		<j1101>;...;<j1163>;\
+		<j1164>;...;<j1194>;\
+		<j1201>;...;<j1294>;\
+		<j1301>;...;<j1363>;\
+		<j1364>;...;<j1394>;\
+		<j1401>;...;<j1494>;\
+		<j1501>;...;<j1563>;\
+		<j1564>;...;<j1594>;\
+		<j1601>;...;<j1694>;\
+		<j1701>;...;<j1763>;\
+		<j1764>;...;<j1794>;\
+		<j1801>;...;<j1894>;\
+		<j1901>;...;<j1963>;\
+		<j1964>;...;<j1994>;\
+		<j2001>;...;<j2094>;\
+		<j2101>;...;<j2163>;\
+		<j2164>;...;<j2194>;\
+		<j2201>;...;<j2294>;\
+		<j2301>;...;<j2363>;\
+		<j2364>;...;<j2394>;\
+		<j2401>;...;<j2494>;\
+		<j2501>;...;<j2563>;\
+		<j2564>;...;<j2594>;\
+		<j2601>;...;<j2694>;\
+		<j2701>;...;<j2763>;\
+		<j2764>;...;<j2794>;\
+		<j2801>;...;<j2894>;\
+		<j2901>;...;<j2963>;\
+		<j2964>;...;<j2994>;\
+		<j3001>;...;<j3094>;\
+		<j3101>;...;<j3163>;\
+		<j3164>;...;<j3194>;\
+		<j3201>;...;<j3294>;\
+		<j3301>;...;<j3363>;\
+		<j3364>;...;<j3394>;\
+		<j3401>;...;<j3494>;\
+		<j3501>;...;<j3563>;\
+		<j3564>;...;<j3594>;\
+		<j3601>;...;<j3694>;\
+		<j3701>;...;<j3763>;\
+		<j3764>;...;<j3794>;\
+		<j3801>;...;<j3894>;\
+		<j3901>;...;<j3963>;\
+		<j3964>;...;<j3994>;\
+		<j4001>;...;<j4094>;\
+		<j4101>;...;<j4163>;\
+		<j4164>;...;<j4194>;\
+		<j4201>;...;<j4294>;\
+		<j4301>;...;<j4363>;\
+		<j4364>;...;<j4394>;\
+		<j4401>;...;<j4494>;\
+		<j4501>;...;<j4563>;\
+		<j4564>;...;<j4594>;\
+		<j4601>;...;<j4694>;\
+		<j4701>;...;<j4763>;\
+		<j4764>;...;<j4794>;\
+		<j4801>;...;<j4894>;\
+		<j4901>;...;<j4963>;\
+		<j4964>;...;<j4994>;\
+		<j5001>;...;<j5094>;\
+		<j5101>;...;<j5163>;\
+		<j5164>;...;<j5194>;\
+		<j5201>;...;<j5294>;\
+		<j5301>;...;<j5363>;\
+		<j5364>;...;<j5394>;\
+		<j5401>;...;<j5494>;\
+		<j5501>;...;<j5563>;\
+		<j5564>;...;<j5594>;\
+		<j5601>;...;<j5694>;\
+		<j5701>;...;<j5763>;\
+		<j5764>;...;<j5794>;\
+		<j5801>;...;<j5894>;\
+		<j5901>;...;<j5963>;\
+		<j5964>;...;<j5994>;\
+		<j6001>;...;<j6094>;\
+		<j6101>;...;<j6163>;\
+		<j6164>;...;<j6194>;\
+		<j6201>;...;<j6294>;\
+		<j6301>;...;<j6363>;\
+		<j6364>;...;<j6394>;\
+		<j6401>;...;<j6494>;\
+		<j6501>;...;<j6563>;\
+		<j6564>;...;<j6594>;\
+		<j6601>;...;<j6694>;\
+		<j6701>;...;<j6763>;\
+		<j6764>;...;<j6794>;\
+		<j6801>;...;<j6894>;\
+		<j6901>;...;<j6963>;\
+		<j6964>;...;<j6994>;\
+		<j7001>;...;<j7094>;\
+		<j7101>;...;<j7163>;\
+		<j7164>;...;<j7194>;\
+		<j7201>;...;<j7294>;\
+		<j7301>;...;<j7363>;\
+		<j7364>;...;<j7394>;\
+		<j7401>;...;<j7494>;\
+		<j7501>;...;<j7563>;\
+		<j7564>;...;<j7594>;\
+		<j7601>;...;<j7694>;\
+		<j7701>;...;<j7763>;\
+		<j7764>;...;<j7794>;\
+		<j7801>;...;<j7894>;\
+		<j7901>;...;<j7963>;\
+		<j7964>;...;<j7994>;\
+		<j8001>;...;<j8094>;\
+		<j8101>;...;<j8163>;\
+		<j8164>;...;<j8194>;\
+		<j8201>;...;<j8294>;\
+		<j8301>;...;<j8363>;\
+		<j8364>;...;<j8394>;\
+		<j8401>;...;<j8494>;\
+		<j8501>;...;<j8563>;\
+		<j8564>;...;<j8594>;\
+		<j8601>;...;<j8694>;\
+		<j8701>;...;<j8763>;\
+		<j8764>;...;<j8794>;\
+		<j8801>;...;<j8894>;\
+		<j8901>;...;<j8963>;\
+		<j8964>;...;<j8994>;\
+		<j9001>;...;<j9094>;\
+		<j9101>;...;<j9163>;\
+		<j9164>;...;<j9194>;\
+		<j9201>;...;<j9294>;\
+		<j9301>;...;<j9363>;\
+		<j9364>;...;<j9394>;\
+		<j9401>;...;<j9494>;\
+# Shift-JIS user defined aria.
+		<judc0101>;...;<judc0163>;\
+		<judc0164>;...;<judc0194>;\
+		<judc0201>;...;<judc0294>;\
+		<judc0301>;...;<judc0363>;\
+		<judc0364>;...;<judc0394>;\
+		<judc0401>;...;<judc0494>;\
+		<judc0501>;...;<judc0563>;\
+		<judc0564>;...;<judc0594>;\
+		<judc0601>;...;<judc0694>;\
+		<judc0701>;...;<judc0763>;\
+		<judc0764>;...;<judc0794>;\
+		<judc0801>;...;<judc0894>;\
+		<judc0901>;...;<judc0963>;\
+		<judc0964>;...;<judc0994>;\
+		<judc1001>;...;<judc1094>;\
+		<judc1101>;...;<judc1163>;\
+		<judc1164>;...;<judc1194>;\
+		<judc1201>;...;<judc1294>;\
+		<judc1301>;...;<judc1363>;\
+		<judc1364>;...;<judc1394>;\
+		<judc1401>;...;<judc1494>;\
+		<judc1501>;...;<judc1563>;\
+		<judc1564>;...;<judc1594>;\
+		<judc1601>;...;<judc1694>;\
+		<judc1701>;...;<judc1763>;\
+		<judc1764>;...;<judc1794>;\
+		<judc1801>;...;<judc1894>;\
+		<judc1901>;...;<judc1963>;\
+		<judc1964>;...;<judc1994>;\
+		<judc2001>;...;<judc2094>;\
+		<judc2101>;...;<judc2163>;\
+		<judc2164>;...;<judc2194>;\
+		<judc2201>;...;<judc2294>;\
+		<judc2301>;...;<judc2363>;\
+		<judc2364>;...;<judc2394>;\
+		<judc2401>;...;<judc2494>;\
+		<judc2501>;...;<judc2563>;\
+		<judc2564>;...;<judc2594>;\
+		<judc2601>;...;<judc2694>
+		
+##
+## toupper and tolower
+##
+
+toupper	(<a>,<A>);(<b>,<B>);(<c>,<C>);(<d>,<D>);(<e>,<E>);\
+	(<f>,<F>);(<g>,<G>);(<h>,<H>);(<i>,<I>);(<j>,<J>);\
+	(<k>,<K>);(<l>,<L>);(<m>,<M>);(<n>,<N>);(<o>,<O>);\
+	(<p>,<P>);(<q>,<Q>);(<r>,<R>);(<s>,<S>);(<t>,<T>);\
+	(<u>,<U>);(<v>,<V>);(<w>,<W>);(<x>,<X>);(<y>,<Y>);\
+	(<z>,<Z>)
+
+tolower	(<A>,<a>);(<B>,<b>);(<C>,<c>);(<D>,<d>);(<E>,<e>);\
+	(<F>,<f>);(<G>,<g>);(<H>,<h>);(<I>,<i>);(<J>,<j>);\
+	(<K>,<k>);(<L>,<l>);(<M>,<m>);(<N>,<n>);(<O>,<o>);\
+	(<P>,<p>);(<Q>,<q>);(<R>,<r>);(<S>,<s>);(<T>,<t>);\
+	(<U>,<u>);(<V>,<v>);(<W>,<w>);(<X>,<x>);(<Y>,<y>);\
+	(<Z>,<z>)
+
+
+END LC_CTYPE
+
+
+#############
+LC_MONETARY
+#############
+
+int_curr_symbol   "<J><P><Y><space>"
+currency_symbol   "<yen>"
+mon_decimal_point "<period>"
+mon_thousands_sep "<comma>"
+mon_grouping      3;0
+positive_sign     ""
+negative_sign     "<hyphen>"
+int_frac_digits   0
+frac_digits       0
+p_cs_precedes     1
+p_sep_by_space    0
+n_cs_precedes     1
+n_sep_by_space    0
+p_sign_posn       1
+n_sign_posn       4
+
+END LC_MONETARY
+
+
+#############
+LC_NUMERIC
+#############
+
+decimal_point     "<period>"
+thousands_sep     "<comma>"
+grouping          3;0
+num_positive_sign ""
+num_negative_sign "<hyphen>"
+
+END LC_NUMERIC
+
+
+#############
+LC_TIME
+#############
+
+## abday class
+##
+##	NICHI (Sun), GETSU, KA, SUI, MOKU, KIN, DO in Kanji.
+
+abday	"<j3892>";"<j2378>";"<j1848>";"<j3169>";\
+	"<j4458>";"<j2266>";"<j3758>"
+
+## day class
+##
+##	NICHI-YOUBI (Sunday), GETSU-YOUBI, KA-YOUBI, SUI-YOUBI,
+##	MOKU-YOUBI, KIN-YOUBI, DO-YOUBI in Kanji.
+
+day	"<j3892><j4543><j3892>";"<j2378><j4543><j3892>";\
+	"<j1848><j4543><j3892>";"<j3169><j4543><j3892>";\
+	"<j4458><j4543><j3892>";"<j2266><j4543><j3892>";\
+	"<j3758><j4543><j3892>"
+
+## abmon (abbreviated month name) class
+
+abmon   "<J><a><n>";\
+	"<F><e><b>";\
+	"<M><a><r>";\
+	"<A><p><r>";\
+	"<M><a><y>";\
+	"<J><u><n>";\
+	"<J><u><l>";\
+	"<A><u><g>";\
+	"<S><e><p>";\
+	"<O><c><t>";\
+	"<N><o><v>";\
+	"<D><e><c>"
+
+## mon (full month name) class
+
+mon     "<J><a><n><u><a><r><y>";\
+	"<F><e><b><r><u><a><r><y>";\
+	"<M><a><r><c><h>";\
+	"<A><p><r><i><l>";\
+	"<M><a><y>";\
+	"<J><u><n><e>";\
+	"<J><u><l><y>";\
+	"<A><u><g><u><s><t>";\
+	"<S><e><p><t><e><m><b><e><r>";\
+	"<O><c><t><o><b><e><r>";\
+	"<N><o><v><e><m><b><e><r>";\
+	"<D><e><c><e><m><b><e><r>"
+
+## era (Era year) class
+##
+##	HEISEI, SHOWA, TAISHO, MEIJI.
+##	Years befor MEIJI are printed as SEIREKI (A.D.) or KIGENZEN (B.C.).
+##
+##   format
+##	direction:offset:start_date:end_date:era_name:abbr_era_name:era_format
+## 
+##   where
+##	direction      is either + or -
+##	offset         is an integer
+##	start date     is a date represented by YYYY/MM/DD
+##	end_date       is a date represented by YYYY/MM/DD or one of
+##	               +* (for end of time) or -* (for beginning of time).
+##	era_name       is a multi-byte string
+##	abbr_era_name  is a multi-byte string
+##	era_format     is a format specification
+
+era	"<plus-sign><colon><two><colon>\
+	<one><nine><nine><zero><slash><zero><one><slash><zero><one><colon>\
+	<plus-sign><asterisk><colon>\
+	<j4231><j3214><colon><H><colon>\
+	<percent-sign><E><C><percent-sign><E><y><j3915>";\
+	"<plus-sign><colon><one><colon>\
+	<one><nine><eight><nine><slash><zero><one><slash><zero><eight><colon>\
+	<one><nine><eight><nine><slash><one><two><slash><three><one><colon>\
+	<j4231><j3214><colon><H><colon>\
+	<percent-sign><E><C><j2421><j3915>";\
+	"<plus-sign><colon><two><colon>\
+	<one><nine><two><seven><slash><zero><one><slash><zero><one><colon>\
+	<one><nine><eight><nine><slash><zero><one><slash><zero><seven><colon>\
+	<j3028><j4734><colon><S><colon>\
+	<percent-sign><E><C><percent-sign><E><y><j3915>";\
+	"<plus-sign><colon><one><colon>\
+	<one><nine><two><six><slash><one><two><slash><two><five><colon>\
+	<one><nine><two><six><slash><one><two><slash><three><one><colon>\
+	<j3028><j4734><colon><S><colon>\
+	<percent-sign><E><C><j2421><j3915>";\
+	"<plus-sign><colon><two><colon>\
+	<one><nine><one><three><slash><zero><one><slash><zero><one><colon>\
+	<one><nine><two><six><slash><one><two><slash><two><four><colon>\
+	<j3471><j3221><colon><T><colon>\
+	<percent-sign><E><C><percent-sign><E><y><j3915>";\
+	"<plus-sign><colon><one><colon>\
+	<one><nine><one><two><slash><zero><seven><slash><three><zero><colon>\
+	<one><nine><one><two><slash><one><two><slash><three><one><colon>\
+	<j3471><j3221><colon><T><colon>\
+	<percent-sign><E><C><j2421><j3915>";\
+	"<plus-sign><colon><two><colon>\
+	<one><eight><six><nine><slash><zero><one><slash><zero><one><colon>\
+	<one><nine><one><two><slash><zero><seven><slash><two><nine><colon>\
+	<j4432><j2803><colon><M><colon>\
+	<percent-sign><E><C><percent-sign><E><y><j3915>";\
+	"<plus-sign><colon><one><colon>\
+	<one><eight><six><eight><slash><zero><nine><slash><zero><eight><colon>\
+	<one><eight><six><eight><slash><one><two><slash><three><one><colon>\
+	<j4432><j2803><colon><M><colon>\
+	<percent-sign><E><C><j2421><j3915>";\
+	"<plus-sign><colon><one><colon>\
+	<zero><zero><zero><one><slash><zero><one><slash><zero><one><colon>\
+	<one><eight><six><eight><slash><zero><nine><slash><zero><seven><colon>\
+	<j3230><j4681><colon><A><period><D><period><colon>\
+	<percent-sign><E><C><percent-sign><E><y><j3915>";\
+	"<hyphen><colon><one><colon>\
+	<hyphen><zero><zero><zero><one><slash>\
+	<one><two><slash><three><one><colon>\
+	<hyphen><asterisk><colon>\
+	<j2110><j2421><j3316><colon><B><period><C><period><colon>\
+	<percent-sign><E><C><percent-sign><E><y><j3915>"
+
+## d_t_fmt class
+##
+##	appropriate date and time representation, corresponding to "%c"
+
+d_t_fmt	"<percent-sign><Y><j3915>\
+	<percent-sign><m><j2378>\
+	<percent-sign><d><j3892><space>\
+	<left-parenthesis><percent-sign><a><right-parenthesis><space>\
+	<percent-sign><H><j2794>\
+	<percent-sign><M><j4212>\
+	<percent-sign><S><j4135>"
+
+## d_fmt class
+##
+##	%Y/%m/%d (1995/08/28)
+
+d_fmt	"<percent-sign><i><Y><slash><percent-sign><m><slash><percent-sign><d>"
+
+## t_fmt class
+##
+##	%H:%M:%S (9:45:00)
+
+t_fmt	"<percent-sign><H><colon><percent-sign><M><colon><percent-sign><S>"
+
+## am_pm class
+##
+##	GOZEN and GOGO in Kanji
+
+am_pm	"<j2465><j3316>";"<j2465><j2469>"
+
+## t_fmt_ampm class
+
+t_fmt_ampm	"<percent-sign><p>\
+		 <percent-sign><I><j2794>\
+		 <percent-sign><M><j4212>\
+		 <percent-sign><S><j4135>"
+
+## era_d_fmt class
+
+era_d_fmt	"<percent-sign><E><Y>\
+		<percent-sign><m><j2378><percent-sign><d><j3892>"
+
+## era_t_fmt class
+
+era_t_fmt	"<percent-sign><H><j2794>\
+		<percent-sign><M><j4212><percent-sign><S><j4135>"
+
+
+## era_d_t_fmt class
+
+era_d_t_fmt	"<percent-sign><E><Y>\
+		<percent-sign><m><j2378>\
+		<percent-sign><d><j3892><space>\
+		<left-parenthesis><percent-sign><a><right-parenthesis><space>\
+		<percent-sign><H><j2794>\
+		<percent-sign><M><j4212>\
+		<percent-sign><S><j4135>"
+
+END LC_TIME
+
+
+#############
+LC_MESSAGES
+#############
+
+yesexpr "<circumflex-accent><left-parenthesis><left-square-bracket><less-than-sign><y><greater-than-sign><less-than-sign><Y><greater-than-sign><right-square-bracket><vertical-line><left-square-bracket><less-than-sign><y><greater-than-sign><less-than-sign><Y><greater-than-sign><right-square-bracket><left-square-bracket><less-than-sign><e><greater-than-sign><less-than-sign><E><greater-than-sign><right-square-bracket><left-square-bracket><less-than-sign><s><greater-than-sign><less-than-sign><S><greater-than-sign><right-square-bracket><right-parenthesis>"
+noexpr  "<circumflex-accent><left-parenthesis><left-square-bracket><less-than-sign><n><greater-than-sign><less-than-sign><N><greater-than-sign><right-square-bracket><vertical-line><left-square-bracket><less-than-sign><n><greater-than-sign><less-than-sign><N><greater-than-sign><right-square-bracket><left-square-bracket><less-than-sign><o><greater-than-sign><less-than-sign><O><greater-than-sign><right-square-bracket><right-parenthesis>"
+
+END LC_MESSAGES

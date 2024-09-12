@@ -1,0 +1,324 @@
+############################################################################
+#
+#                         INFORMIX SOFTWARE, INC.
+#
+#                            PROPRIETARY DATA
+#
+#      THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF
+#      INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#      CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR
+#      DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT
+#      SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#      THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#      SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE.
+#      UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW.
+#
+#    Charmap source file for: thai0620
+#
+############################################################################
+
+<source_version>  1
+
+<modified_date>   "10/12/1995"
+
+<code_set_name>   "thai620"
+
+
+CHARMAP  
+
+#	ASCII
+
+<NUL>                   \x00
+<SOH>                   \x01
+<STX>                   \x02
+<ETX>                   \x03
+<EOT>                   \x04
+<ENQ>                   \x05
+<ACK>                   \x06
+<alert>                 \x07
+<BEL>                   \x07    ALTERNATE SYMBOL
+<backspace>             \x08
+<BS>                    \x08    ALTERNATE SYMBOL
+<tab>                   \x09
+<HT>                    \x09    ALTERNATE SYMBOL
+<newline>               \x0a
+<LF>                    \x0a    ALTERNATE SYMBOL
+<vertical-tab>          \x0b
+<VT>                    \x0b    ALTERNATE SYMBOL
+<form-feed>             \x0c
+<FF>                    \x0c    ALTERNATE SYMBOL
+<carriage-return>       \x0d
+<CR>                    \x0d    ALTERNATE SYMBOL
+<SO>                    \x0e
+<SI>                    \x0f
+<DLE>                   \x10
+<DC1>                   \x11
+<DC2>                   \x12
+<DC3>                   \x13
+<DC4>                   \x14
+<NAK>                   \x15
+<SYN>                   \x16
+<ETB>                   \x17
+<CAN>                   \x18
+<EM>                    \x19
+<SUB>                   \x1a
+<ESC>                   \x1b
+<IS4>                   \x1c
+<FS>                    \x1c    ALTERNATE SYMBOL
+<IS3>                   \x1d
+<GS>                    \x1d    ALTERNATE SYMBOL
+<IS2>                   \x1e
+<RS>                    \x1e    ALTERNATE SYMBOL
+<IS1>                   \x1f
+<US>                    \x1f    ALTERNATE SYMBOL
+<space>                 \x20
+<exclamation-mark>      \x21
+<quotation-mark>        \x22
+<number-sign>           \x23
+<dollar-sign>           \x24
+<percent-sign>          \x25
+<ampersand>             \x26
+<apostrophe>            \x27
+<left-parenthesis>      \x28
+<right-parenthesis>     \x29
+<asterisk>              \x2a
+<plus-sign>             \x2b
+<comma>                 \x2c
+<hyphen>                \x2d
+<hyphen-minus>          \x2d    ALTERNATE SYMBOL
+<period>                \x2e
+<full-stop>             \x2e    ALTERNATE SYMBOL
+<slash>                 \x2f
+<solidus>               \x2f    ALTERNATE SYMBOL
+<zero>                  \x30
+<one>                   \x31
+<two>                   \x32
+<three>                 \x33
+<four>                  \x34
+<five>                  \x35
+<six>                   \x36
+<seven>                 \x37
+<eight>                 \x38
+<nine>                  \x39
+<colon>                 \x3a
+<semicolon>             \x3b
+<less-than-sign>        \x3c
+<equals-sign>           \x3d
+<greater-than-sign>     \x3e
+<question-mark>         \x3f
+<commercial-at>         \x40
+<A>                     \x41
+<B>                     \x42
+<C>                     \x43
+<D>                     \x44
+<E>                     \x45
+<F>                     \x46
+<G>                     \x47
+<H>                     \x48
+<I>                     \x49
+<J>                     \x4a
+<K>                     \x4b
+<L>                     \x4c
+<M>                     \x4d
+<N>                     \x4e
+<O>                     \x4f
+<P>                     \x50
+<Q>                     \x51
+<R>                     \x52
+<S>                     \x53
+<T>                     \x54
+<U>                     \x55
+<V>                     \x56
+<W>                     \x57
+<X>                     \x58
+<Y>                     \x59
+<Z>                     \x5a
+<left-square-bracket>   \x5b
+<backslash>             \x5c
+<reverse-solidus>       \x5c    ALTERNATE SYMBOL
+<right-square-bracket>  \x5d
+<circumflex>            \x5e
+<circumflex-accent>     \x5e    ALTERNATE SYMBOL
+<underscore>            \x5f
+<underline>             \x5f    ALTERNATE SYMBOL
+<low-line>              \x5f    ALTERNATE SYMBOL
+<grave-accent>          \x60
+<a>                     \x61
+<b>                     \x62
+<c>                     \x63
+<d>                     \x64
+<e>                     \x65
+<f>                     \x66
+<g>                     \x67
+<h>                     \x68
+<i>                     \x69
+<j>                     \x6a
+<k>                     \x6b
+<l>                     \x6c
+<m>                     \x6d
+<n>                     \x6e
+<o>                     \x6f
+<p>                     \x70
+<q>                     \x71
+<r>                     \x72
+<s>                     \x73
+<t>                     \x74
+<u>                     \x75
+<v>                     \x76
+<w>                     \x77
+<x>                     \x78
+<y>                     \x79
+<z>                     \x7a
+<left-curly-bracket>    \x7b
+<left-brace>            \x7b    ALTERNATE SYMBOL
+<vertical-line>         \x7c
+<right-curly-bracket>   \x7d
+<right-brace>           \x7d    ALTERNATE SYMBOL
+<tilde>                 \x7e
+<DEL>                   \x7f
+
+<GorGai>			\xa1
+<KhorKhai>			\xa2
+<KhorKhuad>			\xa3
+<KorKwai>			\xa4
+<KorKon>			\xa5
+<KorRaKung>			\xa6
+<NgorNgoo>			\xa7
+<JorJan>			\xa8
+<ChorChing>			\xa9
+<ChorChang>			\xaa
+<SorSo>				\xab
+<ChorChur>			\xac
+<YorYing>			\xad
+<DorChaDa>			\xae
+<TorPaTug>			\xaf
+
+# unclassified characters
+
+<unclassified-1>		\x80
+<unclassified-2>		\x81
+<unclassified-3>		\x82
+<unclassified-4>		\x83
+<unclassified-5>		\x84
+<unclassified-6>		\x85
+<unclassified-7>		\x86
+<unclassified-8>		\x87
+<unclassified-9>		\x88
+<unclassified-10>		\x89
+<unclassified-11>		\x8a
+<unclassified-12>		\x8b
+<unclassified-13>		\x8c
+<unclassified-14>		\x8d
+<unclassified-15>		\x8e
+<unclassified-16>		\x8f
+<unclassified-17>		\x90
+<unclassified-18>		\x91
+<unclassified-19>		\x92
+<unclassified-20>		\x93
+<unclassified-21>		\x94
+<unclassified-22>		\x95
+<unclassified-23>		\x96
+<unclassified-24>		\x97
+<unclassified-25>		\x98
+<unclassified-26>		\x99
+<unclassified-27>		\x9a
+<unclassified-28>		\x9b
+<unclassified-29>		\x9c
+<unclassified-30>		\x9d
+<unclassified-31>		\x9e
+<unclassified-32>		\x9f
+
+<unclassified-33>		\xa0
+
+<unclassified-34>		\xdb
+<unclassified-35>		\xdc
+<unclassified-36>		\xdd
+<unclassified-37>		\xde
+
+<unclassified-38>		\xfc
+<unclassified-39>		\xfd
+<unclassified-40>		\xfe
+<unclassified-41>		\xff
+
+# end of unclassified characters section
+
+<ThorThan>			\xb0
+<TorMonTo>			\xb1
+<TorPuTao>			\xb2
+<NorNen>			\xb3
+<DorDeg>			\xb4
+<TorTao>			\xb5
+<ThorThoong>			\xb6
+<TorTaHan>			\xb7
+<TorTong>			\xb8
+<NorNoo>			\xb9
+<BorBaiMai>			\xba
+<PorPla>			\xbb
+<PhorPhung>			\xbc
+<PhorPha>			\xbd
+<PorPan>			\xbe
+<PhorPhun>			\xbf
+
+<PorSumPao>			\xc0
+<MorMa>				\xc1
+<YorYug>			\xc2
+<RorRua>			\xc3
+<RorRu>				\xc4
+<LorLing>			\xc5
+<LorLu>				\xc6
+<WorWan>			\xc7
+<SorSaLa>			\xc8
+<SorRuSri>			\xc9
+<SorSua>			\xca
+<HorHeeb>			\xcb
+<LorJuLa>			\xcc
+<OrAng>				\xcd
+<HorNogHook>			\xce
+<PaiYarnNoi>			\xcf
+
+<SaRaAh>			\xd0
+<HunArKad>			\xd1
+<SaRaAr>			\xd2
+<SaRaUm>			\xd3
+<SaRaE>				\xd4
+<SaRaEe>			\xd5
+<SaRaUh>			\xd6
+<SaRaUuh>			\xd7
+<SaRaOo>			\xd8
+<SaraOu>			\xd9
+<PinToo>			\xda
+<Baht-sign>			\xdf
+
+<SaRaA>				\xe0
+<SaRaAir>			\xe1
+<SaRaO>				\xe2
+<MaiMuan>			\xe3
+<MaiMaLai>			\xe4
+<LagKhang>			\xe5
+<MaiYaMog>			\xe6
+<MaiTaiKou>			\xe7
+<MaiEk>				\xe8
+<MaiTo>				\xe9
+<MaiTee>			\xea
+<MaiJatTaWa>			\xeb
+<Karan>				\xec
+<NikaHid>			\xed
+<YaMugKan>			\xee
+<PhongMun>			\xef
+
+<ThaiZero>			\xf0
+<ThaiOne>			\xf1
+<ThaiTwo>			\xf2
+<ThaiThree>			\xf3
+<ThaiFour>			\xf4
+<ThaiFive>			\xf5
+<ThaiSix>			\xf6
+<ThaiSeven>			\xf7
+<ThaiEight>			\xf8
+<ThaiNine>			\xf9
+<UngKanKou>			\xfa
+<KoMood>			\xfb
+
+END CHARMAP
+

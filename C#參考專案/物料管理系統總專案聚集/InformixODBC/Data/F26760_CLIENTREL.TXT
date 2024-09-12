@@ -1,0 +1,477 @@
+  Informix Online
+   Documentation
+  ------------------------------------------------------------------------
+
+                             RELEASE NOTES FOR
+
+                            Informix-Client SDK
+
+                              Date: 7/19/2001
+
+                               Version: 2.70
+  ------------------------------------------------------------------------
+
+Table of Contents
+
+     I. Overview
+     II. Client-Server Testing
+     III. API Components & Versions
+     IV. New Features
+     V. Configuration Requirements
+     VI. Example Files
+     VII. Known Problems
+
+          A. Bug #123969
+          B. Message Filename Change In The Client SDK 2.01 and Later
+          C. Using ESQL/C Libraries
+     VIII. CSDK Installation on windows with ISWI2.0
+     IX. Fixed problems
+
+  ------------------------------------------------------------------------
+
+I. Overview
+
+The purpose of these release notes is to make you aware of any special
+actions required to configure and use the Client SDK products on your
+computer. This file also describes new features and feature differences
+from earlier versions of this product and other Informix products, and how
+these differences affect current products. In addition, this file contains
+information about known bugs and their workarounds.
+
+This release notes document is not intended to be all-inclusive; it should
+be used as an addendum to the product manuals which provide thorough
+information about product features and behavior.
+
+These release notes are written for the following audience:
+
+   + System administrators who install Informix database servers
+   + Database administrators who control access to Informix databases
+   + Developers who write applications using Client SDK, Version 2.7
+
+You will find release notes for products available as part of the Client
+SDK Version 2.7 release in the following files:
+
+
+            Filenames                         Product
+ CPPREL.HTML, CPPREL.TXT         Informix-Object Interface for C++
+ ESQLCREL.HTML, ESQLCREL.TXT     Informix ESQL/C
+ GLSAPIREL.HTML, GLSAPIREL.TXT   Informix GLS
+ INFODBCREL.HTML, INFODBCREL.TXT Informix ODBC Driver
+
+  ------------------------------------------------------------------------
+
+II. Client-Server Testing
+
+The Client SDK Version 2.7 products have been tested with the following
+database servers:
+
+   + Informix Dynamic Server, Version 5.10
+   + Informix Dynamic Server, Versions 7.24 and 7.3x
+   + Informix Dynamic Server with Advanced Decision Support and Extended
+     Parallel Options, Version 8.21 and Informix Extended Parallel Server,
+     Version 8.3x
+   + Informix Dynamic Server with Universal Data Option, Version 9.14 and
+     Version 9.2x (Windows NT) and Informix Dynamic Server 2000, Version
+     9.2x (UNIX)
+   + INFORMIX-SE Version 7.24
+
+  ------------------------------------------------------------------------
+
+III. API Components & Versions
+
+
+ Component               Version                  Platforms
+ ESQL/C                  9.51                     Sol 32+64 bit, Win32
+ ODBC driver             3.80                     Sol 32+64 bit, Win32
+ OLE-DB                  2.60                     Win32 only
+ LIBC++ (Formerly Object
+ Int.)                   2.82                     Sol 32+64 bit, Win32
+ Client LIBDMI           2.41                     Sol 32+64 bit, Win32
+ Setnet32                9.51                     Win32 only
+
+ GLS                     3.12UC1/TC1              Sol 32+64
+                                                  bit,NT,Win95,Win98
+
+  ------------------------------------------------------------------------
+
+IV. New Features
+
+For information about the content of this release, refer to the release
+notes and documentation notes for each of the Client SDK products.
+
+ODBC 3.80
+     Support for XA
+     Support for Unicode
+Upgrade to Intall Shield  for Window Installer 2.0 for Client SDK and
+IConnect
+Upgrade to GLS 3.12.UC1
+
+  ------------------------------------------------------------------------
+
+V. Configuration Requirements
+
+You must not install the 32-bit version and the 64-bit version of the
+Client SDK in the same INFORMIXDIR directory.
+
+Client SDK which is bundled with ISWI 2.0, will successfully install if it
+is installed in a directory of upto 215 characters.
+
+IConnect  which is bundled with ISWI 2.0, will successfully install if it
+is installed in a directory of upto 90 characters.
+
+
+  ------------------------------------------------------------------------
+
+VI. Example Files
+
+Some of the Client SDK files, such as ESQL/C and ODBC, include example
+files. See the release notes for each Client SDK product to find the
+location of example files for that product.
+  ------------------------------------------------------------------------
+
+VII. Known Problems
+
+This section describes the known problems with this release of the Client
+SDK and shows how to work around these problems. See individual product
+release notes for problems that are specific to each product.
+
+A. Bug #123969
+
+PRODUCTS ON WINDOWS PLATFORMS WILL USE ENVIRONMENT VARIABLE SETTINGS AT A
+HIGHER PRECEDENCE THAN THE CURRENT USER'S REGISTRY OR THE INETLOGIN STRUCT
+
+Workaround :
+
+     For Win32 client, do not set Informix specific environment variables
+     in the Windows OS environment. If these variables are set in the OS
+     environment, your applications will not be able to override them. In
+     other words, your applications will not be able to use the values you
+     specified using the setnet32 utility or set via calls to ifx_putenv();
+     these values will be picked up from the OS environment instead.
+
+B. Message Filename Change In The Client SDK 2.01 and Later
+
+For the US English locale, the following problem has been fixed for Version
+2.30 of the Client SDK and Connect on both Win32 and UNIX platforms.
+
+The term "old client APIs" in the text below means pre-2.01 versions of
+Client SDK and Connect and all versions of the separate ESQL/C, ESQL/COBOL
+and Informix CLI products; the term "new client APIs" means 2.01 and later
+versions of Client SDK and Connect.
+
+After the installation of Version 2.01or later of Client SDK or Connect on
+either Win32 or UNIX platforms, a category of already compiled applications
+may exhibit an error.
+
+The shared and static libraries in both the old and new client APIs refer
+to message files in the directory $INFORMIXDIR/msg on UNIX and
+%INFORMIXDIR%\msg on Win32. The names of several message files were changed
+in the new client APIs to avoid conflict with the server versions of those
+files. For example, old client APIs distributed the message file sqli.iem
+and the libraries in the old client APIs referred to sqli.iem. Now the new
+client APIs distribute that same message file under the name of csqli.iem
+and the libraries in the new client APIs refer to csqli.iem.
+
+All of the following circumstances must occur in order for this error to
+manifest itself:
+
+   + An application was linked with the static libraries of an old client
+     API.
+   + A new client API is installed in a different directory than the one
+     containing the old client API.
+   + The INFORMIXDIR used by the application is changed to point to the
+     directory containing just the new client API.
+
+If all of these conditions apply, then the application will continue to
+look for message files by their old name, for example, sqli.iem. However,
+the directory containing just the new client API will have those files by
+their new name, for example, csqli.iem. Therefore, an error message will be
+given.
+
+You can use any one of the following workarounds to avoid the error:
+
+   + Link the application with the shared libraries from the old client
+     API.
+   + Install the new client API in the same directory that you installed
+     the old client API and don't change INFORMIXDIR.
+   + Install the old client API in the same directory that you will install
+     the new client API; install the old client API first.
+   + Re-link your application with the static libraries from the new client
+     API
+   + For all message sub-directories within the directory that contains
+     just the new client APIs, make copies of each of the following files
+     and give the copies new names as indicated below. Do this in each
+     message sub-directory. This includes, at least, the US English
+     sub-directory: %INFORMIXDIR%\msg\en_us\04e4 on Win32 and
+     $INFORMIXDIR/msg/en_us/0333 on UNIX. If there are message
+     sub-directories for other languages you installed, you should do the
+     same copying for them too; for example,%INFORMIXDIR%\msg\fr_fr\04e4 on
+     Win32 and $INFORMIXDIR/msg/fr_fr/0333 on UNIX.
+     als.iem -> cals.iem
+
+     cals.iem -> ccals.iem
+
+     csm.iem -> ccsm.iem
+
+     css.iem -> ccss.iem
+
+     eami.iem -> ceami.iem
+
+     isam.iem -> cisam.iem
+
+     miapi.iem -> cmiapi.iem
+
+     mls.iem -> cmls.iem
+
+     mls2.iem -> cmls2.iem
+
+     nals.iem -> cnals.iem
+
+     nerm.iem -> cnerm.iem
+
+     net.iem -> cnet.iem
+
+     netsrv.iem -> cnetsrv.iem
+
+     rds.iem -> crds.iem
+
+     security.iem -> csecure.iem
+
+     shell.iem -> cshell.iem
+
+     sql.iem -> csql.iem
+
+     sqli.iem -> csqli.iem
+
+     util.iem -> cutil.iem
+
+     xopen.iem -> cxopen.iem
+
+     xps.iem -> cxps.iem
+
+     itoxmsg.pam -> citoxmsg.pam
+
+     optical.iem -> coptical.iem
+
+     errmsg.txt -> cerrmsg.txt
+
+This problem has been fixed for Version 2.3. In Version 2.3, the install
+process of these products will first look to see if the message files
+already exist by their "old" name in the target installation directory. If
+they already exist, nothing special will be done. If they do not already
+exist, a link (on UNIX) or a copy (on Win32) of each message file whose
+name changed will be made so that both files, like sqli.iem and csqli.iem,
+will always be guaranteed to exist. This fix will remain in the
+installation of Client SDK and Connect in all future releases of those
+products.
+
+C. Using ESQL/C Libraries
+
+In the following notes, I-CONNECT 2.70 refers to the conn.tar file in the
+Client SDK Version 2.7 bundle, and ClientSDK 2.70 refers to the csdk.tar
+file in the Client SDK 2.70 bundle.
+
+  1. If I-CONNECT Version 2.7 is NOT installed on top of an existing
+     Version 7.2x ESQL/C installation:
+
+   + Both "installconn" and "installconn -u" will install 2.70 I-CONNECT
+     exactly the same as the current I-CONNECT "installconn". The -u option
+     is only available on UNIX. Windows NT ESQL/C does not need this
+     option.
+   + Any existing Version 7.2x UNIX ESQL/C (and Version 7.23 Windows NT
+     ESQL/C) applications can use this installed I-CONNECT without
+     relinking or recompilation. If recompilation is not performed, only
+     Version 7.2x level functionality and some bug fixes will be available.
+     To recompile and get new functionality, you need the development
+     version of the product (CSDK 2.70 tar file).
+
+  2. If I-CONNECT Version 2.7 is installed on top of an existing Version
+     7.2x ESQL/C installation:
+
+
+   + "installconn" will install 9.5 ESQL/C shared libraries, and either
+     KEEP the 7.2x shared libraries or REPLACE them with the 9.5 ones. The
+     script "installconn" will ask you whether you want to overwrite the
+     existing shared libraries or not. If the existing shared libraries are
+     chosen NOT to be overwritten, then:
+        o Existing 7.2x applications will continue to use the existing 7.2x
+          shared libraries.
+        o Existing 9.1x applications can use the 9.5 shared libraries. If
+          the existing shared libraries are overwritten, then the effect is
+          the same as the effect caused by replacing 7.2x shared libraries
+          with 9.5 shared libraries (see next bullet).
+   + "installconn -u" will install Version 9.2 UNIX ESQL/C shared libraries
+     and REPLACE 7.2x shared libraries with the 9.5 shared libraries.
+     (Actually, only the links are updated.)
+     Both existing 7.2x (and 9.1x) applications will then use the Version
+     9.2 shared libraries, and they should all work correctly. (The 7.2x
+     shared libraries will not be accessible by theESQL/C preprocessor.) No
+     relinking or recompilation is required. However, only 7.2x level
+     functionality and some bug fixes will be available if a 7.2x
+     application is not recompiled.
+
+  3. Installing ClientSDK Version 2.7 with ESQL/C Libraries
+
+
+   + If ClientSDK Version 2.6 is installed on top of an existing Version
+     7.2x ESQL/C installation, it will always REPLACE Version 7.2x shared
+     libraries with the Version 9.2 shared libraries. If you intend to
+     continue using the Version 7.2x ESQL/C preprocessor or shared
+     libraries, ClientSDK Version 2.6 should be installed in a separate
+     directory.
+   + Regardless of whether ClientSDK Version 2.5 is installed on top of an
+     existing Version 7.2x ESQL/C or not, an existing Version 7.2x
+     application CAN use the Version 9.5 ESQL/C shared libraries in this
+     installation without relinking or recompilation.
+
+  4. In order to recompile Version 7.2x applications with 9.5 ESQL/C,
+     customers need to install ClientSDK Version 2.6. The command
+     "installclientsdk" is used to install clientsdk product that contain
+     9.5 ESQL/C (and other client products). Like the current
+     "installesql", "installclientsdk" will overwrite all files in an
+     existing Version 7.2x ESQL/C installation. There is no -u option for
+     installclientsdk.
+
+
+  ------------------------------------------------------------------------
+
+VIII. CSDK Installation on windows with ISWI2.0
+
+MsiExec and Installation Properties
+
+     Windows Installer Installation,repair,and uninstallation can be
+     activated from the Command line using the utility MsiExec with
+     appropriate command-line
+     options.MsiExec is a part of Windows 2000, and InstMsi Installs
+     MsiExec into <SystemFolder> on other Systems.
+
+     For example, here are some common installer actions and ther
+     corresponding command-
+     line options.
+
+     Install:                      Msiexec.exe  /i  D:\Example.msi
+     Uninstall:                    MsiExec.exe  /x  D:\Example.msi
+     Install to Network:           MsiExec.exe  /a  D:\Example.msi
+     Repair:                       MsiExec.exe  /f  D:\Example.msi
+     Advertise (to machine):       MsiExec.exe  /jm D:\Example.msi
+     Advertise ( to current user): MsiExec.exe  /ju D:\Example.msi
+
+     MsiExec also accepts a product code instead of a path to an MSI
+     Package.
+
+     public properties (those with upper-case names) of an
+     installation program can be set at the command line.
+     For example, the default user and company names displayed in the
+     Identification panel of an installation are  taken from the
+     target system's registry and stored in the public installer
+     properties USERNAME and COMPANYNAME. To set the user and company
+     names at
+     the command line, we enter a command similar to the following.
+     (Note that property
+     names are case-sensitive, and that we enclose a property value
+     in quotation marks if the value contains any spaces.)
+
+     MsiExec.exe  /i   “<.msi file path name>”   USERNAME=Default
+     COMPANYNAME="<company name"
+
+     Similarly user can specify an alternative value for INSTALLDIR on
+     the command line
+
+     MsiExec.exe  /i  “<.msi file path name>”
+     INSTALLDIR="<NewLocation path>"
+
+     An administration can prevent a product from being uninstalled by
+     setting the ARPNOREMOVE property  to 1 at the command
+     line.Similarly, setting
+     ARPNOMODIFY to 1 prevents users from modifying installed files,
+     and setting ARPNOREPAIR  to  1 disables the Repair button in the
+     Windows 2000
+     Add/Remove Programs Control panel applet.
+
+Silent Installation
+
+     Refer Informix Client Products Installation Guide for Unix,Linux
+     And Windows,Version 2.5 from the url
+     http://www.informix.com/answers/english/docs/25sdk/6638.pdf on
+     page 2-9
+
+     Logging :-
+     =======
+
+     We can create a log file at setup runtime using the /L argument
+     to MsiExec.
+     For example to store all error and warning messages in a text log
+     file, we can use the following command line, which passes the e
+     and w arguments to /L
+
+     MsiExec.exe  /i  "<.Msi file path name"
+     SERIALNUMBER="<serialnumber>"   KEY="<key>"  /Lew  D:\install.log
+
+     To log every action performed by the setup program,the command is
+
+     MsiExec.exe  /i  ".Msi file path name"
+     ERIALNUMBER="<serialnumber>"   KEY="<key>" /L*v  D:\install.log
+
+     Note:- By default, MsiExec creates a log file in a users' Temp
+     folder only if an error occurs.
+
+Advertise Installation
+
+     Refer Informix Client Products Installation Guide for Unix,Linux
+     And Windows,Version 2.5 from the url
+     http://www.informix.com/answers/english/docs/25sdk/6638.pdf on
+     page 2-10
+
+Uninstallation of Client SDK
+
+     Refer Informix Client Products Installation Guide for Unix,Linux
+     And Windows,Version 2.5 from the url
+     http://www.informix.com/answers/english/docs/25sdk/6638.pdf on
+     page 2-11
+
+Uninstallation of Client SDK from Command line
+
+     Refer Informix Client Products Installation Guide for Unix,Linux
+     And Windows,Version 2.5 from the url
+     http://www.informix.com/answers/english/docs/25sdk/6638.pdf on
+     page 2-12
+
+Modify the Installation
+
+     Refer Informix Client Products Installation Guide for Unix,Linux
+     And Windows,Version 2.5 from the url
+     http://www.informix.com/answers/english/docs/25sdk/6638.pdf on
+     page 2-12
+
+Repair the Installation
+
+     Refer Informix Client Products Installation Guide for Unix,Linux
+     And Windows,Version 2.5 from the url
+     http://www.informix.com/answers/english/docs/25sdk/6638.pdf on
+     page 2-13
+
+  ------------------------------------------------------------------------
+
+IX.  Fixed problems
+
+---------------------------------------------------------------------------
+| Bug Number | Description                                                |
+---------------------------------------------------------------------------
+| 133291     | AFTER ICONNECT IS INSTALLED ON NT, C:\WINNT\SYSTEM32\      |
+|            | MSVCRT40.DLL SAYS DO NOT DISTRIBUTE IN THE VERSION TAB WHEN|
+|            | CLICKING PROPERTIES FOR FILE.                              |
+---------------------------------------------------------------------------
+| 146467     | WHEN INSTALLING SDK 2.50 OR 2.60 ON A CLEAN WINDOWS 95     |
+|            | MACHINE, COMCTL32.DLL IS NOT INSTALLED, SETNET32 WON'T     |
+|            | LAUNCH AS A RESULT                                         |
+---------------------------------------------------------------------------
+| 146484     | NT USERS WHICH ARE NOT MEMBERS OF ADMINISTRATOR GROUP ARE  |
+|            | FORBIDDEN TO INSTALL SDK 2.6; NO NT RESTRICTION; SHOULD    |
+|            | INSTALL SDK ON NT AS DID ON WI95                           |
+---------------------------------------------------------------------------
+| 147175     | ICONNECT 2.70.TC1A2 DOES NOT INSTALL MSVCRT40.DLL IN THE   |
+|            | SYSTEMFOLDER DIRECTORY ON ANY OF THE WINDOWS OPERATING     |
+|            | SYSTEMS                                                    |
+---------------------------------------------------------------------------
+
+Copyright © 2000, Informix Software, Inc. All rights reserved

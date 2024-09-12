@@ -1,0 +1,357 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       e027.cm
+#  Author:      Informix ELC
+#  Created:     Fri Jun 07 16:02:42 1996
+#  Description:
+#    Character Map for Polish CSK
+#    Registry value (Decimal):  57383
+#    Registry value (Hex):      e027
+#
+#    This file is the character map for the character set specified above.
+#    Its purpose is to define the mapping of characters to their positions
+#    in the character table.
+#
+#*************************************************************************
+<source_version>    1
+<modified_date>     "06/13/1996"
+<code_set_name>     "CSK"
+
+CHARMAP
+<NUL>                       \x00
+<SOH>                       \x01
+<STX>                       \x02
+<ETX>                       \x03
+<EOT>                       \x04
+<ENQ>                       \x05
+<ACK>                       \x06
+<BEL>                       \x07
+<alert>                     \x07    ALTERNATE SYMBOL
+<backspace>                 \x08
+<tab>                       \x09
+<newline>                   \x0a
+<vertical-tab>              \x0b
+<form-feed>                 \x0c
+<carriage-return>           \x0d
+<SO>                        \x0e
+<SI>                        \x0f
+<DLE>                       \x10
+<DC1>                       \x11
+<DC2>                       \x12
+<DC3>                       \x13
+<DC4>                       \x14
+<NAK>                       \x15
+<SYN>                       \x16
+<ETB>                       \x17
+<CAN>                       \x18
+<EM>                        \x19
+<SUB>                       \x1a
+<ESC>                       \x1b
+<IS4>                       \x1c
+<IS3>                       \x1d
+<IS2>                       \x1e
+<IS1>                       \x1f
+<SP>                        \x20
+<space>                     \x20    ALTERNATE SYMBOL
+<exclamation-mark>          \x21
+<exclamation-point>         \x21    ALTERNATE SYMBOL
+<quotation-mark>            \x22
+<number-sign>               \x23
+<dollar-sign>               \x24
+<percent-sign>              \x25
+<ampersand>                 \x26
+<apostrophe>                \x27
+<left-parenthesis>          \x28
+<right-parenthesis>         \x29
+<asterisk>                  \x2a
+<plus-sign>                 \x2b
+<comma>                     \x2c
+<hyphen-minus>              \x2d
+<hyphen>                    \x2d    ALTERNATE SYMBOL
+<full-stop>                 \x2e
+<period>                    \x2e    ALTERNATE SYMBOL
+<slash>                     \x2f
+<solidus>                   \x2f    ALTERNATE SYMBOL
+<zero>                      \x30
+<one>                       \x31
+<two>                       \x32
+<three>                     \x33
+<four>                      \x34
+<five>                      \x35
+<six>                       \x36
+<seven>                     \x37
+<eight>                     \x38
+<nine>                      \x39
+<colon>                     \x3a
+<semicolon>                 \x3b
+<less-than-sign>            \x3c
+<equals-sign>               \x3d
+<greater-than-sign>         \x3e
+<question-mark>             \x3f
+<commercial-at>             \x40
+<A>                         \x41
+<B>                         \x42
+<C>                         \x43
+<D>                         \x44
+<E>                         \x45
+<F>                         \x46
+<G>                         \x47
+<H>                         \x48
+<I>                         \x49
+<J>                         \x4a
+<K>                         \x4b
+<L>                         \x4c
+<M>                         \x4d
+<N>                         \x4e
+<O>                         \x4f
+<P>                         \x50
+<Q>                         \x51
+<R>                         \x52
+<S>                         \x53
+<T>                         \x54
+<U>                         \x55
+<V>                         \x56
+<W>                         \x57
+<X>                         \x58
+<Y>                         \x59
+<Z>                         \x5a
+<left-square-bracket>       \x5b
+<backslash>                 \x5c
+<reverse-solidus>           \x5c    ALTERNATE SYMBOL
+<right-square-bracket>      \x5d
+<circumflex-accent>         \x5e
+<circumflex>                \x5e    ALTERNATE SYMBOL
+<low-line>                  \x5f
+<underscore>                \x5f    ALTERNATE SYMBOL
+<grave-accent>              \x60
+<a>                         \x61
+<b>                         \x62
+<c>                         \x63
+<d>                         \x64
+<e>                         \x65
+<f>                         \x66
+<g>                         \x67
+<h>                         \x68
+<i>                         \x69
+<j>                         \x6a
+<k>                         \x6b
+<l>                         \x6c
+<m>                         \x6d
+<n>                         \x6e
+<o>                         \x6f
+<p>                         \x70
+<q>                         \x71
+<r>                         \x72
+<s>                         \x73
+<t>                         \x74
+<u>                         \x75
+<v>                         \x76
+<w>                         \x77
+<x>                         \x78
+<y>                         \x79
+<z>                         \x7a
+<left-brace>                \x7b
+<left-curly-bracket>        \x7b    ALTERNATE SYMBOL
+<left-curly-brace>          \x7b    ALTERNATE SYMBOL
+<vertical-line>             \x7c
+<right-brace>               \x7d
+<right-curly-bracket>       \x7d    ALTERNATE SYMBOL
+<right-curly-brack>         \x7d    ALTERNATE SYMBOL
+<tilde>                     \x7e
+<DEL>                       \x7f
+<A-ogonek>                  \x80
+<C-acute>                   \x81
+<E-ogonek>                  \x82
+<L-stroke>                  \x83
+<N-acute>                   \x84
+<O-acute>                   \x85
+<S-acute>                   \x86
+<Z-acute>                   \x87
+<Z-dot-above>               \x88
+<e-diaeresis>               \x89
+<e-diaresis>                \x89    ALTERNATE SYMBOL
+<e-grave>                   \x8a
+<i-diaeresis>               \x8b
+<i-diaresis>                \x8b    ALTERNATE SYMBOL
+<i-circumflex>              \x8c
+<i-grave>                   \x8d
+<A-diaeresis>               \x8e
+<A-diaresis>                \x8e    ALTERNATE SYMBOL
+<A-ring>                    \x8f
+<E-acute>                   \x90
+<ae>                        \x91
+<AE>                        \x92
+<o-circumflex>              \x93
+<o-diaeresis>               \x94
+<o-diaresis>                \x94    ALTERNATE SYMBOL
+<o-grave>                   \x95
+<u-circumflex>              \x96
+<u-grave>                   \x97
+<y-diaeresis>               \x98
+<y-diaresis>                \x98    ALTERNATE SYMBOL
+<O-diaeresis>               \x99
+<O-diaresis>                \x99    ALTERNATE SYMBOL
+<U-diaeresis>               \x9a
+<U-diaresis>                \x9a    ALTERNATE SYMBOL
+<cent>                      \x9b
+<sterling>                  \x9c
+<yen>                       \x9d
+<currency-sign-polish>      \x9e
+<florin>                    \x9f
+<guilder-sign>              \x9f    ALTERNATE SYMBOL
+<a-ogonek>                  \xa0
+<c-acute>                   \xa1
+<e-ogonek>                  \xa2
+<l-stroke>                  \xa3
+<n-acute>                   \xa4
+<o-acute>                   \xa5
+<s-acute>                   \xa6
+<z-acute>                   \xa7
+<z-dot-above>               \xa8
+<reversed-not-sign>         \xa9
+<not>                       \xaa
+<one-half>                  \xab
+<one-quarter>               \xac
+<exclamation-down>          \xad
+<guillemot-left>            \xae
+<guillemot-right>           \xaf
+<boxfill-dark>              \xb0
+<light-shade>               \xb0    ALTERNATE SYMBOL
+<boxfill-medium>            \xb1
+<medium-shade>              \xb1    ALTERNATE SYMBOL
+<boxfill-light>             \xb2
+<dark-shade>                \xb2    ALTERNATE SYMBOL
+<box-vertical>              \xb3
+<light-vertical>            \xb3    ALTERNATE SYMBOL
+<box-int-right>             \xb4
+<light-vertical-left>       \xb4    ALTERNATE SYMBOL
+<light-vertical-heavy-left> \xb5
+<heavy-vertical-light-left> \xb6
+<heavy-down-light-left>     \xb7
+<light-down-heavy-left>     \xb8
+<doublebox-int-right>       \xb9
+<heavy-vertical-left>       \xb9    ALTERNATE SYMBOL
+<doublebox-vertical>        \xba
+<heavy-vertical>            \xba    ALTERNATE SYMBOL
+<doublebox-top-right>       \xbb
+<heavy-down-left>           \xbb    ALTERNATE SYMBOL
+<doublebox-bottom-right>    \xbc
+<heavy-up-left>             \xbc    ALTERNATE SYMBOL
+<heavy-up-light-left>       \xbd
+<light-up-heavy-left>       \xbe
+<box-top-right>             \xbf
+<light-down-left>           \xbf    ALTERNATE SYMBOL
+<box-bottom-left>           \xc0
+<light-up-right>            \xc0    ALTERNATE SYMBOL
+<box-int-bottom>            \xc1
+<light-up-horizontal>       \xc1    ALTERNATE SYMBOL
+<box-int-top>               \xc2
+<light-down-horizontal>     \xc2    ALTERNATE SYMBOL
+<box-int-left>              \xc3
+<light-vertical-right>      \xc3    ALTERNATE SYMBOL
+<box-horizontal>            \xc4
+<light-horizontal>          \xc4    ALTERNATE SYMBOL
+<box-intersection>          \xc5
+<light-vert-horizontal>     \xc5    ALTERNATE SYMBOL
+<light-vertical-heavy-right> \xc6
+<heavy-vertical-light-right> \xc7
+<doublebox-bottom-left>     \xc8
+<heavy-up-right>            \xc8    ALTERNATE SYMBOL
+<doublebox-top-left>        \xc9
+<heavy-down-right>          \xc9    ALTERNATE SYMBOL
+<doublebox-int-bottom>      \xca
+<heavy-up-horizontal>       \xca    ALTERNATE SYMBOL
+<doublebox-int-top>         \xcb
+<heavy-down-horizontal>     \xcb    ALTERNATE SYMBOL
+<doublebox-int-left>        \xcc
+<heavy-vertical-right>      \xcc    ALTERNATE SYMBOL
+<doublebox-horizontal>      \xcd
+<heavy-horizontal>          \xcd    ALTERNATE SYMBOL
+<doublebox-intersection>    \xce
+<heavy-vert-horizontal>     \xce    ALTERNATE SYMBOL
+<light-up-heavy-horizontal> \xcf
+<heavy-up-light-horizontal> \xd0
+<light-down-heavy-horizontal> \xd1
+<heavy-down-light-horizontal> \xd2
+<heavy-up-light-right>      \xd3
+<light-up-heavy-right>      \xd4
+<light-down-heavy-right>    \xd5
+<heavy-down-light-right>    \xd6
+<heavy-vertical-light-horizontal> \xd7
+<light-vertical-heavy-horizontal> \xd8
+<box-bottom-right>          \xd9
+<light-up-left>             \xd9    ALTERNATE SYMBOL
+<box-top-left>              \xda
+<light-down-right>          \xda    ALTERNATE SYMBOL
+<boxfill>                   \xdb
+<full-block>                \xdb    ALTERNATE SYMBOL
+<boxfill-bottom>            \xdc
+<lower-half-block>          \xdc    ALTERNATE SYMBOL
+<left-half-block>           \xdd
+<right-half-block>          \xde
+<boxfill-top>               \xdf
+<upper-half-block>          \xdf    ALTERNATE SYMBOL
+<greek-alpha>               \xe0
+<greek-small-letter-alpha>  \xe0    ALTERNATE SYMBOL
+<greek-beta>                \xe1
+<greek-small-letter-beta>   \xe1    ALTERNATE SYMBOL
+<greek-GAMMA>               \xe2
+<greek-capital-letter-gamma> \xe2    ALTERNATE SYMBOL
+<greek-pi>                  \xe3
+<greek-small-letter-pi>     \xe3    ALTERNATE SYMBOL
+<greek-SIGMA>               \xe4
+<greek-capital-letter-sigma> \xe4    ALTERNATE SYMBOL
+<greek-sigma>               \xe5
+<greek-small-letter-sigma>  \xe5    ALTERNATE SYMBOL
+<greek-mu>                  \xe6
+<greek-small-letter-tau>    \xe7
+<greek-tau>                 \xe7    ALTERNATE SYMBOL
+<greek-PHI>                 \xe8
+<greek-capital-letter-phi>  \xe8    ALTERNATE SYMBOL
+<greek-THETA>               \xe9
+<greek-capital-letter-theta> \xe9    ALTERNATE SYMBOL
+<greek-OMEGA>               \xea
+<greek-capital-letter-omega> \xea    ALTERNATE SYMBOL
+<greek-delta>               \xeb
+<greek-small-letter-delta>  \xeb    ALTERNATE SYMBOL
+<infinity>                  \xec
+<empty-set>                 \xed
+<epsilon>                   \xee
+<greek-small-letter-epsilon> \xee    ALTERNATE SYMBOL
+<greek-epsilon>             \xee    ALTERNATE SYMBOL
+<intersection>              \xef
+<identical-to>              \xf0
+<plus-minus>                \xf1
+<greater-than-or-equal-to>  \xf2
+<less-than-or-equal-to>     \xf3
+<top-half-integral>         \xf4
+<bottom-half-integral>      \xf5
+<divide>                    \xf6
+<division>                  \xf6    ALTERNATE SYMBOL
+<almost-equal-to>           \xf7
+<ring-operator>             \xf8
+<dot>                       \xf9
+<middle-dot>                \xf9    ALTERNATE SYMBOL
+<bullet>                    \xfa
+<square-root>               \xfb
+<superscript-n>             \xfc
+<two-superior>              \xfd
+<black-square>              \xfe
+<boxfill-middle>            \xfe    ALTERNATE SYMBOL
+<nobreakspace>              \xff
+END CHARMAP

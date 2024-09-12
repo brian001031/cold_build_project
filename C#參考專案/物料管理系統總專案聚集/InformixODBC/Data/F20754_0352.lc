@@ -1,0 +1,1435 @@
+############################################################################
+#
+#                         INFORMIX SOFTWARE, INC.
+#
+#                            PROPRIETARY DATA
+#
+#      THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF
+#      INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#      CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR
+#      DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT
+#      SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#      THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#      SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE.
+#      UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW.
+#
+#  Title:      0352.lc 
+#  Author:     Informix EDG 
+#  Created:    Tue 24 Jun 09:45 GMT 1997 
+#  Description:
+#    GLS locale for 850
+#    Registry value (Decimal): CCSID 850
+#    Registry values (Hex): CCSID 0352
+#
+#    This file is the GLS locale for the character set specified above.
+#
+############################################################################
+
+
+<source_version>  1 
+<modified_date>   "09/07/97"
+<language>        "Portuguese"
+<territory>       "Portugal"
+<modifier>        "None"
+
+LC_CTYPE
+
+alphanumeric   <zero>;\
+        <one>;\
+        <two>;\
+        <three>;\
+        <four>;\
+        <five>;\
+        <six>;\
+        <seven>;\
+        <eight>;\
+        <nine>;\
+        <A>;\
+        <B>;\
+        <C>;\
+        <D>;\
+        <E>;\
+        <F>;\
+        <G>;\
+        <H>;\
+        <I>;\
+        <J>;\
+        <K>;\
+        <L>;\
+        <M>;\
+        <N>;\
+        <O>;\
+        <P>;\
+        <Q>;\
+        <R>;\
+        <S>;\
+        <T>;\
+        <U>;\
+        <V>;\
+        <W>;\
+        <X>;\
+        <Y>;\
+        <Z>;\
+        <a>;\
+        <b>;\
+        <c>;\
+        <d>;\
+        <e>;\
+        <f>;\
+        <g>;\
+        <h>;\
+        <i>;\
+        <j>;\
+        <k>;\
+        <l>;\
+        <m>;\
+        <n>;\
+        <o>;\
+        <p>;\
+        <q>;\
+        <r>;\
+        <s>;\
+        <t>;\
+        <u>;\
+        <v>;\
+        <w>;\
+        <x>;\
+        <y>;\
+        <z>;\
+        <A-grave>;\
+        <A-acute>;\
+        <A-circumflex>;\
+        <A-tilde>;\
+        <A-diaeresis>;\
+        <A-ring>;\
+        <AE>;\
+        <C-cedilla>;\
+        <E-grave>;\
+        <E-acute>;\
+        <E-circumflex>;\
+        <E-diaeresis>;\
+        <I-grave>;\
+        <I-acute>;\
+        <I-circumflex>;\
+        <I-diaeresis>;\
+        <Eth>;\
+        <N-tilde>;\
+        <O-grave>;\
+        <O-acute>;\
+        <O-circumflex>;\
+        <O-tilde>;\
+        <O-diaeresis>;\
+        <O-slash>;\
+        <U-grave>;\
+        <U-acute>;\
+        <U-circumflex>;\
+        <U-diaeresis>;\
+        <Y-acute>;\
+        <Thorn>;\
+        <s-sharp>;\
+        <a-grave>;\
+        <a-acute>;\
+        <a-circumflex>;\
+        <a-tilde>;\
+        <a-diaeresis>;\
+        <a-ring>;\
+        <ae>;\
+        <c-cedilla>;\
+        <e-grave>;\
+        <e-acute>;\
+        <e-circumflex>;\
+        <e-diaeresis>;\
+        <i-grave>;\
+        <i-acute>;\
+        <i-circumflex>;\
+        <i-diaeresis>;\
+        <eth>;\
+        <n-tilde>;\
+        <o-grave>;\
+        <o-acute>;\
+        <o-circumflex>;\
+        <o-tilde>;\
+        <o-diaeresis>;\
+        <o-slash>;\
+        <u-grave>;\
+        <u-acute>;\
+        <u-circumflex>;\
+        <u-diaeresis>;\
+        <y-acute>;\
+        <thorn>;\
+        <y-diaeresis>
+
+alpha   <A>;\
+        <B>;\
+        <C>;\
+        <D>;\
+        <E>;\
+        <F>;\
+        <G>;\
+        <H>;\
+        <I>;\
+        <J>;\
+        <K>;\
+        <L>;\
+        <M>;\
+        <N>;\
+        <O>;\
+        <P>;\
+        <Q>;\
+        <R>;\
+        <S>;\
+        <T>;\
+        <U>;\
+        <V>;\
+        <W>;\
+        <X>;\
+        <Y>;\
+        <Z>;\
+        <a>;\
+        <b>;\
+        <c>;\
+        <d>;\
+        <e>;\
+        <f>;\
+        <g>;\
+        <h>;\
+        <i>;\
+        <j>;\
+        <k>;\
+        <l>;\
+        <m>;\
+        <n>;\
+        <o>;\
+        <p>;\
+        <q>;\
+        <r>;\
+        <s>;\
+        <t>;\
+        <u>;\
+        <v>;\
+        <w>;\
+        <x>;\
+        <y>;\
+        <z>;\
+        <A-grave>;\
+        <A-acute>;\
+        <A-circumflex>;\
+        <A-tilde>;\
+        <A-diaeresis>;\
+        <A-ring>;\
+        <AE>;\
+        <C-cedilla>;\
+        <E-grave>;\
+        <E-acute>;\
+        <E-circumflex>;\
+        <E-diaeresis>;\
+        <I-grave>;\
+        <I-acute>;\
+        <I-circumflex>;\
+        <I-diaeresis>;\
+        <Eth>;\
+        <N-tilde>;\
+        <O-grave>;\
+        <O-acute>;\
+        <O-circumflex>;\
+        <O-tilde>;\
+        <O-diaeresis>;\
+        <O-slash>;\
+        <U-grave>;\
+        <U-acute>;\
+        <U-circumflex>;\
+        <U-diaeresis>;\
+        <Y-acute>;\
+        <Thorn>;\
+        <s-sharp>;\
+        <a-grave>;\
+        <a-acute>;\
+        <a-circumflex>;\
+        <a-tilde>;\
+        <a-diaeresis>;\
+        <a-ring>;\
+        <ae>;\
+        <c-cedilla>;\
+        <e-grave>;\
+        <e-acute>;\
+        <e-circumflex>;\
+        <e-diaeresis>;\
+        <i-grave>;\
+        <i-acute>;\
+        <i-circumflex>;\
+        <i-diaeresis>;\
+        <eth>;\
+        <n-tilde>;\
+        <o-grave>;\
+        <o-acute>;\
+        <o-circumflex>;\
+        <o-tilde>;\
+        <o-diaeresis>;\
+        <o-slash>;\
+        <u-grave>;\
+        <u-acute>;\
+        <u-circumflex>;\
+        <u-diaeresis>;\
+        <y-acute>;\
+        <thorn>;\
+        <y-diaeresis>
+
+blank   <tab>;\
+        <SP>;\
+        <nobreakspace>
+
+cntrl   <NUL>;\
+        <SOH>;\
+        <STX>;\
+        <ETX>;\
+        <EOT>;\
+        <ENQ>;\
+        <ACK>;\
+        <BEL>;\
+        <backspace>;\
+        <tab>;\
+        <newline>;\
+        <vertical-tab>;\
+        <form-feed>;\
+        <carriage-return>;\
+        <SO>;\
+        <SI>;\
+        <DLE>;\
+        <DC1>;\
+        <DC2>;\
+        <DC3>;\
+        <DC4>;\
+        <NAK>;\
+        <SYN>;\
+        <ETB>;\
+        <CAN>;\
+        <EM>;\
+        <SUB>;\
+        <ESC>;\
+        <IS4>;\
+        <IS3>;\
+        <IS2>;\
+        <IS1>;\
+        <DEL>
+
+digit   <zero>;\
+        <one>;\
+        <two>;\
+        <three>;\
+        <four>;\
+        <five>;\
+        <six>;\
+        <seven>;\
+        <eight>;\
+        <nine>
+
+graph   <exclamation-mark>;\
+        <quotation-mark>;\
+        <number-sign>;\
+        <dollar-sign>;\
+        <percent-sign>;\
+        <ampersand>;\
+        <apostrophe>;\
+        <left-parenthesis>;\
+        <right-parenthesis>;\
+        <asterisk>;\
+        <plus-sign>;\
+        <comma>;\
+        <hyphen-minus>;\
+        <full-stop>;\
+        <slash>;\
+        <zero>;\
+        <one>;\
+        <two>;\
+        <three>;\
+        <four>;\
+        <five>;\
+        <six>;\
+        <seven>;\
+        <eight>;\
+        <nine>;\
+        <colon>;\
+        <semicolon>;\
+        <less-than-sign>;\
+        <equals-sign>;\
+        <greater-than-sign>;\
+        <question-mark>;\
+        <commercial-at>;\
+        <A>;\
+        <B>;\
+        <C>;\
+        <D>;\
+        <E>;\
+        <F>;\
+        <G>;\
+        <H>;\
+        <I>;\
+        <J>;\
+        <K>;\
+        <L>;\
+        <M>;\
+        <N>;\
+        <O>;\
+        <P>;\
+        <Q>;\
+        <R>;\
+        <S>;\
+        <T>;\
+        <U>;\
+        <V>;\
+        <W>;\
+        <X>;\
+        <Y>;\
+        <Z>;\
+        <left-square-bracket>;\
+        <backslash>;\
+        <right-square-bracket>;\
+        <circumflex-accent>;\
+        <low-line>;\
+        <grave-accent>;\
+        <diaresis>;\
+        <a>;\
+        <b>;\
+        <c>;\
+        <d>;\
+        <e>;\
+        <f>;\
+        <g>;\
+        <h>;\
+        <i>;\
+        <j>;\
+        <k>;\
+        <l>;\
+        <m>;\
+        <n>;\
+        <o>;\
+        <p>;\
+        <q>;\
+        <r>;\
+        <s>;\
+        <t>;\
+        <u>;\
+        <v>;\
+        <w>;\
+        <x>;\
+        <y>;\
+        <z>;\
+        <left-brace>;\
+        <vertical-line>;\
+        <right-brace>;\
+        <tilde>;\
+        <exclamation-down>;\
+        <cent>;\
+        <sterling>;\
+        <currency>;\
+        <yen>;\
+        <broken-bar>;\
+        <section>;\
+        <copyright>;\
+        <feminine>;\
+        <guillemot-left>;\
+        <not>;\
+        <dash>;\
+        <registered>;\
+        <macron>;\
+        <degree>;\
+        <plus-minus>;\
+        <two-superior>;\
+        <three-superior>;\
+        <acute>;\
+        <mu>;\
+        <paragraph>;\
+        <dot>;\
+        <cedilla>;\
+        <one-superior>;\
+        <masculine>;\
+        <guillemot-right>;\
+        <one-quarter>;\
+        <one-half>;\
+        <three-quarters>;\
+        <question-down>;\
+        <A-grave>;\
+        <A-acute>;\
+        <A-circumflex>;\
+        <A-tilde>;\
+        <A-diaeresis>;\
+        <A-ring>;\
+        <AE>;\
+        <C-cedilla>;\
+        <E-grave>;\
+        <E-acute>;\
+        <E-circumflex>;\
+        <E-diaeresis>;\
+        <I-grave>;\
+        <I-acute>;\
+        <I-circumflex>;\
+        <I-diaeresis>;\
+        <Eth>;\
+        <N-tilde>;\
+        <O-grave>;\
+        <O-acute>;\
+        <O-circumflex>;\
+        <O-tilde>;\
+        <O-diaeresis>;\
+        <multiply>;\
+        <O-slash>;\
+        <U-grave>;\
+        <U-acute>;\
+        <U-circumflex>;\
+        <U-diaeresis>;\
+        <Y-acute>;\
+        <Thorn>;\
+        <s-sharp>;\
+        <a-grave>;\
+        <a-acute>;\
+        <a-circumflex>;\
+        <a-tilde>;\
+        <a-diaeresis>;\
+        <a-ring>;\
+        <ae>;\
+        <c-cedilla>;\
+        <e-grave>;\
+        <e-acute>;\
+        <e-circumflex>;\
+        <e-diaeresis>;\
+        <i-grave>;\
+        <i-acute>;\
+        <i-circumflex>;\
+        <i-diaeresis>;\
+        <eth>;\
+        <n-tilde>;\
+        <o-grave>;\
+        <o-acute>;\
+        <o-circumflex>;\
+        <o-tilde>;\
+        <o-diaeresis>;\
+        <divide>;\
+        <o-slash>;\
+        <u-grave>;\
+        <u-acute>;\
+        <u-circumflex>;\
+        <u-diaeresis>;\
+        <y-acute>;\
+        <thorn>;\
+        <y-diaeresis>;\
+        <florin>;\
+        <boxfill-dark>;\
+        <boxfill-medium>;\
+        <boxfill-light>;\
+        <box-vertical>;\
+        <box-int-right>;\
+        <doublebox-int-right>;\
+        <doublebox-vertical>;\
+        <doublebox-top-right>;\
+        <doublebox-bottom-right>;\
+        <box-top-right>;\
+        <box-bottom-left>;\
+        <box-int-bottom>;\
+        <box-int-top>;\
+        <box-int-left>;\
+        <box-horizontal>;\
+        <box-intersection>;\
+        <doublebox-bottom-left>;\
+        <doublebox-top-left>;\
+        <doublebox-int-bottom>;\
+        <doublebox-int-top>;\
+        <doublebox-int-left>;\
+        <doublebox-horizontal>;\
+        <doublebox-intersection>;\
+        <i-dotless>;\
+        <box-bottom-right>;\
+        <box-top-left>;\
+        <boxfill>;\
+        <boxfill-bottom>;\
+        <boxfill-top>;\
+        <double-low-line>;\
+        <black-square>
+
+lower   <a>;\
+        <b>;\
+        <c>;\
+        <d>;\
+        <e>;\
+        <f>;\
+        <g>;\
+        <h>;\
+        <i>;\
+        <j>;\
+        <k>;\
+        <l>;\
+        <m>;\
+        <n>;\
+        <o>;\
+        <p>;\
+        <q>;\
+        <r>;\
+        <s>;\
+        <t>;\
+        <u>;\
+        <v>;\
+        <w>;\
+        <x>;\
+        <y>;\
+        <z>;\
+        <s-sharp>;\
+        <a-grave>;\
+        <a-acute>;\
+        <a-circumflex>;\
+        <a-tilde>;\
+        <a-diaeresis>;\
+        <a-ring>;\
+        <ae>;\
+        <c-cedilla>;\
+        <e-grave>;\
+        <e-acute>;\
+        <e-circumflex>;\
+        <e-diaeresis>;\
+        <i-grave>;\
+        <i-acute>;\
+        <i-circumflex>;\
+        <i-diaeresis>;\
+        <eth>;\
+        <n-tilde>;\
+        <o-grave>;\
+        <o-acute>;\
+        <o-circumflex>;\
+        <o-tilde>;\
+        <o-diaeresis>;\
+        <o-slash>;\
+        <u-grave>;\
+        <u-acute>;\
+        <u-circumflex>;\
+        <u-diaeresis>;\
+        <y-acute>;\
+        <thorn>;\
+        <y-diaeresis>
+
+print   <SP>;\
+        <exclamation-mark>;\
+        <quotation-mark>;\
+        <number-sign>;\
+        <dollar-sign>;\
+        <percent-sign>;\
+        <ampersand>;\
+        <apostrophe>;\
+        <left-parenthesis>;\
+        <right-parenthesis>;\
+        <asterisk>;\
+        <plus-sign>;\
+        <comma>;\
+        <hyphen-minus>;\
+        <full-stop>;\
+        <slash>;\
+        <zero>;\
+        <one>;\
+        <two>;\
+        <three>;\
+        <four>;\
+        <five>;\
+        <six>;\
+        <seven>;\
+        <eight>;\
+        <nine>;\
+        <colon>;\
+        <semicolon>;\
+        <less-than-sign>;\
+        <equals-sign>;\
+        <greater-than-sign>;\
+        <question-mark>;\
+        <commercial-at>;\
+        <A>;\
+        <B>;\
+        <C>;\
+        <D>;\
+        <E>;\
+        <F>;\
+        <G>;\
+        <H>;\
+        <I>;\
+        <J>;\
+        <K>;\
+        <L>;\
+        <M>;\
+        <N>;\
+        <O>;\
+        <P>;\
+        <Q>;\
+        <R>;\
+        <S>;\
+        <T>;\
+        <U>;\
+        <V>;\
+        <W>;\
+        <X>;\
+        <Y>;\
+        <Z>;\
+        <left-square-bracket>;\
+        <backslash>;\
+        <right-square-bracket>;\
+        <circumflex-accent>;\
+        <low-line>;\
+        <grave-accent>;\
+        <diaresis>;\
+        <a>;\
+        <b>;\
+        <c>;\
+        <d>;\
+        <e>;\
+        <f>;\
+        <g>;\
+        <h>;\
+        <i>;\
+        <j>;\
+        <k>;\
+        <l>;\
+        <m>;\
+        <n>;\
+        <o>;\
+        <p>;\
+        <q>;\
+        <r>;\
+        <s>;\
+        <t>;\
+        <u>;\
+        <v>;\
+        <w>;\
+        <x>;\
+        <y>;\
+        <z>;\
+        <left-brace>;\
+        <vertical-line>;\
+        <right-brace>;\
+        <tilde>;\
+        <nobreakspace>;\
+        <exclamation-down>;\
+        <cent>;\
+        <sterling>;\
+        <currency>;\
+        <yen>;\
+        <broken-bar>;\
+        <section>;\
+        <copyright>;\
+        <feminine>;\
+        <guillemot-left>;\
+        <not>;\
+        <dash>;\
+        <registered>;\
+        <macron>;\
+        <degree>;\
+        <plus-minus>;\
+        <two-superior>;\
+        <three-superior>;\
+        <acute>;\
+        <mu>;\
+        <paragraph>;\
+        <dot>;\
+        <cedilla>;\
+        <one-superior>;\
+        <masculine>;\
+        <guillemot-right>;\
+        <one-quarter>;\
+        <one-half>;\
+        <three-quarters>;\
+        <question-down>;\
+        <A-grave>;\
+        <A-acute>;\
+        <A-circumflex>;\
+        <A-tilde>;\
+        <A-diaeresis>;\
+        <A-ring>;\
+        <AE>;\
+        <C-cedilla>;\
+        <E-grave>;\
+        <E-acute>;\
+        <E-circumflex>;\
+        <E-diaeresis>;\
+        <I-grave>;\
+        <I-acute>;\
+        <I-circumflex>;\
+        <I-diaeresis>;\
+        <Eth>;\
+        <N-tilde>;\
+        <O-grave>;\
+        <O-acute>;\
+        <O-circumflex>;\
+        <O-tilde>;\
+        <O-diaeresis>;\
+        <multiply>;\
+        <O-slash>;\
+        <U-grave>;\
+        <U-acute>;\
+        <U-circumflex>;\
+        <U-diaeresis>;\
+        <Y-acute>;\
+        <Thorn>;\
+        <s-sharp>;\
+        <a-grave>;\
+        <a-acute>;\
+        <a-circumflex>;\
+        <a-tilde>;\
+        <a-diaeresis>;\
+        <a-ring>;\
+        <ae>;\
+        <c-cedilla>;\
+        <e-grave>;\
+        <e-acute>;\
+        <e-circumflex>;\
+        <e-diaeresis>;\
+        <i-grave>;\
+        <i-acute>;\
+        <i-circumflex>;\
+        <i-diaeresis>;\
+        <eth>;\
+        <n-tilde>;\
+        <o-grave>;\
+        <o-acute>;\
+        <o-circumflex>;\
+        <o-tilde>;\
+        <o-diaeresis>;\
+        <divide>;\
+        <o-slash>;\
+        <u-grave>;\
+        <u-acute>;\
+        <u-circumflex>;\
+        <u-diaeresis>;\
+        <y-acute>;\
+        <thorn>;\
+        <y-diaeresis>;\
+        <florin>;\
+        <boxfill-dark>;\
+        <boxfill-medium>;\
+        <boxfill-light>;\
+        <box-vertical>;\
+        <box-int-right>;\
+        <doublebox-int-right>;\
+        <doublebox-vertical>;\
+        <doublebox-top-right>;\
+        <doublebox-bottom-right>;\
+        <box-top-right>;\
+        <box-bottom-left>;\
+        <box-int-bottom>;\
+        <box-int-top>;\
+        <box-int-left>;\
+        <box-horizontal>;\
+        <box-intersection>;\
+        <doublebox-bottom-left>;\
+        <doublebox-top-left>;\
+        <doublebox-int-bottom>;\
+        <doublebox-int-top>;\
+        <doublebox-int-left>;\
+        <doublebox-horizontal>;\
+        <doublebox-intersection>;\
+        <i-dotless>;\
+        <box-bottom-right>;\
+        <box-top-left>;\
+        <boxfill>;\
+        <boxfill-bottom>;\
+        <boxfill-top>;\
+        <double-low-line>;\
+        <black-square>
+
+punct   <exclamation-mark>;\
+        <quotation-mark>;\
+        <number-sign>;\
+        <dollar-sign>;\
+        <percent-sign>;\
+        <ampersand>;\
+        <apostrophe>;\
+        <left-parenthesis>;\
+        <right-parenthesis>;\
+        <asterisk>;\
+        <plus-sign>;\
+        <comma>;\
+        <hyphen-minus>;\
+        <full-stop>;\
+        <slash>;\
+        <colon>;\
+        <semicolon>;\
+        <less-than-sign>;\
+        <equals-sign>;\
+        <greater-than-sign>;\
+        <question-mark>;\
+        <commercial-at>;\
+        <left-square-bracket>;\
+        <backslash>;\
+        <right-square-bracket>;\
+        <circumflex-accent>;\
+        <low-line>;\
+        <grave-accent>;\
+        <left-brace>;\
+        <vertical-line>;\
+        <right-brace>;\
+        <tilde>
+
+space   <tab>;\
+        <newline>;\
+        <vertical-tab>;\
+        <form-feed>;\
+        <carriage-return>;\
+        <SP>;\
+        <nobreakspace>
+
+upper   <A>;\
+        <B>;\
+        <C>;\
+        <D>;\
+        <E>;\
+        <F>;\
+        <G>;\
+        <H>;\
+        <I>;\
+        <J>;\
+        <K>;\
+        <L>;\
+        <M>;\
+        <N>;\
+        <O>;\
+        <P>;\
+        <Q>;\
+        <R>;\
+        <S>;\
+        <T>;\
+        <U>;\
+        <V>;\
+        <W>;\
+        <X>;\
+        <Y>;\
+        <Z>;\
+        <A-grave>;\
+        <A-acute>;\
+        <A-circumflex>;\
+        <A-tilde>;\
+        <A-diaeresis>;\
+        <A-ring>;\
+        <AE>;\
+        <C-cedilla>;\
+        <E-grave>;\
+        <E-acute>;\
+        <E-circumflex>;\
+        <E-diaeresis>;\
+        <I-grave>;\
+        <I-acute>;\
+        <I-circumflex>;\
+        <I-diaeresis>;\
+        <Eth>;\
+        <N-tilde>;\
+        <O-grave>;\
+        <O-acute>;\
+        <O-circumflex>;\
+        <O-tilde>;\
+        <O-diaeresis>;\
+        <O-slash>;\
+        <U-grave>;\
+        <U-acute>;\
+        <U-circumflex>;\
+        <U-diaeresis>;\
+        <Y-acute>;\
+        <Thorn>
+
+xdigit   <zero>;\
+        <one>;\
+        <two>;\
+        <three>;\
+        <four>;\
+        <five>;\
+        <six>;\
+        <seven>;\
+        <eight>;\
+        <nine>;\
+        <A>;\
+        <B>;\
+        <C>;\
+        <D>;\
+        <E>;\
+        <F>;\
+        <a>;\
+        <b>;\
+        <c>;\
+        <d>;\
+        <e>;\
+        <f>
+
+
+toupper (<a>,<A>);\
+        (<b>,<B>);\
+        (<c>,<C>);\
+        (<d>,<D>);\
+        (<e>,<E>);\
+        (<f>,<F>);\
+        (<g>,<G>);\
+        (<h>,<H>);\
+        (<i>,<I>);\
+        (<j>,<J>);\
+        (<k>,<K>);\
+        (<l>,<L>);\
+        (<m>,<M>);\
+        (<n>,<N>);\
+        (<o>,<O>);\
+        (<p>,<P>);\
+        (<q>,<Q>);\
+        (<r>,<R>);\
+        (<s>,<S>);\
+        (<t>,<T>);\
+        (<u>,<U>);\
+        (<v>,<V>);\
+        (<w>,<W>);\
+        (<x>,<X>);\
+        (<y>,<Y>);\
+        (<z>,<Z>);\
+        (<a-grave>,<A-grave>);\
+        (<a-acute>,<A-acute>);\
+        (<a-circumflex>,<A-circumflex>);\
+        (<a-tilde>,<A-tilde>);\
+        (<a-diaeresis>,<A-diaeresis>);\
+        (<a-ring>,<A-ring>);\
+        (<ae>,<AE>);\
+        (<c-cedilla>,<C-cedilla>);\
+        (<e-grave>,<E-grave>);\
+        (<e-acute>,<E-acute>);\
+        (<e-circumflex>,<E-circumflex>);\
+        (<e-diaeresis>,<E-diaeresis>);\
+        (<i-grave>,<I-grave>);\
+        (<i-acute>,<I-acute>);\
+        (<i-circumflex>,<I-circumflex>);\
+        (<i-diaeresis>,<I-diaeresis>);\
+        (<eth>,<Eth>);\
+        (<n-tilde>,<N-tilde>);\
+        (<o-grave>,<O-grave>);\
+        (<o-acute>,<O-acute>);\
+        (<o-circumflex>,<O-circumflex>);\
+        (<o-tilde>,<O-tilde>);\
+        (<o-diaeresis>,<O-diaeresis>);\
+        (<o-slash>,<O-slash>);\
+        (<u-grave>,<U-grave>);\
+        (<u-acute>,<U-acute>);\
+        (<u-circumflex>,<U-circumflex>);\
+        (<u-diaeresis>,<U-diaeresis>);\
+        (<y-acute>,<Y-acute>);\
+        (<thorn>,<Thorn>);\
+        (<y-diaeresis>,<Y>)
+
+tolower (<A>,<a>);\
+        (<B>,<b>);\
+        (<C>,<c>);\
+        (<D>,<d>);\
+        (<E>,<e>);\
+        (<F>,<f>);\
+        (<G>,<g>);\
+        (<H>,<h>);\
+        (<I>,<i>);\
+        (<J>,<j>);\
+        (<K>,<k>);\
+        (<L>,<l>);\
+        (<M>,<m>);\
+        (<N>,<n>);\
+        (<O>,<o>);\
+        (<P>,<p>);\
+        (<Q>,<q>);\
+        (<R>,<r>);\
+        (<S>,<s>);\
+        (<T>,<t>);\
+        (<U>,<u>);\
+        (<V>,<v>);\
+        (<W>,<w>);\
+        (<X>,<x>);\
+        (<Y>,<y>);\
+        (<Z>,<z>);\
+        (<A-grave>,<a-grave>);\
+        (<A-acute>,<a-acute>);\
+        (<A-circumflex>,<a-circumflex>);\
+        (<A-tilde>,<a-tilde>);\
+        (<A-diaeresis>,<a-diaeresis>);\
+        (<A-ring>,<a-ring>);\
+        (<AE>,<ae>);\
+        (<C-cedilla>,<c-cedilla>);\
+        (<E-grave>,<e-grave>);\
+        (<E-acute>,<e-acute>);\
+        (<E-circumflex>,<e-circumflex>);\
+        (<E-diaeresis>,<e-diaeresis>);\
+        (<I-grave>,<i-grave>);\
+        (<I-acute>,<i-acute>);\
+        (<I-circumflex>,<i-circumflex>);\
+        (<I-diaeresis>,<i-diaeresis>);\
+        (<Eth>,<eth>);\
+        (<N-tilde>,<n-tilde>);\
+        (<O-grave>,<o-grave>);\
+        (<O-acute>,<o-acute>);\
+        (<O-circumflex>,<o-circumflex>);\
+        (<O-tilde>,<o-tilde>);\
+        (<O-diaeresis>,<o-diaeresis>);\
+        (<O-slash>,<o-slash>);\
+        (<U-grave>,<u-grave>);\
+        (<U-acute>,<u-acute>);\
+        (<U-circumflex>,<u-circumflex>);\
+        (<U-diaeresis>,<u-diaeresis>);\
+        (<Y-acute>,<y-acute>);\
+        (<Thorn>,<thorn>)
+
+END LC_CTYPE
+
+LC_COLLATE
+
+order_start          forward;forward;forward
+
+<NUL>
+<SOH>
+<STX>
+<ETX>
+<EOT>
+<ENQ>
+<ACK>
+<alert>
+<backspace>
+<tab>
+<newline>
+<vertical-tab>
+<form-feed>
+<carriage-return>
+<SO>
+<SI>
+<DLE>
+<DC1>
+<DC2>
+<DC3>
+<DC4>
+<NAK>
+<SYN>
+<ETB>
+<CAN>
+<EM>
+<SUB>
+<ESC>
+<IS4>
+<IS3>
+<IS2>
+<IS1>
+<space>
+<underscore>
+<macron>
+<dash>
+<hyphen>
+<comma>
+<semicolon>
+<colon>
+<exclamation-mark>
+<exclamation-down>
+<question-mark>
+<question-down>
+<solidus>
+<period>
+<acute>
+<grave-accent>
+<circumflex>
+<diaresis>
+<tilde>
+<cedilla>
+<apostrophe>
+<quotation-mark>
+<guillemot-left>
+<guillemot-right>
+<left-parenthesis>
+<right-parenthesis>
+<left-square-bracket>
+<right-square-bracket>
+<left-brace>
+<right-brace>
+<copyright>
+<registered>
+<commercial-at>
+<currency>
+<cent>
+<dollar-sign>
+<sterling>
+<yen>
+<asterisk>
+<reverse-solidus>
+<ampersand>
+<number-sign>
+<percent-sign>
+<plus-sign>
+<plus-minus>
+<divide>
+<multiply>
+<less-than-sign>
+<equals-sign>
+<greater-than-sign>
+<not>
+<vertical-line>
+<broken-bar>
+<degree>
+<paragraph>
+<section>
+<dot>
+<mu>
+<nobreakspace> 
+<zero>                    <zero>;<zero>;<zero>
+<one-quarter>             <zero>;<zero>;<one-quarter>
+<one-half>                <zero>;<zero>;<one-half>
+<three-quarters>          <zero>;<zero>;<three-quarters>
+<one>                     <one>;<one>;<one>
+<one-superior>            <one>;<one>;<one-superior>
+<two>                     <two>;<two>;<two>
+<two-superior>            <two>;<two>;<two-superior>
+<three>                   <three>;<three>;<three>
+<three-superior>          <three>;<three>;<three-superior>
+<four>                    <four>;<four>;<four>
+<five>                    <five>;<five>;<five>
+<six>                     <six>;<six>;<six>
+<seven>                   <seven>;<seven>;<seven>
+<eight>                   <eight>;<eight>;<eight>
+<nine>                    <nine>;<nine>;<nine>
+<a>                       <a>;<a>;<a>
+<A>                       <a>;<a>;<A>
+<feminine>                <a>;<feminine>;<feminine>
+<a-acute>                 <a>;<a-acute>;<a-acute>
+<A-acute>                 <a>;<a-acute>;<A-acute>
+<a-grave>                 <a>;<a-grave>;<a-grave>
+<A-grave>                 <a>;<a-grave>;<A-grave>
+<a-circumflex>            <a>;<a-circumflex>;<a-circumflex>
+<A-circumflex>            <a>;<a-circumflex>;<A-circumflex>
+<a-ring>                  <a>;<a-ring>;<a-ring>
+<A-ring>                  <a>;<a-ring>;<A-ring>
+<a-diaresis>              <a>;<a-diaresis>;<a-diaresis>
+<A-diaresis>              <a>;<a-diaresis>;<A-diaresis>
+<a-tilde>                 <a>;<a-tilde>;<a-tilde>
+<A-tilde>                 <a>;<a-tilde>;<A-tilde>
+<ae>                      "<a><e>";"<a><e>";<ae>
+<AE>                      "<a><e>";"<a><e>";<AE>
+<b>                       <b>;<b>;<b>
+<B>                       <b>;<b>;<B>
+<c>                       <c>;<c>;<c>
+<C>                       <c>;<c>;<C>
+<c-cedilla>               <c>;<c-cedilla>;<c-cedilla>
+<C-cedilla>               <c>;<c-cedilla>;<C-cedilla>
+<d>                       <d>;<d>;<d>
+<D>                       <d>;<d>;<D>
+<eth>                     <e>;<eth>;<eth>
+<Eth>                     <e>;<eth>;<Eth>
+<e>                       <e>;<e>;<e>
+<E>                       <e>;<e>;<E>
+<e-acute>                 <e>;<e-acute>;<e-acute>
+<E-acute>                 <e>;<e-acute>;<E-acute>
+<e-grave>                 <e>;<e-grave>;<e-grave>
+<E-grave>                 <e>;<e-grave>;<E-grave>
+<e-circumflex>            <e>;<e-circumflex>;<e-circumflex>
+<E-circumflex>            <e>;<e-circumflex>;<E-circumflex>
+<e-diaresis>              <e>;<e-diaresis>;<e-diaresis>
+<E-diaresis>              <e>;<e-diaresis>;<E-diaresis>
+<f>                       <f>;<f>;<f>
+<F>                       <f>;<f>;<F>
+<g>                       <g>;<g>;<g>
+<G>                       <g>;<g>;<G>
+<h>                       <h>;<h>;<h>
+<H>                       <h>;<h>;<H>
+<i>                       <i>;<i>;<i>
+<I>                       <i>;<i>;<I>
+<i-acute>                 <i>;<i-acute>;<i-acute>
+<I-acute>                 <i>;<i-acute>;<I-acute>
+<i-grave>                 <i>;<i-grave>;<i-grave>
+<I-grave>                 <i>;<i-grave>;<I-grave>
+<i-circumflex>            <i>;<i-circumflex>;<i-circumflex>
+<I-circumflex>            <i>;<i-circumflex>;<I-circumflex>
+<i-diaresis>              <i>;<i-diaresis>;<i-diaresis>
+<I-diaresis>              <i>;<i-diaresis>;<I-diaresis>
+<j>                       <j>;<j>;<j>
+<J>                       <j>;<j>;<J>
+<k>                       <k>;<k>;<k>
+<K>                       <k>;<k>;<K>
+<l>                       <l>;<l>;<l>
+<L>                       <l>;<l>;<L>
+<m>                       <m>;<m>;<m>
+<M>                       <m>;<m>;<M>
+<n>                       <n>;<n>;<n>
+<N>                       <n>;<n>;<N>
+<n-tilde>                 <n>;<n-tilde>;<n-tilde>
+<N-tilde>                 <n>;<n-tilde>;<N-tilde>
+<o>                       <o>;<o>;<o>
+<O>                       <o>;<o>;<O>
+<masculine>               <o>;<masculine>;<masculine>
+<o-acute>                 <o>;<o-acute>;<o-acute>
+<O-acute>                 <o>;<o-acute>;<O-acute>
+<o-grave>                 <o>;<o-grave>;<o-grave>
+<O-grave>                 <o>;<o-grave>;<O-grave>
+<o-circumflex>            <o>;<o-circumflex>;<o-circumflex>
+<O-circumflex>            <o>;<o-circumflex>;<O-circumflex>
+<o-diaresis>              <o>;<o-diaresis>;<o-diaresis>
+<O-diaresis>              <o>;<o-diaresis>;<O-diaresis>
+<o-tilde>                 <o>;<o-tilde>;<o-tilde>
+<O-tilde>                 <o>;<o-tilde>;<O-tilde>
+<o-slash>                 <o>;<o-slash>;<o-slash>
+<O-slash>                 <o>;<o-slash>;<O-slash>
+<p>                       <p>;<p>;<p>
+<P>                       <p>;<p>;<P>
+<q>                       <q>;<q>;<q>
+<Q>                       <q>;<q>;<Q>
+<r>                       <r>;<r>;<r>
+<R>                       <r>;<r>;<R>
+<s>                       <s>;<s>;<s>
+<S>                       <s>;<s>;<S>
+<s-sharp>                 "<s><s>";"<s><s>";<s-sharp>
+<t>                       <t>;<t>;<t>
+<T>                       <t>;<t>;<T>
+<thorn>                   "<t><h>";"<t><h>";"<t><h>"
+<Thorn>                   "<t><h>";"<t><h>";"<T><h>"
+<u>                       <u>;<u>;<u>
+<U>                       <u>;<u>;<U>
+<u-acute>                 <u>;<u-acute>;<u-acute>
+<U-acute>                 <u>;<u-acute>;<U-acute>
+<u-grave>                 <u>;<u-grave>;<u-grave>
+<U-grave>                 <u>;<u-grave>;<U-grave>
+<u-circumflex>            <u>;<u-circumflex>;<u-circumflex>
+<U-circumflex>            <u>;<u-circumflex>;<U-circumflex>
+<u-diaresis>              <u>;<u-diaresis>;<u-diaresis>
+<U-diaresis>              <u>;<u-diaresis>;<U-diaresis>
+<v>                       <v>;<v>;<v>
+<V>                       <v>;<v>;<V>
+<w>                       <w>;<w>;<w>
+<W>                       <w>;<w>;<W>
+<x>                       <x>;<x>;<x>
+<X>                       <x>;<x>;<X>
+<y>                       <y>;<y>;<y>
+<Y>                       <y>;<y>;<Y>
+<y-acute>                 <y>;<y-acute>;<y-acute>
+<Y-acute>                 <y>;<y-acute>;<Y-acute>
+<y-diaresis>              <y>;<y-diaresis>;<y-diaresis>
+<z>                       <z>;<z>;<z>
+<Z>                       <z>;<z>;<Z>
+<DEL>
+<boxfill-dark>
+<boxfill-medium>
+<boxfill-light>
+<box-vertical>
+<box-int-right>
+<doublebox-int-right>
+<doublebox-vertical>
+<doublebox-top-right>
+<doublebox-bottom-right>
+<box-top-right>
+<box-bottom-left>
+<box-int-bottom>
+<box-int-top>
+<box-int-left>
+<box-horizontal>
+<box-intersection>
+<doublebox-bottom-left>
+<doublebox-top-left>
+<doublebox-int-bottom>
+<doublebox-int-top>
+<doublebox-int-left>
+<doublebox-horizontal>
+<doublebox-intersection>
+<i-dotless>
+<box-bottom-right>
+<box-top-left>
+<boxfill>
+<boxfill-bottom>
+<boxfill-top>
+<double-underscore>
+<boxfill-middle>
+
+order_end
+
+END LC_COLLATE
+
+LC_MONETARY
+#############
+int_curr_symbol   "<P><T><E><space>"
+currency_symbol   "<E><s><c>"
+mon_decimal_point "<dollar-sign>"
+mon_thousands_sep "<period>"
+mon_grouping      3
+positive_sign     ""
+negative_sign     "<hyphen>"
+int_frac_digits   2 
+frac_digits       2 
+p_cs_precedes     0 
+p_sep_by_space    0 
+n_cs_precedes     1
+n_sep_by_space    1
+p_sign_posn       0 
+n_sign_posn       1 
+
+END LC_MONETARY
+
+LC_NUMERIC
+#############
+
+decimal_point     "<comma>"
+thousands_sep     "<period>" 
+grouping          3
+
+num_positive_sign	""
+num_negative_sign	"<hyphen>"
+
+
+END LC_NUMERIC
+
+LC_TIME
+#############
+abday   "<D><o><m>";\
+	"<S><e><g>";\
+	"<T><e><r>";\
+	"<Q><u><a>";\
+	"<Q><u><i>";\
+	"<S><e><x>";\
+	"<S><a-acute><b>"
+
+day     "<D><o><m><i><n><g><o>";\
+	"<S><e><g><u><n><d><a><hyphen><f><e><i><r><a>";\
+	"<T><e><r><c-cedilla><a><hyphen><f><e><i><r><a>";\
+	"<Q><u><a><r><t><a><hyphen><f><e><i><r><a>";\
+	"<Q><u><i><n><t><a><hyphen><f><e><i><r><a>";\
+	"<S><e><x><t><a><hyphen><f><e><i><r><a>";\
+	"<S><a-acute><b><a><d><o>"
+
+abmon   "<J><a><n>";\
+	"<F><e><v>";\
+	"<M><a><r>";\
+	"<A><b><r>";\
+	"<M><a><i>";\
+	"<J><u><n>";\
+	"<J><u><l>";\
+	"<A><g><o>";\
+	"<S><e><t>";\
+	"<O><u><t>";\
+	"<N><o><v>";\
+	"<D><e><z>"
+
+mon     "<J><a><n><e><i><r><o>";\
+	"<F><e><v><e><r><e><i><r><o>";\
+	"<M><a><r><c-cedilla><o>";\
+	"<A><b><r><i><l>";\
+	"<M><a><i><o>";\
+	"<J><u><n><h><o>";\
+	"<J><u><l><h><o>";\
+	"<A><g><o><s><t><o>";\
+	"<S><e><t><e><m><b><r><o>";\
+	"<O><u><t><u><b><r><o>";\
+	"<N><o><v><e><m><b><r><o>";\
+	"<D><e><z><e><m><b><r><o>"
+
+d_t_fmt	"<percent-sign><a><space><percent-sign><d><space>\
+	<percent-sign><b><space><percent-sign><i><Y><comma><space>\
+	<percent-sign><H><colon><percent-sign><M><colon><percent-sign><S>"
+
+d_fmt	"<percent-sign><d><hyphen><percent-sign><m><hyphen><percent-sign><i><y>"
+
+t_fmt	"<percent-sign><H><colon><percent-sign><M><colon><percent-sign><S>"
+
+
+t_fmt_ampm	""
+
+
+am_pm   "<space>";"<space>"
+
+END LC_TIME
+
+LC_MESSAGES
+#############
+
+yesexpr "<circumflex-accent><left-parenthesis><left-square-bracket><s><S><right-square-bracket><vertical-line><left-square-bracket><s><S><right-square-bracket><left-square-bracket><i><I><right-square-bracket><left-square-bracket><m><M><right-square-bracket><right-parenthesis>"
+noexpr  "<circumflex-accent><left-parenthesis><left-square-bracket><n><N><right-square-bracket><vertical-line><left-square-bracket><n><N><right-square-bracket><left-square-bracket><a-tilde><A-tilde><right-square-bracket><left-square-bracket><o><O><right-square-bracket><right-parenthesis>"
+
+END LC_MESSAGES
+

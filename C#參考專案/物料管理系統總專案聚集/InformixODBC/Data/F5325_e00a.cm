@@ -1,0 +1,378 @@
+###########################################################################
+#
+#                         INFORMIX SOFTWARE, INC.
+#
+#                            PROPRIETARY DATA
+#
+#      THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF
+#      INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#      CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR
+#      DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT
+#      SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#      THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#      SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE.
+#      UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW.
+#
+#
+#  Title:      CCDC charmap
+#  Sccsid:
+#  Description:
+#
+#              CCDC charmap description for GLS library.
+#              This charmap is based on the X/Open definition.
+#
+###########################################################################
+
+<source_version>                1
+<modified_date>                 "09/18/95"
+<code_set_name>                 "ccdc"
+
+#
+#       CHARMAP
+#
+
+CHARMAP
+
+#       Portable Character Set
+<NUL>                   \x00
+<SOH>                   \x01
+<STX>                   \x02
+<ETX>                   \x03
+<EOT>                   \x04
+<ENQ>                   \x05
+<ACK>                   \x06
+<alert>                 \x07
+<BEL>                   \x07    ALTERNATE SYMBOL
+<backspace>             \x08
+<BS>                    \x08    ALTERNATE SYMBOL
+<tab>                   \x09
+<HT>                    \x09    ALTERNATE SYMBOL
+<newline>               \x0a
+<LF>                    \x0a    ALTERNATE SYMBOL
+<vertical-tab>          \x0b
+<VT>                    \x0b    ALTERNATE SYMBOL
+<form-feed>             \x0c
+<FF>                    \x0c    ALTERNATE SYMBOL
+<carriage-return>       \x0d
+<CR>                    \x0d    ALTERNATE SYMBOL
+<SO>                    \x0e
+<SI>                    \x0f
+<DLE>                   \x10
+<DC1>                   \x11
+<DC2>                   \x12
+<DC3>                   \x13
+<DC4>                   \x14
+<NAK>                   \x15
+<SYN>                   \x16
+<ETB>                   \x17
+<CAN>                   \x18
+<EM>                    \x19
+<SUB>                   \x1a
+<ESC>                   \x1b
+<IS4>                   \x1c
+<FS>                    \x1c    ALTERNATE SYMBOL
+<IS3>                   \x1d
+<GS>                    \x1d    ALTERNATE SYMBOL
+<IS2>                   \x1e
+<RS>                    \x1e    ALTERNATE SYMBOL
+<IS1>                   \x1f
+<US>                    \x1f    ALTERNATE SYMBOL
+<space>                 \x20
+<exclamation-mark>      \x21
+<quotation-mark>        \x22
+<number-sign>           \x23
+<dollar-sign>           \x24
+<percent-sign>          \x25
+<ampersand>             \x26
+<apostrophe>            \x27
+<left-parenthesis>      \x28
+<right-parenthesis>     \x29
+<asterisk>              \x2a
+<plus-sign>             \x2b
+<comma>                 \x2c
+<hyphen>                \x2d
+<hyphen-minus>          \x2d    ALTERNATE SYMBOL
+<period>                \x2e
+<full-stop>             \x2e    ALTERNATE SYMBOL
+<slash>                 \x2f
+<solidus>               \x2f    ALTERNATE SYMBOL
+<zero>                  \x30
+<one>                   \x31
+<two>                   \x32
+<three>                 \x33
+<four>                  \x34
+<five>                  \x35
+<six>                   \x36
+<seven>                 \x37
+<eight>                 \x38
+<nine>                  \x39
+<colon>                 \x3a
+<semicolon>             \x3b
+<less-than-sign>        \x3c
+<equals-sign>           \x3d
+<greater-than-sign>     \x3e
+<question-mark>         \x3f
+<commercial-at>         \x40
+<A>                     \x41
+<B>                     \x42
+<C>                     \x43
+<D>                     \x44
+<E>                     \x45
+<F>                     \x46
+<G>                     \x47
+<H>                     \x48
+<I>                     \x49
+<J>                     \x4a
+<K>                     \x4b
+<L>                     \x4c
+<M>                     \x4d
+<N>                     \x4e
+<O>                     \x4f
+<P>                     \x50
+<Q>                     \x51
+<R>                     \x52
+<S>                     \x53
+<T>                     \x54
+<U>                     \x55
+<V>                     \x56
+<W>                     \x57
+<X>                     \x58
+<Y>                     \x59
+<Z>                     \x5a
+<left-square-bracket>   \x5b
+<backslash>             \x5c
+<reverse-solidus>       \x5c    ALTERNATE SYMBOL
+<right-square-bracket>  \x5d
+<circumflex>            \x5e
+<circumflex-accent>     \x5e    ALTERNATE SYMBOL
+<underscore>            \x5f
+<underline>             \x5f    ALTERNATE SYMBOL
+<low-line>              \x5f    ALTERNATE SYMBOL
+<grave-accent>          \x60
+<a>                     \x61
+<b>                     \x62
+<c>                     \x63
+<d>                     \x64
+<e>                     \x65
+<f>                     \x66
+<g>                     \x67
+<h>                     \x68
+<i>                     \x69
+<j>                     \x6a
+<k>                     \x6b
+<l>                     \x6c
+<m>                     \x6d
+<n>                     \x6e
+<o>                     \x6f
+<p>                     \x70
+<q>                     \x71
+<r>                     \x72
+<s>                     \x73
+<t>                     \x74
+<u>                     \x75
+<v>                     \x76
+<w>                     \x77
+<x>                     \x78
+<y>                     \x79
+<z>                     \x7a
+<left-curly-bracket>    \x7b
+<left-brace>            \x7b    ALTERNATE SYMBOL
+<vertical-line>         \x7c
+<right-curly-bracket>   \x7d
+<right-brace>           \x7d    ALTERNATE SYMBOL
+<tilde>                 \x7e
+<DEL>                   \x7f
+
+# CCDC high byte \xa1 - \xfe, low byte \xa1 - \xfe and \x21 - \x7e
+
+<b10000>...<b10093>     \xa1\xa1
+<b10100>...<b10193>     \xa2\xa1
+<b10200>...<b10293>     \xa3\xa1
+<b10300>...<b10393>     \xa4\xa1
+<b10400>...<b10493>     \xa5\xa1
+<b10500>...<b10593>     \xa6\xa1
+<b10600>...<b10693>     \xa7\xa1
+<b10700>...<b10793>     \xa8\xa1
+<b10800>...<b10893>     \xa9\xa1
+<b10900>...<b10993>     \xaa\xa1
+<b11000>...<b11093>     \xab\xa1
+<b11100>...<b11193>     \xac\xa1
+<b11200>...<b11293>     \xad\xa1
+<b11300>...<b11393>     \xae\xa1
+<b11400>...<b11493>     \xaf\xa1
+<b11500>...<b11593>     \xb0\xa1
+<b11600>...<b11693>     \xb1\xa1
+<b11700>...<b11793>     \xb2\xa1
+<b11800>...<b11893>     \xb3\xa1
+<b11900>...<b11993>     \xb4\xa1
+<b12000>...<b12093>     \xb5\xa1
+<b12100>...<b12193>     \xb6\xa1
+<b12200>...<b12293>     \xb7\xa1
+<b12300>...<b12393>     \xb8\xa1
+<b12400>...<b12493>     \xb9\xa1
+<b12500>...<b12593>     \xba\xa1
+<b12600>...<b12693>     \xbb\xa1
+<b12700>...<b12793>     \xbc\xa1
+<b12800>...<b12893>     \xbd\xa1
+<b12900>...<b12993>     \xbe\xa1
+<b13000>...<b13093>     \xbf\xa1
+<b13100>...<b13193>     \xc0\xa1
+<b13200>...<b13293>     \xc1\xa1
+<b13300>...<b13393>     \xc2\xa1
+<b13400>...<b13493>     \xc3\xa1
+<b13500>...<b13593>     \xc4\xa1
+<b13600>...<b13693>     \xc5\xa1
+<b13700>...<b13793>     \xc6\xa1
+<b13800>...<b13893>     \xc7\xa1
+<b13900>...<b13993>     \xc8\xa1
+<b14000>...<b14093>     \xc9\xa1
+<b14100>...<b14193>     \xca\xa1
+<b14200>...<b14293>     \xcb\xa1
+<b14300>...<b14393>     \xcc\xa1
+<b14400>...<b14493>     \xcd\xa1
+<b14500>...<b14593>     \xce\xa1
+<b14600>...<b14693>     \xcf\xa1
+<b14700>...<b14793>     \xd0\xa1
+<b14800>...<b14893>     \xd1\xa1
+<b14900>...<b14993>     \xd2\xa1
+<b15000>...<b15093>     \xd3\xa1
+<b15100>...<b15193>     \xd4\xa1
+<b15200>...<b15293>     \xd5\xa1
+<b15300>...<b15393>     \xd6\xa1
+<b15400>...<b15493>     \xd7\xa1
+<b15500>...<b15593>     \xd8\xa1
+<b15600>...<b15693>     \xd9\xa1
+<b15700>...<b15793>     \xda\xa1
+<b15800>...<b15893>     \xdb\xa1
+<b15900>...<b15993>     \xdc\xa1
+<b16000>...<b16093>     \xdd\xa1
+<b16100>...<b16193>     \xde\xa1
+<b16200>...<b16293>     \xdf\xa1
+<b16300>...<b16393>     \xe0\xa1
+<b16400>...<b16493>     \xe1\xa1
+<b16500>...<b16593>     \xe2\xa1
+<b16600>...<b16693>     \xe3\xa1
+<b16700>...<b16793>     \xe4\xa1
+<b16800>...<b16893>     \xe5\xa1
+<b16900>...<b16993>     \xe6\xa1
+<b17000>...<b17093>     \xe7\xa1
+<b17100>...<b17193>     \xe8\xa1
+<b17200>...<b17293>     \xe9\xa1
+<b17300>...<b17393>     \xea\xa1
+<b17400>...<b17493>     \xeb\xa1
+<b17500>...<b17593>     \xec\xa1
+<b17600>...<b17693>     \xed\xa1
+<b17700>...<b17793>     \xee\xa1
+<b17800>...<b17893>     \xef\xa1
+<b17900>...<b17993>     \xf0\xa1
+<b18000>...<b18093>     \xf1\xa1
+<b18100>...<b18193>     \xf2\xa1
+<b18200>...<b18293>     \xf3\xa1
+<b18300>...<b18393>     \xf4\xa1
+<b18400>...<b18493>     \xf5\xa1
+<b18500>...<b18593>     \xf6\xa1
+<b18600>...<b18693>     \xf7\xa1
+<b18700>...<b18793>     \xf8\xa1
+<b18800>...<b18893>     \xf9\xa1
+<b18900>...<b18993>     \xfa\xa1
+<b19000>...<b19093>     \xfb\xa1
+<b19100>...<b19193>     \xfc\xa1
+<b19200>...<b19293>     \xfd\xa1
+<b19300>...<b19393>     \xfe\xa1
+<b20000>...<b20093>     \xa1\x21
+<b20100>...<b20193>     \xa2\x21
+<b20200>...<b20293>     \xa3\x21
+<b20300>...<b20393>     \xa4\x21
+<b20400>...<b20493>     \xa5\x21
+<b20500>...<b20593>     \xa6\x21
+<b20600>...<b20693>     \xa7\x21
+<b20700>...<b20793>     \xa8\x21
+<b20800>...<b20893>     \xa9\x21
+<b20900>...<b20993>     \xaa\x21
+<b21000>...<b21093>     \xab\x21
+<b21100>...<b21193>     \xac\x21
+<b21200>...<b21293>     \xad\x21
+<b21300>...<b21393>     \xae\x21
+<b21400>...<b21493>     \xaf\x21
+<b21500>...<b21593>     \xb0\x21
+<b21600>...<b21693>     \xb1\x21
+<b21700>...<b21793>     \xb2\x21
+<b21800>...<b21893>     \xb3\x21
+<b21900>...<b21993>     \xb4\x21
+<b22000>...<b22093>     \xb5\x21
+<b22100>...<b22193>     \xb6\x21
+<b22200>...<b22293>     \xb7\x21
+<b22300>...<b22393>     \xb8\x21
+<b22400>...<b22493>     \xb9\x21
+<b22500>...<b22593>     \xba\x21
+<b22600>...<b22693>     \xbb\x21
+<b22700>...<b22793>     \xbc\x21
+<b22800>...<b22893>     \xbd\x21
+<b22900>...<b22993>     \xbe\x21
+<b23000>...<b23093>     \xbf\x21
+<b23100>...<b23193>     \xc0\x21
+<b23200>...<b23293>     \xc1\x21
+<b23300>...<b23393>     \xc2\x21
+<b23400>...<b23493>     \xc3\x21
+<b23500>...<b23593>     \xc4\x21
+<b23600>...<b23693>     \xc5\x21
+<b23700>...<b23793>     \xc6\x21
+<b23800>...<b23893>     \xc7\x21
+<b23900>...<b23993>     \xc8\x21
+<b24000>...<b24093>     \xc9\x21
+<b24100>...<b24193>     \xca\x21
+<b24200>...<b24293>     \xcb\x21
+<b24300>...<b24393>     \xcc\x21
+<b24400>...<b24493>     \xcd\x21
+<b24500>...<b24593>     \xce\x21
+<b24600>...<b24693>     \xcf\x21
+<b24700>...<b24793>     \xd0\x21
+<b24800>...<b24893>     \xd1\x21
+<b24900>...<b24993>     \xd2\x21
+<b25000>...<b25093>     \xd3\x21
+<b25100>...<b25193>     \xd4\x21
+<b25200>...<b25293>     \xd5\x21
+<b25300>...<b25393>     \xd6\x21
+<b25400>...<b25493>     \xd7\x21
+<b25500>...<b25593>     \xd8\x21
+<b25600>...<b25693>     \xd9\x21
+<b25700>...<b25793>     \xda\x21
+<b25800>...<b25893>     \xdb\x21
+<b25900>...<b25993>     \xdc\x21
+<b26000>...<b26093>     \xdd\x21
+<b26100>...<b26193>     \xde\x21
+<b26200>...<b26293>     \xdf\x21
+<b26300>...<b26393>     \xe0\x21
+<b26400>...<b26493>     \xe1\x21
+<b26500>...<b26593>     \xe2\x21
+<b26600>...<b26693>     \xe3\x21
+<b26700>...<b26793>     \xe4\x21
+<b26800>...<b26893>     \xe5\x21
+<b26900>...<b26993>     \xe6\x21
+<b27000>...<b27093>     \xe7\x21
+<b27100>...<b27193>     \xe8\x21
+<b27200>...<b27293>     \xe9\x21
+<b27300>...<b27393>     \xea\x21
+<b27400>...<b27493>     \xeb\x21
+<b27500>...<b27593>     \xec\x21
+<b27600>...<b27693>     \xed\x21
+<b27700>...<b27793>     \xee\x21
+<b27800>...<b27893>     \xef\x21
+<b27900>...<b27993>     \xf0\x21
+<b28000>...<b28093>     \xf1\x21
+<b28100>...<b28193>     \xf2\x21
+<b28200>...<b28293>     \xf3\x21
+<b28300>...<b28393>     \xf4\x21
+<b28400>...<b28493>     \xf5\x21
+<b28500>...<b28593>     \xf6\x21
+<b28600>...<b28693>     \xf7\x21
+<b28700>...<b28793>     \xf8\x21
+<b28800>...<b28893>     \xf9\x21
+<b28900>...<b28993>     \xfa\x21
+<b29000>...<b29093>     \xfb\x21
+<b29100>...<b29193>     \xfc\x21
+<b29200>...<b29293>     \xfd\x21
+<b29300>...<b29393>     \xfe\x21
+
+END CHARMAP

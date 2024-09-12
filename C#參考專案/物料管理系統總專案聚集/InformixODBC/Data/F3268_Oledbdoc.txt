@@ -1,0 +1,113 @@
+                          DOCUMENTATION NOTES FOR
+                         Informix OLE DB Provider
+                            DATE:  7/19/2001
+                             Version:  2.60
+
+I. Overview
+II. Distributed Transaction
+
+ -----------------------------------------------------------------------------
+
+I.      Overview
+
+        This document describes features not covered in the Informix OLE DB Provider Programmer's Guide or modified since its publication.
+
+ -----------------------------------------------------------------------------
+
+II. Distributed Transactions
+
+	For using Distributed Transaction one needs to install Microsoft
+Transaction Ser ver.  OLEDB 2.60 uses ItransactionJoin interface to enable
+Distributed Transactions.  This primarily uses 2 methods -
+
+    JoinTransaction - This method brings transaction in Global Transaction mode.
+
+    GetOptionObject - This method is instrumental to return the configration
+options in to the structure.
+
+  This feature in this release is limited to single threaded calls. This feature
+has been tested with Server 9.21.FC4X4
+
+Below is a Pseudo Code to show usage of Distributed Transactions in OLEDB 2.60
+
+main()
+{
+
+
+        .......
+        .......
+        // Instantiate a data source object for Informix Server
+       hr = CoCreateInstance(CLSID_IFXOLEDBC, NULL,
+                               CLSCTX_INPROC_SERVER, IID_IDBInitialize,
+                                       (void **) &pIDBInitialize_IFMX);
+
+       // Instantiate a data source object for MS
+       hr = CoCreateInstance( CLSID_MS_OLEDB, NULL,
+                               CLSCTX_INPROC_SERVER, IID_IDBInitialize,
+                               (void **) &pIDBInitialize_MS);
+
+
+       hr = pIDBInitialize_IFMX->QueryInterface(IID_IDBCreateSession,
+                                     (void ** &pCreateSession_IFMX);
+
+       hr = pIDBInitialize_MS->QueryInterface(IID_IDBCreateSession,
+                                     (void ** &pCreateSession_MS);
+
+
+       // Get a transaction dispenser object from MS DTC and
+       // start a transaction.
+       hr = DtcGetTransactionManager( -, -,
+                       IID_ITransactionDispenser, -, -, -,
+        // initiates a new transaction and returns a new
+        // transaction object which represents the transaction
+        hr = pITransactionDispenser->BeginTransaction( -,-,-,-, &pITransaction);
+
+        // Join the transaction
+        pITransactionJoin_IFMX->JoinTransaction( (IUnknown*) pITransaction, -, -
+                                              , -);
+
+        pITransactionJoin_MS->JoinTransaction( (IUnknown*) pITransaction, -, -, 
+                                                -);
+
+
+
+        hr = pCreateSession_IFMX->CreateSession(NULL, IID_IDBCreateCommand,
+                                         (IUnknown **) &p CreateCommand_IFMX);
+
+        hr = pCreateCommand_IFMX->QueryInterface( IID_ITransactionJoin,
+                                            (void**)&pITransactionJoin_IFMX);
+
+        hr = pCreateSession_MS->CreateSession(NULL, IID_IDBCreateCommand,
+                                       (IUnknown **) &p CreateCommand_MS);
+
+        hr = pCreateCommand_MS->QueryInterface( IID_ITransactionJoin,
+                                               (void**)&pITransactionJoin_MS);
+
+
+        pCreateCommand_IFMX->Execute( SQL statements );
+        pCreateCommand_MS->Execute( SQL statements );
+
+
+        // Abort or commit
+        if( OK )
+                pITransaction->Commit(...)
+        else
+                pITransaction->Abort(...);
+
+        .....
+        .....
+
+}
+
+More information can be checked on the MSDN site about the Distributed Transacti
+ons. The URLs are -
+
+http://msdn.microsoft.com/library/psdk/sql/9_ole_15_1xpv.htm
+http://msdn.microsoft.com/library/psdk/dasdk/olpr746r.htm
+http://msdn.microsoft.com/library/psdk/dasdk/olpr3kbz.htm
+
+------------------------------------------------------------------------------
+
+
+Informix OLE DB Provider
+Copyright (c) 2000, Informix Software, Inc. All rights reserved

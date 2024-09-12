@@ -1,0 +1,166 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#       SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#
+#  Title:       0352e01e.cv
+#  Author:      John Griffin
+#  Created:     Thu Jul 27 15:46:06 1995
+#  Description:
+#    Conversion file from 850 to 1252
+#    Registry values (Decimal): From 850 to 1252 (57374)
+#    Registry values (Hex): From 0352 to e01e
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#**************************************************************************
+#
+<source_version>    1
+<modified_date>     "07/27/1995"
+<source_codeset>    "850"
+<target_codeset>    "1252"
+
+\x00...\xff	\x00...	# Default everything onto itself
+\x80	\xc7		# latin capital letter c with cedilla 
+\x81	\xfc		# latin small letter u with diaeresis 
+\x82	\xe9		# latin small letter e with acute 
+\x83	\xe2		# latin small letter a with circumflex 
+\x84	\xe4		# latin small letter a with diaeresis 
+\x85	\xe0		# latin small letter a with grave 
+\x86	\xe5		# latin small letter a with ring above 
+\x87	\xe7		# latin small letter c with cedilla 
+\x88	\xea		# latin small letter e with circumflex 
+\x89	\xeb		# latin small letter e with diaeresis 
+\x8a	\xe8		# latin small letter e with grave 
+\x8b	\xef		# latin small letter i with diaeresis 
+\x8c	\xee		# latin small letter i with circumflex 
+\x8d	\xec		# latin small letter i with grave 
+\x8e	\xc4		# latin capital letter a with diaeresis 
+\x8f	\xc5		# latin capital letter a with ring above 
+\x90	\xc9		# latin capital letter e with acute 
+\x91	\xe6		# latin small letter ae 
+\x92	\xc6		# latin capital letter ae 
+\x93	\xf4		# latin small letter o with circumflex 
+\x94	\xf6		# latin small letter o with diaeresis 
+\x95	\xf2		# latin small letter o with grave 
+\x96	\xfb		# latin small letter u with circumflex 
+\x97	\xf9		# latin small letter u with grave 
+\x98	\xff		# latin small letter y with diaeresis 
+\x99	\xd6		# latin capital letter o with diaeresis 
+\x9a	\xdc		# latin capital letter u with diaeresis 
+\x9b	\xf8		# latin small letter o with stroke 
+\x9c	\xa3		# pound sign 
+\x9d	\xd8		# latin capital letter o with stroke 
+\x9e	\xd7		# multiplication sign 
+\x9f	\x83		# dutch guilder sign (ibm437 159) 
+\xa0	\xe1		# latin small letter a with acute 
+\xa1	\xed		# latin small letter i with acute 
+\xa2	\xf3		# latin small letter o with acute 
+\xa3	\xfa		# latin small letter u with acute 
+\xa4	\xf1		# latin small letter n with tilde 
+\xa5	\xd1		# latin capital letter n with tilde 
+\xa6	\xaa		# feminine ordinal indicator 
+\xa7	\xba		# masculine ordinal indicator 
+\xa8	\xbf		# inverted question mark 
+\xa9	\xae		# registered sign 
+\xaa	\xac		# not sign 
+\xab	\xbd		# vulgar fraction one half 
+\xac	\xbc		# vulgar fraction one quarter 
+\xad	\xa1		# inverted exclamation mark 
+\xae	\xab		# left-pointing double angle quotation mark 
+\xaf	\xbb		# right-pointing double angle quotation mark 
+\xb0	\x7f error	# light shade 
+\xb1	\x7f error	# medium shade 
+\xb2	\x7f error	# dark shade 
+\xb3	\x7f error	# box drawings light vertical 
+\xb4	\x7f error	# box drawings light vertical and left 
+\xb5	\xc1		# latin capital letter a with acute 
+\xb6	\xc2		# latin capital letter a with circumflex 
+\xb7	\xc0		# latin capital letter a with grave 
+\xb8	\xa9		# copyright sign 
+\xb9	\x7f error	# box drawings heavy vertical and left 
+\xba	\x7f error	# box drawings heavy vertical 
+\xbb	\x7f error	# box drawings heavy down and left 
+\xbc	\x7f error	# box drawings heavy up and left 
+\xbd	\xa2		# cent sign 
+\xbe	\xa5		# yen sign 
+\xbf	\x7f error	# box drawings light down and left 
+\xc0	\x7f error	# box drawings light up and right 
+\xc1	\x7f error	# box drawings light up and horizontal 
+\xc2	\x7f error	# box drawings light down and horizontal 
+\xc3	\x7f error	# box drawings light vertical and right 
+\xc4	\x7f error	# box drawings light horizontal 
+\xc5	\x7f error	# box drawings light vertical and horizontal 
+\xc6	\xe3		# latin small letter a with tilde 
+\xc7	\xc3		# latin capital letter a with tilde 
+\xc8	\x7f error	# box drawings heavy up and right 
+\xc9	\x7f error	# box drawings heavy down and right 
+\xca	\x7f error	# box drawings heavy up and horizontal 
+\xcb	\x7f error	# box drawings heavy down and horizontal 
+\xcc	\x7f error	# box drawings heavy vertical and right 
+\xcd	\x7f error	# box drawings heavy horizontal 
+\xce	\x7f error	# box drawings heavy vertical and horizontal 
+\xcf	\xa4		# currency sign 
+\xd0	\xf0		# latin small letter eth (icelandic) 
+\xd1	\xd0		# latin capital letter eth (icelandic) 
+\xd2	\xca		# latin capital letter e with circumflex 
+\xd3	\xcb		# latin capital letter e with diaeresis 
+\xd4	\xc8		# latin capital letter e with grave 
+\xd5	\x7f error	# latin small letter i dotless 
+\xd6	\xcd		# latin capital letter i with acute 
+\xd7	\xce		# latin capital letter i with circumflex 
+\xd8	\xcf		# latin capital letter i with diaeresis 
+\xd9	\x7f error	# box drawings light up and left 
+\xda	\x7f error	# box drawings light down and right 
+\xdb	\x7f error	# full block 
+\xdc	\x7f error	# lower half block 
+\xdd	\xa6		# broken bar 
+\xde	\xcc		# latin capital letter i with grave 
+\xdf	\x7f error	# upper half block 
+\xe0	\xd3		# latin capital letter o with acute 
+\xe1	\xdf		# latin small letter sharp s (german) 
+\xe2	\xd4		# latin capital letter o with circumflex 
+\xe3	\xd2		# latin capital letter o with grave 
+\xe4	\xf5		# latin small letter o with tilde 
+\xe5	\xd5		# latin capital letter o with tilde 
+\xe6	\xb5		# micro sign 
+\xe7	\xfe		# latin small letter thorn (icelandic) 
+\xe8	\xde		# latin capital letter thorn (icelandic) 
+\xe9	\xda		# latin capital letter u with acute 
+\xea	\xdb		# latin capital letter u with circumflex 
+\xeb	\xd9		# latin capital letter u with grave 
+\xec	\xfd		# latin small letter y with acute 
+\xed	\xdd		# latin capital letter y with acute 
+\xee	\xaf		# macron 
+\xef	\xb4		# acute accent 
+\xf0	\xad		# soft hyphen 
+\xf1	\xb1		# plus-minus sign 
+\xf2	\x7f error	# double low line 
+\xf3	\xbe		# vulgar fraction three quarters 
+\xf4	\xb6		# pilcrow sign 
+\xf5	\xa7		# section sign 
+\xf6	\xf7		# division sign 
+\xf7	\xb8		# cedilla 
+\xf8	\xb0		# degree sign 
+\xf9	\xa8		# diaeresis 
+\xfa	\xb7		# middle dot 
+\xfb	\xb9		# superscript one 
+\xfc	\xb3		# superscript three 
+\xfd	\xb2		# superscript two 
+\xfe	\x7f error	# black square 
+\xff	\xa0		# no-break space 

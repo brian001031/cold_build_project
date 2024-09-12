@@ -1,0 +1,18 @@
+以將DataGridView資料轉換Excel 檔名:(C:\Users\IRIS\Documents\NewTestExcel.xlsx) 一份2016/9/2 上午 10:44:42
+已刪除檔案: (b5_gb.tab...)等  (1) 筆資料- 2016/9/2上午 10:46 -
+已刪除檔案: (autos.cm2,autos.cm3...)等  (22) 筆資料- 2016/9/2上午 10:46 -
+以將DataGridView資料轉換Excel 檔名:(C:\Users\IRIS\Documents\DataTable1.xlsx) 一份2016/9/2 上午 10:47:11
+已寫入檔案:InitMIPI.dll,IIC_FUNC.dll ..等7筆 (2016/9/2上午 10:49)
+已寫入檔案:autos.cmd,autos.cm3 ..等11筆 (2016/9/2上午 10:50)
+已寫入檔案:batpp32.exe,batp32s.exe ..等10筆 (2016/9/2上午 10:50)
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等111筆 (2016/9/2上午 10:51)
+已刪除檔案: (back1.jpg,ball_mar.jpg...)等  (194) 筆資料- 2016/9/2上午 10:51 -
+已刪除檔案: (ball_mar.jpg,MICTest.exe...)等  (41) 筆資料- 2016/9/2上午 10:52 -
+已刪除檔案: (orange.gif,orange.jpg...)等  (15) 筆資料- 2016/9/2上午 10:52 -
+已刪除檔案: (ftpd.jpg,index.jpg...)等  (16) 筆資料- 2016/9/2上午 10:52 -
+以將DataGridView資料轉換Excel 檔名:(C:\Users\IRIS\Documents\ttt.xlsx) 一份2016/9/2 上午 10:52:24
+以將DataGridView資料轉換Excel 檔名:(C:\Users\IRIS\Documents\yyy.xlsx) 一份2016/9/2 上午 10:52:29
+以將DataGridView資料轉換Excel 檔名:(C:\Users\IRIS\Documents\kkk.xlsx) 一份2016/9/2 上午 10:52:33
+已寫入檔案:PrintConfig.dll ..等1筆 (2016/9/2上午 10:52)
+已寫入檔案:b5_gb.tab,b5gb.tab ..等10筆 (2016/9/2上午 10:52)
+已寫入檔案:localarea.bmp,comport.tab ..等3筆 (2016/9/2上午 10:52)

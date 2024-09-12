@@ -1,0 +1,36 @@
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\PurchaseWarehousing.pdb
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.Properties.Resources.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.csproj.GenerateResource.Cache
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.pdb
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\en-US\PurchaseWarehousing.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\zh-CN\PurchaseWarehousing.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\zh-TW\PurchaseWarehousing.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.Resources.localize.en-US.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.Resources.localize.zh-CN.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.Resources.localize.zh-TW.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\en-US\PurchaseWarehousing.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\zh-CN\PurchaseWarehousing.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\zh-TW\PurchaseWarehousing.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.PuchWarehousing.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.csprojResolveAssemblyReference.cache
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\PurchaseWarehousing.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\PurchaseWarehousing.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\PurchaseWarehousing.pdb
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\en-US\PurchaseWarehousing.resources.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\zh-CN\PurchaseWarehousing.resources.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\bin\Debug\zh-TW\PurchaseWarehousing.resources.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.csproj.AssemblyReference.cache
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.PuchWarehousing.resources
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.Properties.Resources.resources
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.Resources.localize.en-US.resources
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.Resources.localize.zh-CN.resources
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.Resources.localize.zh-TW.resources
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.csproj.GenerateResource.cache
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.csproj.CoreCompileInputs.cache
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\en-US\PurchaseWarehousing.resources.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\zh-CN\PurchaseWarehousing.resources.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\zh-TW\PurchaseWarehousing.resources.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.csproj.CopyComplete
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\物料管理系統總專案聚集\PurchaseWarehousing(物料入庫Ver1.0)\PurchaseWarehousing\PurchaseWarehousing\obj\x86\Debug\PurchaseWarehousing.pdb

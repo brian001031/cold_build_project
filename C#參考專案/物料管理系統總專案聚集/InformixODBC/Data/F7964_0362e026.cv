@@ -1,0 +1,167 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       0362e026.cm
+#  Author:      Informix ELC
+#  Created:     Wed May 22 16:27:49 1996
+#  Description:
+#    Conversion file from Cyrillic IBM Code Page 866 to Russian KOI-8(r)
+#    Registry value (Decimal):  From 866 to 57382
+#    Registry value (Hex): From 0362 to e026
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      1
+<modified_date>       "06/07/1996"
+<source_codeset>      "Cyrillic IBM Code Page 866"
+<target_codeset>      "Russian KOI-8(r)"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x80	\xe1        #  cyrillic capital letter a 
+\x81	\xe2        #  cyrillic capital letter be 
+\x82	\xf7        #  cyrillic capital letter ve 
+\x83	\xe7        #  cyrillic capital letter ghe 
+\x84	\xe4        #  cyrillic capital letter de 
+\x85	\xe5        #  cyrillic capital letter ie 
+\x86	\xf6        #  cyrillic capital letter zhe 
+\x87	\xfa        #  cyrillic capital letter ze 
+\x88	\xe9        #  cyrillic capital letter i 
+\x89	\xea        #  cyrillic capital letter short i 
+\x8a	\xeb        #  cyrillic capital letter ka 
+\x8b	\xec        #  cyrillic capital letter el 
+\x8c	\xed        #  cyrillic capital letter em 
+\x8d	\xee        #  cyrillic capital letter en 
+\x8e	\xef        #  cyrillic capital letter o 
+\x8f	\xf0        #  cyrillic capital letter pe 
+\x90	\xf2        #  cyrillic capital letter er 
+\x91	\xf3        #  cyrillic capital letter es 
+\x92	\xf4        #  cyrillic capital letter te 
+\x93	\xf5        #  cyrillic capital letter u 
+\x94	\xe6        #  cyrillic capital letter ef 
+\x95	\xe8        #  cyrillic capital letter ha 
+\x96	\xe3        #  cyrillic capital letter tse 
+\x97	\xfe        #  cyrillic capital letter che 
+\x98	\xfb        #  cyrillic capital letter sha 
+\x99	\xfd        #  cyrillic capital letter shcha 
+\x9a	\xff        #  cyrillic capital letter hard sign 
+\x9b	\xf9        #  cyrillic capital letter yeru 
+\x9c	\xf8        #  cyrillic capital letter soft sign 
+\x9d	\xfc        #  cyrillic capital letter e 
+\x9e	\xe0        #  cyrillic capital letter yu 
+\x9f	\xf1        #  cyrillic capital letter ya 
+\xa0	\xc1        #  cyrillic small letter a 
+\xa1	\xc2        #  cyrillic small letter be 
+\xa2	\xd7        #  cyrillic small letter ve 
+\xa3	\xc7        #  cyrillic small letter ghe 
+\xa4	\xc4        #  cyrillic small letter de 
+\xa5	\xc5        #  cyrillic small letter ie 
+\xa6	\xd6        #  cyrillic small letter zhe 
+\xa7	\xda        #  cyrillic small letter ze 
+\xa8	\xc9        #  cyrillic small letter i 
+\xa9	\xca        #  cyrillic small letter short i 
+\xaa	\xcb        #  cyrillic small letter ka 
+\xab	\xcc        #  cyrillic small letter el 
+\xac	\xcd        #  cyrillic small letter em 
+\xad	\xce        #  cyrillic small letter en 
+\xae	\xcf        #  cyrillic small letter o 
+\xaf	\xd0        #  cyrillic small letter pe 
+\xb0	\x90        #  light shade 
+\xb1	\x91        #  medium shade 
+\xb2	\x92        #  dark shade 
+\xb3	\x81        #  box drawings light vertical 
+\xb4	\x87        #  box drawings light vertical and left 
+\xb5	\xb2        #  box drawings vertical light and left heavy 
+\xb6	\xb4        #  box drawings vertical heavy and left light 
+\xb7	\xa7        #  box drawings down heavy and left light 
+\xb8	\xa6        #  box drawings down light and left heavy 
+\xb9	\xb5        #  box drawings heavy vertical and left 
+\xba	\xa1        #  box drawings heavy vertical 
+\xbb	\xa8        #  box drawings heavy down and left 
+\xbc	\xae        #  box drawings heavy up and left 
+\xbd	\xad        #  box drawings up heavy and left light 
+\xbe	\xac        #  box drawings up light and left heavy 
+\xbf	\x83        #  box drawings light down and left 
+\xc0	\x84        #  box drawings light up and right 
+\xc1	\x89        #  box drawings light up and horizontal 
+\xc2	\x88        #  box drawings light down and horizontal 
+\xc3	\x86        #  box drawings light vertical and right 
+\xc4	\x80        #  box drawings light horizontal 
+\xc5	\x8a        #  box drawings light vertical and horizontal 
+\xc6	\xaf        #  box drawings vertical light and right heavy 
+\xc7	\xb0        #  box drawings vertical heavy and right light 
+\xc8	\xab        #  box drawings heavy up and right 
+\xc9	\xa5        #  box drawings heavy down and right 
+\xca	\xbb        #  box drawings heavy up and horizontal 
+\xcb	\xb8        #  box drawings heavy down and horizontal 
+\xcc	\xb1        #  box drawings heavy vertical and right 
+\xcd	\xa0        #  box drawings heavy horizontal 
+\xce	\xbe        #  box drawings heavy vertical and horizontal 
+\xcf	\xb9        #  box drawings up light and horizontal heavy 
+\xd0	\xba        #  box drawings up heavy and horizontal light 
+\xd1	\xb6        #  box drawings down light and horizontal heavy 
+\xd2	\xb7        #  box drawings down heavy and horizontal light 
+\xd3	\xaa        #  box drawings up heavy and right light 
+\xd4	\xa9        #  box drawings up light and right heavy 
+\xd5	\xa2        #  box drawings down light and right heavy 
+\xd6	\xa4        #  box drawings down heavy and right light 
+\xd7	\xbd        #  box drawings vertical heavy and horizontal light 
+\xd8	\xbc        #  box drawings vertical light and horizontal heavy 
+\xd9	\x85        #  box drawings light up and left 
+\xda	\x82        #  box drawings light down and right 
+\xdb	\x8d        #  full block 
+\xdc	\x8c        #  lower half block 
+\xdd	\x8e        #  left half block 
+\xde	\x8f        #  right half block 
+\xdf	\x8b        #  upper half block 
+\xe0	\xd2        #  cyrillic small letter er 
+\xe1	\xd3        #  cyrillic small letter es 
+\xe2	\xd4        #  cyrillic small letter te 
+\xe3	\xd5        #  cyrillic small letter u 
+\xe4	\xc6        #  cyrillic small letter ef 
+\xe5	\xc8        #  cyrillic small letter ha 
+\xe6	\xc3        #  cyrillic small letter tse 
+\xe7	\xde        #  cyrillic small letter che 
+\xe8	\xdb        #  cyrillic small letter sha 
+\xe9	\xdd        #  cyrillic small letter shcha 
+\xea	\xdf        #  cyrillic small letter hard sign 
+\xeb	\xd9        #  cyrillic small letter yeru 
+\xec	\xd8        #  cyrillic small letter soft sign 
+\xed	\xdc        #  cyrillic small letter e 
+\xee	\xc0        #  cyrillic small letter yu 
+\xef	\xd1        #  cyrillic small letter ya 
+\xf0	\xb3        #  cyrillic capital letter io 
+\xf1	\xa3        #  cyrillic small letter io 
+\xf2	\x7f error  #  cyrillic capital letter ukrainian ie 
+\xf3	\x7f error  #  cyrillic small letter ukrainian ie 
+\xf4	\x7f error  #  cyrillic capital letter yi (ukrainian) 
+\xf5	\x7f error  #  cyrillic small letter yi (ukrainian) 
+\xf6	\x7f error  #  cyrillic capital letter short u (byelorussian) 
+\xf7	\x7f error  #  cyrillic small letter short u (byelorussian) 
+\xf8	\x9c        #  degree sign 
+\xf9	\x95        #  bullet operator 
+\xfa	\x9e        #  middle dot 
+\xfb	\x96        #  square root 
+\xfc	\x7f error  #  numero sign 
+\xfd	\x7f error  #  currency sign 
+\xfe	\x94        #  black square 
+\xff	\x9a        #  no-break space 

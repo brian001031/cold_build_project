@@ -1,0 +1,93 @@
+
+                          DOCUMENTATION NOTES FOR
+                     INFORMIX-GLS Programmer's Manual
+                            DATE:  06/13/00
+                             Version:  3.10
+
+Table of Contents
+I.   Overview
+II.  Informix Database Server Names
+III. Unicode Universal Code Set (UCS) and Informix GLS
+
+I.   OVERVIEW
+=============
+
+This document describes feature and performance topics not covered in the
+Informix GLS Programmer's Manual or modified since publication. 
+
+Additionally, you may want to look at some of the documentation notes for
+manuals that are distributed with your Informix database server. These
+notes include information about the following products and features which
+might affect your client application:
+
+  o DataBlade API
+
+  o Error messages
+
+  o GLS functionality
+
+  o SQL
+
+To see these documentation notes, look in one of the following database
+server directories. If you need information about these directories,
+contact your DBA.:
+
+---------------------------------------------------------------------------
+| Platform               | Directory for Documentation Notes              |
+|-------------------------------------------------------------------------|
+| UNIX                   | $INFORMIXDIR/release/en_us/0333                |
+|-------------------------------------------------------------------------|
+| Windows                | %INFORMIXDIR%\release\en_us\04e4               |
+---------------------------------------------------------------------------
+
+
+II.  INFORMIX DATABASE SERVER NAMES
+===================================
+
+This manual might not reflect the latest names of Informix database
+servers. The following table lists the database server versions and their
+corresponding names.
+
+---------------------------------------------------------------------------
+| Database Server    | Database Server Names                              |
+| Version Numbers    |                                                    |
+|-------------------------------------------------------------------------|
+| 5.x                | INFORMIX OnLine and                                |
+|                    | INFORMIX SE                              
+|-------------------------------------------------------------------------|
+| 7.1x, 7.2x         | INFORMIX OnLine Dynamic Server and                 |
+|                    | INFORMIX SE                   
+|-------------------------------------------------------------------------|
+|  7.3x              | Informix Dynamic Server                            |
+|-------------------------------------------------------------------------|
+| 8.1x               | INFORMIX OnLine XPS                                |
+|-------------------------------------------------------------------------|
+| 8.2x               | Informix Dynamic Server with Advanced Decision     |
+|                    | Support and Extended Parallel Options              |
+|-------------------------------------------------------------------------|
+| 8.3                | Informix Extended Parallel Server (XPS) or         |
+|                    | Informix Enterprise Decision Server                |
+|-------------------------------------------------------------------------|
+| 9.01, 9.1 through  | INFORMIX-Universal Server                          |
+| 9.13               |                                                    |
+|-------------------------------------------------------------------------|
+| 9.14               | Informix Dynamic Server with Universal Data Option |
+|-------------------------------------------------------------------------|
+| 9.2                | Informix Dynamic Server 2000                       |
+---------------------------------------------------------------------------
+ 
+
+
+III. UNICODE UNIVERSAL CODE SET (UCS) AND INFORMIX GLS
+======================================================
+
+To store data from more than one non-English language in one database, you
+can either use the GLS implementation of the UTF-8 UCS GLS locale and code
+set conversion files, or use the Unicode UCS in your database. To use
+Unicode with Informix GLS, you must be using Informix Dynamic Server with
+Universal Data Option (IDS/UD) Version 9.1x or above, and the Informix
+Unicode DataBlade module. The Unicode DataBlade module enables users  to
+store data in native Unicode format in a database and to access and
+manipulate that data. For more information, see the Informix Unicode
+DataBlade Module User's Guide. 
+

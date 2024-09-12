@@ -1,0 +1,1142 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.74 [en] (WinNT; U) [Netscape]">
+   <meta name="TEMPLATEBASE" content="book">
+   <meta name="LASTUPDATED" content="Mon May 22 14:25:39 2000">
+</head>
+<body bgcolor="#FFFFFF" link="#334DFF" vlink="#868686" defaultlink="#ff0000">
+<!-- scott/master/Support --><!-- BEGIN LOGO/NAV BAR --><b><font size=+4><a href="http://www.informix.com/"><font face="Arial, Helvetica, sans-serif"><font color="#000000">Inform</font></font><i><font face="Times New Roman, Times, serif"><font color="#FF0000">i</font></font></i><font face="Arial, Helvetica, sans-serif"><font color="#0000FF">x</font></font></a></font></b>
+<table BORDER=0 CELLPADDING=3 WIDTH="25%" BGCOLOR="#000000" >
+<tr ALIGN=CENTER>
+<td><b><font face="Arial, Helvetica, sans-serif"><font color="#FFFFFF"><font size=-2><a href="http://www.informix.com/documentation/">Informix
+Online Documentation</a></font></font></font></b></td>
+</tr>
+</table>
+<!-- END LOGO/NAV BAR --><!-- BEGIN DATA -->
+<hr>
+<center><a NAME="1082509"></a></center>
+
+<center>
+<h3>
+<font face="Arial, Helvetica, sans-serif">DOCUMENTATION NOTES FOR</font></h3></center>
+
+<center><a NAME="1082510"></a></center>
+
+<center>
+<h2>
+<font face="Arial, Helvetica, sans-serif">Informix ESQL/C Programmer's
+Manual</font></h2></center>
+
+<center><a NAME="1082511"></a>
+<p><font face="Arial, Helvetica, sans-serif"><b>Date:</b> 7/19/2001</font>
+<br><a NAME="1081910"></a>
+<p><font face="Arial, Helvetica, sans-serif"><b>Version:</b> 9.51</font></center>
+
+<hr><a NAME="1083516"></a>
+<h3>
+<font face="Arial, Helvetica, sans-serif">Table of Contents</font></h3>
+
+<dl>
+<dd>
+<font face="Arial, Helvetica, sans-serif">I. <a href="#1084084">Overview</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">II. <a href="#1084460">Informix
+Database Server Names</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">III. <a href="#950doc">9.50 Documentation
+Notes</a></font></dd>
+
+<dl>
+<dl><font face="Arial, Helvetica, sans-serif">&nbsp;A.&nbsp;&nbsp; <a href="#950doc">Syntax
+changes in SQL to support new features in the 8.31 product</a>.</font></dl>
+</dl>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">IV. <a href="#1083773">9.40 Documentation
+Notes</a></font></dd>
+
+<dl>
+<dd>
+<font face="Arial, Helvetica, sans-serif">A. <a href="#1084875">XA Support
+for MTS/DTC</a></font></dd>
+
+<dd>
+</dd>
+</dl>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">V. <a href="#1084889">9.30 Documentation
+Notes</a></font></dd>
+
+<dl>&nbsp;
+<dd>
+<font face="Arial, Helvetica, sans-serif">A. <a href="#1083774">Support
+of Non-ANSI Datetime formats</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">B. <a href="#1083851">The deccvflt()
+Function</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">C. <a href="#1083928">The ifx_var_freevar()
+Function</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">D. <a href="#1083948">Precision
+for SMALLFLOAT and FLOAT conversions to DECIMAL</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">E. <a href="#1083954">IFX_NOZEROMDY
+Environment Variable</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">F. <a href="#1083957">Thread-Safe
+Applications</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">G. <a href="#1084704">Context
+Threaded Optimization</a></font></dd>
+</dl>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">VI. <a href="#1084702">Corrections
+and Changes to the Manual</a></font></dd>
+
+<dl>&nbsp;
+<dd>
+<font face="Arial, Helvetica, sans-serif">A. <a href="#1083965">The ifx_var_dealloc()
+Function</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">B. <a href="#1083967">The ifx_var_alloc()
+Function</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">C. <a href="#1083969">LVARCHAR
+in ESQL/C</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">D. <a href="#1084001">TP/XA</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">E. <a href="#1084623">SqlFreeMem()</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif">F. <a href="#Single">Single Space
+into a Host Variable</a></font></dd>
+
+<dd>
+<font face="Arial, Helvetica, sans-serif"><a href="#1084623"></a></font></dd>
+</dl>
+</dl>
+
+<hr><a NAME="1084084"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">I. Overview</font></h2>
+<font face="Arial, Helvetica, sans-serif">This document describes feature
+and performance topics not covered in the <i>Informix <tt>ESQL/C</tt> Programmer's
+Manual</i> or modified since publication.</font>
+<br>
+<hr><a NAME="1084460"></a>
+<h2>
+<font face="Arial, Helvetica, sans-serif">II. Informix Database Server
+Names</font></h2>
+<font face="Arial, Helvetica, sans-serif">This manual might not reflect
+the latest names of Informix database servers. The following table lists
+the database server versions and their corresponding names.</font>
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER=3 valign="top" >
+<caption><a NAME="1084540"></a>(1 of 2)</caption>
+
+<tr VALIGN=TOP>
+<th><a NAME="1084464"></a><b><font face="Ariel, Helvetic, sans-serif">Database
+Server Version Numbers</font></b></th>
+
+<th><a NAME="1084466"></a><b><font face="Ariel, Helvetic, sans-serif">Database
+Server Names</font></b></th>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084468"></a><b><font face="Ariel, Helvetic, sans-serif">5.x</font></b></td>
+
+<td><a NAME="1084476"></a><font face="Ariel, Helvetic, sans-serif"><tt>INFORMIX</tt>-OnLine
+and <tt>INFORMIX</tt>-<tt>SE</tt></font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084478"></a><b><font face="Ariel, Helvetic, sans-serif">7.1x,
+7.2x</font></b></td>
+
+<td><a NAME="1084483"></a><font face="Ariel, Helvetic, sans-serif"><tt>INFORMIX</tt>-OnLine
+Dynamic Server and <tt>INFORMIX</tt>-<tt>SE</tt></font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084488"></a><b><font face="Ariel, Helvetic, sans-serif">7.3x</font></b></td>
+
+<td><a NAME="1084493"></a><font face="Ariel, Helvetic, sans-serif">Informix
+Dynamic Server</font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084495"></a><b><font face="Ariel, Helvetic, sans-serif">8.1x</font></b></td>
+
+<td><a NAME="1084500"></a><font face="Ariel, Helvetic, sans-serif"><tt>INFORMIX</tt>-OnLine
+<tt>XPS</tt></font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084502"></a><b><font face="Ariel, Helvetic, sans-serif">8.2x</font></b></td>
+
+<td><a NAME="1084506"></a><font face="Ariel, Helvetic, sans-serif">Informix
+Dynamic Server with Advanced Decision Support and Extended Parallel Options</font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084509"></a><b><font face="Ariel, Helvetic, sans-serif">8.3</font></b></td>
+
+<td><a NAME="1084513"></a><font face="Ariel, Helvetic, sans-serif">Informix
+Extended Parallel Server (<tt>XPS</tt>) or Informix Enterprise Decision
+Server&nbsp;</font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084516"></a><b><font face="Ariel, Helvetic, sans-serif">9.01,
+9.1 through 9.13</font></b></td>
+
+<td><a NAME="1084521"></a><font face="Ariel, Helvetic, sans-serif"><tt>INFORMIX</tt>-Universal
+Server</font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084523"></a><b><font face="Ariel, Helvetic, sans-serif">9.14</font></b></td>
+
+<td><a NAME="1084528"></a><font face="Ariel, Helvetic, sans-serif">Informix
+Dynamic Server with Universal Data Option</font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1084530"></a><b><font face="Ariel, Helvetic, sans-serif">9.2</font></b></td>
+
+<td><a NAME="1084535"></a><font face="Ariel, Helvetic, sans-serif">Informix
+Dynamic Server 2000</font></td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td></td>
+</tr>
+</table>
+
+<hr>
+<br><a NAME="950doc"></a>
+<p><b><font size=+2>III. 9.50 Documentation Notes</font></b>
+<br>&nbsp;
+<h4>
+<b>A.&nbsp;&nbsp; </b>Syntax changes in SQL to support new features in
+the 8.31 product.</h4>
+Feature 1: Duplicate table to address the XPS server.
+<p>This feature allows identical copies of a table to exist at each coserver
+in an
+<br>XPS cluster. It provides better performance for read-only accesses
+to the table
+<br>that occur from coservers that otherwise would not host the required
+data. A
+<br>primary goal is to support operations that read relatively small, relatively
+<br>static tables.
+<p>SQL Syntax:
+<br>----------
+<br>Duplicating a table
+<br>CREATE DUPLICATE OF TABLE tabname
+<br>&nbsp;IN dbspacelist [ , dbspacelist ...]
+<p>Where dbspacelist ::={ dbslice&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { ( dbspace [&nbsp; , dbspace
+...])}
+<p>Dropping duplicates
+<br>DROP DUPLICATE OF TABLE tabname
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="1083773"></a>
+<h2>
+IV. 9.40 Documentation Notes</h2>
+<a NAME="1084875"></a>
+<h3>
+A. XA Support for MTS/DTC</h3>
+Informix Dynamic Server and Informix Internet Foundation 2000, version
+9.21, support XA transactions in a tightly-coupled mode, which allows you
+to use Microsoft Transaction Server as a transaction manager in the <tt>TP/XA</tt>
+environment.
+<p>You can use Microsoft Transaction Server only with a version of the
+Informix <tt>ODBC</tt> Driver that is current with or later than version
+9.21 of the Informix database server.
+<br>
+<hr><a NAME="1084889"></a>
+<h2>
+V. 9.30 Documentation Notes</h2>
+<a NAME="1083774"></a>
+<h3>
+A. Support of Non-ANSI Datetime formats</h3>
+Prior to this release, both the database server and <tt>ESQL/C</tt> required
+all datetime strings to be formatted using ANSI format 'YYYY-MM-DD HH:MM:SS.FFFFF'
+when converting a date-time string to the datetime data type, even if other
+formats were specified using the DBTIME, GL_DATETIME, or locale environment
+variables. When an <tt>ESQL/C</tt> program fetched a datetime value from
+the database server into a string host variable, it converted it using
+ANSI format. When the client converted a string to datetime type, which
+occurs only for insert cursors when the host variable type is a string
+and the target column is datetime, it requires the string be in ANSI format.
+This limitation makes it impossible to upgrade from Informix ALS (Asian
+Language Support) client/server products, which recognize non-ANSI datetime
+formats, to <tt>GLS</tt> (Global Language Support) client/server products.
+<p>This release of Informix <tt>ESQL/C</tt> implements support for non-ANSI
+datetime formats, which enables both <tt>ESQL/C</tt> programs and the database
+server to convert them correctly.
+<br><a NAME="1083777"></a>
+<h4>
+1. New Environment Variable: USE_DTENV</h4>
+To prevent the problem of backward compatibility this release of <tt>ESQL/C</tt>
+provides a new environment variable, USE_DTENV, to activate this feature.
+When USE_DTENV enables support of Non-ANSI datetime formats, both the <tt>ESQL/C</tt>
+program and the database server will expects and produce datetime strings
+in the format specified by the following environment variables, in order
+of precedence:
+<ol type="1" START="1.	"><a NAME="1083779"></a>
+<li>
+DBTIME</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="1083780"></a>
+<li>
+GL_DATETIME</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="1083781"></a>
+<li>
+CLIENT_LOCALE</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="1083782"></a>
+<li>
+LC_TIME (if DBNLS is set)</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="1083783"></a>
+<li>
+LANG (if DBNLs is set, but LC_TIME is not set)</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="1083784"></a>
+<li>
+ANSI format</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;</ol>
+You can find these precedence rules in the <i>Informix Guide to GLS Functionality</i>,
+under the heading "Customizing Date and Time End-User Formats".
+<p>The environment variable is passed from the <tt>ESQL/C</tt> program
+to the database server. Setting this environment variable for the database
+server alone will have no affect. You must set it for the <tt>ESQL/C</tt>
+client program, which passes it to the database server.
+<p>To enable support for non-ANSI datetime formats, set USE_DTENV to 1
+as shown in the following example:
+<ul class="e-example"><a NAME="1083788"></a><font face="courier"><font color="#000080">USE_DTENV=1</font></font></ul>
+If the database server does not support non-ANSI datetime formats you should
+not set USE_DTENV for the <tt>ESQL/C</tt> client program. Doing so makes
+it possible for the <tt>ESQL/C</tt> program to fetch a datetime value into
+a string host variable and convert it to a non-ANSI formatted string. The
+program would not be able to bind this string to a datetime column, however,
+if the database server subsequently tries to convert the string to datetime
+because the database server expects ANSI format. The client would be able
+to convert strings to datetime (insert cursors) but because users are not
+normally aware when the client or the server performs the conversion, you
+should not set USE_DTENV when the database server does not support non-ANSI
+datetime formats.
+<p>Both the client and server convert a datetime value to a string and
+convert date-time strings to datetime type values using the format specified
+by the GLS environment variable when the following conditions are true:
+<ul type="square"><a NAME="1083791"></a>
+<li>
+Both client and server support the USE_DTENV feature</li>
+
+<br><a NAME="1083792"></a>
+<li>
+USE_DTENV=1</li>
+
+<br><a NAME="1083793"></a>
+<li>
+GLS datetime/locale environment variable set</li>
+</ul>
+This applies to DB-Access load and unload commands and to the <b>dbimport</b>,
+<b>dbexport</b>
+and <b>dbload</b> utilities.
+<p><b>Note: </b>The USE_DTENV feature <i>does not </i>affect the interval
+data type.
+<br><a NAME="1083796"></a>
+<h4>
+2. Caveats</h4>
+
+<ol type="1" START="1.	"><a NAME="1083797"></a>
+<li>
+Interval to string conversions and visa versa still must be in ANSI format.</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="1083798"></a>
+<li>
+The qualifier for the environment variable that specifies datetime string
+format must match the qualifier of the datetime column 100% for string
+to datetime conversions because the format is used for parsing the string.
+If the format doesn't match 100%, the string can't be parsed correctly.</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;</ol>
+<a NAME="1083799"></a><b>Example:</b>
+<ul class="e-example"><a NAME="1083800"></a><font face="courier"><font color="#000080">DBTIME
+format: %m %d, %y</font></font></ul>
+
+<ul class="e-example"><a NAME="1083801"></a><font face="courier"><font color="#000080">datetime
+column: datetime year to second</font></font></ul>
+
+<ul class="e-example"><a NAME="1083802"></a><font face="courier"><font color="#000080">string
+value: "02 20, 96 - 10 hour 30 minute 15 second"</font></font></ul>
+An insert into this datetime column will fail with this DBTIME settings.
+It's missing the hour, minute, second.
+<p>The fix for this would require additional datetime formats for EACH
+qualifier possibility, so the correct format could be found for each qualifier.
+Example in no special order:
+<ul class="e-example"><a NAME="1083805"></a><font face="courier"><font color="#000080">year
+to year - "%y"</font></font></ul>
+
+<ul class="e-example"><a NAME="1083806"></a><font face="courier"><font color="#000080">year
+to month - "%m, %y"</font></font></ul>
+
+<ul class="e-example"><a NAME="1083807"></a><font face="courier"><font color="#000080">year
+to day - "%m %d, %y"</font></font></ul>
+
+<ul class="e-example"><a NAME="1083808"></a><font face="courier"><font color="#000080">month
+to month - "%m"</font></font></ul>
+
+<ul class="e-example"><a NAME="1083809"></a><font face="courier"><font color="#000080">day
+to second - "%d - %H hour %M minute %S second"</font></font></ul>
+
+<ul class="e-example"><a NAME="1083810"></a><font face="courier"><font color="#000080">hour
+to minute - "%H hour %M minute"</font></font></ul>
+
+<ul class="e-example"><a NAME="1083811"></a><font face="courier"><font color="#000080">etc.</font></font></ul>
+3. For datetime to string conversions, if the datetime qualifier doesn't
+match the datetime format then we follow these rules:
+<ul type="square"><a NAME="1083813"></a>
+<li>
+If datetime format has fewer fields then the datetime qualifier then the
+string will match the datetime format and the extra datetime fields from
+the datetime value are excluded:</li>
+</ul>
+<a NAME="1083814"></a><b>Example (DBTIME has too few fields):</b>
+<ul class="e-example"><a NAME="1083815"></a><font face="courier"><font color="#000080">DBTIME
+format: %m %d, %y</font></font></ul>
+
+<ul class="e-example"><a NAME="1083816"></a><font face="courier"><font color="#000080">Columns:
+datetime year to fraction (5)</font></font></ul>
+
+<ul class="e-example"><a NAME="1083817"></a><font face="courier"><font color="#000080">Value
+inserted previously: July 13 1999 10:12:13.12345</font></font></ul>
+
+<ul class="e-example"><a NAME="1083818"></a></ul>
+
+<ul class="e-example"><a NAME="1083819"></a><font face="courier"><font color="#000080">String
+conversion:</font></font></ul>
+
+<ul class="e-example"><a NAME="1083820"></a><font face="courier"><font color="#000080">"07
+13, 99"</font></font></ul>
+
+<ul type="square"><a NAME="1083821"></a>
+<li>
+If datetime format has more 'lesser' datetime fields then the datetime
+qualifier, then the missing fields are filled with zeros:</li>
+</ul>
+<a NAME="1083822"></a><b>Example (datetime value has missing lesser datetime
+fields):</b>
+<ul class="e-example"><a NAME="1083823"></a><font face="courier"><font color="#000080">DBTIME
+format: %m %d, %y %H:%M:%S</font></font></ul>
+
+<ul class="e-example"><a NAME="1083824"></a><font face="courier"><font color="#000080">Columns:
+datetime year to day</font></font></ul>
+
+<ul class="e-example"><a NAME="1083825"></a><font face="courier"><font color="#000080">Value
+inserted previously: July 13 1999</font></font></ul>
+
+<ul class="e-example"><a NAME="1083826"></a></ul>
+
+<ul class="e-example"><a NAME="1083827"></a><font face="courier"><font color="#000080">String
+conversion:</font></font></ul>
+
+<ul class="e-example"><a NAME="1083828"></a><font face="courier"><font color="#000080">"07
+13, 99 00:00:00"</font></font></ul>
+
+<ul class="e-example"><a NAME="1083829"></a></ul>
+
+<ul type="square"><a NAME="1083830"></a>
+<li>
+If datetime format has more 'greater' datetime fields then the datetime
+qualifier, then the missing fields are filled with values taken from the
+current time.</li>
+
+<dl>Example (datetime value has missing greater datetime fields):
+<ul class="e-example"><a NAME="1083832"></a><font face="courier"><font color="#000080">DBTIME
+format: %m %d, %y %H:%M:%S</font></font></ul>
+
+<ul class="e-example"><a NAME="1083833"></a><font face="courier"><font color="#000080">Columns:
+datetime hour to second</font></font></ul>
+
+<ul class="e-example"><a NAME="1083834"></a><font face="courier"><font color="#000080">Value
+inserted previously: 10:56:11</font></font></ul>
+
+<ul class="e-example"><a NAME="1083835"></a><font face="courier"><font color="#000080">current
+date: July 13, 1999</font></font></ul>
+
+<ul class="e-example"><a NAME="1083836"></a><font face="courier"><font color="#000080">String
+conversion:</font></font></ul>
+
+<ul class="e-example"><a NAME="1083837"></a><font face="courier"><font color="#000080">"07
+13, 99 10:56:11"</font></font></ul>
+</dl>
+</ul>
+<a NAME="1083839"></a>
+<h4>
+3. Rationale</h4>
+The current requirement is that all datetime strings must be in ANSI format.
+This makes it impossible for users who wish to upgrade from Informix ALS
+client/server to <tt>GLS</tt> client/server products. ALS client/server
+products recognized non-ANSI datetime formats.
+<p>Both client and server currently support non-ANSI date formats, but
+not datetime. With this feature Informix will no longer discriminate against
+non-ANSI datetime formats.
+<br><a NAME="1083842"></a>
+<h4>
+4. Effects on existing code</h4>
+There's no affect on existing code, but there is an affect on old data
+files generated by DB-Access or the database administrator tools. These
+files will have datetime values as ANSI formatted strings. You should not
+set USE_DTENV when loading this data with a client and server that both
+support non-ANSI datetime formats.
+<p>When USE_DTENV is set and one of the <tt>GLS</tt> datetime environment
+variables specifies a different datetime string format, DB-Access displays
+can be affected.
+<p>The ANSI format is 25 characters. If the format specified through one
+of the <tt>GLS</tt> datetime environment variables is less than or greater
+than the maximum length of the 25 character ANSI standard datetime literal,
+the DB-Access display will be affected.
+<br><a NAME="1083846"></a><b>Example:</b>
+<ul class="e-example"><a NAME="1083847"></a><font face="courier"><font color="#000080">DBTIME
+is set to '%b %d, %Y %H:%M:%S' and the datetime</font></font></ul>
+
+<ul class="e-example"><a NAME="1083848"></a><font face="courier"><font color="#000080">value
+is 1999-07-09 10:11:12. The value will be displayed as</font></font></ul>
+
+<ul class="e-example"><a NAME="1083849"></a><font face="courier"><font color="#000080">'July
+09, 1999 10:11:12'.</font></font></ul>
+<a NAME="1083851"></a>
+<h3>
+B. The deccvflt() Function</h3>
+The <b>deccvflt()</b> function has inadvertently gone undocumented in previous
+versions of the <tt>ESQL/C</tt> manual.
+<p>The <b>deccvflt()</b> function converts a C float type number into an
+<tt>ESQL/C</tt>
+decimal type number.
+<br><a NAME="1083854"></a>
+<h4>
+1. Syntax</h4>
+int deccvflt(flt_val, dec_val)
+<p>float flt_val;
+<p>dec_t *dec_val;
+<p><i>flt_val</i> is the float value that <b>deccvflt()</b> converts to
+a decimal type value.
+<p><i>dec_val</i> is a pointer to a decimal structure where <b>deccvflt()</b>
+places the result of the conversion.
+<br><a NAME="1083860"></a>
+<h4>
+2. Return Codes</h4>
+0 The conversion was successful.
+<p>&lt;0 The conversion failed.
+<br><a NAME="1083863"></a><b>Example</b>
+<ul class="e-example"><a NAME="1083864"></a><font face="courier"><font color="#000080">/*</font></font></ul>
+
+<ul class="e-example"><a NAME="1083865"></a><font face="courier"><font color="#000080">*
+deccvflt.ec *</font></font></ul>
+
+<ul class="e-example"><a NAME="1083866"></a></ul>
+
+<ul class="e-example"><a NAME="1083867"></a><font face="courier"><font color="#000080">The
+following program converts two float type numbers to DECIMAL numbers</font></font></ul>
+
+<ul class="e-example"><a NAME="1083868"></a><font face="courier"><font color="#000080">and
+displays the results.</font></font></ul>
+
+<ul class="e-example"><a NAME="1083869"></a><font face="courier"><font color="#000080">*/</font></font></ul>
+
+<ul class="e-example"><a NAME="1083870"></a></ul>
+
+<ul class="e-example"><a NAME="1083871"></a><font face="courier"><font color="#000080">#include
+&lt;stdio.h></font></font></ul>
+
+<ul class="e-example"><a NAME="1083872"></a></ul>
+
+<ul class="e-example"><a NAME="1083873"></a><font face="courier"><font color="#000080">EXEC
+SQL include decimal;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083874"></a></ul>
+
+<ul class="e-example"><a NAME="1083875"></a><font face="courier"><font color="#000080">char
+result[41];</font></font></ul>
+
+<ul class="e-example"><a NAME="1083876"></a></ul>
+
+<ul class="e-example"><a NAME="1083877"></a><font face="courier"><font color="#000080">main()</font></font></ul>
+
+<ul class="e-example"><a NAME="1083878"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083879"></a><font face="courier"><font color="#000080">int
+x;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083880"></a><font face="courier"><font color="#000080">dec_t
+num;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083881"></a><font face="courier"><font color="#000080">float
+f = 2147483647;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083882"></a></ul>
+
+<ul class="e-example"><a NAME="1083883"></a></ul>
+
+<ul class="e-example"><a NAME="1083884"></a><font face="courier"><font color="#000080">printf("DECCVFLT
+Sample ESQL Program running.\n\n");</font></font></ul>
+
+<ul class="e-example"><a NAME="1083885"></a></ul>
+
+<ul class="e-example"><a NAME="1083886"></a><font face="courier"><font color="#000080">printf("Number
+1 (float) = 1234.5678901234\n");</font></font></ul>
+
+<ul class="e-example"><a NAME="1083887"></a><font face="courier"><font color="#000080">if
+(x = deccvflt((float)1234.5678901234, &amp;num))</font></font></ul>
+
+<ul class="e-example"><a NAME="1083888"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083889"></a><font face="courier"><font color="#000080">printf("Error
+%d in converting double1 to DECIMAL\n", x);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083890"></a><font face="courier"><font color="#000080">exit(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083891"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083892"></a><font face="courier"><font color="#000080">if
+(x = dectoasc(&amp;num, result, sizeof(result), -1))</font></font></ul>
+
+<ul class="e-example"><a NAME="1083893"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083894"></a><font face="courier"><font color="#000080">printf("Error
+%d in converting DECIMAL1 to string\n", x);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083895"></a><font face="courier"><font color="#000080">exit(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083896"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083897"></a><font face="courier"><font color="#000080">result[40]
+= '\0';</font></font></ul>
+
+<ul class="e-example"><a NAME="1083898"></a><font face="courier"><font color="#000080">printf("
+String Value = %s\n", result);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083899"></a></ul>
+
+<ul class="e-example"><a NAME="1083900"></a><font face="courier"><font color="#000080">printf("Number
+2 (float) = %.1f\n", f);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083901"></a><font face="courier"><font color="#000080">if
+(x = deccvflt(f, &amp;num))</font></font></ul>
+
+<ul class="e-example"><a NAME="1083902"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083903"></a><font face="courier"><font color="#000080">printf("Error
+%d in converting float2 to DECIMAL\n", x);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083904"></a><font face="courier"><font color="#000080">exit(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083905"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083906"></a><font face="courier"><font color="#000080">if
+(x = dectoasc(&amp;num, result, sizeof(result), -1))</font></font></ul>
+
+<ul class="e-example"><a NAME="1083907"></a><font face="courier"><font color="#000080">{</font></font></ul>
+
+<ul class="e-example"><a NAME="1083908"></a><font face="courier"><font color="#000080">printf("Error
+%d in converting DECIMAL2 to string\n", x);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083909"></a><font face="courier"><font color="#000080">exit(1);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083910"></a><font face="courier"><font color="#000080">}</font></font></ul>
+
+<ul class="e-example"><a NAME="1083911"></a><font face="courier"><font color="#000080">result[40]
+= '\0';</font></font></ul>
+
+<ul class="e-example"><a NAME="1083912"></a><font face="courier"><font color="#000080">printf("
+String Value = %s\n", result);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083913"></a></ul>
+
+<ul class="e-example"><a NAME="1083914"></a><font face="courier"><font color="#000080">printf("\nDECCVFLT
+Sample Program over.\n\n");</font></font></ul>
+
+<ul class="e-example"><a NAME="1083915"></a><font face="courier"><font color="#000080">exit(0);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083916"></a><font face="courier"><font color="#000080">}</font></font></ul>
+<a NAME="1083918"></a><b>Output</b>
+<ul class="e-example"><a NAME="1083919"></a><font face="courier"><font color="#000080">DECCVFLT
+Sample ESQL Program running.</font></font></ul>
+
+<ul class="e-example"><a NAME="1083920"></a></ul>
+
+<ul class="e-example"><a NAME="1083921"></a><font face="courier"><font color="#000080">Number
+1 (float) = 1234.5678901234</font></font></ul>
+
+<ul class="e-example"><a NAME="1083922"></a><font face="courier"><font color="#000080">String
+Value = 1234.56787</font></font></ul>
+
+<ul class="e-example"><a NAME="1083923"></a><font face="courier"><font color="#000080">Number
+2 (float) = 2147483648.0</font></font></ul>
+
+<ul class="e-example"><a NAME="1083924"></a><font face="courier"><font color="#000080">String
+Value = 2147483650.0</font></font></ul>
+
+<ul class="e-example"><a NAME="1083925"></a></ul>
+
+<ul class="e-example"><a NAME="1083926"></a><font face="courier"><font color="#000080">DECCVFLT
+Sample Program over.</font></font></ul>
+<a NAME="1083928"></a>
+<h3>
+C. The ifx_var_freevar() Function</h3>
+The <b>ifx_var_freevar()</b> function frees the memory that has been allocated
+for the var binary and lvarchar pointer host variables.
+<br><a NAME="1083930"></a>
+<h4>
+1. Syntax</h4>
+int ifx_var_freevar(var_bin)
+<p>var binary *var_bin;
+<p><i>var_bin</i> is the address of the "var binary" or "lvarchar pointer"
+host variable.
+<br><a NAME="1083935"></a>
+<h4>
+2. Usage</h4>
+Whenever you have a "var binary" or "lvarchar pointer" host variable, as
+shown in the following example, you must explicitly free the memory that
+is allocated for it by using the<b> ifx_var_freevar()</b> function.
+<ul class="e-example"><a NAME="1083937"></a><font face="courier"><font color="#000080">EXEC
+SQL var binary 'polygon' poly;</font></font></ul>
+
+<ul class="e-example"><a NAME="1083938"></a><font face="courier"><font color="#000080">EXEC
+SQL lvarchar *c;</font></font></ul>
+The following example illustrates the use of <b>ifx_var_freevar()</b> you
+must explicitly free memory that has been allocated for these "var binary"
+&amp; "lvarchar pointer" host variables with the <b>ifx_var_freevar()</b>
+function:
+<ul class="e-example"><a NAME="1083940"></a><font face="courier"><font color="#000080">ifx_var_freevar(&amp;poly);</font></font></ul>
+
+<ul class="e-example"><a NAME="1083941"></a><font face="courier"><font color="#000080">ifx_var_freevar(&amp;c);</font></font></ul>
+If you do not call ifx_var_dealloc() to deallocate memory that has been
+allocated for the data buffer of the "var binary" host variable, "ifx_var_freevar()"
+would do it for you and then it frees the memory of the "var binary" &amp;
+"lvarchar pointer" host variables. After "ifx_var_freevar()" was called,
+"poly" and "c" would be set to null.
+<br><a NAME="1083943"></a>
+<h4>
+3. Return Codes</h4>
+0 The function was successful.
+<p>&lt;0 The function was not successful and the return value indicates
+the cause of the error.
+<br><a NAME="1083946"></a>
+<h4>
+4. Related Functions</h4>
+i<b>fx_var_flag()</b>, <b>ifx_var_alloc()</b>, <b>ifx_var_dealloc()</b>
+<br><a NAME="1083948"></a>
+<h3>
+D. Precision for SMALLFLOAT and FLOAT conversions to DECIMAL</h3>
+Decimal precision for FLOAT and SMALLFLOAT conversions to DECIMAL data
+type has been increased from 8 (SMALLFLOAT) and 16 (FLOAT) to 9 and 17,
+respectively. You might experience differences in decimal precision after
+FLOAT/SMALLFLOAT to DECIMAL conversions. The functions <b>deccvflt()</b>
+(SMALLFLOAT to DECIMAL conversion) and <b>deccvdbl()</b> (FLOAT to DECIMAL
+conversion), which have converted float numbers to decimal numbers with
+8 digit and 16 digit precision, now have 9 digit and 17 digit precision.
+<p>For more information on the impact and scope of this feature, refer
+to the Release Notes file for this release of <tt>ESQL/C</tt>. The following
+section describes the IFX_USE_PREC_16 environment variable, which provides
+backward compatibility.
+<br><a NAME="1083951"></a>
+<h4>
+1. IFX_USE_PREC_16 Environment Variable</h4>
+A new environment variable IFX_USE_PREC_16 can be used to revert the precision
+to 8/16 for all SMALLFLOAT/FLOAT to DECIMAL conversions by a client <tt>ESQL/C</tt>
+program. Note that this environment variable affects the client only and
+is not sent to the server.
+<p>When IFX_USE_PREC_16 is set to 1, a 9/17 client product will only use
+8/16 precision to perform all SMALLFLOAT/FLOAT to DECIMAL conversions.
+<br><a NAME="1083954"></a>
+<h3>
+E. IFX_NOZEROMDY Environment Variable</h3>
+The environment variable IFX_NOZEROMDY has been added to change the default
+behavior of the DATE data type and several <tt>ESQL/C</tt> date related
+library functions. If IFX_NOZEROMDY is not set (the default), the date
+value 00/00/0000 (4 digit year) is accepted as a null date in a DATE data
+type or as input to the <tt>ESQL/C</tt> library functions <b>rdefmtdate()</b>,and
+<b>rstrdate()</b>.
+The function <b>rmdyjul()</b> also treats the input date as a null date
+if all 3 fields in the mdy input array are all zeros. If IFX_NOZEROMDY
+is set to 1, the date value 00/00/0000 and mdy input array fields of all
+zeros will be treated as an invalid date.
+<p>For more information, refer to the Release Notes for this release of
+<tt>ESQL/C</tt>.
+<br><a NAME="1083957"></a>
+<h3>
+F. Thread-Safe Applications</h3>
+Chapter 13 of the INFORMIX-<i>Informix <tt>ESQL/C</tt> Programmer's Manual</i>,
+Version 9.2, states the following:
+<p>"The DCE thread library, which the Open Software Foundation(OSF) developed
+creates a standard interface for thread-safe applications."
+<p>If DCE is not available on your platform, <tt>ESQL/C</tt> can use POSIX
+thread libraries or Sun Solaris thread libraries as well.
+<br><a NAME="1083961"></a>
+<h4>
+1. Linking Thread-Safe Libraries</h4>
+If your platform supports DCE, POSIX or Solaris thread packages, you must
+install them on the same client computer as <tt>ESQL/C</tt>.
+<p>SOL and POSIX are also valid options for the THREADLIB environment variable.
+<br><a NAME="1084704"></a>
+<h3>
+G. Context Threaded Optimization</h3>
+Informix <tt>ESQL/C</tt> allows developers to specify the runtime context
+that will be used for a set of statements. A runtime context will hold
+all the thread specific data that <tt>ESQL/C</tt> must maintain, i.e..
+connections and their current states, cursors and their current states
+etc.
+<p>The feature allows <tt>ESQL/C</tt> programmers to improve the performance
+of their MESQL/C applications. By using the SQLCONTEXT definitions and
+directives, the number of thread-specific data block lookups can be reduced.
+<p>The following embedded SQL statements support the definition and usage
+of runtime contexts:
+<ul class="e-example"><a NAME="1084750"></a><font face="courier"><font color="#000080">SQLCONTEXT
+context_var;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084751"></a><font face="courier"><font color="#000080">PARAMETER
+SQLCONTEXT param_context_var;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084752"></a><font face="courier"><font color="#000080">BEGIN
+SQLCONTEXT OPTIMIZATION;</font></font></ul>
+
+<ul class="e-example"><a NAME="1084753"></a><font face="courier"><font color="#000080">END
+SQLCONTEXT OPTIMIZATION;</font></font></ul>
+The SQLCONTEXT definition and statements are only recognized when the esql
+-thread option is used. If the -thread option is not specified, the statements
+are ignored.
+<p>The use of the SQLCONTEXT statements will cause the <tt>ESQL/C</tt>
+preprocessor to generate code in the .c file that differs from the generated
+code when no SQLCONTEXT statements are present.
+<ul type="square"><a NAME="1084765"></a>
+<li>
+The following SQLCONTEXT definition will generate code to define and to
+set the value of the SQLCONTEXT to the handle of the runtime context:</li>
+
+<dl>SQLCONTEXT context_var;</dl>
+<a NAME="1084767"></a>
+<li>
+The following SQLCONTEXT definition can be used to generate code to define
+a parameter that contains the handle of the runtime context:</li>
+
+<dl>PARAMETER SQLCONTEXT param_context_var;</dl>
+<a NAME="1084769"></a>
+<li>
+The following BEGIN SQLCONTEXT directive will cause all statements positionally
+following it in the source file to use the indicated runtime context until
+the END CONTEXT directive is seen:</li>
+
+<dl>BEGIN SQLCONTEXT OPTIMIZATION;
+<p>END SQLCONTEXT OPTIMIZATION;</dl>
+</ul>
+The END SQLCONTEXT directive should appear before the end of the scope
+of the SQLTCONTEXT definition in use or compile time errors will occur
+for "undefined symbol sql_context_var".
+<br>
+<hr><a NAME="1084702"></a>
+<h2>
+VI. Corrections and Changes to the Manual</h2>
+<a NAME="1083965"></a>
+<h3>
+A. The ifx_var_dealloc() Function</h3>
+The <i>Informix <tt>ESQL/C</tt> Programmer's Manual</i> currently says,
+"you must explicitly deallocate memory that has been allocated to the var
+binary host variable." This statement should be changed to say, "you must
+explicitly deallocate memory that has been allocated to the data buffer
+of a var binary host variable."
+<br><a NAME="1083967"></a>
+<h3>
+B. The ifx_var_alloc() Function</h3>
+The <i>Informix <tt>ESQL/C</tt> Programmer's Manual</i> currently says,
+"you must explicitly allocate memory for the data of a var binary host
+variable with the<b> ifx_var_alloc()</b> function." This statement should
+be changed to say, "you must explicitly allocate memory for the data buffer
+of a var binary host variable with the <b>ifx_var_alloc()</b> function."
+<br><a NAME="1083969"></a>
+<h3>
+C. LVARCHAR in ESQL/C</h3>
+The <i>Informix <tt>ESQL/C</tt> Programmer's Manual</i> has two tables
+in Chapter 3 that currently say:
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER=3 valign="top" >
+<caption>&nbsp;</caption>
+
+<tr VALIGN=TOP>
+<th><a NAME="1083972"></a><b><font face="Ariel, Helvetic, sans-serif">SQL
+Data Type</font></b></th>
+
+<th><a NAME="1083974"></a><b><font face="Ariel, Helvetic, sans-serif">ESQL/C
+or C Data Type</font></b></th>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1083976"></a><font face="Ariel, Helvetic, sans-serif">CHAR
+(n)</font></td>
+
+<td><a NAME="1083978"></a><font face="Ariel, Helvetic, sans-serif">fixchar
+array [ n] or</font>
+<p><a NAME="1083979"></a><font face="Ariel, Helvetic, sans-serif">string
+array [ n + 1]</font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1083981"></a><font face="Ariel, Helvetic, sans-serif">LVARCHAR</font></td>
+
+<td><a NAME="1083983"></a><font face="Ariel, Helvetic, sans-serif">lvarchar</font></td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1083985"></a><font face="Ariel, Helvetic, sans-serif">VARCHAR
+(m,x)</font></td>
+
+<td><a NAME="1083987"></a><font face="Ariel, Helvetic, sans-serif">varchar
+[ m + 1] or</font>
+<p><a NAME="1083988"></a><font face="Ariel, Helvetic, sans-serif">string
+array [ m + 1]</font></td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td></td>
+</tr>
+</table>
+
+<p>The LVARCHAR entry should be changed to say,
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER=3 valign="top" >
+<caption>&nbsp;</caption>
+
+<tr VALIGN=TOP>
+<th><a NAME="1083992"></a><b><font face="Ariel, Helvetic, sans-serif">SQL
+Data Type</font></b></th>
+
+<th><a NAME="1083994"></a><b><font face="Ariel, Helvetic, sans-serif">ESQL/C
+or C Data Type</font></b></th>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a NAME="1083996"></a><font face="Ariel, Helvetic, sans-serif">LVARCHAR</font></td>
+
+<td><a NAME="1083998"></a><font face="Ariel, Helvetic, sans-serif">lvarchar
+array [ n + 1]</font>
+<p><a NAME="1083999"></a><font face="Ariel, Helvetic, sans-serif">where
+"n" is the length of the longest string that might be stored in the LVARCHAR
+field.</font></td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td></td>
+</tr>
+</table>
+<a NAME="1084001"></a>
+<h3>
+D. TP/XA</h3>
+In Chapter 3 of the TP/XA Programmer's Manual, Version 9.13, in the section,
+"Building Servers for an X/Open DTP Environment", step 3 says:
+<p>"3. Link the object file created in step 1 with the TP/XA library called
+$INFORMIXDIR/lib/esql/libinfxxa.a"
+<p>The name of this library was changed in Version 9.13. The name of the
+libraries Version 9.13 are <b>libifxa.a</b> (non-threaded) or <b>libthxa.a</b>
+(threaded).
+<br><a NAME="1084623"></a>
+<h3>
+E. SqlFreeMem()</h3>
+You can use the SqlFreeMem() function to tell <tt>ESQL/C</tt> when memory
+can be free. The prototype is:
+<dl>
+<dl>void FAR PASCAL SqlFreeMem( void far * <i>MemAddr</i>, int <i>FreeType</i>
+);</dl>
+</dl>
+<i>MemAddr</i> is the address of the memory to be freed.
+<p><i>FreeType</i> is the type of memory to be freed and can have the following
+values:
+<ul type="square"><a NAME="1084629"></a>
+<li>
+STRING_FREE</li>
+
+<dl>free memory allocated to a string, i.e. a string returned by dececvt()
+or decfcvt().</dl>
+<a NAME="1084631"></a>
+<li>
+SQLDA_FREE</li>
+
+<dl>free a sqlda structure returned by a $describe (into sqlda) statement</dl>
+<a NAME="1084633"></a>
+<li>
+CONN_FREE</li>
+
+<dl>(MemAddr is ignored.) Free information in the application information
+block that cannot be freed on sqlexit (or exit). This frees all dynamically
+allocated cursors, memory pointed to by those cursors, and the tables that
+keep track of the cursors. It frees only for the current connection. If
+the user has done one or more GetConnect calls, the user must do a SetConnect
+and SqlFreeMem for each connection (including the default connection).
+This call does not free allocated descriptors that the user could have,
+but did not, free with a $deallocate descriptor.</dl>
+</ul>
+NOTE 1: Do a CONN-FREE before issuing sqlexit().
+<p>NOTE 2: Doing a CONN-FREE frees memory that the <tt>ESQL/C</tt> program
+may have saved the address of. See the next section for how the keep this
+from happening.
+<br><a NAME="1084641"></a>
+<h4>
+1. Coding Changes Needed to Use SqlFreeMem(), CONN_FREE</h4>
+The DECLARE and PREPARE statements allow you to specify cursor ids and
+statement ids either statically (with hard-coded named strings) or dynamically
+(with a host variable that contains the cursor name or statement id). If
+your <tt>ESQL/C</tt> application reuses cursors that have been named statically,
+you may experience memory-leak problems. If you use SqlFreeMem (NULL, CONN),
+this frees all of the dynamically allocated cursors and trying to use the
+saved address will result in a GPF if the freed memory is re-used.
+<p>To avoid problems, use dynamic ids. That is, use host variables to hold
+the cursor names and statement is in DECLARE and PREPARE.
+<br>&nbsp;
+<h4>
+<a NAME="Single"></a>F.&nbsp; Single Space into a Host Variable</h4>
+The following paragraph is NOT applicable.
+<br>INFORMIX-ESQL/C Programmer's Manual, Volume 1, Version 9.21, April
+1999, Part No. 000-5424, Page No. 4-6, Sub heading: The String Data Type,
+3rd paragraph.
+<br>&nbsp;<font face="Arial, Helvetica, sans-serif"></font>
+<p><!-- END DATA --><!-- BEGIN BOTTOM NAVBAR TABLE -->
+<hr>
+<br>Copyright &copy; 2000, <a href="http://www.informix.com">Informix Software,
+Inc.</a> All rights reserved
+</body>
+</html>

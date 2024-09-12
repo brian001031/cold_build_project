@@ -1,0 +1,300 @@
+
+  Informix Online
+   Documentation
+  ------------------------------------------------------------------------
+
+                             RELEASE NOTES FOR
+
+                            Informix ODBC Driver
+
+                               Date: 7/31/2001
+
+                               Version: 3.34 & 3.80
+  ------------------------------------------------------------------------
+
+Table of Contents
+
+     I.    Overview of Release Notes
+     II.   Database Server Names and Versions
+     III.  New Attributes
+     IV.   XA Support
+     V.    Unicode Support
+     VI.   Compilation Issues on Windows
+     VII.  Fixed Problems
+     VIII. Known Problems and Limitations
+
+  ------------------------------------------------------------------------
+
+I. Overview of Release Notes
+
+The purpose of these release notes is to make you aware of any special
+actions required to configure and use the Informix ODBC Driver on your
+computer. This file also contains information about known bugs and their
+workarounds.
+
+This release notes document is not intended to be all-inclusive; it should
+be used as an addendum to the Informix ODBC Driver manual, which provides 
+thorough information about product features and behavior.
+
+This release will support 2 ODBC drivers 3.34 and 3.80, the latter is 
+Unicode enabled.  The future releases of ODBC drivers will have only 
+one driver with both the capabilities.
+
+
+These release notes are written for the following audience:
+
+   + System administrators who install Informix database servers
+   + Database administrators who control access to Informix databases
+   + Developers who write applications using ODBC
+
+Version 3.34 & 3.80 of Informix ODBC Driver has been tested with the following
+database server configurations:
+
+   + Informix Dynamic Server, Version 5.10
+   + Informix Dynamic Server, Versions 7.24 and 7.3x
+   + Informix Dynamic Server with Advanced Decision Support and Extended
+     Parallel Options, Version 8.21 and Extended Parallel Server, Version
+     8.3x
+   + Informix Dynamic Server with Universal Data Option, Version 9.14
+     (Windows NT) and Informix Dynamic Server 2000, Version 9.2x (UNIX)
+
+  ------------------------------------------------------------------------
+
+II. Database Server Names and Versions
+
+This manual might not reflect the latest names of Informix database
+servers. The following table lists the database server versions and their
+corresponding names.
+
+
+ Database Server Version Database Server Names
+ Numbers
+ 5.x                     INFORMIX-OnLine and INFORMIX-SE
+ 7.1x, 7.2x              INFORMIX-OnLine Dynamic Server and INFORMIX-SE
+ 7.3x                    Informix Dynamic Server
+ 8.1x                    INFORMIX-OnLine XPS
+ 8.2x                    Informix Dynamic Server with Advanced Decision
+                         Support and Extended Parallel Options
+ 8.3                     Informix Extended Parallel Server (XPS) or
+                         Informix Enterprise Decision Server
+ 9.01, 9.1 through 9.13  INFORMIX-Universal Server
+ 9.14                    Informix Dynamic Server with Universal Data
+                         Option
+ 9.2                     Informix Dynamic Server 2000
+
+  ------------------------------------------------------------------------
+
+III. New Features
+
+ODBC Driver 3.34 & 3.80
+     Support for XA
+ODBC Driver 3.80 
+     Support for Unicode
+
+  ------------------------------------------------------------------------
+
+IV. XA Support (on 3.34 and 3.80 driver)
+
+This section describes the new XA API with this release of the Informix
+ODBC Driver.
+
+     /* Function for acquiring the xa_switch structure 
+	   * defined by Informix RM
+      */
+
+     struct xa_switch_t * _fninfx_xa_switch( void );
+
+
+     /* Function for obtaining the Environment 
+		* handle associated with an XA Connection 
+      */
+
+     RETCODE IFMX_SQLGetXaHenv(int, HENV *);
+
+
+     /* Function for obtaining the Database handle 
+      * associated with an XA Connection 
+      */
+
+     RETCODE IFMX_SQLGetXaHdbc(int, HDBC *);
+
+     #endif /* __INFXCLI_H */
+
+
+  ------------------------------------------------------------------------
+
+V. Unicode Support on ODBC 3.80 driver (only)
+
+
+An ODBC application  may be making calls to Unicode enabled ODBC API's
+  ( Unicode enabled ODBC Application.) 
+                   OR  
+An application may be making calls to only ASCII ODBC api's.
+   (  ASCII ODBC application ).
+
+  A Unicode enabled application must be linked to Unicode enabled driver.
+  A non-Unicode enabled application may be linked to either a Unicode enabled 
+  driver or a ASCII driver.
+
+
+  Compiling Unicode enabled ODBC Application:
+
+  
+ 1) As Informix ODBC driver supports different flavors of Unicode.
+    The  flavor of Unicode application  uses has to be indicated at 
+    compile time by setting a compile time flag.
+
+    The compile time flags are -DUTF8, -DUCS2 and -DUCS4.
+
+    IF NO FLAG IS SET AT COMPILE TIME ,  DEFAULT IS -DUCS4.
+
+  
+  Running Unicode enabled ODBC application.
+
+ 1) Type of Unicode to be used by application must be indicated in .odbc.ini
+    file.  This is done by setting UNICODE to appropriate value in the
+    [ODBC] section of ini file.
+
+     It may be set as follows.
+
+     [ODBC]
+      UNICODE=UCS-4
+
+    The supported values are UCS-2 , UTF-8 and UCS-4.
+    IF NOTHING IS SET THEN TYPE OF UNICODE USED DEFAULTS TO UTF-8.
+
+   
+    Please note that 
+    If no compile time flag is set, default is UCS4,
+    while if no UNICODE is set in ini file default is UTF-8.
+
+    Thus a Unicode enabled application must set compile time as well as 
+    runtime flag to indicate type of Unicode used.
+    
+  If an application is linking to Merant Driver Manager and using 
+  Unicode enabled ODBC driver, UNICODE has to be set to UTF-8 in the
+  ini file and ASCII code sets and the application must be 
+  compiled with '-DUTF8'.
+   
+
+  ------------------------------------------------------------------------
+
+VI. Compilation Issues on Windows
+
+             In case the installation path of Informix ODBC contains
+multiple spaces in it, one needs to take care of the following points
+during compilation and at runtime
+
+        a) The value assigned to the environment variable INFORMIXDIR
+should not be embedded within double quotes
+
+        b) The include directive (/I) should be followed by a qualified
+path within double quotes if this path has multiple spaces in it. e.g.
+/I"$(INFORMIXDIR)\incl\cli"
+
+  ------------------------------------------------------------------------
+
+
+
+VII. Fixed Problems
+
+------------------------------------------------------------------------
+| Bug Number | Description                                             |
+------------------------------------------------------------------------
+| 129096     | USING FULLY-QUALIFIED HOST NAME IN ODBC DRIVER SETUP    |
+|            | CORRUPTS REGISTRY                                       |
+------------------------------------------------------------------------
+| 133605     | THE ESCAPE SEQUENCE FOR TIMESTAMP IS NOT INTERPRETTED   |
+|            | IF THERE IS NO SPACE BETWEEN THE TS AND THE FIRST QUOTE |
+------------------------------------------------------------------------
+| 134342     | USING THE CONCAT SCALAR FUNCTION WITH A CASE EXPRESSION |
+|            | AS ONE OF THE ARGUMENTS GENERATES A SYNTAX ERROR IN THE |
+|            | ODBC DRIVER                                             |
+------------------------------------------------------------------------
+| 134886     | RUNNING A SELECT STATEMENT USING ODBC 3.32 (AND 3.32)   |
+|            | CAUSES AN ERROR -363. THIS PROBLEM IS BASED ON THE      |
+|            | PROBLEM 128336                                          |
+------------------------------------------------------------------------
+| 135350     | ERROR "ROWID DOES NOT EXIST" (-857) OCCURRED WHEN       |
+|            | A QUERY AGAINST A FRAGMENTED TABLE IN MICROSOFT MSQUERY |
+------------------------------------------------------------------------
+| 144636     | A DSN-LESS CONNECTION PRODUCES A 'ARITHMETIC EXCEPTION  |
+|            | (CORE DUMPED)' OR DIVIDE BY ZERO ERROR ON SUN           |
+------------------------------------------------------------------------
+| 145167     | IF ACCESS 2000 IS USED TO LINK A TABLE USING ODBC 3.32  |
+|            | AN INTERVAL DATA TYPE IN THE LINKED TABLE IS DISPLYED   |
+|            | AS GARBAGE                                              |
+------------------------------------------------------------------------
+| 145267     | ERROR -395 WHEN TRYING TO EXECUTE MULTIPLE OUTER JOINS  |
+|            | USING ODBC SYNTAX. WORKS FINE WHEN THE NATIVE INFORMIX  |
+|            | SQL SYNTAX IS USED.                                     |
+------------------------------------------------------------------------
+| 145463     | ODBC DRIVER SEGV WHEN INSERTING A TEXT VALUE THAT       |
+|            | CONTAINS A COMMA CHARACTER (',')                        |
+------------------------------------------------------------------------
+| 146334     | WHEN CREATING A DSN, IF INCORRECT INFORMATION IS ENTERED|
+|            | THE ERROR MESSAGE REPORTED IS "UNSPECIFIED SYSTEM ERROR"|
+------------------------------------------------------------------------
+| 146592     | THE VALUE FOR "VMB CHARACTER" IN THE ENVIRONMENT TAB OF |
+|            | THE DATA SOURCE ADMINISTRATOR IS GETTING CHANGED FROM   |
+|            | ESTIMATE TO EXACT WIHTOUT USER ACTION                   |
+------------------------------------------------------------------------
+| 147062     | MEMORY LEAK IN ODBC 3.33 AND 3.80 BETA WHEN CALLING     |
+|            | TO SQLEXECDIRECT()                                      |
+------------------------------------------------------------------------
+| 147282     | SQLDESCRIBECOL FAILS TO REPORT CORRECT NULLABILITY OF   |
+|            | OF UNDERLYING COLUMN DUE TO FIX FOR BUG 117497
+------------------------------------------------------------------------
+| 147284     | MTS TRANSACTIONS HUNG AND LEFT SOME OF THE CONNECTIONS  |
+|            | HANGING FOREVER ON THE SERVER SIDE                      |
+------------------------------------------------------------------------
+| 144195     | GET NONSENSE ERROR OF INCORRECT PARSING OF UPDATE       |
+|            | STATEMENT WITH "INLINE" TEXT BLOB THROUGH ODBC          |
+------------------------------------------------------------------------
+| 147307     | SQLDRIVERCONNECT RETURNS UNSPECIFIED SYSTEM ERROR WHEN  |
+|            | CONNECTION IS LOST                                      |
+------------------------------------------------------------------------
+| 149522     | ERROR -617 RETURNED IN SOME CONDITIONS INSERTING A TEXT |
+|            | VIA ODBC EVEN IN PATCH CSDK 2.60.TC2X4 THAT FIXES       | 
+|            | BUG # 145463                                            |
+------------------------------------------------------------------------
+| 149804     | USING A COM OBJECT IF A DSNLESS CONNECTION HANGS        |
+|            | CONNECTING TO SERVER 'A'. A 2ND DSNLESS CONNECTION WILL |
+|            | HANG CONNECTION TO SERVER 'B'.                          |
+------------------------------------------------------------------------
+| 149962     | INSERT VIA ODBC OF 2 ADJACENT STRINGS (2ND ONE BEING  A |
+|            | TEXT) RETURNS ERROR -236 WITH CSDK 2.60.TC2X7 OR -617   |
+|            | WITH ANOTHER CSDK VERSION                               |
+------------------------------------------------------------------------
+| 150663     | MTS TRANSACTION ENLISTMENT FAILS WITH MICROSOFT EFAIL   |
+|            | MESSAGE GENERAL ERROR                                   |
+------------------------------------------------------------------------
+| 150937     | NEED TO MAKE OLEDB NOT REQUIRE DELIMIDEMENT=Y TO WORK   |
+|            | WITH MICROSOFT PRODUCTS                                 |
+------------------------------------------------------------------------
+
+
+
+VIII. Known Problems and Limitations
+
+------------------------------------------------------------------------
+| Bug Number | Description                                             |
+------------------------------------------------------------------------
+| 147990     | AN ASCII APPLICATION SHOULD SET UNICODE=UCS-4 IF IT IS  |
+|            | USING UNICODE ENABLED DRIVER EVEN IF IT IS NOT MAKING   |
+|            | ANY UNICODE API CALLS                                   |
+------------------------------------------------------------------------
+| 147648     | THE UNICODE CALLS (WITH W SUFFIX) AND ANSI CALLS CANNOT |
+|            | BE MIXED WITH UCS-2 AND UTF-8 SETTINGS                  |
+------------------------------------------------------------------------
+| 148457     | CALLS TO SQLGETINFOW BEFORE ESTABLISHING A CONNECTION   |
+|            | MAY RESULT IN CORE DUMP WHEN USING UCS-2 OR UTF-8       |
+|            | UNICODE TYPE                                            |
+------------------------------------------------------------------------
+| 147203     | AN ODBC APPLICATION CAN NOT BIND ARGUMENTS FOR A CLIENT |
+|            | FUNCTION USING SQL_C_WCHAR                              |
+------------------------------------------------------------------------
+
+
+
+Copyright (c) 2001, Informix Software, Inc. All rights reserved

@@ -1,0 +1,620 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#       SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#
+#  Title:       e02f 
+#  Author:      Informix ELC 
+#  Created:     Tue Dec 15 15:35:17 1998
+#  Description:
+#    		GLS locale for 8859-15
+#
+#    This file is the GLS locale for the charmaps specified above.
+#
+#**************************************************************************
+
+<source_version>                1
+<modified_date>                 "12/15/1998"
+<language>			"French"
+<territory>			"Belgium"
+
+
+######################################################################
+# Locale Source for fr_be locale                                     #
+#		Belgian						     #
+######################################################################
+
+
+
+#############
+LC_CTYPE
+#############
+
+upper  	<A>;...;<Z>;\
+	<A-acute>;\
+	<A-grave>;\
+	<A-circumflex>;\
+	<A-ring>;\
+	<A-diaresis>;\
+	<A-tilde>;\
+	<AE>;\
+	<C-cedilla>;\
+	<Eth>;\
+	<E-grave>;\
+	<E-acute>;\
+	<E-circumflex>;\
+	<E-diaresis>;\
+	<I-acute>;\
+	<I-grave>;\
+	<I-circumflex>;\
+	<I-diaresis>;\
+	<N-tilde>;\
+	<O-acute>;\
+	<O-grave>;\
+	<O-circumflex>;\
+	<O-diaresis>;\
+	<O-tilde>;\
+	<O-slash>;\
+	<Thorn>;\
+	<U-acute>;\
+	<U-grave>;\
+	<U-circumflex>;\
+	<U-diaresis>;\
+	<S-caron>;\
+	<Z-caron>;\
+	<OE-ligature>;\
+	<Y-diaresis>;\
+	<Y-acute>
+
+lower  	<a>;...;<z>;\
+	<a-acute>;\
+	<a-grave>;\
+	<a-circumflex>;\
+	<a-ring>;\
+	<a-diaresis>;\
+	<a-tilde>;\
+	<ae>;\
+	<c-cedilla>;\
+	<eth>;\
+	<e-grave>;\
+	<e-acute>;\
+	<e-circumflex>;\
+	<e-diaresis>;\
+	<i-acute>;\
+	<i-grave>;\
+	<i-circumflex>;\
+	<i-diaresis>;\
+	<n-tilde>;\
+	<o-acute>;\
+	<o-grave>;\
+	<o-circumflex>;\
+	<o-diaresis>;\
+	<o-tilde>;\
+	<o-slash>;\
+	<s-sharp>;\
+	<thorn>;\
+	<u-acute>;\
+	<u-grave>;\
+	<u-circumflex>;\
+	<u-diaresis>;\
+	<y-acute>;\
+	<s-caron>;\
+	<z-caron>;\
+	<oe-ligature>;\
+	<y-diaresis>
+
+space  	<tab>;\
+	<newline>;\
+	<vertical-tab>;\
+       	<form-feed>;\
+	<carriage-return>;\
+	<space>
+
+cntrl  	<NUL>;...;<IS1>;\
+	<DEL>;\
+	<PAD>;...;<APC>
+
+graph	<exclamation-mark>;...;<tilde>;\
+	<exclamation-down>;...;<question-down>;\
+	<A-grave>;...;<y-diaresis>;\
+	<euro-sign>
+
+print	<space>;...;<tilde>;\
+	<exclamation-down>;...;<question-down>;\
+	<A-grave>;...;<y-diaresis>;\
+	<euro-sign>
+
+punct  	<exclamation-mark>;...;<slash>;\
+       <colon>;...;<commercial-at>;\
+        <left-square-bracket>;...;<grave-accent>;\
+        <left-brace>;...;<tilde>;\
+        <nobreakspace>;...;<yen>;\
+        <copyright>;...;<macron>;\
+        <degree>;...;<three-superior>;\
+        <mu>;...;<middle-dot>;\
+        <one-superior>;...;<guillemot-right>;\
+        <section>;\
+        <question-down>;\
+        <multiply>;\
+        <divide>
+
+digit  	<zero>;...;<nine>
+
+xdigit 	<zero>;...;<nine>;\
+	<A>;...;<F>;\
+	<a>;...;<f>
+
+blank  	<space>;\
+	<tab>
+
+toupper (<a>,<A>);(<b>,<B>);(<c>,<C>);(<d>,<D>);(<e>,<E>);\
+        (<f>,<F>);(<g>,<G>);(<h>,<H>);(<i>,<I>);(<j>,<J>);\
+        (<k>,<K>);(<l>,<L>);(<m>,<M>);(<n>,<N>);(<o>,<O>);\
+        (<p>,<P>);(<q>,<Q>);(<r>,<R>);(<s>,<S>);(<t>,<T>);\
+        (<u>,<U>);(<v>,<V>);(<w>,<W>);(<x>,<X>);(<y>,<Y>);\
+        (<z>,<Z>);\
+        (<a-acute>,<A-acute>);\
+        (<a-grave>,<A-grave>);\
+        (<a-circumflex>,<A-circumflex>);\
+        (<a-ring>,<A-ring>);\
+        (<a-diaresis>,<A-diaresis>);\
+        (<a-tilde>,<A-tilde>);\
+        (<ae>,<AE>);\
+        (<c-cedilla>,<C-cedilla>);\
+        (<eth>,<Eth>);\
+        (<e-grave>,<E-grave>);\
+        (<e-acute>,<E-acute>);\
+        (<e-circumflex>,<E-circumflex>);\
+        (<e-diaresis>,<E-diaresis>);\
+        (<i-acute>,<I-acute>);\
+        (<i-grave>,<I-grave>);\
+        (<i-circumflex>,<I-circumflex>);\
+        (<i-diaresis>,<I-diaresis>);\
+        (<n-tilde>,<N-tilde>);\
+        (<o-acute>,<O-acute>);\
+        (<o-grave>,<O-grave>);\
+        (<o-circumflex>,<O-circumflex>);\
+        (<o-diaresis>,<O-diaresis>);\
+        (<o-tilde>,<O-tilde>);\
+        (<o-slash>,<O-slash>);\
+        (<thorn>,<Thorn>);\
+        (<u-acute>,<U-acute>);\
+        (<u-grave>,<U-grave>);\
+        (<u-circumflex>,<U-circumflex>);\
+        (<u-diaresis>,<U-diaresis>);\
+        (<y-acute>,<Y-acute>);\
+	(<s-caron>,<S-caron>);\
+        (<z-caron>,<Z-caron>);\
+        (<oe-ligature>,<OE-ligature>);\
+        (<y-diaresis>,<Y-diaresis>)
+
+tolower (<A>,<a>);(<B>,<b>);(<C>,<c>);(<D>,<d>);(<E>,<e>);\
+        (<F>,<f>);(<G>,<g>);(<H>,<h>);(<I>,<i>);(<J>,<j>);\
+        (<K>,<k>);(<L>,<l>);(<M>,<m>);(<N>,<n>);(<O>,<o>);\
+        (<P>,<p>);(<Q>,<q>);(<R>,<r>);(<S>,<s>);(<T>,<t>);\
+        (<U>,<u>);(<V>,<v>);(<W>,<w>);(<X>,<x>);(<Y>,<y>);\
+        (<Z>,<z>);\
+        (<A-acute>,<a-acute>);\
+        (<A-grave>,<a-grave>);\
+        (<A-circumflex>,<a-circumflex>);\
+        (<A-ring>,<a-ring>);\
+        (<A-diaresis>,<a-diaresis>);\
+        (<A-tilde>,<a-tilde>);\
+        (<AE>,<ae>);\
+        (<C-cedilla>,<c-cedilla>);\
+        (<Eth>,<eth>);\
+        (<E-grave>,<e-grave>);\
+        (<E-acute>,<e-acute>);\
+        (<E-circumflex>,<e-circumflex>);\
+        (<E-diaresis>,<e-diaresis>);\
+        (<I-acute>,<i-acute>);\
+        (<I-grave>,<i-grave>);\
+        (<I-circumflex>,<i-circumflex>);\
+        (<I-diaresis>,<i-diaresis>);\
+        (<N-tilde>,<n-tilde>);\
+        (<O-acute>,<o-acute>);\
+        (<O-grave>,<o-grave>);\
+        (<O-circumflex>,<o-circumflex>);\
+        (<O-diaresis>,<o-diaresis>);\
+        (<O-tilde>,<o-tilde>);\
+        (<O-slash>,<o-slash>);\
+        (<Thorn>,<thorn>);\
+        (<U-acute>,<u-acute>);\
+        (<U-grave>,<u-grave>);\
+        (<U-circumflex>,<u-circumflex>);\
+        (<U-diaresis>,<u-diaresis>);\
+	(<S-caron>,<s-caron>);\
+        (<Z-caron>,<z-caron>);\
+        (<OE-ligature>,<oe-ligature>);\
+	(<Y-diaresis>,<y-diaresis>);\
+        (<Y-acute>,<y-acute>)
+END LC_CTYPE
+
+
+
+
+#############
+LC_COLLATE
+#############
+
+
+order_start			forward;forward
+
+<NUL>
+<SOH>
+<STX>
+<ETX>
+<EOT>
+<ENQ>
+<ACK>
+<alert>
+<backspace>
+<tab>
+<newline>
+<vertical-tab>
+<form-feed>
+<carriage-return>
+<SO>
+<SI>
+<DLE>
+<DC1>
+<DC2>
+<DC3>
+<DC4>
+<NAK>
+<SYN>
+<ETB>
+<CAN>
+<EM>
+<SUB>
+<ESC>
+<IS4>
+<IS3>
+<IS2>
+<IS1>
+<space>
+<underscore>
+<macron>
+<dash>	
+<hyphen>
+<comma>
+<semicolon>
+<colon>
+<exclamation-mark>
+<exclamation-down>	
+<question-mark>
+<question-down>	
+<slash>
+<period>
+<grave-accent>
+<circumflex>
+<tilde>
+<dot>		
+<apostrophe>
+<quotation-mark>
+<guillemot-left>	
+<guillemot-right>	
+<left-parenthesis>
+<right-parenthesis>
+<left-square-bracket>
+<right-square-bracket>
+<left-brace>
+<right-brace>
+<section>
+<paragraph>		
+<copyright>	
+<registered>	
+<commercial-at>
+<euro-sign>	
+<cent>		
+<dollar-sign>
+<sterling>
+<yen>		
+<asterisk>
+<backslash>
+<ampersand>
+<number-sign>
+<percent-sign>
+<plus-sign>
+<plus-minus>	
+<division>	
+<multiply>
+<less-than-sign>
+<equals-sign>
+<greater-than-sign>
+<not>		
+<vertical-line>
+<degree>		
+<mu>	
+<nobreakspace>	
+<zero>
+<one>
+<one-superior>
+<two>
+<two-superior>
+<three>
+<three-superior>	
+<four>
+<five>
+<six>
+<seven>
+<eight>
+<nine>
+<a>
+<A>
+<feminine>
+<a-acute>
+<A-acute>
+<a-grave>
+<A-grave>
+<a-circumflex>
+<A-circumflex>
+<a-ring>
+<A-ring>
+<a-diaresis>
+<A-diaresis>
+<a-tilde>
+<A-tilde>
+<ae>					"<a><e>";<ae>
+<AE>					"<A><E>";<AE>
+<b>
+<B>
+<c>
+<C>
+<c-cedilla>
+<C-cedilla>
+<d>
+<D>
+<eth>
+<Eth>
+<e>
+<E>
+<e-acute>
+<E-acute>
+<e-grave>
+<E-grave>
+<e-circumflex>
+<E-circumflex>
+<e-diaresis>
+<E-diaresis>
+<f>
+<F>
+<g>
+<G>
+<h>
+<H>
+<i>
+<I>
+<i-acute>
+<I-acute>
+<i-grave>
+<I-grave>
+<i-circumflex>
+<I-circumflex>
+<i-diaresis>
+<I-diaresis>
+<j>
+<J>
+<k>
+<K>
+<l>
+<L>
+<m>
+<M>
+<n>
+<N>
+<n-tilde>
+<N-tilde>
+<o>
+<O>
+<masculine>
+<o-acute>
+<O-acute>
+<o-grave>
+<O-grave>
+<o-circumflex>
+<O-circumflex>
+<o-diaresis>
+<O-diaresis>
+<o-tilde>
+<O-tilde>
+<o-slash>
+<O-slash>
+<oe-ligature>
+<OE-ligature>
+<p>
+<P>
+<q>
+<Q>
+<r>
+<R>
+<s>
+<S>
+<s-caron>
+<S-caron>
+<s-sharp>				"<s><s>";<s-sharp>
+<t>
+<T>
+<thorn>					"<t><h>";<thorn>
+<Thorn>					"<T><H>";<Thorn>
+<u>
+<U>
+<u-acute>
+<U-acute>
+<u-grave>
+<U-grave>
+<u-circumflex>
+<U-circumflex>
+<u-diaresis>
+<U-diaresis>
+<v>
+<V>
+<w>
+<W>
+<x>
+<X>
+<y>
+<Y>
+<y-acute>
+<Y-acute>
+<y-diaresis>
+<Y-diaresis>
+<z>
+<Z>
+<z-caron>
+<Z-caron>
+<DEL>
+<PAD>
+<HOP>
+<BPH>		
+<NBH>	
+<IND>
+<NEL>		
+<SSA>	
+<ESA>
+<HTS>		
+<HTJ>	
+<VTS>
+<PLD>		
+<PLU>	
+<RI>
+<SS2>			
+<SS3>		
+<DCS>	
+<PU1>
+<PU2>			
+<STS>		
+<CCH>	
+<MW>
+<SPS>		
+<EPA>	
+<SOS>
+<SGCI>
+<SCI>			
+<CSI>		
+<ST>	
+<OSC>
+<PM>
+<APC>			
+order_end
+
+END LC_COLLATE
+
+
+
+#############
+LC_MONETARY
+#############
+
+int_curr_symbol   "<E><U><R><space>"
+currency_symbol   "<euro-sign>"
+mon_decimal_point "<comma>"
+mon_thousands_sep "<period>"
+mon_grouping      3
+positive_sign     ""
+negative_sign     "<hyphen>"
+int_frac_digits   2
+frac_digits       2
+p_cs_precedes     0
+p_sep_by_space    1
+n_cs_precedes     0
+n_sep_by_space    1
+p_sign_posn       1
+n_sign_posn       1
+
+END LC_MONETARY
+
+
+#############
+LC_NUMERIC
+#############
+
+decimal_point     "<comma>"
+thousands_sep     "<period>"
+grouping          3
+
+num_positive_sign	""
+num_negative_sign	"<hyphen>"
+
+END LC_NUMERIC
+
+
+#############
+LC_TIME
+#############
+abday   "<d><i><m>";\
+	"<l><u><n>";\
+	"<m><a><r>";\
+	"<m><e><r>";\
+	"<j><e><u>";\
+	"<v><e><n>";\
+	"<s><a><m>"
+
+day     "<d><i><m><a><n><c><h><e>";\
+	"<l><u><n><d><i>";\
+	"<m><a><r><d><i>";\
+	"<m><e><r><c><r><e><d><i>";\
+	"<j><e><u><d><i>";\
+	"<v><e><n><d><r><e><d><i>";\
+	"<s><a><m><e><d><i>"
+
+abmon   "<j><a><n>";\
+	"<f><e-acute><v>";\
+	"<m><a><r>";\
+	"<a><v><r>";\
+	"<m><a><i>";\
+	"<j><u><n>";\
+	"<j><u><l>";\
+	"<a><o><u-circumflex>";\
+	"<s><e><p>";\
+	"<o><c><t>";\
+	"<n><o><v>";\
+	"<d><e-acute><c>"
+
+mon     "<j><a><n><v><i><e><r>";\
+	"<f><e-acute><v><r><i><e><r>";\
+	"<m><a><r><s>";\
+	"<a><v><r><i><l>";\
+	"<m><a><i>";\
+	"<j><u><i><n>";\
+	"<j><u><i><l><l><e><t>";\
+	"<a><o><u-circumflex><t>";\
+	"<s><e><p><t><e><m><b><r><e>";\
+	"<o><c><t><o><b><r><e>";\
+	"<n><o><v><e><m><b><r><e>";\
+	"<d><e-acute><c><e><m><b><r><e>"
+
+d_t_fmt "<percent-sign><a><space><percent-sign><e><space><percent-sign><b><space><percent-sign><H><colon><percent-sign><M><colon><percent-sign><S><space><percent-sign><i><Y>"
+d_fmt   "<percent-sign><d><full-stop><percent-sign><m><full-stop><percent-sign><i><y>"
+t_fmt   "<percent-sign><H><colon><percent-sign><M><colon><percent-sign><S>"
+
+
+t_fmt_ampm	""
+
+
+am_pm   "<space>";"<space>"
+
+END LC_TIME
+
+
+#############
+LC_MESSAGES
+#############
+
+yesexpr "<circumflex-accent><left-parenthesis><left-square-bracket><o><O><right-square-bracket><vertical-line><left-square-bracket><o><O><right-square-bracket><left-square-bracket><u><U><right-square-bracket><left-square-bracket><i><I><right-square-bracket><right-parenthesis>"
+noexpr  "<circumflex-accent><left-parenthesis><left-square-bracket><n><N><right-square-bracket><vertical-line><left-square-bracket><n><N><right-square-bracket><left-square-bracket><o><O><right-square-bracket><left-square-bracket><n><N><right-square-bracket><right-parenthesis>"
+
+END LC_MESSAGES

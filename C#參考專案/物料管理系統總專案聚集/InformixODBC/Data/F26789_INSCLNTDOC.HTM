@@ -1,0 +1,218 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.74 [en] (WinNT; U) [Netscape]">
+   <title>Informix Client Products Installation Guide for UNIX, Linux, and Windows</title>
+</head>
+<body>
+
+<center>
+<h3>
+DOCUMENTATION NOTES FOR</h3></center>
+
+<center>
+<h3>
+Informix Client Products Installation Guide for UNIX, Linux, and Windows</h3></center>
+
+<center>DATE: 7/19/2001
+<br>Version: 2.70</center>
+
+<h2>
+Table of Contents</h2>
+I. <a href="#1">Overview</a>
+<br>II. <a href="#2">New Features</a>
+<br>III. <a href="#3">Merging of UNIX, Linux, and Windows Installation
+Guides</a>
+<br>IV.<a href="#4"> Update to "Setting Environment Variable Information"</a>
+<br>V. <a href="#5">Corrections to setnet32 Help File</a>
+<br>VI. <a href="#6">CORRECTIONS TO DataBlade API Programmer's Manual</a>
+<br>VII. <a href="#7">Update to UNIX, Linux, and Windows Installation Guide</a>
+<p><a NAME="1"></a><b><u>I. OVERVIEW</u></b>
+<p>The Informix Client Products Installation Guide for UNIX, Linux, and
+Windows version 2.7 describes the installation information for the 2.70
+UC1/TC1 release.
+<p>These documentation notes describe feature and performance topics that
+are either not covered in the manual or have been modified since publication.
+<p>Additionally, you may want to look at some of the documentation notes
+for manuals that are distributed with your Informix database server. These
+notes include information about the following products and features which
+might affect your client application:
+<p>o DataBlade API
+<p>o Error messages
+<p>o GLS functionality
+<p>o SQL
+<p>To see these documentation notes, look in one of the following database
+server directories. If you need information about these directories, contact
+your DBA:
+<br>&nbsp;
+<table BORDER WIDTH="100%" >
+<tr>
+<td>Platform</td>
+
+<td>Directory for Documentation Notes&nbsp;</td>
+</tr>
+
+<tr>
+<td>UNIX</td>
+
+<td>INFORMIXDIR/release/en_us/0333</td>
+</tr>
+
+<tr>
+<td>Windows</td>
+
+<td>INFORMIXDIR\release\en_us\04e4&nbsp;</td>
+</tr>
+</table>
+
+<p><a NAME="2"></a><b><u>II. NEW FEATURES</u></b>
+<p>Following are the added features to CSDK 2.70 release -
+<p>ODBC 3.80
+<br>Support for XA
+<br>Support for Unicode
+<br>Upgrade to Intall Shield for Window Installer 2.0 for Client SDK and
+IConnect
+<br>Upgrade to GLS 3.12.UC1
+<br>&nbsp;
+<br>&nbsp;
+<p><a NAME="3"></a><b><u>III. MERGING OF UNIX, LINUX, AND WINDOWS INSTALLATION
+GUIDES</u></b>
+<p>In Version 2.3, there were separate client products installation guides
+for each platform (UNIX, Linux, and Windows). In Version 2.4, the installation
+instructions for all three platforms are in the same guide.
+<p>Chapter 1 of the Informix Client Products Installation Guide for UNIX,
+Linux, and Windows, Version 2.4, contains installation instructions for
+UNIX and Linux. Chapter 2 contains installation instructions for Windows.
+Appendix A contains instructions on how to distribute your Informix client
+applications for Windows.
+<br>&nbsp;
+<p><a NAME="4"></a><b><u>IV. UPDATE TO "SETTING ENVIRONMENT VARIABLE INFORMATION"</u></b>
+<p>In Chapter 2 of the Informix Client Products Installation Guide, on
+page 2-13, add the following item to the bottom of the bulleted list under
+"To set environment variables using Setnet32":
+<p>- Use my settings check box
+<p>Setnet32 entries are stored under HKEY_LOCAL_MACHINE upon installation.
+To save the settings in HKEY_CURRENT_USER and set that as the default registry
+to modify the settings, check the Use my settings check box and click Apply.
+All environment settings are then copied over to HKEY_CURRENT_USER. To
+revert to the HKEY_LOCAL_MACHINE entries, uncheck the Use my settings check
+box and click Apply. The Use my settings check box is an entry stored under
+HKEY_CURRENT_USER as DEFAULT_USER_SETTING, and can be either LM for local
+machine (default) or CU for current user.
+<p><a NAME="5"></a><b><u>V. CORRECTIONS TO SETNET32 HELP FILE</u></b>
+<p>The following corrections should be made to the setnet32 help file:
+<p>Topic: Saving Information to Registry
+<p>o Replace the second paragraph "Part of the information is stored..."
+<br>with
+<p>By default, the information is stored in HKEY_LOCAL_MACHINE. If the
+"Use my settings" checkbox is selected, the entries are stored in HKEY_CURRENT_USER.
+<p>o Replace the opening clause of last paragraph with
+<p>If the service "service1" has not been defined on Hydra,
+<br>&nbsp;
+<p><a NAME="6"></a><b><u>VI. CORRECTIONS TO DataBlade API Programmer's
+Manual</u></b>
+<p>The following changes are required in "INFORMIX - Universal Server DataBlade
+API Programmer's Manual, Version 9.2" with part number
+<br>"000-6346".
+<p>Note : These changes are required for client. In other words, these
+changes have to mentioned with "client" tag.
+<p><b>Summary :</b>
+<br>In many places in chapter-7, there is a mention of "server_port" and
+related info. Actually, this "server_port" which is a member of "MI_CONNECTION_INFO"
+structure is not at all used by the client code. That is, it is simply
+ignored, though the user can set it.
+<br>The current manuals needs following correction :
+<br>- Page 7-7
+<br>Replace the Description of "server_port" Field of Figure 7-1 with the
+above mentioned comments.
+<br>- Page 7-8
+<br>Also make value of "System-Default Value" field of "Server port" in
+Figure 7-2 either ignorable or not used .
+<br>- Page 7-16
+<br>Replace "200" of "Parameter Value" of "Default server port" in the
+first table also with ignorable or not used.
+<br>- Page 7-17
+<br>Remove line 10 from sample program which is "conn_info.server_port
+= 143" or add comment for server port&nbsp; to be ignorable or not used.
+<p>Also, for client there are some modifications required for&nbsp; the
+default values of the following :
+<br>&nbsp;
+<p>- Page 7-12
+<br>Replace "None" of "System-Default Value" column for "Database name"
+in Figure 7-4 with "&lt;LIBDMI user account>", user who invoked the client
+LIBDMI application".
+<p>- Replace value of "Default Used When Argument is NULL" column for "Database
+name" with " &lt;LIBDMI user account> ", user who invoked the client LIBDMI
+application" .
+<br>&nbsp;
+<p><a NAME="7"></a><b><u>VII. Update to UNIX, Linux, and Windows Installation
+Guide</u></b>
+<br>&nbsp;
+<p>- Page 2-9 needs addition to section - "Use MsiExec Command to Install&nbsp;
+Client SDK from Command line "
+<p>MsiExec also accepts a product code instead of a path to an MSI Package.&nbsp;
+Public&nbsp; properties (those with upper-case names) of an installation
+program can be set at the command line. For example, the default user&nbsp;
+and company names displayed in the&nbsp; identification panel of an installation
+are taken from the target system's registry and&nbsp; stored in the public
+installer properties USERNAME and COMPANYNAME.&nbsp; To set the user and
+company names at the command line, we enter a&nbsp; command similar to
+the following. (Note that property names are case-sensitive, and that we
+enclose a property value in quotation marks if the value contains any spaces.)
+<p>MsiExec.exe /i "&lt;.msi file path name>" USERNAME=Default&nbsp; COMPANYNAME="&lt;company
+name"
+<p>User can specify an alternative value for INSTALLDIR on the command
+line
+<p>MsiExec.exe /i "&lt;.msi file path name>" INSTALLDIR="&lt;NewLocation
+path>"
+<p><b>Slient Installation :-</b>
+<p>Similarly user can specify an alternative value for INSTALLDIR on&nbsp;
+the command line for Silent Installation. Following are the&nbsp; three
+methods for Silent Installation.
+<br>&nbsp;
+<li>
+Method 1:</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<p>msiexec.exe /i "&lt;.msi file name>" /qn+&nbsp; INSTALLDIR="&lt;path
+of the installation location>"&nbsp; SERIALNUMBER="&lt;serial number>"&nbsp;
+KEY="&lt;key value>" /L*v "&lt;log file name>"
+<p>Note:- If you don't include the INSTALLDIR in the above command then
+the&nbsp; installation will be done in "&lt;drive>\program files\informix\client-sdk"
+by default for CSDK and "&lt;drive >\program files\informix\connect"&nbsp;
+for Iconnect. SERIALNUMBER and KEY values are compulsory in the above command.
+<p>Method 2:
+<p>a)Execute the transformgenerator.exe file which is part of the&nbsp;
+csdk media to create a .mst file by giving the path of the .msi file,serial
+number key and the name of the .mst file and clicking on OK Button.
+<br>b)Then use the following command
+<p>msiexec.exe /i "&lt;.msi file name>" /qn+ TRANSFORMS="&lt;name of the
+.mst file >" INSTALLDIR="&lt;path of the installation location>" /L*v "&lt;log
+file name>"
+<p>Note:- If you don't include the INSTALLDIR in the above command then
+the&nbsp; installation will be done in &lt;drive>\program files\informix\client-sdk
+by default for CSDK and &lt;drive>\program files\informix\connect for Iconnect.
+<p>Method 3:
+<p>setup.exe /s /v\"TRANSFORMS=\"&lt;.mst file name>\"&nbsp; INSTALLDIR=\"&lt;path
+of installation location>\" /qn+&nbsp; /L*v \"&lt; log file name>\""
+<p>Note:- If you don't include the INSTALLDIR in the above command then
+the&nbsp; installation will be done in &lt;drive>\program files\informix\client-sdk
+by default for CSDK and &lt;drive>\program files\informix\connect for Iconnect.
+<br>&nbsp;
+<br>&nbsp;
+<p><b>Logging :-</b>
+<p>One can also add the logging information as shown below.
+<p>User can create a log file at setup runtime using the /L argument to
+MsiExec.&nbsp; For example to store all error and warning messages in a
+text log file, we can use the following command line, which passes the
+e and w arguments to /L
+<p>MsiExec.exe /i "&lt;.Msi file path name" SERIALNUMBER="&lt;serialnumber>"&nbsp;
+KEY="&lt;key>" /Lew D:\install.log
+<p>To log every action performed by the setup program,the command is&nbsp;
+MsiExec.exe /i ".Msi file path name" SERIALNUMBER="&lt;serialnumber>"
+<br>KEY="&lt;key>" /L*v D:\install.log
+<br>&nbsp;
+</body>
+</html>

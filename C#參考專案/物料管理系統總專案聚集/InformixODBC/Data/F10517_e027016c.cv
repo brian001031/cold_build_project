@@ -1,0 +1,167 @@
+
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#  Title:       e027016c.cm
+#  Author:      Informix ELC
+#  Created:     Fri Jun 07 12:31:27 1996
+#  Description:
+#    Conversion file from Polish CSK to ASCII 7-Bit
+#    Registry value (Decimal):  From 57383 to 364
+#    Registry value (Hex): From e027 to 016c
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#*************************************************************************
+#
+
+<source_version>      1
+<modified_date>       "06/07/1996"
+<source_codeset>      "Polish CSK"
+<target_codeset>      "ASCII 7-Bit"
+
+# Conversion Table
+\x00...\xff \x00... #  Default everything onto itself
+\x80	\x7f error  #  latin capital letter a with ogonek 
+\x81	\x7f error  #  latin capital letter c with acute 
+\x82	\x7f error  #  latin capital letter e with ogonek 
+\x83	\x7f error  #  latin capital letter l with stroke 
+\x84	\x7f error  #  latin capital letter n with acute 
+\x85	\x7f error  #  latin capital letter o with acute 
+\x86	\x7f error  #  latin capital letter s with acute 
+\x87	\x7f error  #  latin capital letter z with acute 
+\x88	\x7f error  #  latin capital letter z with dot above 
+\x89	\x7f error  #  latin small letter e with diaeresis 
+\x8a	\x7f error  #  latin small letter e with grave 
+\x8b	\x7f error  #  latin small letter i with diaeresis 
+\x8c	\x7f error  #  latin small letter i with circumflex 
+\x8d	\x7f error  #  latin small letter i with grave 
+\x8e	\x7f error  #  latin capital letter a with diaeresis 
+\x8f	\x7f error  #  latin capital letter a with ring above 
+\x90	\x7f error  #  latin capital letter e with acute 
+\x91	\x7f error  #  latin small letter ae 
+\x92	\x7f error  #  latin capital letter ae 
+\x93	\x7f error  #  latin small letter o with circumflex 
+\x94	\x7f error  #  latin small letter o with diaeresis 
+\x95	\x7f error  #  latin small letter o with grave 
+\x96	\x7f error  #  latin small letter u with circumflex 
+\x97	\x7f error  #  latin small letter u with grave 
+\x98	\x7f error  #  latin small letter y with diaeresis 
+\x99	\x7f error  #  latin capital letter o with diaeresis 
+\x9a	\x7f error  #  latin capital letter u with diaeresis 
+\x9b	\x7f error  #  cent sign 
+\x9c	\x7f error  #  pound sign 
+\x9d	\x7f error  #  yen sign 
+\x9e	\x7f error  #  currency sign (Polish) 
+\x9f	\x7f error  #  dutch guilder sign (ibm437 159) 
+\xa0	\x7f error  #  latin small letter a with ogonek 
+\xa1	\x7f error  #  latin small letter c with acute 
+\xa2	\x7f error  #  latin small letter e with ogonek 
+\xa3	\x7f error  #  latin small letter l with stroke 
+\xa4	\x7f error  #  latin small letter n with acute 
+\xa5	\x7f error  #  latin small letter o with acute 
+\xa6	\x7f error  #  latin small letter s with acute 
+\xa7	\x7f error  #  latin small letter z with acute 
+\xa8	\x7f error  #  latin small letter z with dot above 
+\xa9	\x7f error  #  reversed not sign 
+\xaa	\x7f error  #  not sign 
+\xab	\x7f error  #  vulgar fraction one half 
+\xac	\x7f error  #  vulgar fraction one quarter 
+\xad	\x7f error  #  inverted exclamation mark 
+\xae	\x7f error  #  left-pointing double angle quotation mark 
+\xaf	\x7f error  #  right-pointing double angle quotation mark 
+\xb0	\x7f error  #  light shade 
+\xb1	\x7f error  #  medium shade 
+\xb2	\x7f error  #  dark shade 
+\xb3	\x7f error  #  box drawings light vertical 
+\xb4	\x7f error  #  box drawings light vertical and left 
+\xb5	\x7f error  #  box drawings vertical light and left heavy 
+\xb6	\x7f error  #  box drawings vertical heavy and left light 
+\xb7	\x7f error  #  box drawings down heavy and left light 
+\xb8	\x7f error  #  box drawings down light and left heavy 
+\xb9	\x7f error  #  box drawings heavy vertical and left 
+\xba	\x7f error  #  box drawings heavy vertical 
+\xbb	\x7f error  #  box drawings heavy down and left 
+\xbc	\x7f error  #  box drawings heavy up and left 
+\xbd	\x7f error  #  box drawings up heavy and left light 
+\xbe	\x7f error  #  box drawings up light and left heavy 
+\xbf	\x7f error  #  box drawings light down and left 
+\xc0	\x7f error  #  box drawings light up and right 
+\xc1	\x7f error  #  box drawings light up and horizontal 
+\xc2	\x7f error  #  box drawings light down and horizontal 
+\xc3	\x7f error  #  box drawings light vertical and right 
+\xc4	\x7f error  #  box drawings light horizontal 
+\xc5	\x7f error  #  box drawings light vertical and horizontal 
+\xc6	\x7f error  #  box drawings vertical light and right heavy 
+\xc7	\x7f error  #  box drawings vertical heavy and right light 
+\xc8	\x7f error  #  box drawings heavy up and right 
+\xc9	\x7f error  #  box drawings heavy down and right 
+\xca	\x7f error  #  box drawings heavy up and horizontal 
+\xcb	\x7f error  #  box drawings heavy down and horizontal 
+\xcc	\x7f error  #  box drawings heavy vertical and right 
+\xcd	\x7f error  #  box drawings heavy horizontal 
+\xce	\x7f error  #  box drawings heavy vertical and horizontal 
+\xcf	\x7f error  #  box drawings up light and horizontal heavy 
+\xd0	\x7f error  #  box drawings up heavy and horizontal light 
+\xd1	\x7f error  #  box drawings down light and horizontal heavy 
+\xd2	\x7f error  #  box drawings down heavy and horizontal light 
+\xd3	\x7f error  #  box drawings up heavy and right light 
+\xd4	\x7f error  #  box drawings up light and right heavy 
+\xd5	\x7f error  #  box drawings down light and right heavy 
+\xd6	\x7f error  #  box drawings down heavy and right light 
+\xd7	\x7f error  #  box drawings vertical heavy and horizontal light 
+\xd8	\x7f error  #  box drawings vertical light and horizontal heavy 
+\xd9	\x7f error  #  box drawings light up and left 
+\xda	\x7f error  #  box drawings light down and right 
+\xdb	\x7f error  #  full block 
+\xdc	\x7f error  #  lower half block 
+\xdd	\x7f error  #  left half block 
+\xde	\x7f error  #  right half block 
+\xdf	\x7f error  #  upper half block 
+\xe0	\x7f error  #  greek small letter alpha 
+\xe1	\x7f error  #  greek small letter beta 
+\xe2	\x7f error  #  greek capital letter gamma 
+\xe3	\x7f error  #  greek small letter pi 
+\xe4	\x7f error  #  greek capital letter sigma 
+\xe5	\x7f error  #  greek small letter sigma 
+\xe6	\x7f error  #  greek small letter mu 
+\xe7	\x7f error  #  greek small letter tau 
+\xe8	\x7f error  #  greek capital letter phi 
+\xe9	\x7f error  #  greek capital letter theta 
+\xea	\x7f error  #  greek capital letter omega 
+\xeb	\x7f error  #  greek small letter delta 
+\xec	\x7f error  #  infinity 
+\xed	\x7f error  #  empty set 
+\xee	\x7f error  #  greek small letter epsilon 
+\xef	\x7f error  #  intersection 
+\xf0	\x7f error  #  identical to 
+\xf1	\x7f error  #  plus-minus sign 
+\xf2	\x7f error  #  greater-than or equal to 
+\xf3	\x7f error  #  less-than or equal to 
+\xf4	\x7f error  #  top half integral 
+\xf5	\x7f error  #  bottom half integral 
+\xf6	\x7f error  #  division sign 
+\xf7	\x7f error  #  almost equal to 
+\xf8	\x7f error  #  ring operator 
+\xf9	\x7f error  #  middle dot 
+\xfa	\x7f error  #  bullet operator 
+\xfb	\x7f error  #  square root 
+\xfc	\x7f error  #  superscript latin small letter n 
+\xfd	\x7f error  #  superscript two 
+\xfe	\x7f error  #  black square 
+\xff	\x7f error  #  no-break space 

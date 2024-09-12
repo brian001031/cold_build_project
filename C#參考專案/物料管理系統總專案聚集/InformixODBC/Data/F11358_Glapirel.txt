@@ -1,0 +1,102 @@
+
+                             RELEASE NOTES FOR
+                     INFORMIX-GLS Programmer's Manual
+                            DATE:  06/13/00
+                             Version:  3.10
+
+Table of Contents
+I.   Overview of Release Notes
+II.  New Features
+III. Product Description of INFORMIX-GLS 3.10
+IV.  Including header files
+V.   Example Files
+VI.  Known Problems
+VII. Fixed Problems
+
+I.   OVERVIEW OF RELEASE NOTES
+==============================
+
+The purpose of these release notes is to make you aware of any special
+actions required to configure and use INFORMIX-GLS on your computer. This
+file also describes new features and feature differences from earlier
+versions of this product and other Informix products, and how these
+differences affect current products. In addition, this file contains
+information about known bugs and their workarounds.
+
+This release notes document is not intended to be all-inclusive; it should
+be used as an addendum to the "INFORMIX-GLS Programmer's Manual," which
+provides thorough information about product features and behavior.
+
+
+II.  NEW FEATURES
+=================
+
+This release has no new features.
+
+
+III. PRODUCT DESCRIPTION OF INFORMIX-GLS 3.10
+=============================================
+
+ INFORMIX-GLS is an application-programming interface (API) that provides
+functions and macros for the implementation of  internationalized
+applications that are compatible with Informix GLS internationalization.
+This API allows applications to access information in Informix locale files.
+
+Previous versions of the INFORMIX-GLS product were called the Informix GLS
+API. Use of the name GLS API is discontinued in the documentation.
+
+
+IV.  INCLUDING HEADER FILES
+===========================
+
+To use INFORMIX-GLS, you must remember to include the header file in any
+source code that references an INFORMIX-GLS function:
+
+  o         INFORMIX-ESQL/C
+
+    Include the ifxgls.h header file in any source code that references an
+    INFORMIX-GLS function.
+
+    The ESQL/C preprocessor automatically includes the INFORMIX-GLS
+    library. For information on how to build ESQL/C applications, refer to
+    the "INFORMIX-ESQL/C Programmer's Guide." 
+
+  o        Client LIBMI Applications
+
+    Include the ifxgls.h header file in any source code that references an
+    INFORMIX-GLS function.
+
+    You can use the ESQL/C preprocessor to automatically include the
+    INFORMIX-GLS library in your client LIBMI application. Otherwise, you
+    must explicitly list the library at link time. 
+
+    For information on how to build client LIBMI applications that use
+    INFORMIX-GLS, refer to the "INFORMIX-GLS Programmer's Manual."
+
+  o        DataBlade Server Routines
+
+    Include the ifxgls.h header file in any source code that references an
+    INFORMIX-GLS function.
+
+    The INFORMIX-GLS library is already linked into the Informix Dynamic
+    Server with Universal Data Option. Therefore, you do not need to take
+    special link steps to use INFORMIX-GLS in a server routine.
+
+
+V.   EXAMPLE FILES
+==================
+
+This product does not include example files.
+
+
+VI.  KNOWN PROBLEMS
+===================
+
+This product has no known problems at this time.
+
+
+VII. FIXED PROBLEMS
+===================
+
+This product has no fixed problems at this time.
+

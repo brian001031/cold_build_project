@@ -1,0 +1,164 @@
+#**************************************************************************
+#
+#                          INFORMIX SOFTWARE, INC.
+#
+#                             PROPRIETARY DATA
+#
+#       THIS DOCUMENT CONTAINS TRADE SECRET DATA WHICH IS THE PROPERTY OF 
+#       INFORMIX SOFTWARE, INC.  THIS DOCUMENT IS SUBMITTED TO RECIPIENT IN
+#       CONFIDENCE.  INFORMATION CONTAINED HEREIN MAY NOT BE USED, COPIED OR 
+#       DISCLOSED IN WHOLE OR IN PART EXCEPT AS PERMITTED BY WRITTEN AGREEMENT 
+#       SIGNED BY AN OFFICER OF INFORMIX SOFTWARE, INC.
+#
+#       THIS MATERIAL IS ALSO COPYRIGHTED AS AN UNPUBLISHED WORK UNDER
+#       SECTIONS 104 AND 408 OF TITLE 17 OF THE UNITED STATES CODE. 
+#       UNAUTHORIZED USE, COPYING OR OTHER REPRODUCTION IS PROHIBITED BY LAW,
+#       AND MAY GIVE RISE TO CIVIL AND CRIMINAL LIABILITIES.
+#
+#
+#  Title:       e022e021.cv
+#  Author:      John Griffin
+#  Created:     Thu Jul 27 15:45:38 1995
+#  Description:
+#    Conversion file from 1251 to 866
+#    Registry values (Decimal): From 1251 (57378) to 866 (57377)
+#    Registry values (Hex): From e022 to e021
+#
+#    This conversion uses enforced subset criteria-all unmappable characters
+#    are mapped to the SUB character \x7f and lossy conversion error
+#    is generated.
+#
+#**************************************************************************
+#
+<source_version>    1
+<modified_date>     "07/27/1995"
+<source_codeset>    "1251"
+<target_codeset>    "866"
+
+\x00...\xff	\x00...	# Default everything onto itself
+\x80	\x7f error	# cyrillic capital letter dje (serbocroatian) 
+\x81	\x7f error	# cyrillic capital letter gje (macedonian) 
+\x82	\x7f error	# single low-9 quotation mark 
+\x83	\x7f error	# cyrillic small letter gje (macedonian) 
+\x84	\x7f error	# double low-9 quotation mark 
+\x85	\x7f error	# midline horizontal ellipsis 
+\x86	\x7f error	# dagger 
+\x87	\x7f error	# double dagger 
+\x89	\x7f error	# per mille sign 
+\x8a	\x7f error	# cyrillic capital letter lje 
+\x8b	\x7f error	# single left-pointing angle quotation mark 
+\x8c	\x7f error	# cyrillic capital letter nje 
+\x8d	\x7f error	# cyrillic capital letter kje (macedonian) 
+\x8e	\x7f error	# cyrillic capital letter tshe (serbocroatian) 
+\x8f	\x7f error	# cyrillic capital letter dzhe 
+\x90	\x7f error	# cyrillic small letter dje (serbocroatian) 
+\x91	\x7f error	# left single quotation mark 
+\x92	\x7f error	# right single quotation mark 
+\x93	\x7f error	# left double quotation mark 
+\x94	\x7f error	# right double quotation mark 
+\x95	\xf9		# bullet operator 
+\x96	\x7f error	# en dash 
+\x97	\x7f error	# em dash 
+\x99	\x7f error	# trade mark sign 
+\x9a	\x7f error	# cyrillic small letter lje 
+\x9b	\x7f error	# single right-pointing angle quotation mark 
+\x9c	\x7f error	# cyrillic small letter nje 
+\x9d	\x7f error	# cyrillic small letter kje (macedonian) 
+\x9e	\x7f error	# cyrillic small letter tshe (serbocroatian) 
+\x9f	\x7f error	# cyrillic small letter dzhe 
+\xa0	\xff		# no-break space 
+\xa1	\xf6		# cyrillic capital letter short u (byelorussian) 
+\xa2	\xf7		# cyrillic small letter short u (byelorussian) 
+\xa3	\x7f error	# cyrillic capital letter je 
+\xa4	\xfd		# currency sign 
+\xa5	\x7f error	# cyrillic capital letter ghe with upturn 
+\xa6	\x7f error	# broken bar 
+\xa7	\x7f error	# section sign 
+\xa8	\xf0		# cyrillic capital letter io 
+\xa9	\x7f error	# copyright sign 
+\xaa	\xf2		# cyrillic capital letter ukrainian ie 
+\xab	\x7f error	# left-pointing double angle quotation mark 
+\xac	\x7f error	# not sign 
+\xad	\x7f error	# soft hyphen 
+\xae	\x7f error	# registered sign 
+\xaf	\xf4		# cyrillic capital letter yi (ukrainian) 
+\xb0	\xf8		# degree sign 
+\xb1	\x7f error	# plus-minus sign 
+\xb2	\x7f error	# cyrillic capital letter byelorussian-ukrainian i 
+\xb3	\x7f error	# cyrillic small letter byelorussian-ukrainian i 
+\xb4	\x7f error	# cyrillic small letter ghe with upturn 
+\xb5	\x7f error	# micro sign 
+\xb6	\x7f error	# pilcrow sign 
+\xb7	\xfa		# middle dot 
+\xb8	\xf1		# cyrillic small letter io 
+\xb9	\xfc		# numero sign 
+\xba	\xf3		# cyrillic small letter ukrainian ie 
+\xbb	\x7f error	# right-pointing double angle quotation mark 
+\xbc	\x7f error	# cyrillic small letter je 
+\xbd	\x7f error	# cyrillic capital letter dze (macedonian) 
+\xbe	\x7f error	# cyrillic small letter dze (macedonian) 
+\xbf	\xf5		# cyrillic small letter yi (ukrainian) 
+\xc0	\x80		# cyrillic capital letter a 
+\xc1	\x81		# cyrillic capital letter be 
+\xc2	\x82		# cyrillic capital letter ve 
+\xc3	\x83		# cyrillic capital letter ghe 
+\xc4	\x84		# cyrillic capital letter de 
+\xc5	\x85		# cyrillic capital letter ie 
+\xc6	\x86		# cyrillic capital letter zhe 
+\xc7	\x87		# cyrillic capital letter ze 
+\xc8	\x88		# cyrillic capital letter i 
+\xc9	\x89		# cyrillic capital letter short i 
+\xca	\x8a		# cyrillic capital letter ka 
+\xcb	\x8b		# cyrillic capital letter el 
+\xcc	\x8c		# cyrillic capital letter em 
+\xcd	\x8d		# cyrillic capital letter en 
+\xce	\x8e		# cyrillic capital letter o 
+\xcf	\x8f		# cyrillic capital letter pe 
+\xd0	\x90		# cyrillic capital letter er 
+\xd1	\x91		# cyrillic capital letter es 
+\xd2	\x92		# cyrillic capital letter te 
+\xd3	\x93		# cyrillic capital letter u 
+\xd4	\x94		# cyrillic capital letter ef 
+\xd5	\x95		# cyrillic capital letter ha 
+\xd6	\x96		# cyrillic capital letter tse 
+\xd7	\x97		# cyrillic capital letter che 
+\xd8	\x98		# cyrillic capital letter sha 
+\xd9	\x99		# cyrillic capital letter shcha 
+\xda	\x9a		# cyrillic capital letter hard sign 
+\xdb	\x9b		# cyrillic capital letter yeru 
+\xdc	\x9c		# cyrillic capital letter soft sign 
+\xdd	\x9d		# cyrillic capital letter e 
+\xde	\x9e		# cyrillic capital letter yu 
+\xdf	\x9f		# cyrillic capital letter ya 
+\xe0	\xa0		# cyrillic small letter a 
+\xe1	\xa1		# cyrillic small letter be 
+\xe2	\xa2		# cyrillic small letter ve 
+\xe3	\xa3		# cyrillic small letter ghe 
+\xe4	\xa4		# cyrillic small letter de 
+\xe5	\xa5		# cyrillic small letter ie 
+\xe6	\xa6		# cyrillic small letter zhe 
+\xe7	\xa7		# cyrillic small letter ze 
+\xe8	\xa8		# cyrillic small letter i 
+\xe9	\xa9		# cyrillic small letter short i 
+\xea	\xaa		# cyrillic small letter ka 
+\xeb	\xab		# cyrillic small letter el 
+\xec	\xac		# cyrillic small letter em 
+\xed	\xad		# cyrillic small letter en 
+\xee	\xae		# cyrillic small letter o 
+\xef	\xaf		# cyrillic small letter pe 
+\xf0	\xe0		# cyrillic small letter er 
+\xf1	\xe1		# cyrillic small letter es 
+\xf2	\xe2		# cyrillic small letter te 
+\xf3	\xe3		# cyrillic small letter u 
+\xf4	\xe4		# cyrillic small letter ef 
+\xf5	\xe5		# cyrillic small letter ha 
+\xf6	\xe6		# cyrillic small letter tse 
+\xf7	\xe7		# cyrillic small letter che 
+\xf8	\xe8		# cyrillic small letter sha 
+\xf9	\xe9		# cyrillic small letter shcha 
+\xfa	\xea		# cyrillic small letter hard sign 
+\xfb	\xeb		# cyrillic small letter yeru 
+\xfc	\xec		# cyrillic small letter soft sign 
+\xfd	\xed		# cyrillic small letter e 
+\xfe	\xee		# cyrillic small letter yu 
+\xff	\xef		# cyrillic small letter ya 

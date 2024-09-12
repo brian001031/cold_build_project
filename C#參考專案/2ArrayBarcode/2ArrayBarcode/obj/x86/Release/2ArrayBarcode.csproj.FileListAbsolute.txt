@@ -1,0 +1,35 @@
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.exe.config
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\_2ArrayBarcode.Properties.Resources.resources
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\_2ArrayBarcode.RWBarcode.resources
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.exe
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.pdb
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\bin\Release\Gma.QrCodeNet.Encoding.Net35.dll
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\bin\Release\ThoughtWorks.QRCode.dll
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.exe
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.pdb
+C:\Users\IRIS\Desktop\驗證條碼\2ArrayBarcode\2ArrayBarcode\bin\Release\ZXingLib.dll
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.exe.config
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.exe
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.pdb
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.exe
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.pdb
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\bin\Release\Gma.QrCodeNet.Encoding.Net35.dll
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\bin\Release\ThoughtWorks.QRCode.dll
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\bin\Release\ZXingLib.dll
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.csprojResolveAssemblyReference.cache
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\_2ArrayBarcode.Properties.Resources.resources
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\_2ArrayBarcode.RWBarcode.resources
+C:\Users\1111\Desktop\WORD FILE\THE NEW PROJECT\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.csproj.GenerateResource.Cache
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.exe.config
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.exe
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.pdb
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.exe
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\bin\Release\2ArrayBarcode.pdb
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\bin\Release\Gma.QrCodeNet.Encoding.Net35.dll
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\bin\Release\ThoughtWorks.QRCode.dll
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\bin\Release\ZXingLib.dll
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.csprojResolveAssemblyReference.cache
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\_2ArrayBarcode.Properties.Resources.resources
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\_2ArrayBarcode.RWBarcode.resources
+C:\Users\1111\Desktop\專案執行檔總匯\2ArrayBarcode\2ArrayBarcode\obj\x86\Release\2ArrayBarcode.csproj.GenerateResource.Cache

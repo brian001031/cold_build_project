@@ -1,0 +1,167 @@
+Informix
+  Informix Online
+   Documentation
+  ------------------------------------------------------------------------
+
+                             RELEASE NOTES FOR
+
+                     Informix Object Interface For C++
+
+                               Date: 7/19/2001
+
+                               Version: 2.82
+  ------------------------------------------------------------------------
+
+Table of Contents
+
+     I. Overview
+     II. Server Compatibility
+     III. New Features
+     IV. C++ Compiler Interpretation of Long Doubles
+     V. Linking To The Current Compiler
+     VI. Known Problems
+     VII. Fixed Problems
+
+  ------------------------------------------------------------------------
+
+I. Overview
+
+The purpose of these release notes is to make you aware of special actions
+that are required to configure and use Informix Object Interface for C++ on
+your computer. This file also describes new features and feature
+differences from earlier versions of this product and other Informix
+products and how these differences affect current products. In addition,
+this file contains information about known bugs and their workarounds.
+
+This release notes document is not intended to be all-inclusive; it should
+be used as an addendum to the INFORMIX-Object Interface for C++
+Programmer's Guide, which provides comprehensive information about product
+features and product behavior.
+
+This release notes document is for system administrators who install the
+Object Interface for C++ and for developers who use the Object Interface
+for C++ to create client applications.
+  ------------------------------------------------------------------------
+
+II. Server Compatibility
+
+This version of the Object Interface for C++ has been tested with the
+following Informix database servers:
+
+   + Informix Dynamic Server, Version 5.10
+   + Informix Dynamic Server, Versions 7.24 and 7.3x
+   + Informix Dynamic Server with Advanced Decision Support and Extended
+     Parallel Options, Version 8.21 and Informix Extended Parallel Server,
+     Version 8.3x
+   + Informix Dynamic Server with Universal Data Option, Version 9.14
+     (Windows NT)
+   + Informix Dynamic Server 2000, Version 9.2x (UNIX)
+
+  ------------------------------------------------------------------------
+
+III. New Features
+
+There are no new features in this release of CSDK 2.60 for Informix Object
+Interface for C++ .
+  ------------------------------------------------------------------------
+
+IV. C++ Compiler Interpretation of Long Doubles
+
+Informix Object Interface for C++ provides data type conversion functions
+in the value interface ITConversions to enable conversion of C++ type long
+double. The intent is to permit fetching floating point values into C++
+long double variables. However, the Client SDK does not currently allow for
+conversion of long double values into Informix decimal or float types.
+
+Thus, Informix Object Interface for C++ applications should always ensure
+that any floating literal passed to ITConversions::ConvertFrom(long double
+val) is within the double range. Otherwise, ConvertFrom(long double val)
+will return FALSE for value objects that contain SQL MONEY, FLOAT, and
+SMALLFLOAT values.
+
+Object Interface for C++ is written with the assumption that a floating
+literal without the ANSI C++ specified suffixes l or L (example: 12.988
+instead of 12.988L) assigned to a long double variable will be treated by
+the C++ compiler as a long double. This assumption agrees with the ANSI C++
+Draft Standard (Doc No: X3J16/94-0027, WG21/N0414, 25 January 1994), which
+states that the type of a floating literal is double unless explicitly
+specified by a suffix. The suffixes f and F specify float; the suffixes l
+and L specify long double. Thus, the suffix l or L must be applied to a
+floating literal in order for it to be interpreted by the C++ compiler as a
+long double value.
+
+Different versions of the Sun C++ compiler applied the ANSI C++ standard as
+it existed at the time of the compiler development and release. For
+example, Sun C++ 4.1 conforms to the ANSI standard described above, whereas
+pre-4.1 Sun C++ compilers always treated all floating literals, with or
+without the l and L suffixes, as long double values if they were assigned
+to a long double variable. The following C++ code example demonstrates
+assignment of a floating literal to a long double variable, casting to a
+double, and comparison between the double and long double:
+
+     long double d = 12.988;
+
+     double dasd = (double) d;
+
+     if( dasd == d )
+
+     return 0;
+
+     else return 1;
+
+The following table compares support for the ANSI C++ draft standard
+referenced above among several versions of Sun C++ compilers. The table
+shows how the different compiler versions evaluated the expression (dasd ==
+d). If the expression evaluatates to FALSE, the values are not equal.
+
+
+ Sun C++ compiler versions  Evaluation of (dasd == d)
+ Sun C++ 4.0 (Dec 1993)    FALSE (values are not equal)
+ Sun C++ 4.0.1 (Jul 1994)  FALSE (values are not equal)
+ Sun C++ 4.1 (Oct 1995)    TRUE (values are equal)
+ Sun C++ 5.0 (Oct 1999)    TRUE (values are equal)
+
+  ------------------------------------------------------------------------
+
+V. Linking To The Current Compiler
+
+The Version 2.81 Object Interface for C++ is compiled with Sun WorkShop C++
+Compiler, Version 5.0. C++ applications using the Version 2.81 Object
+Interface for C++ should also be compiled with Sun WorkShop C++ Compiler,
+Version 5.0 or greater.
+
+This means that if you have a Object Interface for C++ legacy application
+compiled and linked with a pre-5.0 C++ compiler, you must re-compile and
+re-link it with 5.0 Sun Workshop C++. Otherwise, the application may fail
+with runtime link errors due to binary incompatibilities between pre-5.0
+applications and 5.0-compiled shared libraries.
+
+For more information, see the Sun WorkShop Compiler C++ 5.0 Collection
+documentation at http://docs.sun.com and the SunOS CC.1 man pages.
+  ------------------------------------------------------------------------
+
+VI. Known Problems
+
+There are no known problems in this release.
+  ------------------------------------------------------------------------
+
+VII. Fixed Problems
+--------------------------------------------------------------------------
+| Bug Number |                    Description                            |
+--------------------------------------------------------------------------
+| 134604     | THE C++ API DOES NOT RETURN THE FULL ERROR WHEN A DATABASE|
+|            | DOESN'T EXIST, ONLY THE ISAM ERROR.                       |
+--------------------------------------------------------------------------
+| 144384     | C++ API ERROR HANDLER INVOCATIONS FOR ERRORS AND WARNINGS |
+|            | ARE NOT CLEARED FROM ONE ERROR TO THE NEXT AND ERRORS ARE |
+|            | REPORTED TWICE FOR WARNINGS & ERR                         |
+--------------------------------------------------------------------------
+| 145151     | ATTEMPTING AN INSERT INTO A CHAR COLUMN DEFINED AS CHAR(N)|
+|            | WHERE N>1 USING A PREPARED STATEMENT ONLY INSERTS THE     |
+|            | FIRST CHARACTER                                           |
+  ------------------------------------------------------------------------
+| 145163     | INSERTING A STRING IN A CHAR-COLUMN JUST INSERTS THE FIRST|
+|            | CHARACTER                                                 |
+--------------------------------------------------------------------------
+
+Copyright © 2000, Informix Software, Inc. All rights reserved
