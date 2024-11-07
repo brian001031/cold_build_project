@@ -1,0 +1,17 @@
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\bin\Release\MMS_BrowseDatabase.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\bin\Release\MMS_BrowseDatabase.pdb
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\bin\Release\en-US\MMS_BrowseDatabase.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\bin\Release\zh-CN\MMS_BrowseDatabase.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\bin\Release\zh-TW\MMS_BrowseDatabase.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\bin\Release\DBProcess.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\MMS_BrowseDatabase.Form_MMSBrowse.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\MMS_BrowseDatabase.Properties.Resources.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\MMS_BrowseDatabase.Resources.localize.en-US.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\MMS_BrowseDatabase.Resources.localize.zh-CN.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\MMS_BrowseDatabase.Resources.localize.zh-TW.resources
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\MMS_BrowseDatabase.csproj.GenerateResource.Cache
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\en-US\MMS_BrowseDatabase.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\zh-CN\MMS_BrowseDatabase.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\zh-TW\MMS_BrowseDatabase.resources.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\MMS_BrowseDatabase.dll
+C:\Users\IRIS\Documents\Visual Studio 2010\Projects\MMS_BrowseDatabase\MMS_BrowseDatabase\obj\x86\Release\MMS_BrowseDatabase.pdb

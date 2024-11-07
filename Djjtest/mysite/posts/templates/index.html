@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible"
+	 content="IE=edge">
+	  <meta name='viewport' content="width=device-width, initial-scale=1.0">
+	  <title>MYSQL LOCAL</title>
+  <body>
+    <style type="text/css">
+
+    td {
+        background-color: #0ffff3;
+        width: 10;
+        height: 5px;
+        text-align: center;
+      }
+      .relative {
+        position: relative;
+        width: 600px;
+        height: 400px;
+      }
+      .absolute {
+        position: absolute;
+        top: 10px;
+        right: 150px;
+        width: 100px;
+        height: 100px;
+      }
+
+    </style>
+    
+
+    <h1>MYSQL DataBase Connected Status (LOCAL)</h1>
+    <h2>{{ message }}</h2>
+    <br/>
+     <div class="absolute">   {{ dttotal }} </div> 
+
+    <table cellpadding="2" cellpadding="3">
+    <tr>
+        <th>[primaryID]</th>
+        <th>[county_city]</th>
+        <th>[aqi]</th>
+        <th>[status]</th>
+        <th>[so2]</th>
+        <th>[co]</th>
+        <th>[o3]</th>
+        <th>[o3_8hr]</th>
+        <th>[pm10]</th>
+        <th>[LOGIN_DataTime]</th>
+      </tr>
+    {% for get in mysqlres %}
+      <tr>
+        <td>{{ get.0 }}</td>
+        <td>{{ get.1}}</td>
+        <td>{{ get.2 }}</td>
+        <td>{{ get.3 }}</td>
+        <td>{{ get.4 }}</td>
+        <td>{{ get.5 }}</td>
+        <td>{{ get.6 }}</td>
+        <td>{{ get.7 }}</td>
+        <td>{{ get.8 }}</td>
+        <td>{{ get.9 }}</td>
+      </tr>
+      {% endfor%}
+    </table>
+  </body>
+</html>

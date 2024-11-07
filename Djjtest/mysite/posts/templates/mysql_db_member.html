@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald&display=swap"
+    rel="stylesheet"
+  />
+  <body>
+    <h1>MySQL DjDB SID table ▼</h1>
+    <style type="text/css">
+      .wrap {
+        overflow: hidden;
+        border-radius: 2px 5px 2px 5px;
+        box-shadow: 0 0 20px rgba(5, 10, 0, 0.35);
+      }
+
+      table {
+        font-family: "Oswald", sans-serif;
+        border-collapse: collapse;
+      }
+
+      th {
+        background-color: #009879;
+        color: #ffffff;
+        width: 15vw;
+        height: 15px;
+      }
+
+      td {
+        background-color: #ffffff;
+        width: 25vw;
+        height: 50px;
+        text-align: center;
+      }
+
+      tr {
+        border-bottom: 2px solid #dddddd;
+      }
+
+      tr:last-of-type {
+        border-bottom: 2px solid #009879;
+      }
+
+      tr:nth-of-type(even) td {
+        background-color: #f3f3f3;
+      }
+    </style>
+    <div class="wrap" border-width:2px>
+      <table cellpadding="2" cellpadding="3">
+        <tr>
+          <th>[primaryID]</th>
+          <th>[county_city]</th>
+          <th>[aqi]</th>
+          <th>[status]</th>
+          <th>[so2]</th>
+          <th>[co]</th>
+          <th>[o3]</th>
+          <th>[o3_8hr]</th>
+          <th>[pm10]</th>
+          <th>[LOGIN_DataTime]</th>
+        </tr>
+        {% for getdata in resultDisplay %}
+        <tr>
+          <td>{{ getdata.0}}</td>
+          <td>{{ getdata.1}}</td>
+          <td>{{ getdata.2}}</td>
+          <td>{{ getdata.3}}</td>
+          <td>{{ getdata.4}}</td>
+          <td>{{ getdata.5}}</td>
+          <td>{{ getdata.6}}</td>
+          <td>{{ getdata.7}}</td>
+          <td>{{ getdata.8}}</td>
+          <td>{{ getdata.9}}</td>
+        </tr>
+        {% endfor%}
+      </table>
+    </div>
+  </body>
+</html>

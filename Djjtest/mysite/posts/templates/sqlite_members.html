@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>sqlite member fetch here provider!!</title>
+    <link rel="stylesheet" href="mystyle.css" />
+  </head>
+  <body>
+    <h1>Members bellow ▼</h1>
+    <style type="text/css">
+      body {
+        background-color: rgb(227, 255, 224);
+      }
+      em {
+        color: rgb(178, 176, 32);
+      }
+      table {
+        border: 1px solid #000;
+      }
+      td {
+        border: 1px solid #000;
+        padding: 10px;
+      }
+    </style>
+
+    <table border-width:10px>
+      <tr>
+        <th>ID</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Phone</th>
+        <th>JoinDate</th>
+      </tr>
+      {% for x in sqlallmember %}
+      <tr>
+        <td>{{ x.id }}</td>
+        <td>{{ x.firstname }}</td>
+        <td>{{ x.lastname }}</td>
+        <td>{{ x.phone }}</td>
+        <td>{{ x.joined_date }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <!-- 
+    <ul>
+      {% for x in sqlallmember %}
+      <li>
+        {{ x.firstname }} {{ x.lastname }} {{ x.phone }} {{ x.joined_date}}
+      </li>
+      {% endfor %}
+    </ul
+    -->>
+  </body>
+</html>

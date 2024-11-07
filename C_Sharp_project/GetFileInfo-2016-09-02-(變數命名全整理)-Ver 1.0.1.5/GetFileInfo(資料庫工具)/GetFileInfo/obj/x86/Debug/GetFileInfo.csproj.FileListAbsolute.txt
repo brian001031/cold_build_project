@@ -1,0 +1,195 @@
+D:\Brian new C#\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe
+D:\Brian new C#\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.pdb
+D:\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+D:\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+D:\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+D:\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+D:\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+D:\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.pdb
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.Form1.resources
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+D:\SADISK\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+D:\Brian new C#\GetFileInfo\GetFileInfo\bin\Debug\Database1.sdf
+D:\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+D:\Brian new C#\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+D:\Brian new C#\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+D:\Brian new C#\GetFileInfo\GetFileInfo\bin\Debug\NewDatabase1.mdf
+D:\Brian new C#\GetFileInfo\GetFileInfo\bin\Debug\NewDatabase1_log.ldf
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\Database1.sdf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\NewDatabase1.mdf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\NewDatabase1_log.ldf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\FileDataTable.mdf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\FileDataTable_log.ldf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\Database1.sdf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\FileDataTable.mdf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\FileDataTable_log.ldf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\NewDatabase1.mdf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\NewDatabase1_log.ldf
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\GetFileInfo(Ver.3)\GetFileInfo(Ver.2)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\IRIS\Desktop\File資料庫搜尋比對更新資料夾(紀錄)\GetFileInfo\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\IRIS\Desktop\GetFileInfo\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\1111\Desktop\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\1111\Desktop\資料庫執行專案\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\修正DeBug\GetFileInfo\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\1111\Desktop\GetFileInfo(已測試過SELECT)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.LocalForm.resources
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\IRIS\Desktop\GetFileInfo(已測試過 2016.08.26)\GetFileInfo(已測試過SELECT -2016.08.25)\GetFileInfo\obj\x86\Debug\GetFileInfo.ExcelTask.resources
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\bin\Debug\GetFileInfo.exe.config
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\bin\Debug\FileData.mdb
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\bin\Debug\GetFileInfo.exe
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\bin\Debug\GetFileInfo.pdb
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.csprojResolveAssemblyReference.cache
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.ExcelTask.resources
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\IRIS\Desktop\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.Cache
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.AssemblyReference.cache
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\Interop.Shell32.dll
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.ResolveComReference.cache
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.FileCatch.resources
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.ExcelTask.resources
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.Properties.Resources.resources
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.GenerateResource.cache
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.csproj.CoreCompileInputs.cache
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.exe
+C:\Users\bh205\OneDrive\文件\工作常用指令及計畫\C#參考專案\GetFileInfo-2016-09-02-(變數命名全整理)-Ver 1.0.1.5\GetFileInfo(資料庫工具)\GetFileInfo\obj\x86\Debug\GetFileInfo.pdb

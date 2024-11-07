@@ -1,0 +1,3 @@
+已寫入檔案:xxhash-LICENSE.txt,readme_eng.txt ..等6筆 (2024/8/30下午 06:17)
+以將DataGridView資料轉換Excel 檔名:(C:\Users\bh205\Downloads\我的onedrive\OneDrive\桌面\010.xlsx) 一份2024/8/30 下午 06:18:08
+已寫入檔案:aria_log.00000001 ..等1筆 (2024/8/30下午 06:19)

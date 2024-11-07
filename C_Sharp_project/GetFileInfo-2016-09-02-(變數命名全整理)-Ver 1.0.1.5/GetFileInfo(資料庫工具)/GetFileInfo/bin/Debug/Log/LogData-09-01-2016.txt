@@ -1,0 +1,124 @@
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini)...等  (126) 筆資料- 2016/9/1上午 11:10 -
+已寫入檔案:autos.cm2,autos.cm1 ..等10筆 (2016/9/1上午 11:11)
+已寫入檔案:config32.eng,config32.big ..等3筆 (2016/9/1上午 11:11)
+已寫入檔案:autos.cmd,autos.cm3 ..等8筆 (2016/9/1上午 11:11)
+已刪除檔案: (config32.big,config32.eng...)等  (5) 筆資料- 2016/9/1上午 11:11 -
+已刪除檔案: (auto.cmd,autos.cm1...)等  (9) 筆資料- 2016/9/1上午 11:12 -
+已刪除檔案: (auto.cm1,auto.cm2...)等  (7) 筆資料- 2016/9/1上午 11:22 -
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等132筆 (2016/9/1上午 11:23)
+已刪除檔案: (ball_mar.jpg...)等  (1) 筆資料- 2016/9/1上午 11:23 -
+已刪除檔案: (readme.htm,rw_back.jpg...)等  (9) 筆資料- 2016/9/1上午 11:23 -
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini...)等  (122) 筆資料- 2016/9/1上午 11:23 -
+已寫入檔案:SERVER PASSWORD.txt ..等1筆 (2016/9/1上午 11:24)
+已寫入檔案:SERVER PASSWORD.txt,rpcrt4.dll ..等4筆 (2016/9/1上午 11:24)
+已寫入檔案:CoreUIComponents.dll ..等1筆 (2016/9/1上午 11:24)
+已刪除檔案: (CoreUIComponents.dll,ODBC.INI...)等  (6) 筆資料- 2016/9/1上午 11:24 -
+已寫入檔案:vtermcmd.tab,ViauWebCam.tab ..等72筆 (2016/9/1上午 11:25)
+已寫入檔案:suyin.jpg,siusbxp.cat ..等10筆 (2016/9/1上午 11:25)
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等3筆 (2016/9/1上午 11:25)
+已刪除檔案: (ssh.exe,ssh_u.exe...)等  (4) 筆資料- 2016/9/1上午 11:25 -
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等2筆 (2016/9/1上午 11:26)
+已刪除檔案: (MICTest.exe,PrintConfig.dll...)等  (83) 筆資料- 2016/9/1上午 11:29 -
+已寫入檔案:SERVER PASSWORD.txt,rpcrt4.dll ..等5筆 (2016/9/1上午 11:29)
+已寫入檔案:batpp32s.exe,batpp32.exe ..等13筆 (2016/9/1上午 11:29)
+已寫入檔案:big2gbb.exe,idxcntrs.ini ..等2筆 (2016/9/1上午 11:29)
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等112筆 (2016/9/1上午 11:30)
+已刪除檔案: (batp32s.exe...)等  (1) 筆資料- 2016/9/1上午 11:30 -
+已刪除檔案: (rpcrt4.dll,idxcntrs.ini...)等  (8) 筆資料- 2016/9/1上午 11:30 -
+已刪除檔案: (PrintConfig.dll...)等  (1) 筆資料- 2016/9/1上午 11:30 -
+已刪除檔案: (PrintConfig.dll,rpcrt4.dll...)等  (11) 筆資料- 2016/9/1上午 11:30 -
+已刪除檔案: (orange.jpg,q_mark.jpg...)等  (19) 筆資料- 2016/9/1上午 11:30 -
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini...)等  (92) 筆資料- 2016/9/1上午 11:31 -
+已寫入檔案:SERVER PASSWORD.txt,rpcrt4.dll ..等5筆 (2016/9/1上午 11:31)
+已寫入檔案:suyin.jpg ..等1筆 (2016/9/1上午 11:31)
+已寫入檔案:suyin.jpg,siusbxp.cat ..等10筆 (2016/9/1上午 11:31)
+已寫入檔案:autos.cm2,autos.cm1 ..等14筆 (2016/9/1上午 11:43)
+已寫入檔案:batp32.exe,b5_gb.tab ..等3筆 (2016/9/1上午 11:44)
+已寫入檔案:config32.gb,b5gb.doc ..等3筆 (2016/9/1上午 11:44)
+已寫入檔案:win_prt.jpg,usrpass.htm ..等53筆 (2016/9/1上午 11:44)
+已刪除檔案: (addr.jpg,arc_add.jpg...)等  (446) 筆資料- 2016/9/1上午 11:45 -
+已刪除檔案: (gsrvctr.ini,idxcntrs.ini...)等  (13) 筆資料- 2016/9/1上午 11:45 -
+已刪除檔案: (addr.jpg,arc_add.jpg...)等  (76) 筆資料- 2016/9/1上午 11:45 -
+已寫入檔案:ch3.htm,ch2.htm ..等5筆 (2016/9/1上午 11:45)
+已寫入檔案:arc_add.jpg ..等1筆 (2016/9/1上午 11:46)
+已寫入檔案:dtchead.jpg,down.jpg ..等8筆 (2016/9/1上午 11:46)
+已刪除檔案: (code.jpg,config.jpg...)等  (14) 筆資料- 2016/9/1下午 01:15 -
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等3筆 (2016/9/1下午 01:15)
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等132筆 (2016/9/1下午 02:05)
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini...)等  (132) 筆資料- 2016/9/1下午 02:06 -
+已寫入檔案:suyin.jpg,siusbxp.cat ..等10筆 (2016/9/1下午 02:08)
+已刪除檔案: (gsrvctr.ini,idxcntrs.ini...)等  (10) 筆資料- 2016/9/1下午 02:24 -
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等132筆 (2016/9/1下午 03:14)
+已寫入檔案:autos.cmd,auto.cm3 ..等9筆 (2016/9/1下午 03:14)
+已寫入檔案:config32.eng,config32.big ..等15筆 (2016/9/1下午 03:15)
+已刪除檔案: (autos.cm2,autos.cm3...)等  (159) 筆資料- 2016/9/1下午 03:29 -
+已寫入檔案:PrintConfig.dll,ODBC.INI ..等3筆 (2016/9/1下午 03:29)
+已寫入檔案:CoreUIComponents.dll,autos.cmd ..等5筆 (2016/9/1下午 03:29)
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等124筆 (2016/9/1下午 03:30)
+已刪除檔案: (autos.cm3,b5gb.doc...)等  (5) 筆資料- 2016/9/1下午 03:31 -
+已寫入檔案:ODBC.INI,localarea.bmp ..等3筆 (2016/9/1下午 03:31)
+已刪除檔案: (idxcntrs.ini,localarea.bmp...)等  (450) 筆資料- 2016/9/1下午 03:31 -
+已刪除檔案: (idxcntrs.ini,gsrvctr.ini...)等  (130) 筆資料- 2016/9/1下午 03:32 -
+已寫入檔案:CoreUIComponents.dll ..等1筆 (2016/9/1下午 03:32)
+已寫入檔案:auto.cmd ..等1筆 (2016/9/1下午 03:32)
+已寫入檔案:b5gb.doc,autos.cmd ..等6筆 (2016/9/1下午 03:32)
+已寫入檔案:batpp32.exe ..等1筆 (2016/9/1下午 03:32)
+已寫入檔案:batpp32s.exe ..等1筆 (2016/9/1下午 03:32)
+已寫入檔案:chkpro32.dll,big2gbb.exe ..等5筆 (2016/9/1下午 03:32)
+已寫入檔案:LocalForm.resx,LocalForm.Designer.cs ..等6筆 (2016/9/1下午 03:33)
+已寫入檔案:NewDatabase1DataSet.xsc ..等1筆 (2016/9/1下午 03:33)
+已寫入檔案:NewDatabase1DataSet.xss ..等1筆 (2016/9/1下午 03:33)
+已寫入檔案:GetFileInfo-2016-08.09-(GetFile 多路徑搜尋測試正常,產品版本Audiio有小問題 )-Ver 1.0.0.4.zip,GetFileInfo-2016-08.08-(GetFile 多路徑搜尋測試正常，轉table 有問題)-Ver 1.0.0.4.zip ..等6筆 (2016/9/1下午 03:33)
+已寫入檔案:GetFileInfo-2016-08.16-(全選取取消test正常，隱藏DeBug物件，DataTable轉換正常，資料庫新增Root，Insert開通中)-Ver 1.0.0.8.zip ..等1筆 (2016/9/1下午 03:33)
+已刪除檔案: (CoreUIComponents.dll...)等  (1) 筆資料- 2016/9/1下午 03:33 -
+已刪除檔案: (auto.cmd...)等  (1) 筆資料- 2016/9/1下午 03:34 -
+已刪除檔案: (autos.cm1...)等  (1) 筆資料- 2016/9/1下午 03:34 -
+已刪除檔案: (auto.cm3...)等  (1) 筆資料- 2016/9/1下午 03:34 -
+已刪除檔案: (batpp32.exe...)等  (1) 筆資料- 2016/9/1下午 03:34 -
+已刪除檔案: (b5gb.doc...)等  (1) 筆資料- 2016/9/1下午 03:34 -
+已刪除檔案: (GetFileInfo-2016-08.16-(全選取取消test正常，隱藏DeBug物件，DataTable轉換正常，資料庫新增Root，Insert開通中)-Ver 1.0.0.8.zip,GetFileInfo(程式路徑調整測試中).rar...)等  (24) 筆資料- 2016/9/1下午 03:34 -
+已刪除檔案: (batp32.exe...)等  (1) 筆資料- 2016/9/1下午 03:34 -
+已刪除檔案: (autos.cm2...)等  (1) 筆資料- 2016/9/1下午 03:34 -
+已寫入檔案:Keil C51 v9.50a.exe ..等1筆 (2016/9/1下午 03:34)
+已寫入檔案:KEIL_Lic.ex_ ..等1筆 (2016/9/1下午 03:34)
+已寫入檔案:VideoCap.ini,VideoCap.exe ..等2筆 (2016/9/1下午 03:35)
+已寫入檔案:auto.cm3,auto.cm2 ..等11筆 (2016/9/1下午 03:47)
+已寫入檔案:rpcrt4.dll,PrintConfig.dll ..等121筆 (2016/9/1下午 03:48)
+已刪除檔案: (batp32s.exe,auto.cm3...)等  (2) 筆資料- 2016/9/1下午 03:48 -
+已刪除檔案: (Keil C51 v9.50a.exe...)等  (1) 筆資料- 2016/9/1下午 03:48 -
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini...)等  (135) 筆資料- 2016/9/1下午 03:48 -
+已寫入檔案:batpp32.exe,batp32s.exe ..等21筆 (2016/9/1下午 03:49)
+已刪除檔案: (localarea.bmp,ODBC.INI...)等  (21) 筆資料- 2016/9/1下午 04:06 -
+已寫入檔案:vtermcmd.tab,ViauWebCam.tab ..等72筆 (2016/9/1下午 04:07)
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini...)等  (72) 筆資料- 2016/9/1下午 04:20 -
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini...)等  (255) 筆資料- 2016/9/1下午 04:20 -
+已寫入檔案:sony111_MIPI_IRIS03.INI,sony091_MIPI_2lane_IRIS00.ini ..等7筆 (2016/9/1下午 04:21)
+已寫入檔案:IIC_FUNC.dll,Cpl64base.dll ..等3筆 (2016/9/1下午 04:22)
+已寫入檔案:MPP1Display.dll ..等1筆 (2016/9/1下午 04:22)
+已寫入檔案:vtermcmd.tab,ViauWebCam.tab ..等72筆 (2016/9/1下午 04:23)
+已寫入檔案:suyin.jpg,siusbxp.cat ..等7筆 (2016/9/1下午 04:23)
+已刪除檔案: (OV5640_MIPI_SUYIN_2lane.INI...)等  (1) 筆資料- 2016/9/1下午 04:24 -
+已刪除檔案: (OV12830_MIPI_2 Lane_OK_Iris.ini...)等  (1) 筆資料- 2016/9/1下午 04:24 -
+已寫入檔案:suyin.jpg,siusbxp.cat ..等7筆 (2016/9/1下午 04:25)
+已寫入檔案:suyin.jpg,rpcrt4.dll ..等3筆 (2016/9/1下午 04:25)
+已寫入檔案:suyin.jpg,siusbxp.cat ..等10筆 (2016/9/1下午 04:25)
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini...)等  (106) 筆資料- 2016/9/1下午 04:42 -
+以將DataGridView資料轉換Excel 檔名:(C:\Users\IRIS\Desktop\TEST.xlsx) 一份2016/9/1 下午 04:42:28
+已寫入檔案:comport.tab,chkpro32.dll ..等10筆 (2016/9/1下午 04:54)
+已寫入檔案:autos.cm2,auto.cmd ..等3筆 (2016/9/1下午 04:54)
+已寫入檔案:vtermcmd.tab,ViauWebCam.tab ..等59筆 (2016/9/1下午 04:54)
+已寫入檔案:batpp32.exe,batp32s.exe ..等15筆 (2016/9/1下午 04:55)
+以將DataGridView資料轉換Excel 檔名:(C:\Users\IRIS\Desktop\log.xlsx) 一份2016/9/1 下午 04:56:01
+已刪除檔案: (gsrvctr.ini,idxcntrs.ini...)等  (171) 筆資料- 2016/9/1下午 04:56 -
+已刪除檔案: (autos.cmd,b5gb.doc...)等  (17) 筆資料- 2016/9/1下午 04:56 -
+以將DataGridView資料轉換Excel 檔名:(C:\Users\IRIS\Desktop\Table1.xlsx) 一份2016/9/1 下午 04:56:30
+已刪除檔案: (auto.cmd,autos.cm2...)等  (13) 筆資料- 2016/9/1下午 04:56 -
+已寫入檔案:siusbxp.cat,SERVER PASSWORD.txt ..等5筆 (2016/9/1下午 04:56)
+已寫入檔案:b5gb.tab,b5gb.doc ..等12筆 (2016/9/1下午 04:56)
+已寫入檔案:autos.cmd,autos.cm3 ..等8筆 (2016/9/1下午 04:57)
+已寫入檔案:suyin.jpg,siusbxp.cat ..等10筆 (2016/9/1下午 04:57)
+已寫入檔案:suyin.jpg,siusbxp.cat ..等10筆 (2016/9/1下午 04:57)
+已寫入檔案:CoreUIComponents.dll ..等1筆 (2016/9/1下午 04:58)
+已寫入檔案:suyin.jpg,siusbxp.cat ..等10筆 (2016/9/1下午 04:58)
+已刪除檔案: (CoreUIComponents.dll,gsrvctr.ini...)等  (137) 筆資料- 2016/9/1下午 04:58 -
+已寫入檔案:suyin.jpg,siusbxp.cat ..等10筆 (2016/9/1下午 05:45)
