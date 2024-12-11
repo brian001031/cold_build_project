@@ -21,15 +21,24 @@ namespace WebApplication1
     {
         List<string> g_csvFile = new List<string>();
         List<string> g_pfcctype = new List<string>();
+        List<string> g_ThreadNotOkFile = new List<string>();
+
         bool timerunheck = false;
         public static  readonly object _lock = new object();
         public static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
-
+       // public String SourceFolder = @"C:\source_testXXX";
         public String SourceFolder = @"C:\copy_temp\source_pfcc";
+        public String ResultTaskFolder = @"C:\pf-cc-result";
+        public String NGTThread_filepath = @"C:\pf-cc-result\ng_output.txt"; // 自動執行有NG存取指定檔案路徑
+        public String NG_file_record = @"C:\pf-cc-result\ng_record.txt"; // 清除既定完成數據清除指定檔案路徑讀取
+
+        // public String NGTThread_filepath = @"C:\pf-cc\ng_output.txt"; // 自動執行有NG存取指定檔案路徑
+        // public String NG_file_record = @"C:\pf-cc\ng_record.txt"; // 清除既定完成數據清除指定檔案路徑讀取
+
         // public String SourceFolder = @"C:\source_pfcc";
-       // public String exec_savepfccbat = @"C:\copy_pfcc_result.bat";
-        
+        // public String exec_savepfccbat = @"C:\copy_pfcc_result.bat";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //避免Auto時重複初始化
@@ -52,7 +61,7 @@ namespace WebApplication1
             //目前開發本機端MYSQL 設定
           //  string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;";
             //目前佈署端local host MYSQL 設定
-            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
+            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             MySqlConnection conn = new MySqlConnection(connection);
 
@@ -71,6 +80,7 @@ namespace WebApplication1
             bool iscsvexist = false;
             bool IsOverWrite = true;
             bool copy_one = true;
+            bool mannulrun = true;
             //load 資料
 
 
@@ -112,7 +122,7 @@ namespace WebApplication1
             if (flitersite.Equals("K00")) {
                 pf_cctable = "pfprocess001";
             }// for cc1 或 cc2
-            else if (flitersite.Equals("H00"))
+            else if (flitersite.Equals("H00") || flitersite.Equals("CC-"))
             {
                 pf_cctable = "processcc";
             }
@@ -136,9 +146,12 @@ namespace WebApplication1
 
             // MySqlConnection conn = new MySqlConnection(connection);
             string fileResult = "1";
-            
+
+            if (conn.State != ConnectionState.Open)
+                conn.Open();
+
             MySqlCommand cmd = new MySqlCommand(LoadSql, conn);
-            conn.Open();
+            
             try
             {
                 cmd.ExecuteNonQuery();
@@ -193,7 +206,8 @@ namespace WebApplication1
             sqlQuery = sqlQuery + "(select now() as f_title,6 as sort ) /*Anlaysis day*/ ";
 
             MySqlCommand comm = new MySqlCommand(sqlQuery, conn);
-            conn.Open();
+            if (conn.State != ConnectionState.Open)
+                    conn.Open();
             MySqlDataReader dr = comm.ExecuteReader();
 
 
@@ -298,7 +312,8 @@ namespace WebApplication1
 
 
             MySqlConnection conn_detail = new MySqlConnection(connection);
-            conn_detail.Open();
+            if (conn_detail.State != ConnectionState.Open)
+                    conn_detail.Open();
             insertSql = "";
             string[] stepValue, divValue;
 
@@ -505,10 +520,11 @@ namespace WebApplication1
                                         VV4 = Convert.ToString(dr_detail["V4"].ToString());
                                         //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
                                         Vpara = "CC2";
-                                        Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
-                                        if (divisor == 0) divisor = 0.0039M;
-                                        VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor); 
-                                        break;
+                                            //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
+                                            //if (divisor == 0) divisor = 0.0039M;
+                                            //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
+                                            VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
+                                            break;
 
 
 
@@ -593,7 +609,8 @@ namespace WebApplication1
 
                 MySqlConnection conn_exec = new MySqlConnection(connection);
 
-                conn_exec.Open();
+                if (conn_exec.State != ConnectionState.Open)
+                        conn_exec.Open();
                 //MySqlCommand cmd = new MySqlCommand(testSql, conn_exec);
                  cmd = new MySqlCommand(testSql, conn_exec);
                 try
@@ -612,9 +629,12 @@ namespace WebApplication1
 
                 
             }
-            conn.Close();
+
+                if (conn.State != ConnectionState.Closed)
+                    conn.Close();
 
 
+                string originalfile = Filename;
 
                 //將重新解析的(PF or CC1 or CC2)存成csv,並呈現table含數據於頁面上
                 //只取檔案名稱,忽略副檔名
@@ -646,13 +666,13 @@ namespace WebApplication1
             
 
                 //若路徑資料夾(C:\\pf-cc)沒有則這邊建立,for MYSQL LOAD REQUIRE
-                if (!Directory.Exists("C:\\pf-cc"))
-                    Directory.CreateDirectory("C:\\pf-cc");
+                if (!Directory.Exists(ResultTaskFolder))
+                    Directory.CreateDirectory(ResultTaskFolder);
 
                 ExportToCsv resultcsv = new ExportToCsv();
 
                 //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
-                string pfccPath_File = Path.Combine("C:\\pf-cc", Filename);
+                string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
                 DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
 
                 csvview.DataSource = dtView;
@@ -667,6 +687,14 @@ namespace WebApplication1
                     // 目錄下C:\\tempcsv 內檔案全部刪除
                     File.Delete(DestinationFolder + Path.DirectorySeparatorChar + fi.Name);
                 }
+
+
+                List<string> recordsucessful = new List<string>();
+                recordsucessful.Add(originalfile);
+
+
+                //刪除已經完成之數據原始檔案
+                DeleteTHreadOKFiles(SourceFolder, recordsucessful, mannulrun);
 
                 //透過C:\\copy_pfcc_result.bat 將產出pf cc1 cc2 等數據csv 回存到 網路工作磁碟(ex:\\192.168.3.100\pfcc_result)
                 // PFCC_result_SaveExecuteBatFile();
@@ -908,6 +936,21 @@ namespace WebApplication1
         {
             BindSourceFileList("source");
             BindSourceFileList("object");
+
+
+            //若自動化提早結束,但沒有清理已經完成數據轉換的原始csv,這裡手動清除
+            // 讀取紀錄檔案內容(NG未完成檔案)
+            //List<string> recordLines = new List<string>();
+
+            //if (File.Exists(NG_file_record))
+            //{
+            //    recordLines.AddRange(File.ReadAllLines(NG_file_record)); // 讀取所有行
+            //}
+
+            ////只留下未完成,刪除已經完成之數據原始檔案
+            //DeleteTHreadOKFiles(SourceFolder, recordLines,false);
+
+            //LResult.Text = "已清除轉換完成原始csv,剩餘為未完成請再確認-> " + SourceFolder;
         }
 
         protected void Button2_Click1(object sender, EventArgs e)
@@ -961,6 +1004,7 @@ namespace WebApplication1
 
         public void CopyDirectory(string Source, string Destination, bool IsOverWrite = true , bool signlecopy = false)
         {
+            String DestinationFolder = "c:\\\\tempcsv";
             //目標目錄不存在則新建
             if (!Directory.Exists(Destination))
                 Directory.CreateDirectory(Destination);
@@ -968,14 +1012,51 @@ namespace WebApplication1
             string InputFile = TextBox1.Text.ToString();
 
             DirectoryInfo srcDir = new DirectoryInfo(Source);
+            bool checkfile = false;
 
             try
             {
-                //先複製目錄下檔案過去
-                foreach (FileInfo fi in srcDir.EnumerateFiles()) {
+                //步驟1:先找出所有目錄
+                //foreach (string direc in Directory.GetDirectories(Source))
+                //{
+                //    DirectoryInfo Dir = new DirectoryInfo(direc);
+                //    //先針對目前目錄的檔案做處理
+                //    foreach (FileInfo fi in Dir.EnumerateFiles())
+                //    {
+                //        if (signlecopy)
+                //        {
+                //            if (fi.Name.Equals(InputFile))
+                //            {
+                //                File.Copy(fi.FullName, Destination + Path.DirectorySeparatorChar + fi.Name, IsOverWrite);
+                //                checkfile = true;
+                //                break;
+                //            }
+                //        }
+                //        else
+                //        {
+                //            File.Copy(fi.FullName, Destination + Path.DirectorySeparatorChar + fi.Name, IsOverWrite);
+                //        }
+                //    }
+                //    //遞迴搜尋下一個子目錄
+                //    if (signlecopy)
+                //    {
+                //        if (!checkfile)
+                //            CopyDirectory(direc, DestinationFolder, IsOverWrite, signlecopy);
+                //        else
+                //            break;
+                //    }
 
-                    if (signlecopy)
+                //}
+
+
+                //步驟2: 再針對該source層內的所有檔案
+                foreach (FileInfo fi in srcDir.EnumerateFiles()) 
+                {
+                   if (signlecopy)
                     {
+                        if (checkfile)
+                            break;
+
                         if (fi.Name.Equals(InputFile)) {
                             File.Copy(fi.FullName, Destination + Path.DirectorySeparatorChar + fi.Name, IsOverWrite);
                             break;
@@ -985,7 +1066,6 @@ namespace WebApplication1
                         File.Copy(fi.FullName, Destination + Path.DirectorySeparatorChar + fi.Name, IsOverWrite);
 
                     }
-
                 }
 
                 //foreach (FileInfo fi in srcDir.EnumerateFiles())
@@ -1004,6 +1084,58 @@ namespace WebApplication1
             }
         }
 
+        public void DeleteTHreadOKFiles(string directory, List<string> ThreadNgFile, bool mannul)
+        {
+            // 取得所有檔案，包括子資料夾中的檔案
+            var allFiles = Directory.GetFiles(directory, "*.*", SearchOption.TopDirectoryOnly);
+
+            foreach (var file in allFiles)
+            {
+                // 取得檔案名稱
+                string fileName = Path.GetFileName(file);
+
+                if (mannul) {
+
+                    // 如果檔案在指定清單中，則刪除
+                    if (ThreadNgFile.Contains(fileName))
+                    {
+                        try
+                        {
+                            //刪除已經完成運行轉換的數據檔案
+                            File.Delete(file);
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error deleting file {file}: {ex.Message}");
+                        }
+                    }
+
+                }
+                else {
+
+                    // 如果檔案不在指定清單中，則刪除
+                    if (!ThreadNgFile.Contains(fileName))
+                    {
+                        try
+                        {
+                            //刪除已經完成運行轉換的數據檔案
+                            File.Delete(file);
+                            // Console.WriteLine($"Deleted: {file}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error deleting file {file}: {ex.Message}");
+                        }
+                    }
+
+
+                }
+
+               
+            }
+        }
+
         protected  void Btn_Auto_Click(object sender, EventArgs e)
         {
 
@@ -1015,6 +1147,7 @@ namespace WebApplication1
             // this.Btn_Auto.Enabled = false;
             this.Button1.Visible = false;
             this.Button3.Visible = false;
+            bool mannulrun = false;
             // 隱藏其他元件
             this.ClientScript.RegisterStartupScript(this.GetType(), "hide", "hideElements();", true);
             Timer1.Interval = 1000;//設定每秒執行一次
@@ -1023,9 +1156,19 @@ namespace WebApplication1
 
             // 設定執行緒數量初始為0
             int totalTasks = 0;
+            g_csvFile = new List<string>();
+            g_pfcctype = new List<string>();
+            g_ThreadNotOkFile = new List<string>();
             List<Task> tasks = new List<Task>();
+            using (StreamWriter writer = new StreamWriter(NGTThread_filepath, true)) // 設定為 true 以啟用附加模式
+            {
+                //  foreach (string line in lines)
+                {
+                    writer.WriteLine("開始"); // 寫入每一行
+                }
+            } // 此處自動關閉 StreamWriter 和檔案
 
-            
+
             CancellationTokenSource cts = new CancellationTokenSource();
 
            // String SourceFolder = "z:\\\\source_pfcc";
@@ -1063,7 +1206,7 @@ namespace WebApplication1
                 {
                     pf_cctable = "pfprocess001";
                 }// for cc1 或 cc2
-                else if (flitersite.Equals("H00"))
+                else if (flitersite.Equals("H00") || flitersite.Equals("CC-"))
                 {
                     pf_cctable = "processcc";
                 }
@@ -1170,6 +1313,12 @@ namespace WebApplication1
                 File.Delete(DestinationFolder + Path.DirectorySeparatorChar + fi.Name);
             }
 
+            RewriteAndAppendToFile(NGTThread_filepath, g_ThreadNotOkFile);
+
+
+            // 針對 pf,cc1,cc2來源檔案做後續處理
+           // DeleteTHreadOKFiles(SourceFolder, g_ThreadNotOkFile, mannulrun);
+
             // 任務完成後恢復元件
             this.ClientScript.RegisterStartupScript(this.GetType(), "show", "showElements();", true);
 
@@ -1181,7 +1330,7 @@ namespace WebApplication1
             LResult.Text = "所有pf,cc1,cc2轉換任務已完成 / 請執行copy_pfcc_result.bat將數據結果存到 pfcc_result";
 
         }
-        protected async Task ExecuteTask(string taskId, string pfcctype, int tnum,CancellationToken token)
+        protected async Task  ExecuteTask(string taskId, string pfcctype, int tnum,CancellationToken token)
         {
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
@@ -1190,22 +1339,24 @@ namespace WebApplication1
            
 
             //目前佈署端local host MYSQL 設定
-            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
+            //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
+            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
             MySqlConnection conn = new MySqlConnection(connection);
             string tasknum = Convert.ToString(tnum+1);
-            Label2.Text = "處理狀態:"+ $"第{tasknum}個. 工作項目-> {taskId} 開始";
+           // Label2.Text = "處理狀態:"+ $"第{tasknum}個. 工作項目-> {taskId} 開始";
+            LResult.Text = "處理狀態:" + $"第{tasknum}個. 工作項目-> {taskId} 開始";
             //Console.WriteLine($"第{tasknum}個. 工作項-> {taskId} 開始");
 
             //ViewState["time"] = 0;
             //Label1.Text = "";
 
             //Button1.Visible = false;
-           // Button3.Visible = false;
-           // Btn_Auto.Visible = true;
-           // Btn_Auto.Enabled = false;
-           // Timer1.Interval = 1000;//設定每秒執行一次
-           // Timer1.Enabled = true;//啟動計時
-           // ViewState["time"] = 0;
+            // Button3.Visible = false;
+            // Btn_Auto.Visible = true;
+            // Btn_Auto.Enabled = false;
+            // Timer1.Interval = 1000;//設定每秒執行一次
+            // Timer1.Enabled = true;//啟動計時
+            // ViewState["time"] = 0;
 
 
 
@@ -1246,15 +1397,15 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前測試本機端MYSQL 設定
-           // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;";
-           // MySqlConnection conn = new MySqlConnection(connection);
+            // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;";
+            // MySqlConnection conn = new MySqlConnection(connection);
 
             //pf,cc1,cc2工作數據暫訂upload 位置資料夾(SourceFolder)
             //String SourceFolder = "z:\\\\source_pfcc";
-         //   String SourceFolder = @"Z:\source_pfcc";
-         //   String SourceFolder = @"\\192.168.3.100\hr_tmp\source_pfcc";
-          //  String SourceFolder = @"C:\copy_temp\source_pfcc";
-           // String SourceFolder = @"C:\source_pfcc";
+            //   String SourceFolder = @"Z:\source_pfcc";
+            //   String SourceFolder = @"\\192.168.3.100\hr_tmp\source_pfcc";
+            //  String SourceFolder = @"C:\copy_temp\source_pfcc";
+            // String SourceFolder = @"C:\source_pfcc";
             String DestinationFolder = "c:\\\\tempcsv";
             String Filename = "";
             String pf_cctable = "";
@@ -1288,15 +1439,17 @@ namespace WebApplication1
             // MySqlConnection conn = new MySqlConnection(connection);
             string fileResult = "1";
 
-      
+            if (conn.State != ConnectionState.Open)
+                conn.Open();
+
 
             MySqlCommand cmd = new MySqlCommand(LoadSql, conn);
-           // conn.Open();
+            // conn.Open();
 
-
+           
             try
             {
-                conn.Open();
+                
                 //Console.WriteLine("連接成功");
                 cmd.ExecuteNonQuery();
                 LResult.Text = "已完成載檔";
@@ -1343,7 +1496,9 @@ namespace WebApplication1
                 sqlQuery = sqlQuery + "(select now() as f_title,6 as sort ) /*Anlaysis day*/ ";
 
                 MySqlCommand comm = new MySqlCommand(sqlQuery, conn);
-                conn.Open();
+
+                if (conn.State != ConnectionState.Open)
+                    conn.Open();
                 MySqlDataReader dr = comm.ExecuteReader();
 
 
@@ -1425,10 +1580,6 @@ namespace WebApplication1
                     vState = vState + 7;  //第一筆N 行第14行 +7(每組7行)
                 }
                 tempSql = tempSql.Substring(0, tempSql.Length - 1) + " from test_LoadPFData003 LIMIT 7, 1 "; //因為取標頭只有一列
-                                                                                                             // tempSql = tempSql  + " from test_LoadPFData003 LIMIT 7, 1 ";
-
-
-
 
                 dr.Close();
 
@@ -1448,7 +1599,8 @@ namespace WebApplication1
 
 
                 MySqlConnection conn_detail = new MySqlConnection(connection);
-                conn_detail.Open();
+                if (conn_detail.State != ConnectionState.Open)
+                    conn_detail.Open();
                 insertSql = "";
                 string[] stepValue, divValue;
 
@@ -1582,8 +1734,6 @@ namespace WebApplication1
                                     break;
                             }//end switch
 
-
-
                             comm_detail = new MySqlCommand(sqlQuery, conn_detail);
 
                             dr_detail = comm_detail.ExecuteReader();
@@ -1655,9 +1805,10 @@ namespace WebApplication1
                                             VV4 = Convert.ToString(dr_detail["V4"].ToString());
                                             //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
                                             Vpara = "CC2";
-                                            Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
-                                            if (divisor == 0) divisor = 0.0039M;
-                                            VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
+                                            //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
+                                            //if (divisor == 0) divisor = 0.0039M;
+                                           // VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
+                                            VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
                                             break;
 
                                     }
@@ -1728,10 +1879,11 @@ namespace WebApplication1
 
                         }
                     }
-
+                    if (conn_detail.State != ConnectionState.Closed)
+                        conn_detail.Close();
 
                     //LResult.Text = insertSql;
-                    conn_detail.Close();
+
 
 
                     //String testSql = "insert INTO pfprocess001  (ID,StartDateD,EnddateD,trayID,parameter ,State,VD28,VS28,VAHD28,VAHS28  ,VD32 ,VS32 ,VAHD32,VAHS32 ,VD35   ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD)VALUES ( 'MW2007A05101',  '2024/01/01 02:17:02','2024/01/01 07:15:14','PF-03-K000001','023', 'OK' ,'2.8000','2.8000','2627.0','2627.0', '3.3000' ,'3.3000','13802.2','13802.2','3.4000', '3.4000' ,'30400.0','30400.0','0000001.txt','00:Pressure Formation',now()) ; ";
@@ -1741,7 +1893,8 @@ namespace WebApplication1
 
                     MySqlConnection conn_exec = new MySqlConnection(connection);
 
-                    conn_exec.Open();
+                    if (conn_exec.State != ConnectionState.Open)
+                        conn_exec.Open();
                     //MySqlCommand cmd = new MySqlCommand(testSql, conn_exec);
                     cmd = new MySqlCommand(testSql, conn_exec);
                     try
@@ -1755,14 +1908,18 @@ namespace WebApplication1
                         LResult.Text = "資料錯誤" + ex.ToString();
                     }
 
-                    conn_exec.Close();
+
+                    if (conn_exec.State != ConnectionState.Closed)
+                        conn_exec.Close();
 
 
 
                 }
-                conn.Close();
 
+                if (conn.State != ConnectionState.Closed)
+                    conn.Close();
 
+                string OriginallFile = Filename;
 
                 //將重新解析的(PF or CC1 or CC2)存成csv,並呈現table含數據於頁面上
                 //只取檔案名稱,忽略副檔名
@@ -1794,22 +1951,114 @@ namespace WebApplication1
                 }
 
                 //目標目錄(C:\\pf-cc)不存在則新建
-                if (!Directory.Exists("C:\\pf-cc"))
-                    Directory.CreateDirectory("C:\\pf-cc");
+                if (!Directory.Exists(ResultTaskFolder))
+                    Directory.CreateDirectory(ResultTaskFolder);
 
-                ExportToCsv resultcsv = new ExportToCsv();
+                //先行判斷執行續是否有正常處理36組row data
+                int ExistRowNumber = GetRowCount(connection, dumpcsv);
 
-                //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
-                string pfccPath_File = Path.Combine("C:\\pf-cc", Filename);
-                DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
+                //正常處理數據量(目前依照制定為36組compnet)
+                if (ExistRowNumber >=36) {
+                    ExportToCsv resultcsv = new ExportToCsv();
 
-                csvview.DataSource = dtView;
-                csvview.DataBind();
+                    //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
+                    string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
 
-                LResult.Text = "篩選型號資料完畢!";
+                    DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
+
+                    //csvview.DataSource = dtView;
+                    //csvview.DataBind();
+                    // LResult.Text = "篩選型號資料完畢!";
+
+                    List<string>  Del_ComplateFile= new List<string>();
+                    Del_ComplateFile.Add(OriginallFile);
+
+
+                    //刪除已經完成之數據原始檔案
+                    DeleteTHreadOKFiles(SourceFolder, Del_ComplateFile, true);
+                }
+                else {
+                    //轉換過程row data 少於36組
+                    //收集執行緒異常的檔案名稱!
+                    g_ThreadNotOkFile.Add(OriginallFile);
+
+                    //將NG未處理完畢之檔案名稱紀錄後續追蹤
+                    WriteNGToFile(NG_file_record, OriginallFile);
+
+                }
+                
 
             } //end if (讀檔錯誤判斷====>)
         }
+
+        public void RewriteAndAppendToFile(string filePath, List<string> newLines)
+        {
+            // 讀取舊檔案內容
+            List<string> existingLines = new List<string>();
+            DateTime currentDateTime = DateTime.Now;
+            string formattedFull = currentDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            if (File.Exists(filePath))
+            {
+                existingLines.AddRange(File.ReadAllLines(filePath)); // 讀取所有行
+            }
+
+            //新增一組系統當前日期時間
+            existingLines.Add(formattedFull);
+
+            // 在舊內容後添加新內容
+            using (StreamWriter writer = new StreamWriter(filePath, false)) // 設定為 false 以覆蓋檔案
+            {
+                foreach (string line in existingLines)
+                {
+                    writer.WriteLine(line); // 寫入舊內容
+                }
+                
+                writer.WriteLine("----------------------新NG紀錄▽-------------------------"+ Environment.NewLine);
+
+                foreach (string newLine in newLines)
+                {
+                    writer.WriteLine(newLine); // 寫入新內容
+                }
+
+                writer.WriteLine("----------------------結束-------------------------" + Environment.NewLine); // 寫入新內容
+            } // 自動關閉 StreamWriter
+        }
+
+        public void WriteNGToFile(string filePath, string lines)
+        {
+
+            // 使用 using 語句確保 StreamWriter 會正確關閉
+            using (StreamWriter writer = new StreamWriter(filePath, true)) // 設定為 true 以啟用附加模式
+            {
+              //  foreach (string line in lines)
+                {
+                    writer.WriteLine(lines); // 寫入每一行
+                }
+            } // 此處自動關閉 StreamWriter 和檔案
+        }
+
+        public int GetRowCount(string connectionString, string query)
+        {
+            int rowCount = 0;
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new MySqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        rowCount++;
+                    }
+                }
+            }
+
+            return rowCount;
+        }
+
+       
 
         protected void Timer1_Tick(object sender, EventArgs e)
         {            

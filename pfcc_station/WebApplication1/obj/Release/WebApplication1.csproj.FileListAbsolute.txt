@@ -204,6 +204,7 @@ C:\pfcc_station\WebApplication1\bin\Antlr3.Runtime.pdb
 C:\pfcc_station\WebApplication1\bin\Microsoft.AspNet.FriendlyUrls.xml
 C:\pfcc_station\WebApplication1\bin\zh-Hant\System.Web.Optimization.resources.dll
 C:\pfcc_station\WebApplication1\bin\zh-Hant\Microsoft.AspNet.FriendlyUrls.resources.dll
+C:\pfcc_station\WebApplication1\obj\Release\WebApplication1.csproj.AssemblyReference.cache
 C:\pfcc_station\WebApplication1\obj\Release\WebApplication1.csproj.CoreCompileInputs.cache
 C:\pfcc_station\WebApplication1\obj\Release\WebApplication1.csproj.CopyComplete
 C:\pfcc_station\WebApplication1\obj\Release\WebApplication1.dll

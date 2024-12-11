@@ -24,7 +24,7 @@
         
             <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="分析PF&amp;CC"  CssClass="hideable"/>
             <!--<asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="分析CC" />-->
-            <asp:Button ID="Button3" runat="server" OnClick="Button3_Click" Text="取得檔案路徑" CssClass="hideable"/>
+            <asp:Button ID="Button3" runat="server" OnClick="Button3_Click" Text="路徑讀取" CssClass="hideable" Visible="False"/>
             <asp:Button ID="Btn_Auto" runat="server" OnClick="Btn_Auto_Click" Text="全自動解析" />
        <br />處理的檔案名稱(暫時):<asp:TextBox ID="TextBox1" runat="server" Width="1321px"></asp:TextBox>
         
