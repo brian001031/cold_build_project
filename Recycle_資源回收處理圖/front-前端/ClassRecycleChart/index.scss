@@ -1,0 +1,111 @@
+.recyclechart {
+  // .autocomplete-options {
+  //   position: absolute;
+  //   background-color: #fff;
+  //   border: 1px solid #ccc;
+  //   border-top: none;
+  //   max-width: 100%;
+  //   width: auto;
+  //   overflow-y: auto;
+  //   list-style-type: none;
+  //   padding-left: 0;
+  //   margin-top: 0;
+  //   max-height: 200px;
+  //   overflow-y: auto;
+  // }
+
+  // .autocomplete-options li {
+  //   cursor: pointer;
+  //   padding: 8px 16px;
+  // }
+  * {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+  }
+
+  main {
+    display: "flex";
+    width: 500%;
+    padding: 20px;
+  }
+  .sidebar {
+    background: #080e11;
+    text-align: center;
+    height: 100vh;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-out;
+    color: #a8bd32;
+  }
+  .container {
+    display: "flex";
+  }
+
+  .top_section {
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+  }
+  .logo {
+    font-size: 40px;
+  }
+
+  .bars {
+    display: flex;
+    font-size: 15px;
+    margin-left: 10px;
+  }
+
+  .link {
+    display: flex;
+    color: #fff;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+  }
+
+  .link:hover {
+    background-color: #5089a8;
+    text-size-adjust: 5px;
+    cursor: pointer;
+  }
+
+  .active {
+    background: rgb(162, 40, 65);
+    color: #000;
+  }
+  .icon,
+  .link_text {
+    font-size: 20px;
+  }
+
+  .charteverylog {
+    background-color: #04aa6d; /* Green */
+    position: relative;
+    right: 50px;
+    width: 50px;
+    padding: 16px 18px;
+    margin-left: 10%;
+    color: #1fb681;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  //   .outside {
+  //     width: 400px;
+  //     height: 400px;
+  //     background-color: #cccccc;
+  //     display: flex;
+  //     align-items: center;
+  //     justify-content: center;
+  //   }
+
+  //   .inside {
+  //     background-color: rgb(46, 24, 142);
+  //     position: absolute;
+  //     height: 200px;
+  //     width: 200px;
+  //   }
+  // }
+}

@@ -1,0 +1,62 @@
+.recyclechart_dynamic {
+  .button {
+    padding: 0px 15px;
+    margin-left: 2.5%;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #04aa6d;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+  }
+
+  .button:hover {
+    background-color: #3e8e41;
+  }
+
+  .button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+  .wrap {
+    overflow: hidden;
+    border-radius: 10px 10px 0px 0px;
+    box-shadow: 0 0 20px rgba(41, 159, 149, 0.35);
+  }
+
+  table {
+    font-family: "Oswald", sans-serif;
+    border-collapse: collapse;
+  }
+
+  th {
+    background-color: #1609cba9;
+    color: #c13939;
+    width: 25vw;
+    height: 35px;
+  }
+
+  td {
+    background-color: #b4a691;
+    width: 35vw;
+    height: 50px;
+    text-align: center;
+  }
+
+  tr {
+    border-bottom: 2px solid #a4c22b;
+  }
+
+  tr:last-of-type {
+    border-bottom: 2px solid #009879;
+  }
+
+  tr:nth-of-type(even) td {
+    background-color: #dfe3d5;
+  }
+}
