@@ -1,0 +1,61 @@
+p.one {
+  border-style: solid;
+  border-width: 5px;
+}
+
+p.two {
+  border-style: solid;
+  border-width: medium;
+}
+
+p.three {
+  border-style: dotted;
+  border-width: 2px;
+}
+
+p.four {
+  border-style: dotted;
+  border-width: thick;
+}
+
+th {
+  border-style: solid;
+  border-color: #13d737;
+  background-color: #0a0fac;
+  font-size: medium;
+  color: #ccc;
+}
+tr td {
+  border-style: solid;
+  border-color: #d71313;
+  background-color: #ffffff;
+  border: 1px solid rgb(27, 128, 156);
+  border-collapse: collapse;
+}
+
+input {
+  background-color: rgb(227, 219, 172); /* 設置所有 input 欄位的背景顏色 */
+}
+
+/* 設置所有 input 欄位的背景顏色 */
+input {
+  background-color: lightyellow;
+  color: black; /* 預設文字顏色 */
+  font-size: 16px; /* 預設字型大小 */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: color 0.3s ease, font-size 0.3s ease; /* 添加平滑過渡效果 */
+}
+
+/* 當 input 欄位獲得焦點時，改變文字顏色與字型大小 */
+input:focus {
+  color: rgb(39, 39, 168); /* 當焦點時，文字顏色改為深藍色 */
+  font-size: 20px; /* 焦點時字型變大 */
+}
+
+/* 當輸入文字時，動態變化 */
+input:not(:placeholder-shown) {
+  color: darkred; /* 當有文字輸入時，文字顏色變為深紅色 */
+  font-size: 18px; /* 當有文字時，字型大小變大 */
+}

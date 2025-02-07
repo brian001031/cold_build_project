@@ -14,6 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ 
 
 
 # Quick-start development settings - unsuitable for production
@@ -117,8 +118,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
+# 靜態檔案路徑設定
 STATIC_URL = 'static/'
+
+# 如果你有靜態檔案位於其他目錄，也可以指定這些目錄
+STATICFILES_DIRS = [
+    # BASE_DIR / "static",  # 預設目錄，可以根據需求進行修改
+    BASE_DIR / 'posts' / 'static',  # 這裡是目前此專案 CSS 檔案的目錄
+
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

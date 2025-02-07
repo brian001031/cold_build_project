@@ -1,13 +1,10 @@
 from django.shortcuts import render
-from django.http.response import HttpResponse
-
-
 """
 Connects to a SQL database using pyodbc
 """
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse ,JsonResponse
 from django.template import loader
 from datetime import datetime
 from . import models
@@ -86,38 +83,45 @@ def close_db(exception):
     if db is not None:
         db.close()
 
-def members(request):
-    new_member1 = Member(
-        firstname='Curry ',
-        lastname='Stephen',
-        phone=000000,
-        joined_date='1988-03-14',
-    )
+def member_list(request):
+    
+    #先刪除所有的運動球員明星數據
+    # Member.objects.all().delete()
 
-    new_member2 = Member(
-        firstname='LeBron ',
-        lastname='Raymone James',
-        phone=111111,
-        joined_date='1984-12-30',
-    )
+    # #先展示預設範例格式以下球員
+    # new_member1 = Member(
+    #     firstname='Curry ',
+    #     lastname='Stephen',
+    #     phone=000000,
+    #     joined_date='1988-03-14',
+    # )
 
-    new_member3 = Member(
-        firstname='Shohei ',
-        lastname='Ohtani',
-        phone=222222,
-        joined_date='1994-07-05',
-    )
+    # new_member2 = Member(
+    #     firstname='LeBron ',
+    #     lastname='Raymone James',
+    #     phone=111111,
+    #     joined_date='1984-12-30',
+    # )
 
-    members_list = [new_member1, new_member2, new_member3]
-    for sqlallmember in members_list:
-      sqlallmember.save()
+    # new_member3 = Member(
+    #     firstname='Shohei ',
+    #     lastname='Ohtani',
+    #     phone=222222,
+    #     joined_date='1994-07-05',
+    # )
+
+    # members_list = [new_member1, new_member2, new_member3]
+    # for sqlallmember in members_list:
+    #   sqlallmember.save()
 
     sqlallmember = Member.objects.all().values()
     template = loader.get_template('sqlite_members.html')
     context = {
     'sqlallmember': sqlallmember,
   }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'sqlite_members.html', context)
+    #原先使用以下做http傳輸
+    # return HttpResponse(template.render(context, request))
 
   #method2 使用render指向html
   #  template = loader.get_template('myfirst.html')
@@ -125,6 +129,30 @@ def members(request):
 
   #method1 透過HttpResponse
   #  return HttpResponse("Hello world!")
+
+#用來新增會員資料
+
+def add_member(request):
+  if request.method == "POST":
+    # 從前端獲取新增的資料
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        phone = request.POST.get('phone')
+        joined_date = request.POST.get('joined_date')
+
+ 
+        # 新增到資料庫
+        new_member = Member(
+            firstname=firstname,
+            lastname=lastname,
+            phone=phone,
+            joined_date=joined_date
+        )
+        new_member.save()  # 儲存新會員
+
+        # 返回新增成功的訊息
+        return JsonResponse({"message": "Member added successfully!"})
+  return JsonResponse({"message": "Invalid request method."}, status=400)
 
 def hello_world(request):
     return render(request, 'myfirst.html', {

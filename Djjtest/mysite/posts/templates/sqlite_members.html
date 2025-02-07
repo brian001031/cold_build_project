@@ -1,14 +1,21 @@
+<!-- sqlite_members.html -->
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>sqlite member fetch here provider!!</title>
-    <link rel="stylesheet" href="mystyle.css" />
+    <title>運動明星個資細節 provider!!</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="/mysite/posts/templates/mystyle.css" /> -->
+    <link rel="stylesheet" href="{% static 'mystyle.css' %}" />
+    <title>Members List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
-    <h1>Members bellow ▼</h1>
+    <h1>運動明星成員Member bellow ▼</h1>
     <style type="text/css">
       body {
-        background-color: rgb(227, 255, 224);
+        background-color: rgb(200, 255, 224);
       }
       em {
         color: rgb(178, 176, 32);
@@ -22,7 +29,7 @@
       }
     </style>
 
-    <table border-width:10px>
+    <table border-width:30px>
       <tr>
         <th>ID</th>
         <th>Firstname</th>
@@ -40,6 +47,75 @@
       </tr>
       {% endfor %}
     </table>
+
+    <h2>Add New Sport Star infomation ▽</h2>
+    <form id="add-member-form">
+      <label for="firstname">First Name:</label>
+      <input
+        type="text"
+        id="firstname"
+        placeholder="輸入名字前段"
+        required
+      /><br /><br />
+
+      <label for="lastname">Last Name:</label>
+      <input
+        type="text"
+        id="lastname"
+        placeholder="輸入名字後段"
+        required
+      /><br /><br />
+
+      <label for="phone">Phone:</label>
+      <input
+        type="number"
+        id="phone"
+        placeholder="輸入手機號碼"
+        required
+      /><br /><br />
+
+      <label for="joined_date">Joined Date:</label>
+      <input
+        type="date"
+        id="joined_date"
+        placeholder="輸入生日"
+        required
+      /><br /><br />
+
+      <button type="button" onclick="addMember()">Add Member</button>
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+      function addMember() {
+        var firstname = document.getElementById("firstname").value;
+        var lastname = document.getElementById("lastname").value;
+        var phone = document.getElementById("phone").value;
+        var joined_date = document.getElementById("joined_date").value;
+
+        $.ajax({
+          url: '{% url "add_member" %}', // 請求新增會員的視圖
+          type: "POST",
+          data: {
+            firstname: firstname,
+            lastname: lastname,
+            phone: phone,
+            joined_date: joined_date,
+            csrfmiddlewaretoken: "{{ csrf_token }}", // 添加CSRF token
+          },
+          success: function (response) {
+            // 新增成功後的處理
+            alert(response.message);
+            window.location.reload(); // 重載頁面來顯示新增的會員
+          },
+          error: function (response) {
+            alert("An error occurred!");
+          },
+        });
+      }
+    </script>
+
     <!-- 
     <ul>
       {% for x in sqlallmember %}
