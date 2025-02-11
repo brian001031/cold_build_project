@@ -59,3 +59,7 @@ input:not(:placeholder-shown) {
   color: darkred; /* 當有文字輸入時，文字顏色變為深紅色 */
   font-size: 18px; /* 當有文字時，字型大小變大 */
 }
+
+select {
+  margin-right: 10px;
+}

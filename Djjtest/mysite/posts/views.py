@@ -1,9 +1,7 @@
-from django.shortcuts import render
 """
 Connects to a SQL database using pyodbc
 """
-
-from django.shortcuts import render
+from django.shortcuts import render ,get_object_or_404,redirect
 from django.http import HttpResponse ,JsonResponse
 from django.template import loader
 from datetime import datetime
@@ -151,9 +149,30 @@ def add_member(request):
         new_member.save()  # 儲存新會員
 
         # 返回新增成功的訊息
-        return JsonResponse({"message": "Member added successfully!"})
-  return JsonResponse({"message": "Invalid request method."}, status=400)
+        return JsonResponse({"message": "New Sporter info added successfully!"}, status=208)
+  else:
+        return JsonResponse({"error": "Invalid request method."}, status=400)
 
+def delete_member(request, sporterid):
+   if request.method == 'DELETE':        
+      try:
+         #方法1 Member.Objects.get
+        member = Member.objects.get(id=sporterid)
+        # 刪除會員
+        member.delete()  # Delete the member
+
+         #方法2 使用get_object_or_404
+        #  # 嘗試查找並刪除指定的 Member
+        # sporterid = request.GET.get('id')
+        # member = get_object_or_404(Member, id=sporterid)
+        # member.delete()  # 刪除該會員
+        # 返回刪除成功的訊息
+        return JsonResponse({"message": "Select Sporter deleted successfully!"}, status=240)
+        # return redirect('some_success_page')  # Redirect to a success page or home
+      except Member.DoesNotExist:       
+        return redirect('some_error_page')  # Redirect to an error page       
+   else:
+        return JsonResponse({'error': 'Invalid deleted request method.'}, status=400)
 def hello_world(request):
     return render(request, 'myfirst.html', {
         'current_time': str(datetime.datetime.now()),

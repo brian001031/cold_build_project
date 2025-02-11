@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'posts'
+    'posts',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 其他中介軟體
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
+]
+
+INTERNAL_IPS = [
+    # 這是你的內部 IP，根據你的開發環境來設置
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'mysite.urls'

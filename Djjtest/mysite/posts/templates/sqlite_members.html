@@ -48,8 +48,9 @@
       {% endfor %}
     </table>
 
-    <h2>Add New Sport Star infomation ▽</h2>
-    <form id="add-member-form">
+    <form id="add-member-form" style="margin-left: 120px; width: max-content">
+      <h2>Add New Sport Star infomation ▽</h2>
+      {% csrf_token %}
       <label for="firstname">First Name:</label>
       <input
         type="text"
@@ -83,11 +84,58 @@
       /><br /><br />
 
       <button type="button" onclick="addMember()">Add Member</button>
+
+      <span
+        style="
+          font-size: medium;
+          margin-top: 15px;
+          margin-left: 120px;
+          color: rgb(240, 41, 58);
+        "
+        >Remove Selected Sporter →
+      </span>
+
+      <select
+        id="sporterlist"
+        name="sporterlist"
+        style="
+          background-color: rgb(221, 255, 0);
+          font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial,
+            sans-serif;
+          font-size: medium;
+        "
+      >
+        <optgroup label="sporter list">
+          {% for x in sqlallmember %}
+          <option value="{{ x.id }}" id="{{ x.id }}">
+            {{ x.firstname }}-{{ x.lastname }}
+          </option>
+          {% endfor %}
+        </optgroup>
+      </select>
+      <button type="button" onclick="delete_member()">Remove</button>
     </form>
 
     <div id="message"></div>
 
     <script>
+      // 載入 CSRF Token（Django 防止 CSRF 攻擊的設置）
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
       function addMember() {
         var firstname = document.getElementById("firstname").value;
         var lastname = document.getElementById("lastname").value;
@@ -113,6 +161,67 @@
             alert("An error occurred!");
           },
         });
+      }
+
+      function delete_member() {
+        // 獲取選中的 <option:sporter ID> 元素
+        var selectedOption = document.querySelector("option:checked");
+
+        if (selectedOption) {
+          // 獲取該選項的 ID 屬性
+          var sporterid = parseInt(selectedOption.id);
+
+          console.log("Selected sporter ID:", sporterid.toString()); // 輸出選中的 ID
+
+          if (sporterid.toString() === "NaN") {
+            alert("Please select a sporter to delete.");
+            return;
+          }
+
+          // 這裡可以繼續寫你刪除成員的邏輯
+          // 使用 fetch 發送刪除請求到後端
+          // fetch("/delete_member/" + sporterid + "/",
+          fetch(`/delete_member/${sporterid}/`, {
+            method: "DELETE", // 設置請求方法為 DELETE
+            headers: {
+              "X-CSRFToken": getCookie("csrftoken"), // 載入 CSRF Token
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json()) // 確保解析 JSON 體
+            .then((data) => {
+              if (data.status === 240) {
+                alert("Sporter deleted successfully!");
+                console.log("Member deleted successfully:", data, status);
+              } else {
+                alert(
+                  "Failed to delete Sporter: " +
+                    data.message +
+                    " / " +
+                    data.status
+                );
+                window.location.reload();
+              }
+            })
+
+            // .then((response) => {
+            //   if (response.ok) {
+            //     // 如果刪除成功，更新頁面
+            //     alert("Sporter deleted successfully!");
+            //     // 可以選擇重新載入頁面或移除已刪除的選項
+            //     // location.reload();
+            //     window.location.reload(); // 重新加載頁面
+            //   } else {
+            //     alert("Failed to delete Sporter info.");
+            //   }
+            // })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("An error occurred while deleting the member.");
+            });
+        } else {
+          alert("No Sporter selected! Please confirm and try again.");
+        }
       }
     </script>
 
