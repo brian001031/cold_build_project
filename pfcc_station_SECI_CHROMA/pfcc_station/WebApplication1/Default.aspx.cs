@@ -1886,13 +1886,45 @@ namespace WebApplication1
                                 case "017":
                                     if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                     {
-                                        //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
-                                        cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
-                                        cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 4976,1 ) as V ";
-                                        cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 5168,1) as V1 ";
-                                        cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 8394,1 ) as V2 ";
-                                        cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit 5114,1) as v3 ";
-                                        cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit 5178,1) as v4 ";
+                                        //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數
+                                        if (vparameter_chg == "0172")
+                                        {
+                                            //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
+                                            cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 4976,1 ) as V ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 5168,1) as V1 ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 8394,1 ) as V2 ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit 5114,1) as v3 ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit 5178,1) as v4 ";
+                                        }
+                                        else // Chroma  走這段解析 V , V1 ,V2,V3,V4 ,這邊根據每個step 與 Reached Target voltage' 條件對應位置 算出count
+                                        {
+                                            //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
+                                            cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
+                                            //計算五次
+                                            for (int n = 0; n < 5; n++)
+                                            {
+
+                                                int cacula_number = Parse_chroma_V_serial_count(n, vComID, vComID + 1, connection);
+                                                if (n <= 2)
+                                                {
+                                                    if (n == 0)
+                                                    {
+                                                        cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V ";
+                                                    }
+                                                    else
+                                                    {
+                                                        cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n);
+                                                    }
+                                                }
+                                                else
+                                                {
+
+                                                    cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n) + " ";
+                                                }
+                                            }
+                                        }
+
 
                                         sqlQuery = cc1SelectSql + detailSelect; //+ " ) finalR ";
 
@@ -1955,6 +1987,13 @@ namespace WebApplication1
                                             Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
                                             Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
+                                            //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
+                                            if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
+                                            {
+                                                VCCcurrent = VaverageV1 = VaverageV3 = "0.0";
+                                            }
+
+
                                             Vtime50A = "0";
                                             VV = "0";
                                             VV1 = "0";
@@ -1976,6 +2015,12 @@ namespace WebApplication1
                                             Vcharge34V = Convert.ToString(dr_detail["charge34V"].ToString());
                                             Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
                                             Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
+
+                                            //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
+                                            if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
+                                            {
+                                                VCCcurrent = VaverageV1 = VaverageV3 = "0.0";
+                                            }
 
                                             Vtime50A = Convert.ToString(dr_detail["time50A"].ToString());
                                             VV = Convert.ToString(dr_detail["V"].ToString());
