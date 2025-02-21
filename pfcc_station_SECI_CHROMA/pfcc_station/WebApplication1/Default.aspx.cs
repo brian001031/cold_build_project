@@ -26,9 +26,10 @@ namespace WebApplication1
         bool timerunheck = false;
         public static  readonly object _lock = new object();
         public static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+        public string schema_DB = "sakila";  // 本機PFCC工具資料庫名稱
 
         // public String SourceFolder = @"C:\source_testXXX";
-         public String SourceFolder = @"C:\copy_temp\source_pfcc";
+        public String SourceFolder = @"C:\copy_temp\source_pfcc";
         //測試用
        // public String SourceFolder = @"C:\copy_temp\source_pfcc_test";
         public String ResultTaskFolder = @"C:\pf-cc-result";
@@ -67,6 +68,10 @@ namespace WebApplication1
             //目前開發本機端MYSQL 設定
             string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
+
+            //遠端remote合併 hr.test_mergepfcc MYSQL 設定
+            string connection_merge = "server=192.168.3.100;user id=root;password=Admin0331;database=hr; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+
             MySqlConnection conn = new MySqlConnection(connection);
 
             //pf,cc1,cc2工作數據暫訂upload 位置資料夾(SourceFolder)
@@ -75,11 +80,14 @@ namespace WebApplication1
             //因佈署後UNC路徑目前無法透過磁區辨別,只能由源頭IP位置找尋
            //  String SourceFolder = @"\\192.168.3.100\hr_tmp\source_pfcc";
             String DestinationFolder = "c:\\\\tempcsv";
-            String Filename = "";
+            String Filename = "" , pfcc_tablename ="";
+           
+
 
             String LoadSql = "";
 
             String dumpcsv = "";
+            String merge_sql_var = "" , merge_table_rowdata ="", All_col_listname = "";
             String fileExtension = "csv";
             bool iscsvexist = false;
             bool IsOverWrite = true;
@@ -725,11 +733,12 @@ namespace WebApplication1
                     case "023": //pf ==>'023'
                         dumpcsv = "SELECT * FROM sakila.pfprocess001;";
                         Filename = Filename + "-pfprocess001.csv";
+                        pfcc_tablename = "pfprocess001";
                         break;
                     case "010":  //cc1
                         dumpcsv = "SELECT * FROM sakila.processcc;";
                         Filename = Filename + "-process-cc1.csv";
-
+                        pfcc_tablename = "processcc";
                         break;
                     case "017": //cc2
                         dumpcsv = "SELECT * FROM sakila.processcc;";
@@ -742,10 +751,12 @@ namespace WebApplication1
                         } 
                         else {
                             Filename = Filename + "-process-cc2.csv";
-                        } 
+                        }
+                        pfcc_tablename = "processcc";
                         break;
                 }
-            
+
+
 
                 //若路徑資料夾(C:\\pf-cc)沒有則這邊建立,for MYSQL LOAD REQUIRE
                 if (!Directory.Exists(ResultTaskFolder))
@@ -754,15 +765,29 @@ namespace WebApplication1
                 ExportToCsv resultcsv = new ExportToCsv();
 
                 //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
+                //(1)先將分析數據產生export csv格式檔
                 string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
-                DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
-
+                DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);                      
                 csvview.DataSource = dtView;
                 csvview.DataBind();
 
-                LResult.Text = "篩選型號資料完畢!";
+                //(2)再將分析完的數據合併預先遠端建置之的table (這邊目前使用遠端 hr.test_mergepfcc)
+                //目前所有(pc,cc1,cc2,cc2-2)都忽略以下欄位
+                All_col_listname = $@"SELECT GROUP_CONCAT(CASE
+                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'FileName', 'Process', 'AnlaysisDayD') THEN COLUMN_NAME
+                        ELSE NULL
+                        END  ORDER BY ORDINAL_POSITION) AS col_list
+                        FROM INFORMATION_SCHEMA.COLUMNS
+                        WHERE TABLE_NAME = '{pfcc_tablename}'
+                        AND TABLE_SCHEMA = '{schema_DB}'; ";
 
-               
+                               
+                if (resultcsv.Merge_existfilter_value(connection, connection_merge, All_col_listname, schema_DB, pfcc_tablename) == true)
+                        LResult.Text = "分析完篩選型號及合併資料完畢!";
+                else
+                        LResult.Text = "資料合併異常,NG,請確認分析完PF_CC系列數據格式!";
+
+
                 DirectoryInfo tempDir = new DirectoryInfo(DestinationFolder);
                 foreach (FileInfo fi in tempDir.EnumerateFiles())
                 {
@@ -1477,12 +1502,16 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前開發本機端MYSQL 設定
-           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+          string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-           //  string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+
+            //遠端remote合併 hr.test_mergepfcc MYSQL 設定
+            string connection_merge = "server=192.168.3.100;user id=root;password=Admin0331;database=hr; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            
             MySqlConnection conn = new MySqlConnection(connection);
             string tasknum = Convert.ToString(tnum+1);
            // Label2.Text = "處理狀態:"+ $"第{tasknum}個. 工作項目-> {taskId} 開始";
@@ -2143,6 +2172,7 @@ namespace WebApplication1
                     conn.Close();
 
                 string OriginallFile = Filename;
+                string pfcc_tablename = "" , All_col_listname = "";
 
                 //將重新解析的(PF or CC1 or CC2)存成csv,並呈現table含數據於頁面上
                 //只取檔案名稱,忽略副檔名
@@ -2153,11 +2183,12 @@ namespace WebApplication1
                     case "023": //pf ==>'023'
                         dumpcsv = "SELECT * FROM sakila.pfprocess001;";
                         Filename = Filename + "-pfprocess001.csv";
+                        pfcc_tablename = "pfprocess001";
                         break;
                     case "010":  //cc1
                         dumpcsv = "SELECT * FROM sakila.processcc;";
                         Filename = Filename + "-process-cc1.csv";
-
+                        pfcc_tablename = "processcc";
                         break;
                     case "017": //cc2
                         dumpcsv = "SELECT * FROM sakila.processcc;";
@@ -2174,6 +2205,7 @@ namespace WebApplication1
                         {
                             Filename = Filename + "-process-cc2.csv";
                         }
+                        pfcc_tablename = "processcc";
                         break;
                 }
 
@@ -2191,18 +2223,34 @@ namespace WebApplication1
                     //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
                     string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
 
+                    //(1)先將分析數據產生export csv格式檔
                     DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
 
                     //csvview.DataSource = dtView;
                     //csvview.DataBind();
                     // LResult.Text = "篩選型號資料完畢!";
 
+
+                    //(2)再將分析完的數據合併預先遠端建置之的table (這邊目前使用遠端表單為  testmerge_pf 和 testmerge_cc1orcc2)
+                    //目前所有(pc,cc1,cc2,cc2-2)都忽略以下欄位
+                    All_col_listname = $@"SELECT GROUP_CONCAT(CASE
+                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'FileName', 'Process', 'AnlaysisDayD') THEN COLUMN_NAME
+                        ELSE NULL
+                        END  ORDER BY ORDINAL_POSITION) AS col_list
+                        FROM INFORMATION_SCHEMA.COLUMNS
+                        WHERE TABLE_NAME = '{pfcc_tablename}'
+                        AND TABLE_SCHEMA = '{schema_DB}'; ";
+
                     List<string>  Del_ComplateFile= new List<string>();
                     Del_ComplateFile.Add(OriginallFile);
 
-
-                    //刪除已經完成之數據原始檔案
-                    DeleteTHreadOKFiles(SourceFolder, Del_ComplateFile, true);
+                    //若合併指定遠端table 成功則往繼續執行下方最後作業!
+                    if (resultcsv.Merge_existfilter_value(connection, connection_merge, All_col_listname, schema_DB, pfcc_tablename) == true)
+                    {
+                        //刪除已經完成之數據原始檔案
+                        DeleteTHreadOKFiles(SourceFolder, Del_ComplateFile, true);
+                    }
+                    
                 }
                 else {
                     //轉換過程row data 少於36組
