@@ -231,7 +231,7 @@ def main():
               if i == 0 :
                 img_L = cv2.imread(filename[i])
               elif i == 1:
-                img_R = cv2.imread(filename[i])
+                img_R = cv2.imread(filename[i])  
             
             h0,w0 = img_L.shape[0],img_L.shape[1]
             h1,w1 = img_R.shape[0],img_R.shape[1]
