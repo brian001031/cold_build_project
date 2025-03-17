@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -48,6 +49,33 @@ namespace WebApplication1
 
                 return dataTable;
             }
+        }
+
+        private string check_datetime_Formate_IsOK(string check_column_val , string reciver_formate) 
+        {
+            // 檢查是否符合日期時間格式
+            DateTime parsedDate;
+            bool isValidDate = DateTime.TryParseExact(check_column_val, reciver_formate,
+                                                      CultureInfo.InvariantCulture,
+                                                      DateTimeStyles.None,
+                                                      out parsedDate);
+
+            if (!isValidDate)
+            {
+                // 將其格式化為 MySQL 可以理解的格式：yyyy-MM-dd HH:mm:ss
+                // string formattedDate = parsedDate.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime currentTime = DateTime.Now;
+                
+                // 構建 SQL 語句中的值
+               // string val_AnlaysisDayD = "STR_TO_DATE('" + check_column_val + "', '%Y-%m-%d %H:%i:%s')";
+                string formattedDateTime = currentTime.ToString("yyyy/MM/dd HH:mm:ss");
+
+                return formattedDateTime;
+                // Console.WriteLine("轉換的 SQL 語句: " + val_AnlaysisDayD);
+            }
+
+            return check_column_val;
+        
         }
 
         public bool Merge_existfilter_value(string connectionString, string connect_remote_merge, string allcolumn,  string DB, string tableName)
@@ -124,7 +152,7 @@ namespace WebApplication1
                                     }
                                     else
                                     {
-                                        insert_value += " '" + dr[columnNames[col]].ToString() + "' ,";
+                                      insert_value += " '" + dr[columnNames[col]].ToString() + "' ,";
 
                                         //測試改變value是否能改變原先modleID,不insert 只做update,
                                         //string number = string.Empty;
@@ -156,8 +184,8 @@ namespace WebApplication1
                                     }
                                 }//最後欄位 columnNames.Length -1
                                 else
-                                {
-                                    insert_value += " '" + dr[columnNames[col]].ToString() + "' ";
+                                {                               
+                                   insert_value += " '" + dr[columnNames[col]].ToString() + "' ";                                                                    
                                 }
 
                             }
@@ -211,7 +239,7 @@ namespace WebApplication1
                             {
                                 if (iFlag < insert_number - 1)
                                 {
-                                    data = "(" + row_pfcc_value[iFlag].ToString() + ") ,\n";
+                                   data = "(" + row_pfcc_value[iFlag].ToString() + ") ,\n";                                    
                                 }
                                 else
                                 {

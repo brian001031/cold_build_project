@@ -12,8 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Diagnostics;
-
-
+using System.Data.SqlClient;
 
 namespace WebApplication1
 {
@@ -22,14 +21,15 @@ namespace WebApplication1
         List<string> g_csvFile = new List<string>();
         List<string> g_pfcctype = new List<string>();
         List<string> g_ThreadNotOkFile = new List<string>();
+        List<string> g_batterycell_number = new List<string>();
+        List<string> g_Batt_Classtype;
 
         bool timerunheck = false;
         public static  readonly object _lock = new object();
         public static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
-        public string schema_DB = "sakila";  // 本機PFCC工具資料庫名稱
 
         // public String SourceFolder = @"C:\source_testXXX";
-        public String SourceFolder = @"C:\copy_temp\source_pfcc";
+         public String SourceFolder = @"C:\copy_temp\source_pfcc";
         //測試用
        // public String SourceFolder = @"C:\copy_temp\source_pfcc_test";
         public String ResultTaskFolder = @"C:\pf-cc-result";
@@ -41,6 +41,15 @@ namespace WebApplication1
 
         // public String SourceFolder = @"C:\source_pfcc";
         // public String exec_savepfccbat = @"C:\copy_pfcc_result.bat";
+
+        //MSSQL資料庫各連結參數         
+        string MS_Server = "192.168.200.52";
+        string MS_Database = "ASRS_HTBI";
+        string MS_dbuid = "HTBI_MES";
+        string MS_dbpwd = "mes123";
+
+        //配方版本
+        string sVer = string.Empty;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -63,14 +72,18 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-            //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
             string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //遠端remote合併 hr.test_mergepfcc MYSQL 設定
-            string connection_merge = "server=192.168.3.100;user id=root;password=Admin0331;database=hr; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            string connection_merge = "server=192.168.3.100;user id=root;password=Admin0331;database=mes; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+
+
+            string STR_MSSQL_ARASHTBI = string.Format("server={0};database={1};uid={2};pwd={3};Connect Timeout = 180", MS_Server, MS_Database, MS_dbuid, MS_dbpwd);
+
 
             MySqlConnection conn = new MySqlConnection(connection);
 
@@ -81,7 +94,7 @@ namespace WebApplication1
            //  String SourceFolder = @"\\192.168.3.100\hr_tmp\source_pfcc";
             String DestinationFolder = "c:\\\\tempcsv";
             String Filename = "" , pfcc_tablename ="";
-           
+            string schema_DB = "sakila";  // 本機PFCC工具資料庫名稱
 
 
             String LoadSql = "";
@@ -95,7 +108,8 @@ namespace WebApplication1
             bool mannulrun = true;
             //load 資料
 
-
+           
+            sVer = this.ver_select.SelectedItem.ToString();
             //PF + CC 
 
 
@@ -188,18 +202,13 @@ namespace WebApplication1
             
 
             if (fileResult == "1") 
-            { 
+            {
+                //總共要塞的欄位
+                // insert into pfprocess001()
+                //ID,Start dateEnd date,tary ID,	parameter,State,2.8V,2.8V Ah,3.2V,3.2V Ah,3.5V,3.5V Ah,	file name,process,Anlaysis day
 
-
-
-
-
-            //總共要塞的欄位
-            // insert into pfprocess001()
-            //ID,Start dateEnd date,tary ID,	parameter,State,2.8V,2.8V Ah,3.2V,3.2V Ah,3.5V,3.5V Ah,	file name,process,Anlaysis day
-
-            //取固定值---起始日、終止日
-            string sqlQuery = "";
+                //取固定值---起始日、終止日
+                string sqlQuery = "";
             sqlQuery = sqlQuery + "/*title */";
             //sqlQuery = sqlQuery + " (select fld5 as f_title,1 as sort from test_LoadPFData003 LIMIT 9, 1)  /*start_date */ ";
             sqlQuery = sqlQuery + "( select case when (SUBSTRING(fld5, 2, 1) = '/') or (SUBSTRING(fld5, 3, 1) = '/')  then CONVERT(STR_TO_DATE(fld5, '%m/%d/%Y %T'), DATETIME)  else CONVERT(fld5, DATETIME)  end f_title ,1 as sort  from test_LoadPFData003 LIMIT 9, 1 )  ";
@@ -238,9 +247,11 @@ namespace WebApplication1
 
             string sort_temp = "";
 
+            bool check_cc2_algorithm = false;
 
-            //title 列
-            if (dr.HasRows)
+
+                //title 列
+                if (dr.HasRows)
             {
                 //使用Read方法把資料讀進Reader，讓Reader一筆一筆順向指向資料列，並回傳是否成功。
                 while (dr.Read())
@@ -338,6 +349,8 @@ namespace WebApplication1
 
             comm = new MySqlCommand(tempSql, conn);
             dr = comm.ExecuteReader();
+
+            int BattaryID = 8, battary_count = 0, insert_num = 0;
             vComID = 8;
             vState = 14;
             String insertSql = "";
@@ -392,7 +405,7 @@ namespace WebApplication1
             }
 
              
-            string tableTitleSql = "", columnSql = "", valueSql = "" , detailSelect = "";
+            string tableTitleSql = "", columnSql = "", valueSql = "" , detailSelect = "" ;
 
             string cc1SelectSql = "";
 
@@ -403,15 +416,44 @@ namespace WebApplication1
             string Vcharge345V = "", Vcharge35V = "", Vtime50A = "", VV = "", VV1 = "", VV2 = "";
             string VV3 = "", VV4 = "", VmOhm = "",Vpara = "";
 
+            //判讀碼A 位置1 --start--
+            string CC2_interpretcode = "", CC2_position = "";
+            //---end---
 
-            if (dr.HasRows)
+                if (dr.HasRows)
             {
                 //使用Read方法把資料讀進Reader，讓Reader一筆一筆順向指向資料列，並回傳是否成功。
                 while (dr.Read())
                 { //應該只有一筆
 
-                    //開36個insert 
-                    for (int iFlag = 1; iFlag <= 36; iFlag++)
+                        //重新清空存取電芯號碼存取列表
+                        g_batterycell_number = new List<string>();
+                        // Console.WriteLine("Number of rows returned: " + dr.FieldCount);
+                        //開36個電芯號碼搜尋 , 先收集所有電芯號碼modle 
+                        for (int ibattary = 1; ibattary <= 36; ibattary++)
+                        {
+                            string cell_Boxbatt = dr["fld" + BattaryID].ToString();
+
+                            //測試如果沒有查到電芯號或是電芯號目前尚未建MSSQL表搜無---test start--------
+                            //if (ibattary == 6 || ibattary == 12 || ibattary == 14 || ibattary == 20 || ibattary == 32)
+                            //{
+                            //    cell_Boxbatt = "MW2007HXXXXXXX".ToString();                            
+                            //}
+                            //if (ibattary != 100) cell_Boxbatt = "MW2007HXXXXXXX".ToString();
+                            //-------end--------
+                            g_batterycell_number.Add(cell_Boxbatt);
+                            BattaryID += 7;
+                        }
+
+                        //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
+                        Sync_HTBI_Merge_Classparam(STR_MSSQL_ARASHTBI, g_batterycell_number);
+
+
+                        //檢視最後g_Batt_Classtype 存取狀態顯示
+                        Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype));
+
+                        //開36個insert 
+                        for (int iFlag = 1; iFlag <= 36; iFlag++)
                     {
 
 
@@ -462,8 +504,9 @@ namespace WebApplication1
                                 if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                 {
 
-                                        //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數
-                                        if (vparameter_chg == "0172")
+                                        //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數                                        
+                                        if (vparameter_chg == "0172" && check_cc2_algorithm) // for 測試正常
+                                       // if (vparameter_chg == "0172")
                                         {
                                             //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
                                             cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
@@ -549,7 +592,7 @@ namespace WebApplication1
                                 VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
 
 
-
+                                Console.WriteLine($"3.5-2.8V Ah 電容量 =  { VAHD35}");
 
                                 switch (vparameter)
                                 {
@@ -594,8 +637,15 @@ namespace WebApplication1
                                         Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
                                         Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
-                                        //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
-                                        if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
+                                        int cap_type = Assign_Cap_mAH_Type(VAHD35);
+                                        CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
+
+                                        int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);
+
+                                        CC2_position = Convert.ToString(check_position);
+
+                                            //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
+                                            if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
                                         {
                                             VCCcurrent = VaverageV1 = VaverageV3 = "0.0";
                                         }
@@ -619,34 +669,35 @@ namespace WebApplication1
                                 }
                             }
 
-                            //vStart_date //設定測試的日期(因為是key，所以手動輸 0755  測試值上線要拿掉
-                            //vStart_date = "2024/01/01 01:11:44";
-                            //'2024/07/01 02:13:44'
+                                //vStart_date //設定測試的日期(因為是key，所以手動輸 0755  測試值上線要拿掉
+                                //vStart_date = "2024/01/01 01:11:44";
+                                //'2024/07/01 02:13:44'
 
 
-                            //string tableTileSql = "", columnSql = "", valueSql = "";
+                                //string tableTileSql = "", columnSql = "", valueSql = "";
 
-                            ///insertSql = insertSql + " INSERT INTO pfprocess001  ";
+                                ///insertSql = insertSql + " INSERT INTO pfprocess001  ";
+ 
 
+                                valueSql = "VALUES ( '" + dr["fld" + vComID].ToString() + "',  '" + vStart_date + "','" + vdateEnd_date + "','" + vtary_ID + "','" + vparameter + "',";
+                                valueSql = valueSql + " '" + dr["fld" + vState].ToString() + "' ,'" + VD28 + "','" + VD28 + "','" + VAHD28 + "','" + VAHD28 + "',";
+                                valueSql = valueSql + " '" + VD32 + "' ,'" + VD32 + "','" + VAHD32 + "','" + VAHD32 + "','" + VD35 + "',";
+                                valueSql = valueSql + " '" + VD35 + "' ,'" + VAHD35 + "','" + VAHD35 + "','" + Filename + "','" + vprocess + "',now()";
 
-
-                            valueSql = "VALUES ( '" + dr["fld" + vComID].ToString() + "',  '" + vStart_date + "','" + vdateEnd_date + "','" + vtary_ID + "','" + vparameter + "',";
-                            valueSql = valueSql + " '" + dr["fld" + vState].ToString() + "' ,'" + VD28 + "','" + VD28 + "','" + VAHD28 + "','" + VAHD28 + "',";
-                            valueSql = valueSql + " '" + VD32 + "' ,'" + VD32 + "','" + VAHD32 + "','" + VAHD32 + "','" + VD35 + "',";
-                            valueSql = valueSql + " '" + VD35 + "' ,'" + VAHD35 + "','" + VAHD35 + "','" + Filename + "','" + vprocess + "',now()";
-                            
-                            //select CCcurrent, OCV, averageV1, averageV2, averageV3, charge34V, charge345V, charge35V
-                            //  , time50A, v, v1, v2, v3, v4, mOhm from processcc
-                            switch (vparameter)
+                                //select CCcurrent, OCV, averageV1, averageV2, averageV3, charge34V, charge345V, charge35V
+                                //  , time50A, v, v1, v2, v3, v4, mOhm from processcc
+                                switch (vparameter)
                             {
                                 case "023": //pf
                                     tableTitleSql = " INSERT INTO pfprocess001  ";
                                     tableTitleSql = tableTitleSql +  " (ID,StartDateD,EnddateD,trayID,parameter ";
                                     tableTitleSql = tableTitleSql + ",State,VD28,VS28,VAHD28,VAHS28 ";
                                     tableTitleSql = tableTitleSql + " ,VD32 ,VS32 ,VAHD32,VAHS32 ,VD35  ";
-                                    tableTitleSql = tableTitleSql + " ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD ";
+                                    tableTitleSql = tableTitleSql + " ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD,interpretcode,position ";
 
-                                    insertSql = insertSql + tableTitleSql +  " ) " + valueSql + ");";
+                                    valueSql = valueSql + " ,'" + CC2_interpretcode + "','" + CC2_position + "'";
+
+                                    insertSql = insertSql + tableTitleSql +  " ) " + valueSql  + ");";
                                     break;
                                 default: //cc2>cc1 所以有7個欄位 寫0
 
@@ -663,13 +714,13 @@ namespace WebApplication1
                                     columnSql = columnSql + " ,VSC,VAHDC ,VAHSC,FileName,Process,AnlaysisDayD ";
                                     columnSql = columnSql + ",Para ";
                                     columnSql = columnSql + ",CCcurrent,OCV,averageV1,averageV2,averageV3,charge34V,charge345V,charge35V"; //cc1有的，
-                                    columnSql = columnSql + ",time50A,v,v1,v2,v3,v4,mOhm"; //cc2才有的，cc1要塞的話，值均為0 mOhm 是用算值出來的
+                                    columnSql = columnSql + ",time50A,v,v1,v2,v3,v4,mOhm,interpretcode,position,analysisDT"; //cc2才有的，cc1要塞的話，值均為0 mOhm 是用算值出來的
                                     
                                     valueSql = valueSql + ",'" + Vpara + "'";  //para
                                     valueSql = valueSql + ", "+ VCCcurrent + "," + VOCV + "," + VaverageV1 + ","  + VaverageV2 + ","  + VaverageV3 + ","  + Vcharge34V + ","  + Vcharge345V + ","  + Vcharge35V ;
-                                    valueSql = valueSql + ", " + Vtime50A + ", " + VV + ", " + VV1 + ", " + VV2 + ", " + VV3 + ", " + VV4 + ", " + VmOhm + ") ";
-                                    //新增vvalueSql//增加value(
-                                    insertSql = insertSql + tableTitleSql + columnSql + " ) " + valueSql +";";
+                                    valueSql = valueSql + ", " + Vtime50A + ", " + VV + ", " + VV1 + ", " + VV2 + ", " + VV3 + ", " + VV4 + ", " + VmOhm + ", " + "'" + CC2_interpretcode + "'" + ", " + "'" + CC2_position + "'" + ", now()" + ") ";
+                                        //新增vvalueSql//增加value(
+                                        insertSql = insertSql + tableTitleSql + columnSql + " ) " + valueSql +";";
                                     break;
 
                             }
@@ -678,6 +729,7 @@ namespace WebApplication1
 
                             vComID = vComID + 7;
                             vState = vState + 7;
+                            insert_num++;
 
                             dr_detail.Close();
                         }
@@ -771,10 +823,20 @@ namespace WebApplication1
                 csvview.DataSource = dtView;
                 csvview.DataBind();
 
+                string sDayD_value = string.Empty;
+
+                if (vparameter == "023")
+                {
+                    sDayD_value = "XXXXXX";
+                }
+                else {
+                    sDayD_value = "AnlaysisDayD";
+                }
+
                 //(2)再將分析完的數據合併預先遠端建置之的table (這邊目前使用遠端 hr.test_mergepfcc)
                 //目前所有(pc,cc1,cc2,cc2-2)都忽略以下欄位
                 All_col_listname = $@"SELECT GROUP_CONCAT(CASE
-                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'FileName', 'Process', 'AnlaysisDayD') THEN COLUMN_NAME
+                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'Process','{sDayD_value}') THEN COLUMN_NAME
                         ELSE NULL
                         END  ORDER BY ORDINAL_POSITION) AS col_list
                         FROM INFORMATION_SCHEMA.COLUMNS
@@ -811,6 +873,440 @@ namespace WebApplication1
             } //end if (讀檔錯誤判斷====>)
 
         }
+
+        //透過以下範圍參數建立電芯電容量欄位 (英文+數字(2位元))
+        // TYPE 電容量
+        //0 < 42
+        //1   45~42
+        //2   45 - 46
+        //3   46 - 47
+        //4   47 - 48
+        //5   48 - 49
+        //6   49 - 50
+        //7   50 - 51
+        //8   51~53
+        //9 > 53
+        private int Assign_Cap_mAH_Type(string sCap_mAH)
+        {
+            int require_mAH = 0;
+
+            if (!string.IsNullOrEmpty(sCap_mAH))
+            {
+                double cap_mAH = Convert.ToDouble(sCap_mAH); // 嘗試轉換字串為數值格式
+                //需要先將除1000取商 mAH 電芯容量單位為(1C = 1000mAH) 
+                require_mAH = (int)cap_mAH / 1000;
+            }
+            else
+            {
+                // 這裡可以加入錯誤處理的邏輯，比如設為預設值或拋出錯誤
+                Console.WriteLine("sCap_mAH 是空字串或 null");
+            }
+
+
+            if (require_mAH < 42) return 0;
+            else if (require_mAH >= 42 && require_mAH < 45) return 1;
+            else if (require_mAH >= 45 && require_mAH < 46) return 2;
+            else if (require_mAH >= 46 && require_mAH < 47) return 3;
+            else if (require_mAH >= 47 && require_mAH < 48) return 4;
+            else if (require_mAH >= 48 && require_mAH < 49) return 5;
+            else if (require_mAH >= 49 && require_mAH < 50) return 6;
+            else if (require_mAH >= 50 && require_mAH < 51) return 7;
+            else if (require_mAH >= 51 && require_mAH < 53) return 8;
+            else if (require_mAH >= 53) return 9;
+
+            return 0;
+        }
+
+        // 判斷邏輯	00	優先去15
+        //          09	優先去31
+        //           G   非00與09 去16
+        //           H   非00與09 去32
+        private int Determination_Type_Position(string char_En, int Assign_number)
+        {
+            //配方版本: 例如 Ver.001
+            if (sVer.EndsWith("001"))
+            {
+                if (Assign_number == 0) return 15;
+                if (Assign_number == 9) return 31;
+
+                if (char_En[0] == 'G') //G判斷
+                {
+                    if (Assign_number > 0 && Assign_number < 9) return 16;
+                    else
+                    {
+
+
+                    }
+                }
+
+                else if (char_En[0] == 'H') //H判斷
+                {
+                    if (Assign_number > 0 && Assign_number < 9) return 32;
+                    else
+                    {
+
+
+                    }
+                }
+
+                else if (char_En[0] == 'A')  //A判斷
+                {
+                    //偶數
+                    if (Assign_number % 2 == 0)
+                    {
+                        if (Assign_number >= 2 && Assign_number <= 6)
+                        {
+                            return Assign_number / 2;
+                        }
+                    }
+                    else
+                    { //奇數
+                        if (Assign_number >= 3 && Assign_number <= 7)
+                        {
+                            int divnum = Assign_number / 2;
+                            return 16 + divnum;
+                        }
+                    }
+                }
+                else if (char_En[0] == 'B')  //B判斷
+                {
+                    //偶數
+                    if (Assign_number % 2 == 0)
+                    {
+                        if (Assign_number >= 2 && Assign_number <= 6)
+                        {
+                            int divnum = Assign_number / 2;
+                            return 3 + divnum;
+                        }
+                    }
+                    else
+                    {
+                        //奇數
+                        if (Assign_number >= 3 && Assign_number <= 7)
+                        {
+                            int divnum = Assign_number / 2;
+                            int remainder = Assign_number % 2;
+                            return 20 + (divnum - remainder);
+                        }
+                    }
+                }
+                else if (char_En[0] == 'C')  //C判斷
+                {
+                    //偶數
+                    if (Assign_number % 2 == 0)
+                    {
+                        if (Assign_number >= 2 && Assign_number <= 6)
+                        {
+                            int divnum = Assign_number / 2;
+                            return 6 + divnum;
+                        }
+                    }
+                    else
+                    {
+                        //奇數
+                        if (Assign_number >= 3 && Assign_number <= 7)
+                        {
+                            int divnum = Assign_number / 2;
+                            int remainder = Assign_number % 2;
+                            return 21 + (divnum + remainder);
+                        }
+
+                    }
+
+                }
+                else if (char_En[0] == 'D')  //D判斷
+                {
+                    //偶數
+                    if (Assign_number % 2 == 0)
+                    {
+                        if (Assign_number >= 2 && Assign_number <= 6)
+                        {
+                            int divnum = Assign_number / 2;
+                            return 9 + divnum;
+                        }
+                    }
+                    else
+                    {
+                        //奇數
+                        if (Assign_number >= 3 && Assign_number <= 7)
+                        {
+                            int divnum = Assign_number / 2;
+                            int remainder = Assign_number % 2;
+                            return 24 + (divnum + remainder);
+                        }
+                    }
+                }
+                else //當搜尋到未知的符號,目前若電芯號碼串接無資訊回傳,預設 char_En[0] -> '?'
+                {
+                    return 0;
+                }
+
+            }
+            else if (sVer.EndsWith("002"))
+            {
+
+            }
+
+            return 0;
+        }
+
+
+        private void Sync_HTBI_Merge_Classparam(string MS_dbcon, List<string> all_batterycell)
+        {
+            Console.WriteLine($" MSSQL connecting string =  {MS_dbcon} ");
+            string scmdAll = "", s_cmd2 = "";
+
+            //實際透過MSSQL query 找到的電芯號
+            List<string> actual_find_model = new List<string>();
+
+            //實際透過MSSQL query 英文 classType 代號
+            List<string> actual_find_classtype = new List<string>();
+
+            //找尋同電芯號的位置index
+            //List<int> matchingIndexes = new List< int>();
+
+            // 儲存匹配的 index 和對應的 classType
+            List<Tuple<int, string>> matchingIndexes = new List<Tuple<int, string>>();
+
+            // 紀錄已經搜尋過的索引
+            HashSet<int> searchedIndexes = new HashSet<int>();
+
+            // 紀錄已經統計的索引
+            HashSet<int> runfilter = new HashSet<int>();
+
+            //全部要搜尋的電芯號列表
+            StringBuilder All_battarycell = new StringBuilder();
+
+            //全部CASE 電芯號列表描述語法 (排序依原先)
+            StringBuilder All_battaryCase = new StringBuilder();
+
+            //確認找到電芯號旗標 flag
+            bool check_classtype, findBox_Batt;
+
+            //  select BOX_BATT,ClassType from HTBI_K_Value_MapperType2_V where BOX_BATT IN ( 'MW2007H62787', 'MW2007H62788','MW2007H62789','MW2007H62790','MW2007H62791','MW2007H62955');
+            for (int modle = 0; modle < all_batterycell.Count; modle++)
+            {
+                // for s_cmd  -----start------
+                All_battarycell.Append("'").Append(Convert.ToString(all_batterycell[modle])).Append("'");
+
+                // 如果不是最後一個元素，則加逗號
+                if (modle < all_batterycell.Count - 1)
+                {
+                    All_battarycell.Append(", ");
+                }
+                //  -----end------
+
+                // for s_cmd2---- - start------
+                All_battaryCase.Append(" WHEN '")
+               .Append(Convert.ToString(all_batterycell[modle]))
+               .Append("' THEN ")
+               .Append(modle + 1)
+               .Append(Environment.NewLine);
+
+                if (modle == all_batterycell.Count - 1)
+                {
+                    All_battaryCase.Append(Environment.NewLine).Append("ELSE ").Append(modle + 2).Append(" END;");
+                }
+                // -----end------
+            }
+
+            // Console.WriteLine($" All_battarycell CASE  =  {All_battarycell} ");
+
+            scmdAll = "select BOX_BATT,ClassType from HTBI_K_Value_MapperType2_V where BOX_BATT IN ( " + All_battarycell + " )";
+
+
+            //ORDER BY 子句中使用 CASE，將每個 BOX_BATT 的值映射到一個固定的排序順序
+            s_cmd2 = " ORDER BY CASE BOX_BATT " + All_battaryCase;
+
+
+            scmdAll = $"{scmdAll}{s_cmd2}";
+
+
+            Console.WriteLine($" All_battarycell Query CMD =  {scmdAll} ");
+
+
+            SqlConnection icn = new SqlConnection();
+            icn.ConnectionString = MS_dbcon;
+
+            //stop current 
+            if (icn.State == ConnectionState.Open) icn.Close();
+
+            try
+            {
+                //open start!
+                icn.Open();
+
+                SqlCommand ack = new SqlCommand(scmdAll, icn);
+                ack.CommandText = scmdAll;
+                ack.CommandTimeout = 3000;
+                ack.CommandType = CommandType.Text;
+
+                //SqlDataReader:從數據庫獲取行
+                SqlDataReader Batt_box = ack.ExecuteReader();
+                //int Count = Batt_box.FieldCount;
+                int number = 0, dynic_num = 0;
+                int All_Batt_Length = all_batterycell.Count;
+
+                //宣告36組空字串空間
+                g_Batt_Classtype = new List<string>(new string[All_Batt_Length]);
+
+                //宣告Map classtype 儲存最終確認陣列
+                List<string> final_classtype_list = new List<string>(new string[All_Batt_Length]);
+
+                //  ClassType 為K值 英文代號 ()
+                //Type 範圍
+                //A - 0.03
+                //B   0
+                // C - 0.06
+                // D   0.03
+                //E - 0.1
+                //F   0.06
+                // G < -0.1
+                // H > 0.1
+
+                while (Batt_box.Read())
+                {
+                    number++;
+                    string classType = Batt_box["ClassType"].ToString();
+                    string box_Battary = Batt_box["BOX_BATT"].ToString();
+                    //將找到的電芯號存入
+                    actual_find_model.Add(box_Battary);
+                    //將找到的classtype存入
+                    actual_find_classtype.Add(classType);
+                }
+
+                Console.WriteLine($" total classtype 總數量 =  {number} ");
+
+                //當全部電芯號都有找到 目前是36組為一個group
+                if (number >= 36)
+                {
+                    int cut_fit = 0;
+
+                    while (cut_fit < number)
+                    {
+                        //再次確定有電芯號同步串接成功
+                        if (actual_find_model[cut_fit].Equals(all_batterycell[cut_fit].ToString()))
+                        {
+                            //當classtype 尚未產生,預設 ?
+                            if (actual_find_classtype[cut_fit].ToString() == "")
+                            {
+                                g_Batt_Classtype[cut_fit] = "?";
+                            }
+                            else
+                            {
+                                g_Batt_Classtype[cut_fit] = actual_find_classtype[cut_fit].ToString();
+                            }
+                        }
+
+                        cut_fit++;
+                    }
+
+                }
+                else if (number >= 1 && number < 36) //查沒有36組, 36組以內 
+                {
+                    //紀錄當前modle 在all_batterycell搜尋列的index 位置
+                    for (int find = 0; find < actual_find_model.Count; find++)
+                    {
+                        for (int search = 0; search < all_batterycell.Count; search++)
+                        {
+                            // 跳過已經搜尋過的索引
+                            if (searchedIndexes.Contains(search))
+                            {
+                                continue;
+                            }
+
+                            // 當有找到同樣電芯號碼, 紀錄當前搜尋列的 index 位置
+                            if (actual_find_model[find].ToString() == all_batterycell[search].ToString())
+                            {
+                                // 將 index 和對應的 classType 存入 matchingIndexes
+                                matchingIndexes.Add(new Tuple<int, string>(Convert.ToInt32(search), actual_find_classtype[find]));
+                                searchedIndexes.Add(search);  // 記錄已經搜尋過的 index                               
+                            }
+                        }
+                    }
+
+                    //原先查詢電芯總數量
+                    for (int run = 0; run < all_batterycell.Count; run++)
+                    {
+                        //預設false
+                        findBox_Batt = false;
+
+                        var matchingResult = matchingIndexes.FirstOrDefault(item => item.Item1 == run);
+
+                        if (matchingResult != null)
+                        {
+                            findBox_Batt = !findBox_Batt; //切為 true
+                            // 記錄處理統計過的 index
+                            //當classtype 尚未產生,預設 ?
+                            if (matchingResult.Item2.ToString() == "")
+                            {
+                                g_Batt_Classtype[run] = "?";
+                            }
+                            else
+                            {
+                                g_Batt_Classtype[run] = matchingResult.Item2.ToString();
+                            }
+
+                            // 找到對應的索引
+                            //Console.WriteLine($"Found  BoX_Batt index = {run}: classType = {matchingResult.Item2}");
+                        }
+
+                        //沒有找到電芯號
+                        if (!findBox_Batt)
+                        {
+                            g_Batt_Classtype[run] = "?";
+                        }
+
+                        ////實際query找到目前電芯的位置號碼
+                        //for (int id = 0; id < matchingIndexes.Count; id++)
+                        //{
+                        //    if (runfilter.Contains(id))
+                        //    {
+                        //        continue;
+                        //    }
+                        //int index = matchingIndexes[id].Item1;   // 取得匹配的索引
+                        //string classType = matchingIndexes[id].Item2;  // 取得對應的 classType
+                        //    //有找到電芯號位置                         
+                        //     if( run == index)
+                        //    {
+                        //        findBox_Batt = !findBox_Batt; //切為 true
+                        //        runfilter.Add(run);  // 記錄處理統計過的 index
+                        //        g_Batt_Classtype[run] = actual_find_classtype[].ToString();
+                        //    }
+                        //}
+
+                        //沒有找到電芯號
+                        //if (!findBox_Batt)
+                        //{
+                        //    g_Batt_Classtype[run] = "?";
+                        //}
+
+                    }
+                }
+                else //查無任何電芯號 
+                {
+                    for (int modle = 0; modle < all_batterycell.Count; modle++)
+                    {
+                        g_Batt_Classtype[modle] = "?";
+                    }
+                }
+
+
+
+                //close SyncObject 與 資料配接器物件來釋放物件所佔用的資源 mean Free not use memory session                                
+                Batt_box.Close();
+                ack.Dispose();
+                icn.Close();
+            }
+            catch (Exception k)
+            {
+                Console.WriteLine("Error link HTBI Read!");
+                throw k;
+            }
+        }
+
+
+
         private string GetRelativePath(string rootPath, string filePath)
         {
             Uri rootUri = new Uri(rootPath);
@@ -877,7 +1373,7 @@ namespace WebApplication1
                 {
 
                     dr_result = dr_V_Read.GetInt32(0);  // 這裡 0 是指第一列的資料，假設只有一個結果
-                    if (caculatorNumber == 4)
+                 //   if (caculatorNumber == 4)
                         conn_parse.Close();
                     return dr_result;
                 }
@@ -1502,16 +1998,19 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前開發本機端MYSQL 設定
-          string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-            // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           //  string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
-            //遠端remote合併 hr.test_mergepfcc MYSQL 設定
-            string connection_merge = "server=192.168.3.100;user id=root;password=Admin0331;database=hr; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
-            
+
+            // 遠端remote合併 hr.test_mergepfcc MYSQL 設定
+            string connection_merge = "server=192.168.3.100;user id=root;password=Admin0331;database=mes; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+
+            string STR_MSSQL_ARASHTBI = string.Format("server={0};database={1};uid={2};pwd={3};Connect Timeout = 180", MS_Server, MS_Database, MS_dbuid, MS_dbpwd);
+
             MySqlConnection conn = new MySqlConnection(connection);
             string tasknum = Convert.ToString(tnum+1);
            // Label2.Text = "處理狀態:"+ $"第{tasknum}個. 工作項目-> {taskId} 開始";
@@ -1579,18 +2078,21 @@ namespace WebApplication1
             // String SourceFolder = @"C:\source_pfcc";
             String DestinationFolder = "c:\\\\tempcsv";
             String Filename = "";
-            String pf_cctable = "";
+            String pf_cctable = "", pfcc_tablename = "";
+            string schema_DB = "sakila";  // 本機PFCC工具資料庫名稱
 
             String LoadSql = "";
 
             String dumpcsv = "";
+            String merge_sql_var = "", merge_table_rowdata = "", All_col_listname = "";
             String fileExtension = "csv";
             bool iscsvexist = false;
             bool IsOverWrite = true;
             bool copy_one = true;
+            bool check_cc2_algorithm = false;
             //load 資料
 
-
+            sVer = this.ver_select.SelectedItem.ToString();
             //PF + CC 
 
             //--start 這邊為(pf,cc1,cc2)檔案名稱和檔案型態,實際擷取的狀態依照前收集的名稱列--
@@ -1789,6 +2291,8 @@ namespace WebApplication1
 
                 comm = new MySqlCommand(tempSql, conn);
                 dr = comm.ExecuteReader();
+
+                int BattaryID = 8, battary_count = 0, insert_num = 0;
                 vComID = 8;
                 vState = 14;
                 String insertSql = "";
@@ -1857,12 +2361,42 @@ namespace WebApplication1
                 string Vcharge345V = "", Vcharge35V = "", Vtime50A = "", VV = "", VV1 = "", VV2 = "";
                 string VV3 = "", VV4 = "", VmOhm = "", Vpara = "";
 
+                //判讀碼A 位置1 --start--
+                string CC2_interpretcode = "", CC2_position = "";
+                //---end---
 
                 if (dr.HasRows)
                 {
                     //使用Read方法把資料讀進Reader，讓Reader一筆一筆順向指向資料列，並回傳是否成功。
                     while (dr.Read())
                     { //應該只有一筆
+
+                        //重新清空存取電芯號碼存取列表
+                        g_batterycell_number = new List<string>();
+                        // Console.WriteLine("Number of rows returned: " + dr.FieldCount);
+                        //開36個電芯號碼搜尋 , 先收集所有電芯號碼modle 
+                        for (int ibattary = 1; ibattary <= 36; ibattary++)
+                        {
+                            string cell_Boxbatt = dr["fld" + BattaryID].ToString();
+
+                            //測試如果沒有查到電芯號或是電芯號目前尚未建MSSQL表搜無---test start--------
+                            //if (ibattary == 6 || ibattary == 12 || ibattary == 14 || ibattary == 20 || ibattary == 32)
+                            //{
+                            //    cell_Boxbatt = "MW2007HXXXXXXX".ToString();                            
+                            //}
+                            //if (ibattary != 100) cell_Boxbatt = "MW2007HXXXXXXX".ToString();
+                            //-------end--------
+                            g_batterycell_number.Add(cell_Boxbatt);
+                            BattaryID += 7;
+                        }
+
+                        //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
+                        Sync_HTBI_Merge_Classparam(STR_MSSQL_ARASHTBI, g_batterycell_number);
+
+
+                        //檢視最後g_Batt_Classtype 存取狀態顯示
+                        Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype));
+
 
                         //開36個insert 
                         for (int iFlag = 1; iFlag <= 36; iFlag++)
@@ -1916,7 +2450,8 @@ namespace WebApplication1
                                     if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                     {
                                         //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數
-                                        if (vparameter_chg == "0172")
+                                        if (vparameter_chg == "0172" && check_cc2_algorithm) // for 測試正常
+                                         //   if (vparameter_chg == "0172")
                                         {
                                             //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
                                             cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
@@ -1999,7 +2534,7 @@ namespace WebApplication1
                                     VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
 
 
-
+                                    Console.WriteLine($"3.5-2.8V Ah 電容量 =  { VAHD35}");
 
                                     switch (vparameter)
                                     {
@@ -2045,11 +2580,20 @@ namespace WebApplication1
                                             Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
                                             Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
+                                            int cap_type = Assign_Cap_mAH_Type(VAHD35);
+                                            CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
+
+                                            int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);
+
+                                            CC2_position = Convert.ToString(check_position);
+
                                             //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
                                             if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
                                             {
                                                 VCCcurrent = VaverageV1 = VaverageV3 = "0.0";
                                             }
+
+                                    
 
                                             Vtime50A = Convert.ToString(dr_detail["time50A"].ToString());
                                             VV = Convert.ToString(dr_detail["V"].ToString());
@@ -2093,8 +2637,11 @@ namespace WebApplication1
                                         tableTitleSql = tableTitleSql + " (ID,StartDateD,EnddateD,trayID,parameter ";
                                         tableTitleSql = tableTitleSql + ",State,VD28,VS28,VAHD28,VAHS28 ";
                                         tableTitleSql = tableTitleSql + " ,VD32 ,VS32 ,VAHD32,VAHS32 ,VD35  ";
-                                        tableTitleSql = tableTitleSql + " ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD ";
+                                        tableTitleSql = tableTitleSql + " ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD,interpretcode,position ";
 
+                                        //PF 這邊後續電芯判讀號和位置新增計算結果值加入---start-----
+                                        valueSql = valueSql + " ,'" + CC2_interpretcode + "','" + CC2_position + "'";
+                                        //------stop----------------
                                         insertSql = insertSql + tableTitleSql + " ) " + valueSql + ");";
                                         break;
                                     default: //cc2>cc1 所以有7個欄位 寫0
@@ -2112,11 +2659,11 @@ namespace WebApplication1
                                         columnSql = columnSql + " ,VSC,VAHDC ,VAHSC,FileName,Process,AnlaysisDayD ";
                                         columnSql = columnSql + ",Para ";
                                         columnSql = columnSql + ",CCcurrent,OCV,averageV1,averageV2,averageV3,charge34V,charge345V,charge35V"; //cc1有的，
-                                        columnSql = columnSql + ",time50A,v,v1,v2,v3,v4,mOhm"; //cc2才有的，cc1要塞的話，值均為0 mOhm 是用算值出來的
+                                        columnSql = columnSql + ",time50A,v,v1,v2,v3,v4,mOhm,interpretcode,position,analysisDT"; //cc2才有的，cc1要塞的話，值均為0 mOhm 是用算值出來的
 
                                         valueSql = valueSql + ",'" + Vpara + "'";  //para
                                         valueSql = valueSql + ", " + VCCcurrent + "," + VOCV + "," + VaverageV1 + "," + VaverageV2 + "," + VaverageV3 + "," + Vcharge34V + "," + Vcharge345V + "," + Vcharge35V;
-                                        valueSql = valueSql + ", " + Vtime50A + ", " + VV + ", " + VV1 + ", " + VV2 + ", " + VV3 + ", " + VV4 + ", " + VmOhm + ") ";
+                                        valueSql = valueSql + ", " + Vtime50A + ", " + VV + ", " + VV1 + ", " + VV2 + ", " + VV3 + ", " + VV4 + ", " + VmOhm + ", " + "'" + CC2_interpretcode + "'" + ", " + "'" + CC2_position + "'" + ", now()" + ") ";
                                         //新增vvalueSql//增加value(
                                         insertSql = insertSql + tableTitleSql + columnSql + " ) " + valueSql + ";";
                                         break;
@@ -2127,6 +2674,7 @@ namespace WebApplication1
 
                                 vComID = vComID + 7;
                                 vState = vState + 7;
+                                insert_num++;
 
                                 dr_detail.Close();
                             }
@@ -2172,7 +2720,6 @@ namespace WebApplication1
                     conn.Close();
 
                 string OriginallFile = Filename;
-                string pfcc_tablename = "" , All_col_listname = "";
 
                 //將重新解析的(PF or CC1 or CC2)存成csv,並呈現table含數據於頁面上
                 //只取檔案名稱,忽略副檔名
@@ -2220,6 +2767,7 @@ namespace WebApplication1
                 if (ExistRowNumber >=36) {
                     ExportToCsv resultcsv = new ExportToCsv();
 
+                    //(1)先將分析數據產生export csv格式檔
                     //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
                     string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
 
@@ -2231,17 +2779,32 @@ namespace WebApplication1
                     // LResult.Text = "篩選型號資料完畢!";
 
 
+                    string sDayD_value = string.Empty;
+                    
+                   
+                    if (vparameter == "023")
+                    {
+                        //PF站不需要的欄位過濾
+                        sDayD_value = "XXXXXX";
+                    }
+                    else
+                    {
+                       //CC1&2站不需要的欄位過濾
+                       sDayD_value = "AnlaysisDayD";
+                    }
+
+
                     //(2)再將分析完的數據合併預先遠端建置之的table (這邊目前使用遠端表單為  testmerge_pf 和 testmerge_cc1orcc2)
                     //目前所有(pc,cc1,cc2,cc2-2)都忽略以下欄位
                     All_col_listname = $@"SELECT GROUP_CONCAT(CASE
-                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'FileName', 'Process', 'AnlaysisDayD') THEN COLUMN_NAME
+                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'Process','{sDayD_value}') THEN COLUMN_NAME
                         ELSE NULL
                         END  ORDER BY ORDINAL_POSITION) AS col_list
                         FROM INFORMATION_SCHEMA.COLUMNS
                         WHERE TABLE_NAME = '{pfcc_tablename}'
                         AND TABLE_SCHEMA = '{schema_DB}'; ";
 
-                    List<string>  Del_ComplateFile= new List<string>();
+                    List<string> Del_ComplateFile = new List<string>();
                     Del_ComplateFile.Add(OriginallFile);
 
                     //若合併指定遠端table 成功則往繼續執行下方最後作業!
@@ -2250,7 +2813,6 @@ namespace WebApplication1
                         //刪除已經完成之數據原始檔案
                         DeleteTHreadOKFiles(SourceFolder, Del_ComplateFile, true);
                     }
-                    
                 }
                 else {
                     //轉換過程row data 少於36組
@@ -2351,6 +2913,11 @@ namespace WebApplication1
             }
 
            
+        }
+
+        protected void ver_select_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            sVer = this.ver_select.SelectedItem.ToString();
         }
     }
 }
