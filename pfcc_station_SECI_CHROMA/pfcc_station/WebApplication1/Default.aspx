@@ -21,7 +21,8 @@
 
    
     <div runat="server" >        
-       
+            
+            <asp:Button ID="Button_Loop" runat="server" OnClick="Button_Loop_Click" Text="測試迴圈list" />            
             <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="分析PF&amp;CC"  CssClass="hideable"/>
             <!--<asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="分析CC" />-->
             <asp:Button ID="Button3" runat="server" OnClick="Button3_Click" Text="路徑讀取" CssClass="hideable" Visible="False"/>

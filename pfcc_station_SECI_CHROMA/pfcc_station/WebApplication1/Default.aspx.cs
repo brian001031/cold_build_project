@@ -48,6 +48,10 @@ namespace WebApplication1
         string MS_dbuid = "HTBI_MES";
         string MS_dbpwd = "mes123";
 
+        //計算沒有flag Reached Target voltage 的數量
+        int[] step_caculator_value;
+         string[] step_abs_value;
+
         //配方版本
         string sVer = string.Empty;
 
@@ -72,10 +76,10 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-           // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
-            string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -247,7 +251,8 @@ namespace WebApplication1
 
             string sort_temp = "";
 
-            bool check_cc2_algorithm = false;
+            bool check_cc2_algorithm = false , haveTargetvoltage = true;
+
 
 
                 //title 列
@@ -373,37 +378,47 @@ namespace WebApplication1
             divValue = new string[] { "", "", "" };
             stepValue = new string[] { "", "", "" };
 
-            //TextBox1.Text = stepValue[1];
-            switch (vparameter)  //STEP 
+             //宣告7組 
+            step_caculator_value = new int[] {0, 0, 0, 0, 0, 0, 0 };
+            step_abs_value = new string[] { "", "", "" };
+
+
+                //TextBox1.Text = stepValue[1];
+                switch (vparameter)  //STEP 
             {
                 case "023": //pf ==>'023'
                     stepValue = new string[] { "2", "4", "6" };  //step 
                     divValue = new string[] { "2", "4", "6" };
+                    step_abs_value = new string[] { "2", "4", "6" };
                     break;
                 case "010":  //cc1
                     stepValue = new string[] { "1", "3", "5" };
                     divValue = new string[] { "1", "3", "5" };
-
+                    step_abs_value = new string[] { "1", "3", "5" };
                     break;
                 case "017": //cc2
                         if (vparameter_chg == "0172") //cc2-2 2024
                         {
                             stepValue = new string[] { "1", "3", "7" };
                             divValue = new string[] { "1", "3", "7" };
+                            step_abs_value = new string[] { "1", "3", "7" };
                         } else if (vparameter_chg == "017-chromaCC2") //cc2 for chroma 2024開始
                         {
                             stepValue = new string[] { "1", "3", "7" };
                             divValue = new string[] { "1", "3", "7" };
+                            step_abs_value = new string[] { "1", "3", "7" };
                         }
                         else  //cc2 2023
                         {
                             stepValue = new string[] { "1", "5", "9" };
                             divValue = new string[] { "1", "5", "9" };
-
+                            step_abs_value = new string[] { "1", "5", "9" };
                         }
                     break;
             }
 
+
+            string detailVD = "" , detailmAH = "" , detailCurent = "" , like_step = "";
              
             string tableTitleSql = "", columnSql = "", valueSql = "" , detailSelect = "" ;
 
@@ -411,7 +426,7 @@ namespace WebApplication1
 
 
 
-            string VD28 = "", VAHD28 = "", VD32 = "", VAHD32 = "", VD35 = "", VAHD35 = "";
+            string VD28 = "", VAHD28 = "", VD32 = "", VAHD32 = "", VD35 = "", VAHD35 = "";            
             string VCCcurrent = "", VOCV = "", VaverageV1 = "", VaverageV2 = "", VaverageV3 = "", Vcharge34V = "";
             string Vcharge345V = "", Vcharge35V = "", Vtime50A = "", VV = "", VV1 = "", VV2 = "";
             string VV3 = "", VV4 = "", VmOhm = "",Vpara = "";
@@ -460,16 +475,19 @@ namespace WebApplication1
                         cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                         cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                         cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
-                        cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and b.fld" + (vComID + 1) + " > '10') / ";
-                        cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and b.fld" + (vComID + 1) + " > '10')/ " + divValue[0] + ")) averageV1 ";
-                        cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and b.fld" + (vComID + 1) + " > '10') / ";
-                        cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and b.fld" + (vComID + 1) + " > '10')/ " + divValue[1] + ")) averageV2 ";
-                        cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and b.fld" + (vComID + 1) + " > '10') / ";
-                        cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and b.fld" + (vComID + 1) + " > '10')/ " + divValue[2] + ")) averageV3 ";
+                        cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                        cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[0] + ")) averageV1 ";
+                        cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                        cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[1] + ")) averageV2 ";
+                        cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                        cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[2] + ")) averageV3 ";
                         /*fld12 要做+8 (變數)*/
                         cc1SelectSql = cc1SelectSql + ",(select max(cast(fld" + (vComID + 4) + " as decimal))  from test_LoadPFData003 where fld7 = '3' and fld" + (vComID + 1) + "  > '10' and fld" + (vComID) + "  <= '3.4') as 'charge34V' ";
                         cc1SelectSql = cc1SelectSql + ",(select  max(cast(fld" + (vComID + 4) + "  as decimal))  from test_LoadPFData003 where fld7 = '3' and fld" + (vComID + 1) + "  > '10' and fld" + (vComID) + "  <= '3.45') as 'charge345V' ";
                         cc1SelectSql = cc1SelectSql + ",(select  max(cast(fld" + (vComID + 4) + "  as decimal))   from test_LoadPFData003 where fld7 = '3' and fld" + (vComID + 1) + "  > '10' and fld" + (vComID) + "  <= '3.5') as  'charge35V' ";
+                            
+
+                            
                             //detailSelect  是用在 VLOOKUP  如VD28=XLOOKUP(1,(G11:G5000(STEP) =2)*(N11:N5000=JK8[Reached Target voltage] ),H11:H5000(n-6),0,0)  //每個parameter 底層都一樣
                             detailSelect = "from( "
                          + "select fld7, fld8, fld9 ,fld12, fld14, case when fld7 = '" + stepValue[0] + "' /*2*/ then  fld" + (vState - 6) + "  end VD28, case when fld7 = '" + stepValue[0] + "'  /*2*/ then  fld" + (vState - 2) + " end VAHD28 "
@@ -477,6 +495,10 @@ namespace WebApplication1
                             + ", case when fld7 = '" + stepValue[2] + "'/*6*/ then  fld" + (vState - 6) + "  end VD35, case when fld7 = '" + stepValue[2] + "' then  fld" + (vState - 2) + "  end VAHD35 "
                             + " ,case when fld7 = '1' then fld" + (vState - 5) + "  end  'CCcurrent' " +
                             " from test_LoadPFData003  where fld" + vState + " = 'Reached Target voltage' ) a ";
+
+
+                         //若沒有充電電壓flag 這邊用試算方式求出
+
 
 
                         switch (vparameter)
@@ -505,7 +527,7 @@ namespace WebApplication1
                                 {
 
                                         //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數                                        
-                                        if (vparameter_chg == "0172" && check_cc2_algorithm) // for 測試正常
+                                         if (vparameter_chg == "0172" && check_cc2_algorithm) // for 測試正常                                       
                                        // if (vparameter_chg == "0172")
                                         {
                                             //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
@@ -530,6 +552,7 @@ namespace WebApplication1
                                                     if (n == 0)
                                                     {
                                                         cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V ";
+
                                                     }
                                                     else
                                                     {
@@ -542,6 +565,63 @@ namespace WebApplication1
                                                     cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n) + " ";
                                                 }
                                             }
+
+
+                                            //當原始數據沒有Reached Target voltage參考
+                                            if (!haveTargetvoltage) {                                                 
+                                                for ( int k = 0 ; k < step_caculator_value.Count(); k++) 
+                                                {
+                                                    if (k < 6) {
+
+                                                        if (k%2 == 0 || k==0)
+                                                        {
+                                                            //取VD 2.8, 3.2, 3.5 
+                                                            if (k == 0) {
+                                                                detailVD = "absVD28";
+                                                                like_step = step_abs_value[0];
+                                                            } else if (k == 2)
+                                                            {
+                                                                detailVD = "absVD32";
+                                                                like_step = step_abs_value[1];
+                                                            } else if (k == 4) {
+                                                                detailVD = "absVD35";
+                                                                like_step = step_abs_value[2];
+                                                            }
+
+                                                            cc1SelectSql = cc1SelectSql + ",( select abs(fld" + vComID + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k]-3) + " ,1 ) as "+ detailVD + "" ;
+
+                                                        }
+                                                        else {
+                                                            //取mAH 2.8, 3.2, 3.5                                                             
+                                                            if (k == 1)
+                                                            {
+                                                                detailmAH = "absmAH28";
+                                                                like_step = step_abs_value[0];
+                                                            }
+                                                            else if (k == 3)
+                                                            {
+                                                                detailmAH = "absmAH32";
+                                                                like_step = step_abs_value[1];
+                                                            }
+                                                            else if (k == 5)
+                                                            {
+                                                                detailmAH = "absmAH35";
+                                                                like_step = step_abs_value[2];
+                                                            }
+
+                                                            cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID+4) + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - 3) + " ,1 ) as " + detailmAH + "";
+                                                        }
+
+                                                    } 
+                                                    else {
+                                                        //取current 電流                                                          
+                                                        detailCurent = "absCurrentmA";
+                                                        cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID + 1) + ")  from test_LoadPFData003 WHERE fld7 LIKE '1' limit " + (step_caculator_value[k] - 1) + " ,1 ) as " + detailCurent + " " ;
+                                                    }
+                                                }
+
+                                            }
+
                                         }
 
 
@@ -576,20 +656,41 @@ namespace WebApplication1
                         {
                             while (dr_detail.Read())
                             {
-                                //PF
+                                    //PF
 
-                                /*cc 新增的欄位*/
-                                //,`CCcurrent`,`OCV`,`averageV1`,`averageV2`,`averageV3`
-                                //,`charge34V`,`charge345V`,`charge35V`,`time50A`,`v`
-                                //,`v1`,`v2`,`v3`,`v4`,`Para`
-                                //mOhm 欄位 ABS(KD16-KE16)/ABS(KF16-KG16)*1000 取得欄位後     Math.Abs();
+                                    /*cc 新增的欄位*/
+                                    //,`CCcurrent`,`OCV`,`averageV1`,`averageV2`,`averageV3`
+                                    //,`charge34V`,`charge345V`,`charge35V`,`time50A`,`v`
+                                    //,`v1`,`v2`,`v3`,`v4`,`Para`
+                                    //mOhm 欄位 ABS(KD16-KE16)/ABS(KF16-KG16)*1000 取得欄位後     Math.Abs();
 
-                                VD28 = Convert.ToString(dr_detail["VD28"].ToString());
-                                VAHD28 = Convert.ToString(dr_detail["VAHD28"].ToString());
-                                VD32 = Convert.ToString(dr_detail["VD32"].ToString());
-                                VAHD32 = Convert.ToString(dr_detail["VAHD32"].ToString());
-                                VD35 = Convert.ToString(dr_detail["VD35"].ToString());
-                                VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
+
+                                    //string svd28 = Convert.ToString(dr_detail["absVD28"].ToString());
+                                    //string smaH28 = Convert.ToString(dr_detail["absmAH28"].ToString());
+                                    //string svd32 = Convert.ToString(dr_detail["absVD32"].ToString());
+                                    //string smaH32 = Convert.ToString(dr_detail["absmAH32"].ToString());
+                                    //string svd35 = Convert.ToString(dr_detail["absVD35"].ToString());
+                                    //string smaH35 = Convert.ToString(dr_detail["absmAH35"].ToString());
+
+
+                                    if (!haveTargetvoltage  && vparameter == "017")
+                                    {
+                                        VD28 = Convert.ToString(dr_detail["absVD28"].ToString());                                
+                                        VAHD28 = Convert.ToString(dr_detail["absmAH28"].ToString());
+                                        VD32 = Convert.ToString(dr_detail["absVD32"].ToString());
+                                        VAHD32 = Convert.ToString(dr_detail["absmAH32"].ToString());
+                                        VD35 = Convert.ToString(dr_detail["absVD35"].ToString());
+                                        VAHD35 = Convert.ToString(dr_detail["absmAH35"].ToString());
+                                    }
+                                    else {
+                                        VD28 = Convert.ToString(dr_detail["VD28"].ToString());
+                                        VAHD28 = Convert.ToString(dr_detail["VAHD28"].ToString());
+                                        VD32 = Convert.ToString(dr_detail["VD32"].ToString());
+                                        VAHD32 = Convert.ToString(dr_detail["VAHD32"].ToString());
+                                        VD35 = Convert.ToString(dr_detail["VD35"].ToString());
+                                        VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
+                                    }
+
 
 
                                 Console.WriteLine($"3.5-2.8V Ah 電容量 =  { VAHD35}");
@@ -597,10 +698,8 @@ namespace WebApplication1
                                 switch (vparameter)
                                 {
 
-
-                                    case "010": //cc1
-
-                                        VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                    case "010": //cc1                                     
+                                        VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());                                                                                       
                                         VOCV = Convert.ToString(dr_detail["OCV"].ToString());
                                         VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
                                         VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
@@ -628,7 +727,15 @@ namespace WebApplication1
                                         break;
                                     case "017":  //cc2 or cc2-2 or cc2-chroma2
 
-                                        VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                        if (!haveTargetvoltage)
+                                        {
+                                            VCCcurrent = Convert.ToString(dr_detail["absCurrentmA"].ToString());
+                                        }
+                                        else
+                                        {
+                                            VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                        }
+
                                         VOCV = Convert.ToString(dr_detail["OCV"].ToString());
                                         VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
                                         VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
@@ -656,13 +763,20 @@ namespace WebApplication1
                                         VV2 = Convert.ToString(dr_detail["V2"].ToString());
                                         VV3 = Convert.ToString(dr_detail["V3"].ToString()); 
                                         VV4 = Convert.ToString(dr_detail["V4"].ToString());
-                                        //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
+                                            //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
+                                           
+                                            
+
                                         Vpara = "CC2";
-                                            //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
-                                            //if (divisor == 0) divisor = 0.0039M;
-                                            //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
-                                            VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
-                                            break;
+                                        //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
+                                        //if (divisor == 0) divisor = 0.0039M;
+                                        //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
+
+                                        if (g_Batt_Classtype[insert_num] !="?")
+                                            VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
+                                        else
+                                            VmOhm = "0.000";
+                                        break;
 
 
 
@@ -926,26 +1040,30 @@ namespace WebApplication1
             //配方版本: 例如 Ver.001
             if (sVer.EndsWith("001"))
             {
-                if (Assign_number == 0) return 15;
-                if (Assign_number == 9) return 31;
+                if (Assign_number == 0 || Assign_number == 1) return 15;
+                if (Assign_number == 8 || Assign_number == 9) return 31;
 
                 if (char_En[0] == 'G') //G判斷
                 {
-                    if (Assign_number > 0 && Assign_number < 9) return 16;
-                    else
+                    if (Assign_number <= 1 || Assign_number >= 8)
                     {
 
-
+                    }
+                    else //G 非00,01,08,09
+                    {
+                        return 16;
                     }
                 }
 
                 else if (char_En[0] == 'H') //H判斷
                 {
-                    if (Assign_number > 0 && Assign_number < 9) return 32;
-                    else
+                    if (Assign_number <= 1 || Assign_number >= 8)
                     {
 
-
+                    }
+                    else //H 非00,01,08,09
+                    {
+                        return 32;
                     }
                 }
 
@@ -1112,11 +1230,17 @@ namespace WebApplication1
 
             // Console.WriteLine($" All_battarycell CASE  =  {All_battarycell} ");
 
-            scmdAll = "select BOX_BATT,ClassType from HTBI_K_Value_MapperType2_V where BOX_BATT IN ( " + All_battarycell + " )";
-
-
+            //原先modelID 編號唯一 不會有重複狀況----------start-------------------
             //ORDER BY 子句中使用 CASE，將每個 BOX_BATT 的值映射到一個固定的排序順序
-            s_cmd2 = " ORDER BY CASE BOX_BATT " + All_battaryCase;
+           // scmdAll = "select BOX_BATT,ClassType from HTBI_K_Value_MapperType2_V where BOX_BATT IN ( " + All_battarycell + " )";            
+           // s_cmd2 = " ORDER BY CASE BOX_BATT " + All_battaryCase;
+            //----------------------end--------------------------------------------
+
+
+            //目前modelID 編號會有重複狀況 (以最新ID 鎖定電芯號優先 降冪)----------start-------------------
+            scmdAll = "WITH RankedBox_Batt AS (SELECT *,  ROW_NUMBER() OVER(PARTITION BY BOX_BATT ORDER BY ID DESC) AS rn FROM HTBI_K_Value_MapperType2_V  WHERE BOX_BATT IN( " + All_battarycell + " ) ) ";            
+            s_cmd2 = " SELECT * FROM RankedBox_Batt WHERE rn = 1 ORDER BY CASE BOX_BATT " + All_battaryCase;
+            //----------------------end--------------------------------------------
 
 
             scmdAll = $"{scmdAll}{s_cmd2}";
@@ -1327,8 +1451,8 @@ namespace WebApplication1
             MySqlCommand comm_V;
             MySqlDataReader dr_V_Read;
             MySqlConnection conn_parse = new MySqlConnection(constring);
-            string sqlQuery_V = "";
-            int dr_result;
+            string sqlQuery_V = "" , sqlQuery_Vabs = "" , sqlQuery_maHabs = "" , sqlQuery_Current = "", sql_totall="";
+            int dr_result , dr_V = 0, count = 0;
 
 
             // 有考慮到 Reached Target voltage 的充電到達次數 chI_step != null , 反之則 chI_step != ''
@@ -1336,27 +1460,37 @@ namespace WebApplication1
             if (caculatorNumber == 0)
             {
                 sqlQuery_V = "select count(*)+10 from test_LoadPFData003  where (fld7 >= '1' AND fld7 <= '2'  OR fld7 = '3' AND fld" + chV_step + " != '0' AND(fld" + chI_step + " != '0' OR  fld" + chI_step + " != null))";
+                sqlQuery_Vabs = " union all  SELECT count(fld" + chV_step + ") FROM test_loadpfdata003 WHERE fld7 LIKE '"+step_abs_value[0]+ "' and fld" + chV_step + " not like '0' ";
+                sqlQuery_maHabs = " union all  SELECT count(fld" + (chV_step+4) + ") FROM test_loadpfdata003 WHERE fld7 LIKE '" + step_abs_value[0] + "' and fld" + (chV_step+4) + " not like '0' ;";
             } //V1 數量
             else if (caculatorNumber == 1)
             {
 
                 sqlQuery_V = "select count(*)+10 from test_LoadPFData003  where (fld7 >= '1' AND fld7 <= '6')";
+                sqlQuery_Vabs = " union all  SELECT count(fld" + chV_step + ") FROM test_loadpfdata003 WHERE fld7 LIKE '" + step_abs_value[1] + "' and fld" + chV_step + " not like '0' ";
+                sqlQuery_maHabs = " union all  SELECT count(fld" + (chV_step + 4) + ") FROM test_loadpfdata003 WHERE fld7 LIKE '" + step_abs_value[1] + "' and fld" + (chV_step + 4) + " not like '0' ;";
 
             } //V2 數量
             else if (caculatorNumber == 2)
             {
                 sqlQuery_V = "select count(*)+10 from test_LoadPFData003  where (fld7 >= '1' AND fld7 <= '6'  OR fld7 = '7' AND fld" + chV_step + " != '0' AND(fld" + chI_step + " != '0' OR  fld" + chI_step + " != null))";
+                sqlQuery_Vabs = " union all  SELECT count(fld" + chV_step + ") FROM test_loadpfdata003 WHERE fld7 LIKE '" + step_abs_value[2] + "' and fld" + chV_step + " not like '0' ";
+                sqlQuery_maHabs = " union all  SELECT count(fld" + (chV_step + 4) + ") FROM test_loadpfdata003 WHERE fld7 LIKE '" + step_abs_value[2] + "' and fld" + (chV_step + 4) + " not like '0' ;";
+            
             } //V3 數量
             else if (caculatorNumber == 3)
             {
                 sqlQuery_V = "select count(*)+20 from test_LoadPFData003  where (fld7 >= '1' AND fld7 <= '5')";
+                sqlQuery_Current = " union all  SELECT count(fld" + chI_step + ") FROM test_loadpfdata003 WHERE fld7 LIKE '" + step_abs_value[0] + "' and fld" + chI_step + " not like '0' ";
             } //V4 數量
             else if (caculatorNumber == 4)
             {
                 sqlQuery_V = "select count(*)+20 from test_LoadPFData003  where (fld7 >= '1' AND fld7 <= '6')";
             }
 
-            comm_V = new MySqlCommand(sqlQuery_V, conn_parse);
+            sql_totall = sql_totall + sqlQuery_V + sqlQuery_Vabs + sqlQuery_maHabs+ sqlQuery_Current;
+
+            comm_V = new MySqlCommand(sql_totall, conn_parse);
 
 
             {
@@ -1371,12 +1505,54 @@ namespace WebApplication1
                 //使用Read方法把資料讀進Reader，讓Reader一筆一筆順向指向資料列，並回傳是否成功。
                 while (dr_V_Read.Read())
                 {
-
+                    
                     dr_result = dr_V_Read.GetInt32(0);  // 這裡 0 是指第一列的資料，假設只有一個結果
-                 //   if (caculatorNumber == 4)
+
+                    //存取v,v1,v2
+                    if (count == 0) {
+                        dr_V = dr_result;
+                    } //存取 ch_v
+                    else if (count == 1 && dr_result != 0) {
+
+                        if (caculatorNumber == 0) {
+                            step_caculator_value[0] = dr_result;
+                        }
+                        else if (caculatorNumber == 1)
+                        {
+                            step_caculator_value[2] = dr_result;
+                        }
+                        else if (caculatorNumber == 2)
+                        {
+                            step_caculator_value[4] = dr_result;
+                        }//存取  CC-current (A)
+                        else if (caculatorNumber == 3)
+                        {
+                            step_caculator_value[6] = dr_result;
+
+                        }
+
+                    }//存取 mAH
+                    else if (count == 2 && dr_result != 0) {
+                        if (caculatorNumber == 0) {
+                            step_caculator_value[1] = dr_result;
+                        }
+                        else if (caculatorNumber == 1)
+                        {
+                            step_caculator_value[3] = dr_result;
+                        }
+                        else if (caculatorNumber == 2)
+                        {
+                            step_caculator_value[5] = dr_result;
+                        }
+                    }
+                   
+                    if ( caculatorNumber <=2  &&  count == 2 || caculatorNumber == 3 && count == 1 || caculatorNumber == 4) {
                         conn_parse.Close();
-                    return dr_result;
-                }
+                        return dr_V;
+                    }
+
+                    count++;
+                }               
             }
 
             throw new NotImplementedException();
@@ -1998,12 +2174,12 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前開發本機端MYSQL 設定
-           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+          // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-           //  string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+             string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             // 遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -2089,7 +2265,7 @@ namespace WebApplication1
             bool iscsvexist = false;
             bool IsOverWrite = true;
             bool copy_one = true;
-            bool check_cc2_algorithm = false;
+            bool check_cc2_algorithm = false, haveTargetvoltage = true;
             //load 資料
 
             sVer = this.ver_select.SelectedItem.ToString();
@@ -2311,9 +2487,13 @@ namespace WebApplication1
                     conn_detail.Open();
                 insertSql = "";
                 string[] stepValue, divValue;
+               
 
                 divValue = new string[] { "", "", "" };
                 stepValue = new string[] { "", "", "" };
+                //宣告7組 
+                step_caculator_value = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+                step_abs_value = new string[] { "", "", "" };
 
                 //TextBox1.Text = stepValue[1];
                 switch (vparameter)  //STEP 
@@ -2321,34 +2501,41 @@ namespace WebApplication1
                     case "023": //pf ==>'023'
                         stepValue = new string[] { "2", "4", "6" };  //step 
                         divValue = new string[] { "2", "4", "6" };
+                        step_abs_value = new string[] { "2", "4", "6" };
                         break;
                     case "010":  //cc1
                         stepValue = new string[] { "1", "3", "5" };
                         divValue = new string[] { "1", "3", "5" };
-
+                        step_abs_value = new string[] { "1", "3", "5" };
                         break;
                     case "017": //cc2
                         if (vparameter_chg == "0172") //cc2-2 2024
                         {
                             stepValue = new string[] { "1", "3", "7" };
                             divValue = new string[] { "1", "3", "7" };
+                            step_abs_value = new string[] { "1", "3", "7" };
                         }
                         else if (vparameter_chg == "017-chromaCC2") //cc2 for chroma 2024開始
                         {
                             stepValue = new string[] { "1", "3", "7" };
                             divValue = new string[] { "1", "3", "7" };
+                            step_abs_value = new string[] { "1", "3", "7" };
                         }
                         else  //cc2 2023
                         {
                             stepValue = new string[] { "1", "5", "9" };
                             divValue = new string[] { "1", "5", "9" };
-
+                            step_abs_value = new string[] { "1", "5", "9" };
                         }
                         break;
 
 
                 }
 
+
+             
+
+                string detailVD = "", detailmAH = "", detailCurent = "", like_step = "";
 
                 string tableTitleSql = "", columnSql = "", valueSql = "", detailSelect = "";
 
@@ -2406,12 +2593,13 @@ namespace WebApplication1
                             cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                             cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                             cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
-                            cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and b.fld" + (vComID + 1) + " > '10') / ";
-                            cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and b.fld" + (vComID + 1) + " > '10')/ " + divValue[0] + ")) averageV1 ";
-                            cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and b.fld" + (vComID + 1) + " > '10') / ";
-                            cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and b.fld" + (vComID + 1) + " > '10')/ " + divValue[1] + ")) averageV2 ";
-                            cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and b.fld" + (vComID + 1) + " > '10') / ";
-                            cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and b.fld" + (vComID + 1) + " > '10')/ " + divValue[2] + ")) averageV3 ";
+                            cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                            cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[0] + ")) averageV1 ";
+                            cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                            cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[1] + ")) averageV2 ";
+                            cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                            cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[2] + ")) averageV3 ";
+
                             /*fld12 要做+8 (變數)*/
                             cc1SelectSql = cc1SelectSql + ",(select max(cast(fld" + (vComID + 4) + " as decimal))  from test_LoadPFData003 where fld7 = '3' and fld" + (vComID + 1) + "  > '10' and fld" + (vComID) + "  <= '3.4') as 'charge34V' ";
                             cc1SelectSql = cc1SelectSql + ",(select  max(cast(fld" + (vComID + 4) + "  as decimal))  from test_LoadPFData003 where fld7 = '3' and fld" + (vComID + 1) + "  > '10' and fld" + (vComID) + "  <= '3.45') as 'charge345V' ";
@@ -2424,6 +2612,8 @@ namespace WebApplication1
                             + " ,case when fld7 = '1' then fld" + (vState - 5) + "  end  'CCcurrent' " +
                             " from test_LoadPFData003  where fld" + vState + " = 'Reached Target voltage' ) a ";
 
+
+                            //若沒有充電電壓flag 這邊用試算方式求出
 
                             switch (vparameter)
                             {
@@ -2487,6 +2677,69 @@ namespace WebApplication1
                                                     cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n) + " ";
                                                 }
                                             }
+
+                                            //當原始數據沒有Reached Target voltage參考
+                                            if (!haveTargetvoltage)
+                                            {
+                                                for (int k = 0; k < step_caculator_value.Count(); k++)
+                                                {
+                                                    if (k < 6)
+                                                    {
+
+                                                        if (k % 2 == 0 || k == 0)
+                                                        {
+                                                            //取VD 2.8, 3.2, 3.5 
+                                                            if (k == 0)
+                                                            {
+                                                                detailVD = "absVD28";
+                                                                like_step = step_abs_value[0];
+                                                            }
+                                                            else if (k == 2)
+                                                            {
+                                                                detailVD = "absVD32";
+                                                                like_step = step_abs_value[1];
+                                                            }
+                                                            else if (k == 4)
+                                                            {
+                                                                detailVD = "absVD35";
+                                                                like_step = step_abs_value[2];
+                                                            }
+
+                                                            cc1SelectSql = cc1SelectSql + ",( select abs(fld" + vComID + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - 3) + " ,1 ) as " + detailVD + "";
+
+                                                        }
+                                                        else
+                                                        {
+                                                            //取mAH 2.8, 3.2, 3.5                                                             
+                                                            if (k == 1)
+                                                            {
+                                                                detailmAH = "absmAH28";
+                                                                like_step = step_abs_value[0];
+                                                            }
+                                                            else if (k == 3)
+                                                            {
+                                                                detailmAH = "absmAH32";
+                                                                like_step = step_abs_value[1];
+                                                            }
+                                                            else if (k == 5)
+                                                            {
+                                                                detailmAH = "absmAH35";
+                                                                like_step = step_abs_value[2];
+                                                            }
+
+                                                            cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID + 4) + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - 3) + " ,1 ) as " + detailmAH + "";
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        //取current 電流                                                          
+                                                        detailCurent = "absCurrentmA";
+                                                        cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID + 1) + ")  from test_LoadPFData003 WHERE fld7 LIKE '1' limit " + (step_caculator_value[k] - 1) + " ,1 ) as " + detailCurent + " ";
+                                                    }
+                                                }
+
+                                            }
                                         }
 
 
@@ -2526,12 +2779,32 @@ namespace WebApplication1
                                     //,`v1`,`v2`,`v3`,`v4`,`Para`
                                     //mOhm 欄位 ABS(KD16-KE16)/ABS(KF16-KG16)*1000 取得欄位後     Math.Abs();
 
-                                    VD28 = Convert.ToString(dr_detail["VD28"].ToString());
-                                    VAHD28 = Convert.ToString(dr_detail["VAHD28"].ToString());
-                                    VD32 = Convert.ToString(dr_detail["VD32"].ToString());
-                                    VAHD32 = Convert.ToString(dr_detail["VAHD32"].ToString());
-                                    VD35 = Convert.ToString(dr_detail["VD35"].ToString());
-                                    VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
+                                    //string svd28 = Convert.ToString(dr_detail["absVD28"].ToString());
+                                    //string smaH28 = Convert.ToString(dr_detail["absmAH28"].ToString());
+                                    //string svd32 = Convert.ToString(dr_detail["absVD32"].ToString());
+                                    //string smaH32 = Convert.ToString(dr_detail["absmAH32"].ToString());
+                                    //string svd35 = Convert.ToString(dr_detail["absVD35"].ToString());
+                                    //string smaH35 = Convert.ToString(dr_detail["absmAH35"].ToString());
+
+
+                                    if (!haveTargetvoltage && vparameter == "017")
+                                    {
+                                        VD28 = Convert.ToString(dr_detail["absVD28"].ToString());
+                                        VAHD28 = Convert.ToString(dr_detail["absmAH28"].ToString());
+                                        VD32 = Convert.ToString(dr_detail["absVD32"].ToString());
+                                        VAHD32 = Convert.ToString(dr_detail["absmAH32"].ToString());
+                                        VD35 = Convert.ToString(dr_detail["absVD35"].ToString());
+                                        VAHD35 = Convert.ToString(dr_detail["absmAH35"].ToString());
+                                    }
+                                    else
+                                    {
+                                        VD28 = Convert.ToString(dr_detail["VD28"].ToString());
+                                        VAHD28 = Convert.ToString(dr_detail["VAHD28"].ToString());
+                                        VD32 = Convert.ToString(dr_detail["VD32"].ToString());
+                                        VAHD32 = Convert.ToString(dr_detail["VAHD32"].ToString());
+                                        VD35 = Convert.ToString(dr_detail["VD35"].ToString());
+                                        VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
+                                    }
 
 
                                     Console.WriteLine($"3.5-2.8V Ah 電容量 =  { VAHD35}");
@@ -2541,8 +2814,8 @@ namespace WebApplication1
 
 
                                         case "010": //cc1
-
-                                            VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                             
+                                            VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());                                            
                                             VOCV = Convert.ToString(dr_detail["OCV"].ToString());
                                             VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
                                             VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
@@ -2571,7 +2844,15 @@ namespace WebApplication1
                                             break;
                                         case "017":  //cc2 or cc2-2
 
-                                            VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                            if (!haveTargetvoltage)
+                                            {
+                                                VCCcurrent = Convert.ToString(dr_detail["absCurrentmA"].ToString());
+                                            }
+                                            else
+                                            {
+                                                VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                            }
+
                                             VOCV = Convert.ToString(dr_detail["OCV"].ToString());
                                             VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
                                             VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
@@ -2606,7 +2887,13 @@ namespace WebApplication1
                                             //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
                                             //if (divisor == 0) divisor = 0.0039M;
                                            // VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
-                                            VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
+                                           // VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
+
+                                            if (g_Batt_Classtype[insert_num] != "?")
+                                                VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
+                                            else
+                                                VmOhm = "0.000";
+
                                             break;
 
                                     }
@@ -2918,6 +3205,964 @@ namespace WebApplication1
         protected void ver_select_SelectedIndexChanged(object sender, EventArgs e)
         {
             sVer = this.ver_select.SelectedItem.ToString();
+        }
+
+        protected void Button_Loop_Click(object sender, EventArgs e)
+        {
+            int totalTasks = 0, succesfulnum = 0;
+            g_csvFile = new List<string>();
+            g_pfcctype = new List<string>();
+            g_ThreadNotOkFile = new List<string>();
+
+            String DestinationFolder = "c:\\\\tempcsv";
+            String fileExtension = "csv";
+            string pf_cctable = "";
+            bool IsOverWrite = true;
+            bool copy_one = false; //false -> 複製全部 / true -> 複製單項
+
+            //將 C:\copy_temp\source_pfcc 資料夾內csv全部複製到 C:\tempcsv
+            CopyDirectory(SourceFolder, DestinationFolder, IsOverWrite, copy_one);
+
+            string[] files = Directory.GetFiles(DestinationFolder, $"*.{fileExtension}");
+
+
+            //只對*.csv檔案格式做工作序列
+            foreach (string file in files)
+            {
+                //擷取開頭站點字串( pf:K000008 , CC1:H000014   CC2:H000020)
+                //pfprocess001  存pf檔  PRIMARY KEY (`ID`,`StartDateD`)
+                //processcc 存cc檔(含cc1, cc2)，PRIMARY KEY(`ID`,`StartDateD`)
+
+                String flitersite = Path.GetFileName(file).Substring(0, 3);
+
+                //由上搜尋站點字串判斷要清除當前一站暫存table內容
+                //for pf 
+                if (flitersite.Equals("K00") || flitersite.Equals("PF0"))
+                {
+                    pf_cctable = "pfprocess001";
+                }// for cc1 或 cc2
+                else if (flitersite.Equals("H00") || flitersite.Equals("CC-") || flitersite.Equals("CC0"))
+                {
+                    pf_cctable = "processcc";
+                }
+                else
+                {
+                    // LResult.Text = file+"->沒有符合此(pf,cc系列)工作項目csv!";
+                    continue;
+                    // return;
+                }
+
+                //將檔案名稱/ pfcctype做存取
+                g_csvFile.Add(file);
+                g_pfcctype.Add(pf_cctable);
+                totalTasks++;
+            }
+
+
+            if (totalTasks == 0)
+            {
+                LResult.Text = "目前全沒有符合此(pf,cc系列)工作項目csv! / 請執行copy_pfcc.bat";
+                return;
+            }
+
+
+            for (int i = 0; i < totalTasks; i++)
+            {
+                string taskId = g_csvFile[i].ToString();
+                string tasktype = g_pfcctype[i].ToString();
+
+                LResult.Text = $"處理表單{taskId}進行中.....";
+
+                //Yuping 本機端MYSQL 設定
+                //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
+
+                //目前佈署端local host MYSQL 設定
+                 string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+
+                //目前開發本機端MYSQL 設定
+               // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+
+
+                //遠端remote合併 hr.test_mergepfcc MYSQL 設定
+                string connection_merge = "server=192.168.3.100;user id=root;password=Admin0331;database=mes; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+
+
+                string STR_MSSQL_ARASHTBI = string.Format("server={0};database={1};uid={2};pwd={3};Connect Timeout = 180", MS_Server, MS_Database, MS_dbuid, MS_dbpwd);
+
+
+                MySqlConnection conn = new MySqlConnection(connection);
+
+                //pf,cc1,cc2工作數據暫訂upload 位置資料夾(SourceFolder)
+                // String SourceFolder = "z:\\\\source_pfcc";
+                //String SourceFolder = @"Z:\source_pfcc";
+                //因佈署後UNC路徑目前無法透過磁區辨別,只能由源頭IP位置找尋
+                //  String SourceFolder = @"\\192.168.3.100\hr_tmp\source_pfcc";
+                String Filename = "", pfcc_tablename = "";
+                string schema_DB = "sakila";  // 本機PFCC工具資料庫名稱
+
+
+                String LoadSql = "";
+
+                String dumpcsv = "";
+                String merge_sql_var = "", merge_table_rowdata = "", All_col_listname = "";                
+                bool iscsvexist = false;               
+                bool mannulrun = true;
+                //load 資料
+
+                sVer = this.ver_select.SelectedItem.ToString();
+                //PF + CC 
+
+                pfcc_tablename = tasktype.ToString();
+                Filename = taskId.ToString();  //Filename = "H000003_20230910130027.csv"; //讀路徑下的檔案
+
+                String loadcsvFile = Path.GetFileName(Filename);
+
+                LoadSql = "delete from test_loadpfdata003; ";    //刪除暫存TABLE
+                LoadSql = LoadSql + "TRUNCATE TABLE " + pfcc_tablename + "; ";
+                //實際路徑是 C:\ProgramData\MySQL\MySQL Server 8.0\Data\test\
+                LoadSql = LoadSql + " load data infile 'c:\\\\tempcsv\\\\" + loadcsvFile + "' into table test_loadpfdata003 fields terminated by ',' ;";
+                // LoadSql = LoadSql + " insert into test_loadpfdata003 (fld1) values('"+ Filename + "') ; ";
+
+                // MySqlConnection conn = new MySqlConnection(connection);
+                string fileResult = "1";
+
+                if (conn.State != ConnectionState.Open)
+                    conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand(LoadSql, conn);
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    LResult.Text = "已完成載檔";
+                    fileResult = "1";
+
+                }
+                catch (Exception ex)
+                {
+                    cmd.Clone();
+                    conn.Close();
+                    //LResult.Text = "資料錯誤" + ex.ToString();
+                    LResult.Text = "上傳資料檔案錯誤";
+                    fileResult = "err";
+                }
+                conn.Close();
+
+
+                if (fileResult == "1")
+                {
+                    //總共要塞的欄位
+                    // insert into pfprocess001()
+                    //ID,Start dateEnd date,tary ID,	parameter,State,2.8V,2.8V Ah,3.2V,3.2V Ah,3.5V,3.5V Ah,	file name,process,Anlaysis day
+
+                    //取固定值---起始日、終止日
+                    string sqlQuery = "";
+                    sqlQuery = sqlQuery + "/*title */";
+                    //sqlQuery = sqlQuery + " (select fld5 as f_title,1 as sort from test_LoadPFData003 LIMIT 9, 1)  /*start_date */ ";
+                    sqlQuery = sqlQuery + "( select case when (SUBSTRING(fld5, 2, 1) = '/') or (SUBSTRING(fld5, 3, 1) = '/')  then CONVERT(STR_TO_DATE(fld5, '%m/%d/%Y %T'), DATETIME)  else CONVERT(fld5, DATETIME)  end f_title ,1 as sort  from test_LoadPFData003 LIMIT 9, 1 )  ";
+                    sqlQuery = sqlQuery + "union all ";
+                    //sqlQuery = sqlQuery + "(select fld5 as f_title,2 as sort from test_LoadPFData003 order by fld5 desc LIMIT 1, 1) /*end_date */ ";
+                    //sqlQuery = sqlQuery + "union all ";
+                    sqlQuery = sqlQuery + "( select max(a.result) as f_title,2 as sort from (SELECT    CASE        WHEN(            SELECT COUNT(*)    FROM test_LoadPFData003  WHERE fld5 <> 'PC Time'  AND((SUBSTRING(fld5, 2, 1) = '/')or(SUBSTRING(fld5, 3, 1) = '/'))        ) > 0 ";
+                    sqlQuery = sqlQuery + " THEN CONVERT(STR_TO_DATE(fld5, '%m/%d/%Y %T'), DATETIME)        ELSE CONVERT(fld5, DATETIME)    END AS result    from test_LoadPFData003    ) a ) /*end_date */ ";
+                    sqlQuery = sqlQuery + "union all ";
+                    sqlQuery = sqlQuery + "(select CONCAT ((select fld2 from test_LoadPFData003 LIMIT 3, 1) , '-' , (select fld2 from test_LoadPFData003 LIMIT 0, 1) ) as f_title,3 as sort ) ";
+                    sqlQuery = sqlQuery + "/*tray_id*/ ";
+                    sqlQuery = sqlQuery + "union all ";
+                    sqlQuery = sqlQuery + "(select fld2 as f_title,4 as sort from test_LoadPFData003 LIMIT 2, 1)  /*parameter*/ ";
+                    //sqlQuery = sqlQuery + "c  /*parameter*/ ";
+                    sqlQuery = sqlQuery + "union all ";
+                    sqlQuery = sqlQuery + "(select fld2 as f_title,5 as sort from test_LoadPFData003 LIMIT 1, 1)  /*process*/ ";
+                    sqlQuery = sqlQuery + "union all ";
+                    sqlQuery = sqlQuery + "(select now() as f_title,6 as sort ) /*Anlaysis day*/ ";
+
+                    MySqlCommand comm = new MySqlCommand(sqlQuery, conn);
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    MySqlDataReader dr = comm.ExecuteReader();
+
+
+
+                    string vStart_date = "";
+                    string vdateEnd_date = "";
+                    string vtary_ID = "";
+                    string vparameter = "";
+                    string vparameter_chg = "";
+
+
+                    string vparameter_All = "";
+                    string vprocess = "";
+
+                    string sort_temp = "";
+
+                    bool check_cc2_algorithm = false, haveTargetvoltage = true;
+
+
+
+                    //title 列
+                    if (dr.HasRows)
+                    {
+                        //使用Read方法把資料讀進Reader，讓Reader一筆一筆順向指向資料列，並回傳是否成功。
+                        while (dr.Read())
+                        {
+
+                            String flitersite = Path.GetFileName(Filename).Substring(0, 3);
+
+                            //DataReader讀出欄位內資料的方式，通常也可寫Reader[0]、[1]...[N]代表第一個欄位到N個欄位。
+                            //ss += Convert.ToString(dr["city_id"].ToString() + " -> " + dr["city"].ToString() + " -> " + dr["country_id"].ToString() + "\r\n");
+                            sort_temp = Convert.ToString(dr["sort"].ToString());
+                            switch (sort_temp)
+                            {
+                                case "1":
+                                    vStart_date = Convert.ToString(dr["f_title"].ToString());
+                                    break;
+                                case "2":
+                                    vdateEnd_date = Convert.ToString(dr["f_title"].ToString());
+                                    break;
+                                case "3":
+                                    vtary_ID = Convert.ToString(dr["f_title"].ToString());
+                                    break;
+                                case "4":
+                                    vparameter_All = Convert.ToString(dr["f_title"].ToString());
+
+                                    //for chroma
+                                    if (flitersite.Equals("PF0") || flitersite.Equals("CC0"))
+                                    {
+
+                                        vparameter = vparameter_All.Substring(2, 3);
+                                        vparameter_chg = vparameter_All.Substring(vparameter_All.Length - 17);
+
+                                        // 當vparameter 為017 -> CC2時,目前下面做記號
+                                        if (vparameter.StartsWith("017") && vparameter_chg.Contains("CC2"))
+                                        {
+                                            vparameter_chg = vparameter + "-chromaCC2";
+                                        } //當vparameter 為010 -> CC1時,目前下面做記號
+                                        else if (vparameter.StartsWith("010") && vparameter_chg.Contains("CC1"))
+                                        {
+                                            vparameter_chg = vparameter + "-chromaCC1";
+                                        }//當vparameter 為010 -> CC1時,目前下面做記號
+                                        else if (vparameter.StartsWith("023") && vparameter_chg.Contains("PF"))
+                                        {
+                                            vparameter_chg = vparameter + "-chromaPF";
+                                        }
+                                        else
+                                        {
+                                            //其他未定義
+                                            vparameter_chg = vparameter;
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        // for SECI 
+                                        vparameter = vparameter_All.Substring(0, 3);
+                                        vparameter_chg = vparameter_All.Substring((vparameter_All.Length - 9), 4);
+                                        if (vparameter_chg == "2023")
+                                        {
+                                            vparameter_chg = vparameter;
+                                        }
+                                        else
+                                        {
+                                            vparameter_chg = vparameter + "2";
+                                        }
+                                    }
+
+                                    break;
+                                case "5":
+                                    vprocess = Convert.ToString(dr["f_title"].ToString());
+                                    break;
+                                default:
+
+                                    break;
+                            }
+
+                        }
+
+                    }//if (dr.HasRows)
+
+
+                    //每一個 Cell ID有7行 第一筆H~N行
+                    //H:Ch1_V(V)	I:Ch1_I(A)	J:Ch1_PV(V)	k:Ch1_OV(V)	L:Ch1_Capa(mAh) 	M:Ch1_Wh(Wh)	N:Ch1_Remark 每一組7行所以+7
+
+
+                    int vComID = 8; //comid 如MW2005A53693 第一筆H 欄+7 為第二組 Ch1_V(V)
+                    int vState = 14; //N 欄 如 ok: Ch1_Remark
+                                     //展36筆
+                    String tempSql = " select ";
+                    for (int iFlag = 1; iFlag <= 36; iFlag++)
+                    {
+
+                        tempSql = tempSql + "fld" + vComID + ", fld" + vState + ",";
+                        vComID = vComID + 7;  //第一筆H 行第8行 +7(每組7行)
+                        vState = vState + 7;  //第一筆N 行第14行 +7(每組7行)
+                    }
+                    tempSql = tempSql.Substring(0, tempSql.Length - 1) + " from test_LoadPFData003 LIMIT 7, 1 "; //因為取標頭只有一列
+                                                                                                                 // tempSql = tempSql  + " from test_LoadPFData003 LIMIT 7, 1 ";
+
+
+
+
+                    dr.Close();
+
+                    comm = new MySqlCommand(tempSql, conn);
+                    dr = comm.ExecuteReader();
+
+                    int BattaryID = 8, battary_count = 0, insert_num = 0;
+                    vComID = 8;
+                    vState = 14;
+                    String insertSql = "";
+
+
+
+                    MySqlCommand comm_detail;
+                    MySqlDataReader dr_detail;
+
+
+
+
+
+                    MySqlConnection conn_detail = new MySqlConnection(connection);
+                    if (conn_detail.State != ConnectionState.Open)
+                        conn_detail.Open();
+                    insertSql = "";
+                    string[] stepValue, divValue;
+
+                    divValue = new string[] { "", "", "" };
+                    stepValue = new string[] { "", "", "" };
+
+                    //宣告7組 
+                    step_caculator_value = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+                    step_abs_value = new string[] { "", "", "" };
+
+
+                    //TextBox1.Text = stepValue[1];
+                    switch (vparameter)  //STEP 
+                    {
+                        case "023": //pf ==>'023'
+                            stepValue = new string[] { "2", "4", "6" };  //step 
+                            divValue = new string[] { "2", "4", "6" };
+                            step_abs_value = new string[] { "2", "4", "6" };
+                            break;
+                        case "010":  //cc1
+                            stepValue = new string[] { "1", "3", "5" };
+                            divValue = new string[] { "1", "3", "5" };
+                            step_abs_value = new string[] { "1", "3", "5" };
+                            break;
+                        case "017": //cc2
+                            if (vparameter_chg == "0172") //cc2-2 2024
+                            {
+                                stepValue = new string[] { "1", "3", "7" };
+                                divValue = new string[] { "1", "3", "7" };
+                                step_abs_value = new string[] { "1", "3", "7" };
+                            }
+                            else if (vparameter_chg == "017-chromaCC2") //cc2 for chroma 2024開始
+                            {
+                                stepValue = new string[] { "1", "3", "7" };
+                                divValue = new string[] { "1", "3", "7" };
+                                step_abs_value = new string[] { "1", "3", "7" };
+                            }
+                            else  //cc2 2023
+                            {
+                                stepValue = new string[] { "1", "5", "9" };
+                                divValue = new string[] { "1", "5", "9" };
+                                step_abs_value = new string[] { "1", "5", "9" };
+                            }
+                            break;
+                    }
+
+
+                    string detailVD = "", detailmAH = "", detailCurent = "", like_step = "";
+
+                    string tableTitleSql = "", columnSql = "", valueSql = "", detailSelect = "";
+
+                    string cc1SelectSql = "";
+
+
+
+                    string VD28 = "", VAHD28 = "", VD32 = "", VAHD32 = "", VD35 = "", VAHD35 = "";
+                    string VCCcurrent = "", VOCV = "", VaverageV1 = "", VaverageV2 = "", VaverageV3 = "", Vcharge34V = "";
+                    string Vcharge345V = "", Vcharge35V = "", Vtime50A = "", VV = "", VV1 = "", VV2 = "";
+                    string VV3 = "", VV4 = "", VmOhm = "", Vpara = "";
+
+                    //判讀碼A 位置1 --start--
+                    string CC2_interpretcode = "", CC2_position = "";
+                    //---end---
+
+                    if (dr.HasRows)
+                    {
+                        //使用Read方法把資料讀進Reader，讓Reader一筆一筆順向指向資料列，並回傳是否成功。
+                        while (dr.Read())
+                        { //應該只有一筆
+
+                            //重新清空存取電芯號碼存取列表
+                            g_batterycell_number = new List<string>();
+                            // Console.WriteLine("Number of rows returned: " + dr.FieldCount);
+                            //開36個電芯號碼搜尋 , 先收集所有電芯號碼modle 
+                            for (int ibattary = 1; ibattary <= 36; ibattary++)
+                            {
+                                string cell_Boxbatt = dr["fld" + BattaryID].ToString();
+
+                                //測試如果沒有查到電芯號或是電芯號目前尚未建MSSQL表搜無---test start--------
+                                //if (ibattary == 6 || ibattary == 12 || ibattary == 14 || ibattary == 20 || ibattary == 32)
+                                //{
+                                //    cell_Boxbatt = "MW2007HXXXXXXX".ToString();                            
+                                //}
+                                //if (ibattary != 100) cell_Boxbatt = "MW2007HXXXXXXX".ToString();
+                                //-------end--------
+                                g_batterycell_number.Add(cell_Boxbatt);
+                                BattaryID += 7;
+                            }
+
+                            //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
+                            Sync_HTBI_Merge_Classparam(STR_MSSQL_ARASHTBI, g_batterycell_number);
+
+
+                            //檢視最後g_Batt_Classtype 存取狀態顯示
+                            Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype));
+
+                            //開36個insert 
+                            for (int iFlag = 1; iFlag <= 36; iFlag++)
+                            {
+
+
+                                cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
+                                cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
+                                cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
+                                cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                                cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[0] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[0] + ")) averageV1 ";
+                                cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                                cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[1] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[1] + ")) averageV2 ";
+                                cc1SelectSql = cc1SelectSql + ",((select sum(cast(fld" + (vComID) + " as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and ABS(b.fld" + (vComID + 1) + ") > '10') / ";
+                                cc1SelectSql = cc1SelectSql + "((select sum(cast(fld7 as decimal)) from test_LoadPFData003 b where b.fld7 = '" + divValue[2] + "' and ABS(b.fld" + (vComID + 1) + ") > '10')/ " + divValue[2] + ")) averageV3 ";
+                                /*fld12 要做+8 (變數)*/
+                                cc1SelectSql = cc1SelectSql + ",(select max(cast(fld" + (vComID + 4) + " as decimal))  from test_LoadPFData003 where fld7 = '3' and fld" + (vComID + 1) + "  > '10' and fld" + (vComID) + "  <= '3.4') as 'charge34V' ";
+                                cc1SelectSql = cc1SelectSql + ",(select  max(cast(fld" + (vComID + 4) + "  as decimal))  from test_LoadPFData003 where fld7 = '3' and fld" + (vComID + 1) + "  > '10' and fld" + (vComID) + "  <= '3.45') as 'charge345V' ";
+                                cc1SelectSql = cc1SelectSql + ",(select  max(cast(fld" + (vComID + 4) + "  as decimal))   from test_LoadPFData003 where fld7 = '3' and fld" + (vComID + 1) + "  > '10' and fld" + (vComID) + "  <= '3.5') as  'charge35V' ";
+
+
+
+                                //detailSelect  是用在 VLOOKUP  如VD28=XLOOKUP(1,(G11:G5000(STEP) =2)*(N11:N5000=JK8[Reached Target voltage] ),H11:H5000(n-6),0,0)  //每個parameter 底層都一樣
+                                detailSelect = "from( "
+                             + "select fld7, fld8, fld9 ,fld12, fld14, case when fld7 = '" + stepValue[0] + "' /*2*/ then  fld" + (vState - 6) + "  end VD28, case when fld7 = '" + stepValue[0] + "'  /*2*/ then  fld" + (vState - 2) + " end VAHD28 "
+                                + ", case when fld7 = '" + stepValue[1] + "' /*4*/  then  fld" + (vState - 6) + "  end VD32, case when fld7 = '" + stepValue[1] + "' then  fld" + (vState - 2) + "  end VAHD32 "
+                                + ", case when fld7 = '" + stepValue[2] + "'/*6*/ then  fld" + (vState - 6) + "  end VD35, case when fld7 = '" + stepValue[2] + "' then  fld" + (vState - 2) + "  end VAHD35 "
+                                + " ,case when fld7 = '1' then fld" + (vState - 5) + "  end  'CCcurrent' " +
+                                " from test_LoadPFData003  where fld" + vState + " = 'Reached Target voltage' ) a ";
+
+
+                                //若沒有充電電壓flag 這邊用試算方式求出
+
+
+
+                                switch (vparameter)
+                                {
+                                    case "023": //pf
+                                        sqlQuery = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 " + detailSelect;
+
+                                        /* 變成DetailSelectSql 
+                                        sqlQuery = sqlQuery + "from( ";
+                                        sqlQuery = sqlQuery + "select fld7, fld8, fld9 ,fld12, fld14, case when fld7 = '2' then  fld" + (vState - 6) + "  end VD28, case when fld7 = '2' then  fld" + (vState - 2) + " end VAHD28 ";
+                                        sqlQuery = sqlQuery + ", case when fld7 = '4' then  fld" + (vState - 6) + "  end VD32, case when fld7 = '4' then  fld" + (vState - 2) + "  end VAHD32 ";
+                                        sqlQuery = sqlQuery + ", case when fld7 = '6' then  fld" + (vState - 6) + "  end VD35, case when fld7 = '6' then  fld" + (vState - 2) + "  end VAHD35 ";
+                                        sqlQuery = sqlQuery + " ,case when fld7 = '1' then fld" + (vState - 5) + "  end  'CCcurrent' ";
+                                        sqlQuery = sqlQuery + " from test_LoadPFData003  where fld" + vState + " = 'Reached Target voltage' ) a ";
+                                        */
+                                        break;
+                                    case "010":  //cc1
+                                                 //vComID = 8;//H欄     vState = 14;//N欄
+
+                                        sqlQuery = cc1SelectSql + detailSelect; //+ " ) finalR ";
+
+                                        break;
+
+                                    case "017":
+                                        if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2") //cc2-2 2024 , cc2 017-chroma2 2024開始
+                                        {
+
+                                            //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數                                        
+                                            if (vparameter_chg == "0172" && check_cc2_algorithm) // for 測試正常                                       
+                                            // if (vparameter_chg == "0172")
+                                            {
+                                                //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
+                                                cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
+                                                cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 4976,1 ) as V ";
+                                                cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 5168,1) as V1 ";
+                                                cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 8394,1 ) as V2 ";
+                                                cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit 5114,1) as v3 ";
+                                                cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit 5178,1) as v4 ";
+                                            }
+                                            else // Chroma  走這段解析 V , V1 ,V2,V3,V4 ,這邊根據每個step 與 Reached Target voltage' 條件對應位置 算出count
+                                            {
+                                                //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
+                                                cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
+                                                //計算五次
+                                                for (int n = 0; n < 5; n++)
+                                                {
+
+                                                    int cacula_number = Parse_chroma_V_serial_count(n, vComID, vComID + 1, connection);
+                                                    if (n <= 2)
+                                                    {
+                                                        if (n == 0)
+                                                        {
+                                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V ";
+
+                                                        }
+                                                        else
+                                                        {
+                                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n);
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+
+                                                        cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n) + " ";
+                                                    }
+                                                }
+
+
+                                                //當原始數據沒有Reached Target voltage參考
+                                                if (!haveTargetvoltage)
+                                                {
+                                                    for (int k = 0; k < step_caculator_value.Count(); k++)
+                                                    {
+                                                        if (k < 6)
+                                                        {
+
+                                                            if (k % 2 == 0 || k == 0)
+                                                            {
+                                                                //取VD 2.8, 3.2, 3.5 
+                                                                if (k == 0)
+                                                                {
+                                                                    detailVD = "absVD28";
+                                                                    like_step = step_abs_value[0];
+                                                                }
+                                                                else if (k == 2)
+                                                                {
+                                                                    detailVD = "absVD32";
+                                                                    like_step = step_abs_value[1];
+                                                                }
+                                                                else if (k == 4)
+                                                                {
+                                                                    detailVD = "absVD35";
+                                                                    like_step = step_abs_value[2];
+                                                                }
+
+                                                                cc1SelectSql = cc1SelectSql + ",( select abs(fld" + vComID + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - 3) + " ,1 ) as " + detailVD + "";
+
+                                                            }
+                                                            else
+                                                            {
+                                                                //取mAH 2.8, 3.2, 3.5                                                             
+                                                                if (k == 1)
+                                                                {
+                                                                    detailmAH = "absmAH28";
+                                                                    like_step = step_abs_value[0];
+                                                                }
+                                                                else if (k == 3)
+                                                                {
+                                                                    detailmAH = "absmAH32";
+                                                                    like_step = step_abs_value[1];
+                                                                }
+                                                                else if (k == 5)
+                                                                {
+                                                                    detailmAH = "absmAH35";
+                                                                    like_step = step_abs_value[2];
+                                                                }
+
+                                                                cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID + 4) + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - 3) + " ,1 ) as " + detailmAH + "";
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            //取current 電流                                                          
+                                                            detailCurent = "absCurrentmA";
+                                                            cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID + 1) + ")  from test_LoadPFData003 WHERE fld7 LIKE '1' limit " + (step_caculator_value[k] - 1) + " ,1 ) as " + detailCurent + " ";
+                                                        }
+                                                    }
+
+                                                }
+
+                                            }
+
+
+                                            sqlQuery = cc1SelectSql + detailSelect; //+ " ) finalR ";
+
+                                        }
+                                        else  //cc2 2023
+                                        {
+                                            //jj7 4893,jj8 4957  =(@INDIRECT((ADDRESS($JJ$7,JF14)),1))
+                                            cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 492,1 ) as V ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 4892,1) as V1 ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit 4956,1 ) as V2 ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit 4838,1) as v3 ";
+                                            cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit 4902,1) as v4 ";
+
+                                            sqlQuery = cc1SelectSql + detailSelect; //+ " ) finalR ";
+
+                                        }
+
+                                        break;
+
+                                }//end switch
+
+
+
+                                comm_detail = new MySqlCommand(sqlQuery, conn_detail);
+
+                                dr_detail = comm_detail.ExecuteReader();
+
+                                if (dr_detail.HasRows)  //找FUNCTION的值
+                                {
+                                    while (dr_detail.Read())
+                                    {
+                                        //PF
+
+                                        /*cc 新增的欄位*/
+                                        //,`CCcurrent`,`OCV`,`averageV1`,`averageV2`,`averageV3`
+                                        //,`charge34V`,`charge345V`,`charge35V`,`time50A`,`v`
+                                        //,`v1`,`v2`,`v3`,`v4`,`Para`
+                                        //mOhm 欄位 ABS(KD16-KE16)/ABS(KF16-KG16)*1000 取得欄位後     Math.Abs();
+
+
+                                        //string svd28 = Convert.ToString(dr_detail["absVD28"].ToString());
+                                        //string smaH28 = Convert.ToString(dr_detail["absmAH28"].ToString());
+                                        //string svd32 = Convert.ToString(dr_detail["absVD32"].ToString());
+                                        //string smaH32 = Convert.ToString(dr_detail["absmAH32"].ToString());
+                                        //string svd35 = Convert.ToString(dr_detail["absVD35"].ToString());
+                                        //string smaH35 = Convert.ToString(dr_detail["absmAH35"].ToString());
+
+
+                                        if (!haveTargetvoltage && vparameter == "017")
+                                        {
+                                            VD28 = Convert.ToString(dr_detail["absVD28"].ToString());
+                                            VAHD28 = Convert.ToString(dr_detail["absmAH28"].ToString());
+                                            VD32 = Convert.ToString(dr_detail["absVD32"].ToString());
+                                            VAHD32 = Convert.ToString(dr_detail["absmAH32"].ToString());
+                                            VD35 = Convert.ToString(dr_detail["absVD35"].ToString());
+                                            VAHD35 = Convert.ToString(dr_detail["absmAH35"].ToString());
+                                        }
+                                        else
+                                        {
+                                            VD28 = Convert.ToString(dr_detail["VD28"].ToString());
+                                            VAHD28 = Convert.ToString(dr_detail["VAHD28"].ToString());
+                                            VD32 = Convert.ToString(dr_detail["VD32"].ToString());
+                                            VAHD32 = Convert.ToString(dr_detail["VAHD32"].ToString());
+                                            VD35 = Convert.ToString(dr_detail["VD35"].ToString());
+                                            VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
+                                        }
+
+
+
+                                        Console.WriteLine($"3.5-2.8V Ah 電容量 =  { VAHD35}");
+
+                                        switch (vparameter)
+                                        {
+
+                                            case "010": //cc1                                     
+                                                VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                                VOCV = Convert.ToString(dr_detail["OCV"].ToString());
+                                                VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
+                                                VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
+                                                VaverageV3 = Convert.ToString(dr_detail["averageV3"].ToString());
+                                                Vcharge34V = Convert.ToString(dr_detail["charge34V"].ToString());
+                                                Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
+                                                Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
+
+                                                //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
+                                                if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
+                                                {
+                                                    VCCcurrent = VaverageV1 = VaverageV3 = "0.0";
+                                                }
+
+                                                Vtime50A = "0";
+                                                VV = "0";
+                                                VV1 = "0";
+                                                VV2 = "0";
+                                                VV3 = "0";
+                                                VV4 = "0";
+                                                VmOhm = "0";
+                                                Vpara = "CC1";
+
+
+                                                break;
+                                            case "017":  //cc2 or cc2-2 or cc2-chroma2
+
+                                                if (!haveTargetvoltage)
+                                                {
+                                                    VCCcurrent = Convert.ToString(dr_detail["absCurrentmA"].ToString());
+                                                }
+                                                else
+                                                {
+                                                    VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                                }
+
+                                                VOCV = Convert.ToString(dr_detail["OCV"].ToString());
+                                                VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
+                                                VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
+                                                VaverageV3 = Convert.ToString(dr_detail["averageV3"].ToString());
+                                                Vcharge34V = Convert.ToString(dr_detail["charge34V"].ToString());
+                                                Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
+                                                Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
+
+                                                int cap_type = Assign_Cap_mAH_Type(VAHD35);
+                                                CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
+
+                                                int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);
+
+                                                CC2_position = Convert.ToString(check_position);
+
+                                                //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
+                                                if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
+                                                {
+                                                    VCCcurrent = VaverageV1 = VaverageV3 = "0.0";
+                                                }
+
+                                                Vtime50A = Convert.ToString(dr_detail["time50A"].ToString());
+                                                VV = Convert.ToString(dr_detail["V"].ToString());
+                                                VV1 = Convert.ToString(dr_detail["V1"].ToString());
+                                                VV2 = Convert.ToString(dr_detail["V2"].ToString());
+                                                VV3 = Convert.ToString(dr_detail["V3"].ToString());
+                                                VV4 = Convert.ToString(dr_detail["V4"].ToString());
+                                                //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
+
+
+
+                                                Vpara = "CC2";
+                                                //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
+                                                //if (divisor == 0) divisor = 0.0039M;
+                                                //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
+
+                                                if (g_Batt_Classtype[insert_num] != "?")
+                                                    VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
+                                                else
+                                                    VmOhm = "0.000";
+                                                break;
+
+
+
+                                        }
+                                    }
+
+                                    //vStart_date //設定測試的日期(因為是key，所以手動輸 0755  測試值上線要拿掉
+                                    //vStart_date = "2024/01/01 01:11:44";
+                                    //'2024/07/01 02:13:44'
+
+
+                                    //string tableTileSql = "", columnSql = "", valueSql = "";
+
+                                    ///insertSql = insertSql + " INSERT INTO pfprocess001  ";
+
+
+                                    valueSql = "VALUES ( '" + dr["fld" + vComID].ToString() + "',  '" + vStart_date + "','" + vdateEnd_date + "','" + vtary_ID + "','" + vparameter + "',";
+                                    valueSql = valueSql + " '" + dr["fld" + vState].ToString() + "' ,'" + VD28 + "','" + VD28 + "','" + VAHD28 + "','" + VAHD28 + "',";
+                                    valueSql = valueSql + " '" + VD32 + "' ,'" + VD32 + "','" + VAHD32 + "','" + VAHD32 + "','" + VD35 + "',";
+                                    valueSql = valueSql + " '" + VD35 + "' ,'" + VAHD35 + "','" + VAHD35 + "','" + loadcsvFile + "','" + vprocess + "',now()";
+
+                                    //select CCcurrent, OCV, averageV1, averageV2, averageV3, charge34V, charge345V, charge35V
+                                    //  , time50A, v, v1, v2, v3, v4, mOhm from processcc
+                                    switch (vparameter)
+                                    {
+                                        case "023": //pf
+                                            tableTitleSql = " INSERT INTO pfprocess001  ";
+                                            tableTitleSql = tableTitleSql + " (ID,StartDateD,EnddateD,trayID,parameter ";
+                                            tableTitleSql = tableTitleSql + ",State,VD28,VS28,VAHD28,VAHS28 ";
+                                            tableTitleSql = tableTitleSql + " ,VD32 ,VS32 ,VAHD32,VAHS32 ,VD35  ";
+                                            tableTitleSql = tableTitleSql + " ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD,interpretcode,position ";
+
+                                            valueSql = valueSql + " ,'" + CC2_interpretcode + "','" + CC2_position + "'";
+
+                                            insertSql = insertSql + tableTitleSql + " ) " + valueSql + ");";
+                                            break;
+                                        default: //cc2>cc1 所以有7個欄位 寫0
+
+                                            /*cc 新增的欄位*/
+                                            //,`Para`,`CCcurrent`,`OCV`,`averageV1`,`averageV2`,`averageV3`,`charge34V`,`charge345V`,`charge35V`
+                                            //,`time50A`,`v`
+                                            //,`v1`,`v2`,`v3`,`v4`
+                                            //mOhm 欄位 ABS(KD16-KE16)/ABS(KF16-KG16)*1000 取得欄位後     Math.Abs();
+
+                                            tableTitleSql = " INSERT INTO processcc";
+                                            columnSql = "(ID,StartDateD,EnddateD,trayID,parameter ";
+                                            columnSql = columnSql + ",State,VDA,VSA,VAHDA,VAHSA ";
+                                            columnSql = columnSql + " ,VDB ,VSB ,VAHDB,VAHSB ,VDC  ";
+                                            columnSql = columnSql + " ,VSC,VAHDC ,VAHSC,FileName,Process,AnlaysisDayD ";
+                                            columnSql = columnSql + ",Para ";
+                                            columnSql = columnSql + ",CCcurrent,OCV,averageV1,averageV2,averageV3,charge34V,charge345V,charge35V"; //cc1有的，
+                                            columnSql = columnSql + ",time50A,v,v1,v2,v3,v4,mOhm,interpretcode,position,analysisDT"; //cc2才有的，cc1要塞的話，值均為0 mOhm 是用算值出來的
+
+                                            valueSql = valueSql + ",'" + Vpara + "'";  //para
+                                            valueSql = valueSql + ", " + VCCcurrent + "," + VOCV + "," + VaverageV1 + "," + VaverageV2 + "," + VaverageV3 + "," + Vcharge34V + "," + Vcharge345V + "," + Vcharge35V;
+                                            valueSql = valueSql + ", " + Vtime50A + ", " + VV + ", " + VV1 + ", " + VV2 + ", " + VV3 + ", " + VV4 + ", " + VmOhm + ", " + "'" + CC2_interpretcode + "'" + ", " + "'" + CC2_position + "'" + ", now()" + ") ";
+                                            //新增vvalueSql//增加value(
+                                            insertSql = insertSql + tableTitleSql + columnSql + " ) " + valueSql + ";";
+                                            break;
+
+                                    }
+
+                                    //alueSql = valueSql + ") ; ";
+
+                                    vComID = vComID + 7;
+                                    vState = vState + 7;
+                                    insert_num++;
+
+                                    dr_detail.Close();
+                                }
+
+                            }
+                        }
+
+
+                        //LResult.Text = insertSql;
+                        conn_detail.Close();
+
+
+                        //String testSql = "insert INTO pfprocess001  (ID,StartDateD,EnddateD,trayID,parameter ,State,VD28,VS28,VAHD28,VAHS28  ,VD32 ,VS32 ,VAHD32,VAHS32 ,VD35   ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD)VALUES ( 'MW2007A05101',  '2024/01/01 02:17:02','2024/01/01 07:15:14','PF-03-K000001','023', 'OK' ,'2.8000','2.8000','2627.0','2627.0', '3.3000' ,'3.3000','13802.2','13802.2','3.4000', '3.4000' ,'30400.0','30400.0','0000001.txt','00:Pressure Formation',now()) ; ";
+                        //testSql = testSql + "insert INTO pfprocess001(ID, StartDateD, EnddateD, trayID, parameter, State, VD28, VS28, VAHD28, VAHS28, VD32, VS32, VAHD32, VAHS32, VD35, VS35, VAHD35, VAHS35, FileName, Process, AnlaysisDayD)VALUES('MW2007A05101', '2024/01/01 02:18:02', '2024/01/01 07:16:14', 'PF-03-K000001', '023', 'OK', '2.8000', '2.8000', '2627.0', '2627.0', '3.3000', '3.3000', '13802.2', '13802.2', '3.4000', '3.4000', '30400.0', '30400.0', '0000001.txt', '00:Pressure Formation', now()); ";
+
+                        String testSql = insertSql;
+
+                        MySqlConnection conn_exec = new MySqlConnection(connection);
+
+                        if (conn_exec.State != ConnectionState.Open)
+                            conn_exec.Open();
+                        //MySqlCommand cmd = new MySqlCommand(testSql, conn_exec);
+                        cmd = new MySqlCommand(testSql, conn_exec);
+                        try
+                        {
+                            cmd.ExecuteNonQuery(); //insert 36筆
+                            LResult.Text = "已完成";
+
+                        }
+                        catch (Exception ex)
+                        {
+                            LResult.Text = "資料錯誤" + ex.ToString();
+                        }
+
+                        conn_exec.Close();
+
+
+
+                    }
+
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+
+
+                    string originalfile = loadcsvFile;
+
+                    //將重新解析的(PF or CC1 or CC2)存成csv,並呈現table含數據於頁面上
+                    //只取檔案名稱,忽略副檔名
+                    Filename = Path.GetFileNameWithoutExtension(Filename);
+
+                    switch (vparameter)  //STEP 
+                    {
+                        case "023": //pf ==>'023'
+                            dumpcsv = "SELECT * FROM sakila.pfprocess001;";
+                            Filename = Filename + "-pfprocess001.csv";
+                            pfcc_tablename = "pfprocess001";
+                            break;
+                        case "010":  //cc1
+                            dumpcsv = "SELECT * FROM sakila.processcc;";
+                            Filename = Filename + "-process-cc1.csv";
+                            pfcc_tablename = "processcc";
+                            break;
+                        case "017": //cc2
+                            dumpcsv = "SELECT * FROM sakila.processcc;";
+
+                            if (vparameter_chg == "0172") //cc2-2 2024
+                            {
+                                Filename = Filename + "-process-cc2-2.csv";
+                            }
+                            else if (vparameter_chg == "017-chromaCC2")
+                            {
+                                Filename = Filename + "-process_chroma-cc2.csv";
+                            }
+                            else
+                            {
+                                Filename = Filename + "-process-cc2.csv";
+                            }
+                            pfcc_tablename = "processcc";
+                            break;
+                    }
+
+
+
+                    //若路徑資料夾(C:\\pf-cc)沒有則這邊建立,for MYSQL LOAD REQUIRE
+                    if (!Directory.Exists(ResultTaskFolder))
+                        Directory.CreateDirectory(ResultTaskFolder);
+
+                    ExportToCsv resultcsv = new ExportToCsv();
+
+                    //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
+                    //(1)先將分析數據產生export csv格式檔
+                    string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
+                    DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
+                    csvview.DataSource = dtView;
+                    csvview.DataBind();
+
+                    string sDayD_value = string.Empty;
+
+                    if (vparameter == "023")
+                    {
+                        sDayD_value = "XXXXXX";
+                    }
+                    else
+                    {
+                        sDayD_value = "AnlaysisDayD";
+                    }
+
+                    //(2)再將分析完的數據合併預先遠端建置之的table (這邊目前使用遠端 hr.test_mergepfcc)
+                    //目前所有(pc,cc1,cc2,cc2-2)都忽略以下欄位
+                    All_col_listname = $@"SELECT GROUP_CONCAT(CASE
+                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'Process','{sDayD_value}') THEN COLUMN_NAME
+                        ELSE NULL
+                        END  ORDER BY ORDINAL_POSITION) AS col_list
+                        FROM INFORMATION_SCHEMA.COLUMNS
+                        WHERE TABLE_NAME = '{pfcc_tablename}'
+                        AND TABLE_SCHEMA = '{schema_DB}'; ";
+
+
+                    if (resultcsv.Merge_existfilter_value(connection, connection_merge, All_col_listname, schema_DB, pfcc_tablename) == true)
+                    {
+                        List<string> recordsucessful = new List<string>();
+                        recordsucessful.Add(originalfile);
+                        //刪除已經完成之數據原始檔案
+                        DeleteTHreadOKFiles(SourceFolder, recordsucessful, mannulrun);
+
+                        //成功轉換數量累加1
+                        succesfulnum++;                       
+                    }                        
+                    
+                    //當執行完畢到最後一筆
+                   if (i == totalTasks-1) 
+                   {
+                        DirectoryInfo tempDir = new DirectoryInfo(DestinationFolder);
+                        foreach (FileInfo fi in tempDir.EnumerateFiles())
+                        {
+                            // 目錄下C:\\tempcsv 內檔案全部刪除
+                            File.Delete(DestinationFolder + Path.DirectorySeparatorChar + fi.Name);
+                        }
+
+                        if(succesfulnum == totalTasks)
+                            LResult.Text = "分析完篩選型號及合併資料完畢!";
+                        else
+                            LResult.Text = "資料合併異常,NG,請確認分析完PF_CC系列數據格式!";
+                    }
+
+                    //透過C:\\copy_pfcc_result.bat 將產出pf cc1 cc2 等數據csv 回存到 網路工作磁碟(ex:\\192.168.3.100\pfcc_result)
+                    // PFCC_result_SaveExecuteBatFile();
+                   // EXEC_Save_PFCCbat();
+
+
+                } //end if (讀檔錯誤判斷====>)
+
+            }
+
+
+
+
         }
     }
 }
