@@ -22,11 +22,11 @@
    
     <div runat="server" >        
             
-            <asp:Button ID="Button_Loop" runat="server" OnClick="Button_Loop_Click" Text="測試迴圈list" />            
-            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="分析PF&amp;CC"  CssClass="hideable"/>
+            <asp:Button ID="Button_Loop" runat="server" OnClick="Button_Loop_Click" Text="全自動執行分析" />            
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="手動分析PF&amp;CC"  CssClass="hideable"/>
             <!--<asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="分析CC" />-->
-            <asp:Button ID="Button3" runat="server" OnClick="Button3_Click" Text="路徑讀取" CssClass="hideable" Visible="False"/>
-            <asp:Button ID="Btn_Auto" runat="server" OnClick="Btn_Auto_Click" Text="全自動解析" />
+            <asp:Button ID="Button3" runat="server" OnClick="Button3_Click" Text="路徑讀取" CssClass="hideable" Visible="False" />
+            <asp:Button ID="Btn_Auto" runat="server" OnClick="Btn_Auto_Click" Text="全自動解析"  Visible="False" />
          
             <label for="ddlExample" >配方版別:</label>
             <asp:DropDownList ID="ver_select" runat="server" style="transform: translate(20,10); margin-top: 20px;" OnSelectedIndexChanged="ver_select_SelectedIndexChanged">

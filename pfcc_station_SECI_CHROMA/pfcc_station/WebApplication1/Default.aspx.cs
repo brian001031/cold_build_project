@@ -57,8 +57,9 @@ namespace WebApplication1
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             //避免Auto時重複初始化
-            if(!Page.IsPostBack)
+            if (!Page.IsPostBack)
             {
                 Button1.Visible = true;
                 Button3.Visible = true;
@@ -66,7 +67,10 @@ namespace WebApplication1
                 Timer1.Interval = 1000;//設定每秒執行一次
                 Timer1.Enabled = false;//先關閉計時
                 ViewState["time"] = 0;
-                Label1.Text = "";
+                Label1.Text = "";                
+                Button3.Visible = false;
+                // 隱藏 Btn_Auto 按鈕
+                Btn_Auto.Visible = false;
             }
         }
 
@@ -76,10 +80,10 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
-           // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -251,7 +255,7 @@ namespace WebApplication1
 
             string sort_temp = "";
 
-            bool check_cc2_algorithm = false , haveTargetvoltage = true;
+            bool check_cc2_algorithm = false , haveTargetvoltage = false;
 
 
 
@@ -456,8 +460,22 @@ namespace WebApplication1
                             //}
                             //if (ibattary != 100) cell_Boxbatt = "MW2007HXXXXXXX".ToString();
                             //-------end--------
+
+
                             g_batterycell_number.Add(cell_Boxbatt);
                             BattaryID += 7;
+
+                            //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
+                            //if (!cell_Boxbatt.Contains("MW2007H14654")) {
+                            //    g_batterycell_number.Add(cell_Boxbatt);
+                            //    BattaryID += 7;
+                            //}                               
+                            //else {
+                            //    Console.WriteLine("第"+ibattary +"個電芯號"+ cell_Boxbatt+"不加入分析");
+                            //    BattaryID += 7;
+                            //}
+                            // ------------------------end-------------------------------------------------------
+                            
                         }
 
                         //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
@@ -839,10 +857,23 @@ namespace WebApplication1
 
                             }
 
-                            //alueSql = valueSql + ") ; ";
+                                //alueSql = valueSql + ") ; ";
 
-                            vComID = vComID + 7;
-                            vState = vState + 7;
+                                vComID = vComID + 7;
+                                vState = vState + 7;
+
+
+                                //DEBUG用
+                                //if (insert_num ==  0) {
+                                //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                //    vComID = vComID + 14;
+                                //    vState = vState + 14;
+                                //}
+                                //else {
+                                //    vComID = vComID + 7;
+                                //    vState = vState + 7;
+                                //}
+
                             insert_num++;
 
                             dr_detail.Close();
@@ -2174,12 +2205,12 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前開發本機端MYSQL 設定
-          // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-             string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             // 遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -2265,7 +2296,7 @@ namespace WebApplication1
             bool iscsvexist = false;
             bool IsOverWrite = true;
             bool copy_one = true;
-            bool check_cc2_algorithm = false, haveTargetvoltage = true;
+            bool check_cc2_algorithm = false, haveTargetvoltage = false;
             //load 資料
 
             sVer = this.ver_select.SelectedItem.ToString();
@@ -2588,8 +2619,6 @@ namespace WebApplication1
                         //開36個insert 
                         for (int iFlag = 1; iFlag <= 36; iFlag++)
                         {
-
-
                             cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                             cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                             cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
@@ -3277,10 +3306,10 @@ namespace WebApplication1
                 //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
 
                 //目前佈署端local host MYSQL 設定
-                 string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+                // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
                 //目前開發本機端MYSQL 設定
-               // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+                string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
                 //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3395,7 +3424,7 @@ namespace WebApplication1
 
                     string sort_temp = "";
 
-                    bool check_cc2_algorithm = false, haveTargetvoltage = true;
+                    bool check_cc2_algorithm = false, haveTargetvoltage = false;
 
 
 
