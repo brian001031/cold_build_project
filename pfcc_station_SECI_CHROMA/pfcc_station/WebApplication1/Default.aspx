@@ -63,9 +63,9 @@
             目的檔</p>
 
        <p>
-            轉換過程</p>
-            <asp:GridView ID="csvview" runat="server"  Height="230px" Width="404px" Visible="true">
+            轉換過程<asp:GridView ID="csvview" runat="server"  Height="230px" Width="961px" Visible="true">
             </asp:GridView>
+            </p>
     </div>
       
 </asp:Content>

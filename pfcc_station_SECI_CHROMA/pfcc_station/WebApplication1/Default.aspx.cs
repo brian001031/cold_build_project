@@ -23,6 +23,8 @@ namespace WebApplication1
         List<string> g_ThreadNotOkFile = new List<string>();
         List<string> g_batterycell_number = new List<string>();
         List<string> g_Batt_Classtype;
+        List<string> g_NG_PFCC_File;
+
 
         bool timerunheck = false;
         public static  readonly object _lock = new object();
@@ -35,6 +37,9 @@ namespace WebApplication1
         public String ResultTaskFolder = @"C:\pf-cc-result";
         public String NGTThread_filepath = @"C:\pf-cc-result\ng_output.txt"; // 自動執行有NG存取指定檔案路徑
         public String NG_file_record = @"C:\pf-cc-result\ng_record.txt"; // 清除既定完成數據清除指定檔案路徑讀取
+
+        //測試NG 存放路徑資料夾
+        public String NG_file_Path = @"C:\copy_temp\pf-cc-testNG";
 
         // public String NGTThread_filepath = @"C:\pf-cc\ng_output.txt"; // 自動執行有NG存取指定檔案路徑
         // public String NG_file_record = @"C:\pf-cc\ng_record.txt"; // 清除既定完成數據清除指定檔案路徑讀取
@@ -80,7 +85,7 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-            //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+          //  string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
             string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
@@ -255,7 +260,7 @@ namespace WebApplication1
 
             string sort_temp = "";
 
-            bool check_cc2_algorithm = false , haveTargetvoltage = false;
+            bool check_cc2_algorithm = false , haveTargetvoltage = true;
 
 
 
@@ -465,17 +470,20 @@ namespace WebApplication1
                             g_batterycell_number.Add(cell_Boxbatt);
                             BattaryID += 7;
 
+
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
-                            //if (!cell_Boxbatt.Contains("MW2007H14654")) {
+                            //if (!cell_Boxbatt.Contains("MW2007H17395") || !cell_Boxbatt.Contains("MW2007H14654"))
+                            //{
                             //    g_batterycell_number.Add(cell_Boxbatt);
                             //    BattaryID += 7;
-                            //}                               
-                            //else {
-                            //    Console.WriteLine("第"+ibattary +"個電芯號"+ cell_Boxbatt+"不加入分析");
+                            //}
+                            //else
+                            //{
+                            //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    BattaryID += 7;
                             //}
                             // ------------------------end-------------------------------------------------------
-                            
+
                         }
 
                         //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
@@ -521,18 +529,18 @@ namespace WebApplication1
 
                         switch (vparameter)
                         {
-                            case "023": //pf
-                                sqlQuery = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 " + detailSelect;
+                             case "023": //pf
+                                    sqlQuery = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 " + detailSelect;
 
-                                /* 變成DetailSelectSql 
-                                sqlQuery = sqlQuery + "from( ";
-                                sqlQuery = sqlQuery + "select fld7, fld8, fld9 ,fld12, fld14, case when fld7 = '2' then  fld" + (vState - 6) + "  end VD28, case when fld7 = '2' then  fld" + (vState - 2) + " end VAHD28 ";
-                                sqlQuery = sqlQuery + ", case when fld7 = '4' then  fld" + (vState - 6) + "  end VD32, case when fld7 = '4' then  fld" + (vState - 2) + "  end VAHD32 ";
-                                sqlQuery = sqlQuery + ", case when fld7 = '6' then  fld" + (vState - 6) + "  end VD35, case when fld7 = '6' then  fld" + (vState - 2) + "  end VAHD35 ";
-                                sqlQuery = sqlQuery + " ,case when fld7 = '1' then fld" + (vState - 5) + "  end  'CCcurrent' ";
-                                sqlQuery = sqlQuery + " from test_LoadPFData003  where fld" + vState + " = 'Reached Target voltage' ) a ";
-                                */
-                                break;
+                                    /* 變成DetailSelectSql 
+                                    sqlQuery = sqlQuery + "from( ";
+                                    sqlQuery = sqlQuery + "select fld7, fld8, fld9 ,fld12, fld14, case when fld7 = '2' then  fld" + (vState - 6) + "  end VD28, case when fld7 = '2' then  fld" + (vState - 2) + " end VAHD28 ";
+                                    sqlQuery = sqlQuery + ", case when fld7 = '4' then  fld" + (vState - 6) + "  end VD32, case when fld7 = '4' then  fld" + (vState - 2) + "  end VAHD32 ";
+                                    sqlQuery = sqlQuery + ", case when fld7 = '6' then  fld" + (vState - 6) + "  end VD35, case when fld7 = '6' then  fld" + (vState - 2) + "  end VAHD35 ";
+                                    sqlQuery = sqlQuery + " ,case when fld7 = '1' then fld" + (vState - 5) + "  end  'CCcurrent' ";
+                                    sqlQuery = sqlQuery + " from test_LoadPFData003  where fld" + vState + " = 'Reached Target voltage' ) a ";
+                                    */
+                                    break;
                             case "010":  //cc1
                                 //vComID = 8;//H欄     vState = 14;//N欄
 
@@ -540,7 +548,7 @@ namespace WebApplication1
 
                                 break;
 
-                            case "017":
+                            case "017":                           
                                 if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                 {
 
@@ -864,17 +872,19 @@ namespace WebApplication1
 
 
                                 //DEBUG用
-                                //if (insert_num ==  0) {
-                                //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                //if (insert_num == 0)
+                                //{
+                                //   // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                                 //    vComID = vComID + 14;
                                 //    vState = vState + 14;
                                 //}
-                                //else {
+                                //else
+                                //{
                                 //    vComID = vComID + 7;
                                 //    vState = vState + 7;
                                 //}
 
-                            insert_num++;
+                                insert_num++;
 
                             dr_detail.Close();
                         }
@@ -981,7 +991,7 @@ namespace WebApplication1
                 //(2)再將分析完的數據合併預先遠端建置之的table (這邊目前使用遠端 hr.test_mergepfcc)
                 //目前所有(pc,cc1,cc2,cc2-2)都忽略以下欄位
                 All_col_listname = $@"SELECT GROUP_CONCAT(CASE
-                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'Process','{sDayD_value}') THEN COLUMN_NAME
+                       WHEN COLUMN_NAME NOT IN('State', 'Process','{sDayD_value}') THEN COLUMN_NAME
                         ELSE NULL
                         END  ORDER BY ORDINAL_POSITION) AS col_list
                         FROM INFORMATION_SCHEMA.COLUMNS
@@ -1008,7 +1018,7 @@ namespace WebApplication1
 
 
                 //刪除已經完成之數據原始檔案
-              //  DeleteTHreadOKFiles(SourceFolder, recordsucessful, mannulrun);
+               // DeleteTHreadOKFiles(SourceFolder, recordsucessful, mannulrun);
 
                 //透過C:\\copy_pfcc_result.bat 將產出pf cc1 cc2 等數據csv 回存到 網路工作磁碟(ex:\\192.168.3.100\pfcc_result)
                 // PFCC_result_SaveExecuteBatFile();
@@ -1872,6 +1882,56 @@ namespace WebApplication1
             }
         }
 
+        public void COPY_NG_Directionary(string Source, string NG_Destination , List<string> gloal_Ng_total ) 
+        {
+
+            DirectoryInfo srcDir = new DirectoryInfo(Source);
+
+
+            try {
+                foreach (FileInfo fi in srcDir.EnumerateFiles())
+                {
+
+                    for (int ng_fi = 0; ng_fi < gloal_Ng_total.Count; ng_fi++) {
+
+                        string InputNGFile = gloal_Ng_total[ng_fi].ToString();
+
+                        //if (fi.Name.Equals(InputNGFile))
+                        //{
+                        //    File.Copy(fi.FullName, NG_Destination + Path.DirectorySeparatorChar + fi.Name);
+                        //}
+
+                        if (fi.Name.Equals(InputNGFile))
+                        {
+                            string destinationPath = NG_Destination + Path.DirectorySeparatorChar + fi.Name;
+
+                            // 檢查檔案是否已經存在，並選擇覆蓋或跳過
+                            if (File.Exists(destinationPath))
+                            {
+                                // 若檔案已經存在，你可以選擇覆蓋或跳過檔案
+                                // 覆蓋檔案
+                                File.Copy(fi.FullName, destinationPath, overwrite: true);
+                                // 如果不希望覆蓋檔案，可以跳過：
+                                // continue; // 這行會跳過當前檔案，繼續處理下個檔案
+                            }
+                            else
+                            {
+                                // 檔案不存在，直接複製
+                                File.Copy(fi.FullName, destinationPath);
+                            }
+                        }
+                    }                                            
+                }
+
+            }
+            catch (Exception err) {
+
+                throw;
+            }
+
+
+        }
+
         public void CopyDirectory(string Source, string Destination, bool IsOverWrite = true , bool signlecopy = false)
         {
             String DestinationFolder = "c:\\\\tempcsv";
@@ -2296,7 +2356,7 @@ namespace WebApplication1
             bool iscsvexist = false;
             bool IsOverWrite = true;
             bool copy_one = true;
-            bool check_cc2_algorithm = false, haveTargetvoltage = false;
+            bool check_cc2_algorithm = false, haveTargetvoltage = true;
             //load 資料
 
             sVer = this.ver_select.SelectedItem.ToString();
@@ -3113,7 +3173,7 @@ namespace WebApplication1
                     //(2)再將分析完的數據合併預先遠端建置之的table (這邊目前使用遠端表單為  testmerge_pf 和 testmerge_cc1orcc2)
                     //目前所有(pc,cc1,cc2,cc2-2)都忽略以下欄位
                     All_col_listname = $@"SELECT GROUP_CONCAT(CASE
-                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'Process','{sDayD_value}') THEN COLUMN_NAME
+                       WHEN COLUMN_NAME NOT IN( 'State', 'Process','{sDayD_value}') THEN COLUMN_NAME
                         ELSE NULL
                         END  ORDER BY ORDINAL_POSITION) AS col_list
                         FROM INFORMATION_SCHEMA.COLUMNS
@@ -3248,6 +3308,14 @@ namespace WebApplication1
             string pf_cctable = "";
             bool IsOverWrite = true;
             bool copy_one = false; //false -> 複製全部 / true -> 複製單項
+            bool check_have_ng = false; //確認file分析 flag ,預設false
+            int check_ng_num ; //NG file 偵測電芯號 數量 ,預設為0
+
+            // 創建NG資料夾（如果不存在）
+            if (!Directory.Exists(NG_file_Path))
+            {
+                Directory.CreateDirectory(NG_file_Path);               
+            }
 
             //將 C:\copy_temp\source_pfcc 資料夾內csv全部複製到 C:\tempcsv
             CopyDirectory(SourceFolder, DestinationFolder, IsOverWrite, copy_one);
@@ -3294,11 +3362,19 @@ namespace WebApplication1
                 return;
             }
 
+            //宣告NG 可能性
+            g_NG_PFCC_File = new List<string>();
+
 
             for (int i = 0; i < totalTasks; i++)
             {
                 string taskId = g_csvFile[i].ToString();
                 string tasktype = g_pfcctype[i].ToString();
+
+                //------增加 NG檔案 判斷-----start--------
+                check_have_ng = false;
+                check_ng_num = 0;
+                //------end-------- 
 
                 LResult.Text = $"處理表單{taskId}進行中.....";
 
@@ -3306,7 +3382,7 @@ namespace WebApplication1
                 //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
 
                 //目前佈署端local host MYSQL 設定
-                // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+                //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
                 //目前開發本機端MYSQL 設定
                 string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
@@ -3424,7 +3500,7 @@ namespace WebApplication1
 
                     string sort_temp = "";
 
-                    bool check_cc2_algorithm = false, haveTargetvoltage = false;
+                    bool check_cc2_algorithm = false, haveTargetvoltage = true;
 
 
 
@@ -3699,13 +3775,12 @@ namespace WebApplication1
                                         break;
                                     case "010":  //cc1
                                                  //vComID = 8;//H欄     vState = 14;//N欄
-
                                         sqlQuery = cc1SelectSql + detailSelect; //+ " ) finalR ";
 
                                         break;
 
-                                    case "017":
-                                        if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2") //cc2-2 2024 , cc2 017-chroma2 2024開始
+                                    case "017":                                    
+                                        if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" /*|| vparameter =="010"*/) //cc2-2 2024 , cc2 017-chroma2 2024開始
                                         {
 
                                             //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數                                        
@@ -3863,23 +3938,52 @@ namespace WebApplication1
                                         //string smaH35 = Convert.ToString(dr_detail["absmAH35"].ToString());
 
 
-                                        if (!haveTargetvoltage && vparameter == "017")
+                                        try
                                         {
-                                            VD28 = Convert.ToString(dr_detail["absVD28"].ToString());
-                                            VAHD28 = Convert.ToString(dr_detail["absmAH28"].ToString());
-                                            VD32 = Convert.ToString(dr_detail["absVD32"].ToString());
-                                            VAHD32 = Convert.ToString(dr_detail["absmAH32"].ToString());
-                                            VD35 = Convert.ToString(dr_detail["absVD35"].ToString());
-                                            VAHD35 = Convert.ToString(dr_detail["absmAH35"].ToString());
+
+                                            if (!haveTargetvoltage && vparameter == "017")
+                                            {
+                                                VD28 = Convert.ToString(dr_detail["absVD28"].ToString());
+                                                VAHD28 = Convert.ToString(dr_detail["absmAH28"].ToString());
+                                                VD32 = Convert.ToString(dr_detail["absVD32"].ToString());
+                                                VAHD32 = Convert.ToString(dr_detail["absmAH32"].ToString());
+                                                VD35 = Convert.ToString(dr_detail["absVD35"].ToString());
+                                                VAHD35 = Convert.ToString(dr_detail["absmAH35"].ToString());
+                                            }
+                                            else
+                                            {
+                                                VD28 = Convert.ToString(dr_detail["VD28"].ToString());
+                                                VAHD28 = Convert.ToString(dr_detail["VAHD28"].ToString());
+                                                VD32 = Convert.ToString(dr_detail["VD32"].ToString());
+                                                VAHD32 = Convert.ToString(dr_detail["VAHD32"].ToString());
+                                                VD35 = Convert.ToString(dr_detail["VD35"].ToString());
+                                                VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
+                                            }
+
+
                                         }
-                                        else
+                                        catch (FormatException ex)
                                         {
-                                            VD28 = Convert.ToString(dr_detail["VD28"].ToString());
-                                            VAHD28 = Convert.ToString(dr_detail["VAHD28"].ToString());
-                                            VD32 = Convert.ToString(dr_detail["VD32"].ToString());
-                                            VAHD32 = Convert.ToString(dr_detail["VAHD32"].ToString());
-                                            VD35 = Convert.ToString(dr_detail["VD35"].ToString());
-                                            VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
+                                            // 捕捉並處理 FormatException
+
+                                            // 你可以記錄日誌，或將錯誤訊息發送給管理員
+                                            // Log.Error("FormatException: " + ex.Message);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            // 捕捉其他類型的錯誤
+                                            check_ng_num++;
+                                            check_have_ng = true;
+                                            VD28 = VD32 = VAHD32 = VD35 = VAHD35 = "電壓值空值判定異常";
+
+
+                                            if (check_ng_num == 1 && check_have_ng)
+                                            {
+                                                g_NG_PFCC_File.Add(loadcsvFile);
+                                                continue;
+                                            }
+
+                                            // Log.Error("Unexpected error: " + ex.Message);
                                         }
 
 
@@ -3890,7 +3994,18 @@ namespace WebApplication1
                                         {
 
                                             case "010": //cc1                                     
+
+                                                //if (!haveTargetvoltage)
+                                                //{
+                                                //    VCCcurrent = Convert.ToString(dr_detail["absCurrentmA"].ToString());
+                                                //}
+                                                //else
+                                                //{
+                                                //    VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+                                                //}
+
                                                 VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());
+
                                                 VOCV = Convert.ToString(dr_detail["OCV"].ToString());
                                                 VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
                                                 VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
@@ -3956,21 +4071,59 @@ namespace WebApplication1
                                                 VV4 = Convert.ToString(dr_detail["V4"].ToString());
                                                 //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
 
-
-
                                                 Vpara = "CC2";
                                                 //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
                                                 //if (divisor == 0) divisor = 0.0039M;
                                                 //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
 
-                                                if (g_Batt_Classtype[insert_num] != "?")
-                                                    VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
-                                                else
-                                                    VmOhm = "0.000";
+                                                decimal VV1_Vrms, VV2_Vrms, VV3_Vrms, VV4_Vrms;
+
+                                                try {
+                                                    
+                                                    if (decimal.TryParse(VV1, out VV1_Vrms) && decimal.TryParse(VV2, out VV2_Vrms) &&
+                                                        decimal.TryParse(VV3, out VV3_Vrms) && decimal.TryParse(VV4, out VV4_Vrms))
+                                                    {
+                                                        if (g_Batt_Classtype[insert_num] != "?")
+                                                            VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1_Vrms) - Convert.ToDecimal(VV2_Vrms)) / Math.Abs(Convert.ToDecimal(VV3_Vrms) - Convert.ToDecimal(VV4_Vrms)));
+                                                        else
+                                                            VmOhm = "0.000";
+                                                    }                                                       
+                                                }
+                                                catch (FormatException ex)
+                                                {
+                                                    // 捕捉並處理 FormatException
+                                                    VmOhm = "錯誤：輸入的數字格式不正確";
+                                                    // 你可以記錄日誌，或將錯誤訊息發送給管理員
+                                                    // Log.Error("FormatException: " + ex.Message);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    // 捕捉其他類型的錯誤
+                                                    check_ng_num++;
+                                                    check_have_ng = true;
+                                                    VmOhm = "除法計算異常";
+
+                                                    if (check_ng_num == 1 && check_have_ng)
+                                                    {
+                                                        g_NG_PFCC_File.Add(loadcsvFile);
+                                                        continue;
+                                                    }
+
+                                                    // Log.Error("Unexpected error: " + ex.Message);
+                                                }
+
+                                                if (string.IsNullOrEmpty(VV1) && string.IsNullOrEmpty(VV2) && string.IsNullOrEmpty(VV3) && string.IsNullOrEmpty(VV4))                                                
+                                                {
+                                                    check_ng_num++;
+                                                    check_have_ng = true;
+                                                    VmOhm = "VV系列值都空狀態,異常";
+                                                    if (check_ng_num == 1 && check_have_ng)
+                                                    {
+                                                        g_NG_PFCC_File.Add(loadcsvFile);
+                                                        continue;
+                                                    }
+                                                }
                                                 break;
-
-
-
                                         }
                                     }
 
@@ -4126,11 +4279,15 @@ namespace WebApplication1
 
                     //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
                     //(1)先將分析數據產生export csv格式檔
-                    string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
-                    DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
-                    csvview.DataSource = dtView;
-                    csvview.DataBind();
 
+                    //當沒有NG才產出csv 表單 
+                    if (!check_have_ng) {
+                        string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
+                        DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
+                        csvview.DataSource = dtView;
+                        csvview.DataBind();
+                    }
+                   
                     string sDayD_value = string.Empty;
 
                     if (vparameter == "023")
@@ -4145,7 +4302,7 @@ namespace WebApplication1
                     //(2)再將分析完的數據合併預先遠端建置之的table (這邊目前使用遠端 hr.test_mergepfcc)
                     //目前所有(pc,cc1,cc2,cc2-2)都忽略以下欄位
                     All_col_listname = $@"SELECT GROUP_CONCAT(CASE
-                       WHEN COLUMN_NAME NOT IN('StartDateD', 'EnddateD', 'trayID', 'State', 'Process','{sDayD_value}') THEN COLUMN_NAME
+                       WHEN COLUMN_NAME NOT IN( 'State', 'Process','{sDayD_value}') THEN COLUMN_NAME
                         ELSE NULL
                         END  ORDER BY ORDINAL_POSITION) AS col_list
                         FROM INFORMATION_SCHEMA.COLUMNS
@@ -4155,13 +4312,15 @@ namespace WebApplication1
 
                     if (resultcsv.Merge_existfilter_value(connection, connection_merge, All_col_listname, schema_DB, pfcc_tablename) == true)
                     {
-                        List<string> recordsucessful = new List<string>();
-                        recordsucessful.Add(originalfile);
-                        //刪除已經完成之數據原始檔案
-                        DeleteTHreadOKFiles(SourceFolder, recordsucessful, mannulrun);
-
-                        //成功轉換數量累加1
-                        succesfulnum++;                       
+                       //確定沒有NG的情況下,將原始測試數據刪除
+                        if (!check_have_ng) {
+                            List<string> recordsucessful = new List<string>();
+                            recordsucessful.Add(originalfile);
+                            //刪除已經完成之數據原始檔案
+                            DeleteTHreadOKFiles(SourceFolder, recordsucessful, mannulrun);
+                            //成功轉換數量累加1
+                            succesfulnum++;
+                        }                            
                     }                        
                     
                     //當執行完畢到最後一筆
@@ -4174,10 +4333,33 @@ namespace WebApplication1
                             File.Delete(DestinationFolder + Path.DirectorySeparatorChar + fi.Name);
                         }
 
-                        if(succesfulnum == totalTasks)
+                        if (succesfulnum == totalTasks)
                             LResult.Text = "分析完篩選型號及合併資料完畢!";
                         else
-                            LResult.Text = "資料合併異常,NG,請確認分析完PF_CC系列數據格式!";
+                        {
+                            LResult.Text = "資料合併異常,NG {";
+                            for (int ng = 0; ng < g_NG_PFCC_File.Count; ng++)
+                            {
+                                LResult.Text += g_NG_PFCC_File[ng].ToString()+" ";
+
+                                if (ng == g_NG_PFCC_File.Count - 1)
+                                    LResult.Text += "}";
+                            }
+
+                            //將分析NG原始數據檔案放置 既定 C:\copy_temp\pf-cc-testNG
+                            COPY_NG_Directionary(SourceFolder, NG_file_Path, g_NG_PFCC_File);
+
+                            DirectoryInfo csvDir = new DirectoryInfo(SourceFolder);
+                            foreach (FileInfo fi in csvDir.EnumerateFiles())
+                            {
+                                // 目錄下C:\copy_temp\source_pfcc 內檔案全部刪除,確定都NG
+                                File.Delete(SourceFolder + Path.DirectorySeparatorChar + fi.Name);
+                            }
+                        }
+
+                        LResult.Text += ",請確認分析完PF_CC系列數據格式!";
+
+
                     }
 
                     //透過C:\\copy_pfcc_result.bat 將產出pf cc1 cc2 等數據csv 回存到 網路工作磁碟(ex:\\192.168.3.100\pfcc_result)
