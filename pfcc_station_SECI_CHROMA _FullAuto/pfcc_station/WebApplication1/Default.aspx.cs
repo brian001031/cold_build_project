@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -211,7 +212,7 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-           //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+          // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
             string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
@@ -2411,7 +2412,7 @@ namespace WebApplication1
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-            // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           //  string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             // 遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3541,10 +3542,10 @@ namespace WebApplication1
                 //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
 
                 //目前佈署端local host MYSQL 設定
-               // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+               //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;Allow Zero Datetime=True;Convert Zero Datetime=True;";
 
                 //目前開發本機端MYSQL 設定
-                string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+                 string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;Allow Zero Datetime=True;Convert Zero Datetime=True;";
 
 
                 //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -4299,12 +4300,33 @@ namespace WebApplication1
                                     //string tableTileSql = "", columnSql = "", valueSql = "";
 
                                     ///insertSql = insertSql + " INSERT INTO pfprocess001  ";
+                                    DateTime now_str = DateTime.Now;
+
+                                    // 寫入資料庫的格式（正確）
+                                    string dbTimeStr = now_str.ToString("yyyy-MM-dd HH:mm:ss");
+                                    //  string dateStr = now_str.ToString("yyyy-MM-dd HH:mm:ss", new CultureInfo("zh-TW")); // 格式與 MySQL 相符
+
+                                    // 顯示用格式（含上午/下午）
+                                    CultureInfo taiwanCulture = new CultureInfo("zh-TW");
+                                    string displayTimeStr = now_str.ToString("yyyy/M/d tt hh:mm:ss", taiwanCulture);
+
+                                    
+                                    // 先解析時間
+                                    DateTime dt_start = DateTime.ParseExact(vStart_date, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                                    DateTime dt_end = DateTime.ParseExact(vdateEnd_date, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
 
-                                    valueSql = "VALUES ( '" + dr["fld" + vComID].ToString() + "',  '" + vStart_date + "','" + vdateEnd_date + "','" + vtary_ID + "','" + vparameter + "',";
+                                    // 格式  yyyy/MM/dd 上午/下午 hh:mm:ss
+                                    string cvt_startdate = dt_start.ToString("yyyy/MM/dd tt hh:mm:ss", taiwanCulture);
+                                    string cvt_enddate = dt_end.ToString("yyyy/MM/dd tt hh:mm:ss", taiwanCulture);
+
+                                    valueSql = "VALUES ( '" + dr["fld" + vComID].ToString() + "',  '" + vStart_date + "','" + cvt_enddate + "','" + vtary_ID + "','" + vparameter + "',";
                                     valueSql = valueSql + " '" + dr["fld" + vState].ToString() + "' ,'" + VD28 + "','" + VD28 + "','" + VAHD28 + "','" + VAHD28 + "',";
                                     valueSql = valueSql + " '" + VD32 + "' ,'" + VD32 + "','" + VAHD32 + "','" + VAHD32 + "','" + VD35 + "',";
-                                    valueSql = valueSql + " '" + VD35 + "' ,'" + VAHD35 + "','" + VAHD35 + "','" + loadcsvFile + "','" + vprocess + "',now()";
+                                    // valueSql = valueSql + " '" + VD35 + "' ,'" + VAHD35 + "','" + VAHD35 + "','" + loadcsvFile + "','" + vprocess + "',now()";
+                                    valueSql = valueSql + " '" + VD35 + "' ,'" + VAHD35 + "','" + VAHD35 + "','" + loadcsvFile + "','" + vprocess + "','" + displayTimeStr + "'";
+
+
 
                                     //select CCcurrent, OCV, averageV1, averageV2, averageV3, charge34V, charge345V, charge35V
                                     //  , time50A, v, v1, v2, v3, v4, mOhm from processcc
@@ -4328,6 +4350,9 @@ namespace WebApplication1
                                             //,`time50A`,`v`
                                             //,`v1`,`v2`,`v3`,`v4`
                                             //mOhm 欄位 ABS(KD16-KE16)/ABS(KF16-KG16)*1000 取得欄位後     Math.Abs();
+                                         
+                                            //DateTime safeDefaultTime = new DateTime(1000, 1, 1, 0, 0, 0);
+
 
                                             tableTitleSql = " INSERT INTO processcc";
                                             columnSql = "(ID,StartDateD,EnddateD,trayID,parameter ";
@@ -4340,7 +4365,9 @@ namespace WebApplication1
 
                                             valueSql = valueSql + ",'" + Vpara + "'";  //para
                                             valueSql = valueSql + ", " + VCCcurrent + "," + VOCV + "," + VaverageV1 + "," + VaverageV2 + "," + VaverageV3 + "," + Vcharge34V + "," + Vcharge345V + "," + Vcharge35V;
-                                            valueSql = valueSql + ", " + Vtime50A + ", " + VV + ", " + VV1 + ", " + VV2 + ", " + VV3 + ", " + VV4 + ", " + VmOhm + ", " + "'" + CC2_interpretcode + "'" + ", " + "'" + CC2_position + "'" + ", now()" + ") ";
+                                           // valueSql = valueSql + ", " + Vtime50A + ", " + VV + ", " + VV1 + ", " + VV2 + ", " + VV3 + ", " + VV4 + ", " + VmOhm + ", " + "'" + CC2_interpretcode + "'" + ", " + "'" + CC2_position + "'" + ", now()" + ") ";
+                                            valueSql = valueSql + ", " + Vtime50A + ", " + VV + ", " + VV1 + ", " + VV2 + ", " + VV3 + ", " + VV4 + ", " + VmOhm + ", " + "'" + CC2_interpretcode + "'" + ", " + "'" + CC2_position + "','" + displayTimeStr + "'" + ") ";
+
                                             //新增vvalueSql//增加value(
                                             insertSql = insertSql + tableTitleSql + columnSql + " ) " + valueSql + ";";
                                             break;
@@ -4456,7 +4483,7 @@ namespace WebApplication1
 
                     if (vparameter == "023")
                     {
-                        sDayD_value = "XXXXXX";
+                        sDayD_value = "XXXXXX";                                        
                     }
                     else
                     {
@@ -4538,6 +4565,11 @@ namespace WebApplication1
 
 
 
+        }
+
+        private string DATE_FORMAT(string dbTimeStr, char v)
+        {
+            throw new NotImplementedException();
         }
     }
 }
