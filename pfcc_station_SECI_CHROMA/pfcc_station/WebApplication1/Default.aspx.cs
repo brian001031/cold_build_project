@@ -473,15 +473,17 @@ namespace WebApplication1
 
 
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
-                            //if (!cell_Boxbatt.Contains("MW2007H17395") || !cell_Boxbatt.Contains("MW2007H14654"))
+                            //if (cell_Boxbatt.Equals("MW0025B01497") || cell_Boxbatt.Equals("MW0025B01496") || cell_Boxbatt.Equals("MW0025B02060") || cell_Boxbatt.Equals("MW0025B02059"))
+                            //if (cell_Boxbatt.Equals("MW0025B01821"))
                             //{
-                            //    g_batterycell_number.Add(cell_Boxbatt);
+                            //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    BattaryID += 7;
                             //}
                             //else
                             //{
-                            //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
+                            //    g_batterycell_number.Add(cell_Boxbatt);
                             //    BattaryID += 7;
+
                             //}
                             // ------------------------end-------------------------------------------------------
 
@@ -494,11 +496,22 @@ namespace WebApplication1
                         //檢視最後g_Batt_Classtype 存取狀態顯示
                         Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype));
 
+
+                      //計算要insert的實際數量,若有?則跳過不計
+                      int AllInsert = calculate_insert_currentNumber(g_Batt_Classtype);
+
                         //開36個insert 
-                        for (int iFlag = 1; iFlag <= 36; iFlag++)
+                    for (int iFlag = 1; iFlag <= AllInsert; iFlag++)
                     {
-
-
+                        //初始要閃過的2個電芯號序號,依實際狀況做調整----debug用----- start--------
+                        //if (iFlag < 3)
+                        //{
+                        //    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                        //    vComID = vComID + 7;
+                        //    vState = vState + 7;                            
+                        //    continue;
+                        //}
+                        //-----end--------
                         cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                         cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                         cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
@@ -583,6 +596,9 @@ namespace WebApplication1
                                                     }
                                                     else
                                                     {
+                                                        //這邊有遇到演算異常,實際計算的count會overflow = 1,這邊透過-1 下面query才會正常,依實際狀況調整(目前遇到為V2計算量)
+                                                        //if (n == 2 )
+                                                        //    cacula_number = cacula_number - 1;
                                                         cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n);
                                                     }
                                                 }
@@ -837,7 +853,7 @@ namespace WebApplication1
                                 // 格式  yyyy/MM/dd 上午/下午 hh:mm:ss
                                 string cvt_startdate = dt_start.ToString("yyyy/MM/dd tt hh:mm:ss", taiwanCulture);
                                 string cvt_enddate = dt_end.ToString("yyyy/MM/dd tt hh:mm:ss", taiwanCulture);
-
+                
                                 valueSql = "VALUES ( '" + dr["fld" + vComID].ToString() + "',  '" + vStart_date + "','" + cvt_enddate + "','" + vtary_ID + "','" + vparameter + "',";
                                 valueSql = valueSql + " '" + dr["fld" + vState].ToString() + "' ,'" + VD28 + "','" + VD28 + "','" + VAHD28 + "','" + VAHD28 + "',";
                                 valueSql = valueSql + " '" + VD32 + "' ,'" + VD32 + "','" + VAHD32 + "','" + VAHD32 + "','" + VD35 + "',";
@@ -890,11 +906,10 @@ namespace WebApplication1
                                 vComID = vComID + 7;
                                 vState = vState + 7;
 
-
                                 //DEBUG用
-                                //if (insert_num == 0)
+                                //if (iFlag == 18)
                                 //{
-                                //   // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                                 //    vComID = vComID + 14;
                                 //    vState = vState + 14;
                                 //}
@@ -1229,6 +1244,22 @@ namespace WebApplication1
             return 0;
         }
 
+        private int calculate_insert_currentNumber(List<string> all_battery_class) 
+        {
+            int count = 0;
+            if (all_battery_class.Count == 0)
+                count = all_battery_class.Count;
+            else
+            {
+                for (int modle = 0; modle < all_battery_class.Count; modle++)
+                {
+                    if (all_battery_class[modle] != "?")
+                        count++;
+                }
+            }
+
+            return count;
+        }
 
         private void Sync_HTBI_Merge_Classparam(string MS_dbcon, List<string> all_batterycell)
         {
