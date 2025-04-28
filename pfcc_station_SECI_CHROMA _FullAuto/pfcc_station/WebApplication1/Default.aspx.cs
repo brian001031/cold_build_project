@@ -26,6 +26,7 @@ namespace WebApplication1
         List<string> g_Batt_Classtype;
         List<string> g_NG_PFCC_File;
         List<string> g_side_flag;
+        List<string> g_ERROR_STATUS;
 
 
         bool timerunheck = false;
@@ -42,6 +43,9 @@ namespace WebApplication1
 
         //測試NG 存放路徑資料夾
         public String NG_file_Path = @"C:\copy_temp\pf-cc-testNG";
+
+        //錯誤狀態紀錄error_record.txt放置路徑
+        public String NG_STARUS_record = @"C:\copy_temp\pf-cc-testNG\error_record.txt";
 
         // public String NGTThread_filepath = @"C:\pf-cc\ng_output.txt"; // 自動執行有NG存取指定檔案路徑
         // public String NG_file_record = @"C:\pf-cc\ng_record.txt"; // 清除既定完成數據清除指定檔案路徑讀取
@@ -212,10 +216,10 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-          // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
-            string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -1336,6 +1340,23 @@ namespace WebApplication1
             return 0;
         }
 
+        private int calculate_insert_currentNumber(List<string> all_battery_class)
+        {
+            int count = 0;
+            if (all_battery_class.Count == 0)
+                count = all_battery_class.Count;
+            else
+            {
+                for (int modle = 0; modle < all_battery_class.Count; modle++)
+                {
+                    if (all_battery_class[modle] != "?")
+                        count++;
+                }
+            }
+
+            return count;
+        }
+
 
         private void Sync_HTBI_Merge_Classparam(string MS_dbcon, List<string> all_batterycell)
         {
@@ -2407,12 +2428,12 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前開發本機端MYSQL 設定
-           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+          // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-           //  string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+             string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             // 遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3451,7 +3472,8 @@ namespace WebApplication1
             bool IsOverWrite = true;
             bool copy_one = false; //false -> 複製全部 / true -> 複製單項
             bool check_have_ng = false; //確認file分析 flag ,預設false
-            int check_ng_num ; //NG file 偵測電芯號 數量 ,預設為0
+            bool check_modlename_nodata = false; //預設電芯號都無搜尋 false
+            int check_ng_num; //NG file 偵測電芯號 數量 ,預設為0
 
             // 創建NG資料夾（如果不存在）
             if (!Directory.Exists(NG_file_Path))
@@ -3524,6 +3546,8 @@ namespace WebApplication1
 
             //宣告NG 可能性
             g_NG_PFCC_File = new List<string>();
+            //錯誤狀態清空重新記錄
+            g_ERROR_STATUS = new List<string>();
 
 
             for (int i = 0; i < totalTasks; i++)
@@ -3534,18 +3558,19 @@ namespace WebApplication1
                 //------增加 NG檔案 判斷-----start--------
                 check_have_ng = false;
                 check_ng_num = 0;
+                check_modlename_nodata = false;
                 //------end-------- 
 
-               // LResult.Text = $"處理表單{taskId}進行中.....";
+                // LResult.Text = $"處理表單{taskId}進行中.....";
 
                 //Yuping 本機端MYSQL 設定
                 //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
 
                 //目前佈署端local host MYSQL 設定
-               //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;Allow Zero Datetime=True;Convert Zero Datetime=True;";
+                string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;Allow Zero Datetime=True;Convert Zero Datetime=True;";
 
                 //目前開發本機端MYSQL 設定
-                 string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;Allow Zero Datetime=True;Convert Zero Datetime=True;";
+              //   string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;Allow Zero Datetime=True;Convert Zero Datetime=True;";
 
 
                 //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3890,8 +3915,33 @@ namespace WebApplication1
                             //檢視最後g_Batt_Classtype 存取狀態顯示
                             Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype));
 
+
+                            int AllInsert;
+
+                            //計算要insert的實際數量,若有?則跳過不計,針對CC分容站
+                            if (vparameter != "023")
+                            {
+                                AllInsert = calculate_insert_currentNumber(g_Batt_Classtype);
+                            }
+                            else
+                                AllInsert = 36;
+
+                            //這邊目前可能為電芯目前為(全部?)產生導致,原因流程尚未建立資料庫搜尋無著落
+                            if (AllInsert == 0)
+                            {
+                                check_ng_num++;
+                                check_modlename_nodata = true;
+                                if (check_ng_num == 1 && check_modlename_nodata)
+                                {
+                                    g_NG_PFCC_File.Add(loadcsvFile);
+                                    g_ERROR_STATUS.Add(loadcsvFile + " 搜尋電芯號全無");
+                                    continue;
+                                }
+                            }
+
+
                             //開36個insert 
-                            for (int iFlag = 1; iFlag <= 36; iFlag++)
+                            for (int iFlag = 1; iFlag <= AllInsert; iFlag++)
                             {
 
 
@@ -4145,6 +4195,7 @@ namespace WebApplication1
                                             if (check_ng_num == 1 && check_have_ng)
                                             {
                                                 g_NG_PFCC_File.Add(loadcsvFile);
+                                                g_ERROR_STATUS.Add(loadcsvFile + " VD28 ~VAHD35電壓值範圍偵測有空,異常");
                                                 continue;
                                             }
 
@@ -4271,6 +4322,7 @@ namespace WebApplication1
                                                     if (check_ng_num == 1 && check_have_ng)
                                                     {
                                                         g_NG_PFCC_File.Add(loadcsvFile);
+                                                        g_ERROR_STATUS.Add(loadcsvFile + $" 阻值計算失敗,有空值導致 VV3 ={VV3} VV4 ={VV4}");
                                                         continue;
                                                     }
 
@@ -4285,6 +4337,7 @@ namespace WebApplication1
                                                     if (check_ng_num == 1 && check_have_ng)
                                                     {
                                                         g_NG_PFCC_File.Add(loadcsvFile);
+                                                        g_ERROR_STATUS.Add(loadcsvFile + " V1到V4電壓值都空狀態,異常");
                                                         continue;
                                                     }
                                                 }
@@ -4471,8 +4524,8 @@ namespace WebApplication1
                     //  string pfccPath_File = Server.MapPath("~/" + "pf-cc" + "/")+ Filename;
                     //(1)先將分析數據產生export csv格式檔
 
-                    //當沒有NG才產出csv 表單 
-                    if (!check_have_ng) {
+                    //當沒有NG或電芯號不為0才產出csv 表單
+                    if (!check_have_ng && !check_modlename_nodata) {
                         string pfccPath_File = Path.Combine(ResultTaskFolder, Filename);
                         DataTable dtView = resultcsv.Export(connection, dumpcsv, pfccPath_File);
                         csvview.DataSource = dtView;
@@ -4501,7 +4554,7 @@ namespace WebApplication1
                         AND TABLE_SCHEMA = '{schema_DB}'; ";
 
 
-                    if (resultcsv.Merge_existfilter_value(connection, connection_merge, All_col_listname, schema_DB, pfcc_tablename) == true)
+                    if (!check_modlename_nodata && resultcsv.Merge_existfilter_value(connection, connection_merge, All_col_listname, schema_DB, pfcc_tablename) == true)
                     {
                        //確定沒有NG的情況下,將原始測試數據刪除
                         if (!check_have_ng) {
@@ -4534,11 +4587,14 @@ namespace WebApplication1
                                 LResult.Text += g_NG_PFCC_File[ng].ToString()+" ";
 
                                 if (ng == g_NG_PFCC_File.Count - 1)
-                                    LResult.Text += "}";
+                                    LResult.Text += " }";
                             }
 
                             //將分析NG原始數據檔案放置 既定以下
                             COPY_NG_Directionary(Current_AutoRuntimePathFile, NG_file_Path, g_NG_PFCC_File);
+
+                            //將原始數據分析後錯誤狀態寫入待後續追蹤
+                           // RewriteAndAppendToFile(NG_STARUS_record, g_ERROR_STATUS);
 
                             DirectoryInfo csvDir = new DirectoryInfo(Current_AutoRuntimePathFile);
                             foreach (FileInfo fi in csvDir.EnumerateFiles())
