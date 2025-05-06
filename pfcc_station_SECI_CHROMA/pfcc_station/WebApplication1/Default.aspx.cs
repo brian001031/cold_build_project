@@ -91,10 +91,10 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
-          // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -479,7 +479,7 @@ namespace WebApplication1
 
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
                             //if (cell_Boxbatt.Equals("MW0025B01497") || cell_Boxbatt.Equals("MW0025B01496") || cell_Boxbatt.Equals("MW0025B02060") || cell_Boxbatt.Equals("MW0025B02059"))
-                            //if (cell_Boxbatt.Equals("MW0025B01821"))
+                            //if (cell_Boxbatt.Equals("MW0025C00873"))
                             //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    BattaryID += 7;
@@ -505,7 +505,7 @@ namespace WebApplication1
 
                         //計算要insert的實際數量,若有?則跳過不計,針對CC分容站
                         if (vparameter != "023") {
-                            AllInsert = calculate_insert_currentNumber(g_Batt_Classtype);
+                            AllInsert = calculate_insert_currentNumber(g_Batt_Classtype, vparameter);
                         } else
                             AllInsert = 36;
                             
@@ -1253,7 +1253,7 @@ namespace WebApplication1
             return 0;
         }
 
-        private int calculate_insert_currentNumber(List<string> all_battery_class) 
+        private int calculate_insert_currentNumber(List<string> all_battery_class,String pfcc_param) 
         {
             int count = 0;
             if (all_battery_class.Count == 0)
@@ -1262,8 +1262,9 @@ namespace WebApplication1
             {
                 for (int modle = 0; modle < all_battery_class.Count; modle++)
                 {
-                    if (all_battery_class[modle] != "?")
-                        count++;
+                    // CC2需要sync 有電芯K值數據才有意義,CC1目前不需要,以下做區分
+                    if (pfcc_param.StartsWith("017") && all_battery_class[modle] != "?" || pfcc_param.StartsWith("010"))
+                        count++;                    
                 }
             }
 
@@ -2325,12 +2326,12 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前開發本機端MYSQL 設定
-          // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-             string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             // 遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3452,10 +3453,10 @@ namespace WebApplication1
                 //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
 
                 //目前佈署端local host MYSQL 設定
-                string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+               // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
                 //目前開發本機端MYSQL 設定
-               // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+                string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
                 //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3800,7 +3801,7 @@ namespace WebApplication1
                             //計算要insert的實際數量,若有?則跳過不計,針對CC分容站
                             if (vparameter != "023")
                             {
-                                AllInsert = calculate_insert_currentNumber(g_Batt_Classtype);
+                                AllInsert = calculate_insert_currentNumber(g_Batt_Classtype, vparameter);
                             }
                             else
                                 AllInsert = 36;
