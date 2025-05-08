@@ -1,0 +1,152 @@
+@import "../../styles/responsive.scss";
+@import "../../styles/variablecolor.scss";
+
+.shulin_cell_select {
+  width: 100%; /* 或者確保給容器一個合適的寬度 */
+  position: relative;
+  padding-top: 26px;
+  display: grid;
+  gap: 100px;
+  background-color: #ccc7d8;
+  grid-template-columns: repeat(3, 1fr);
+  // grid-template-columns: 1fr 1fr 2fr;
+  grid-auto-rows: minmax(170px, auto);
+
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+  }
+
+  .image {
+    width: 250x;
+    height: 550px;
+    object-fit: cover;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .image:hover {
+    transform: scale(1.2, 1.3);
+    box-shadow: 10px 20px rgba(122, 34, 133, 0.2);
+  }
+
+  .box {
+    position: relative;
+    padding: 50px 30px;
+    border-radius: 50px;
+    border: 10px solid $soft-bg;
+    width: 100%;
+    height: auto;
+    max-width: 1000px;
+    padding-left: 20px;
+    background-color: #031523;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(33, 23, 172, 0.1);
+  }
+
+  .box1 {
+    grid-column: span 1;
+    grid-row: span 1;
+    font-size: 50px;
+    color: rgb(210, 201, 170);
+    transform: translate(1%, 1%);
+    text-align: center;
+  }
+
+  .box2 {
+    grid-column: span 1;
+    grid-row: span 1;
+    color: rgb(210, 201, 170);
+    font-size: 50px;
+    background-color: #111111;
+    text-align: center;
+    padding-top: 1%;
+  }
+
+  .box3 {
+    grid-column: span 1;
+    grid-row: span 1;
+    font-size: 50px;
+    color: rgb(210, 201, 170);
+    text-align: center;
+
+    @include md {
+      display: none;
+    }
+  }
+
+  .box4 {
+    grid-column: span 1;
+    grid-row: span 1;
+    color: rgb(210, 201, 170);
+    font-size: 50px;
+    background-color: #111111;
+    text-align: center;
+    padding-top: 1%;
+    visibility: hidden;
+  }
+
+  .box5 {
+    grid-column: span 1;
+    grid-row: span 1;
+    color: rgb(210, 201, 170);
+    font-size: 50px;
+    background-color: #111111;
+    text-align: center;
+    padding-top: 1%;
+    visibility: hidden;
+  }
+
+  .box6 {
+    // grid-column: span 1;
+    // grid-row: span 1;
+    // color: rgb(210, 201, 170);
+    // font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    // font-size: 100px;
+    // background-color: #b92b2b;
+    // text-align: center;
+    // padding-bottom: 10%;
+
+    grid-column: span 1;
+    grid-row: span 1;
+    color: rgb(149, 221, 221);
+    font-size: 110px;
+    width: 100%;
+    height: max-content;
+    color: aquamarine;
+    background-color: #932222;
+    text-align: center;
+    text-size-adjust: 10px 20px;
+    position: relative;
+    margin-top: 1px;
+    text-decoration: underline wheat;
+    visibility: hidden;
+  }
+
+  .span_shulintext {
+    // color: rgb(18, 65, 21);
+    // font-style: italic;
+    // font-size: 100px;
+    // border-radius: 90%;
+    // width: 1100px;
+    // height: 15vh;
+    // display: inline-block;
+    // position: relative; //設為相對定位(relative) 因應解析度顯示
+    // font-weight: bold;
+    // transform: translate(-16%, 2%);
+    // right: -100px; //右邊上面都設0，則出現在右上方
+    // text-decoration: underline;
+
+    color: rgb(87, 204, 219);
+    font-size: 73px;
+    width: 100%;
+    height: max-content;
+    background-color: #932222;
+    text-align: center;
+    text-size-adjust: 10px 20px;
+    position: relative;
+    text-align: center;
+    text-decoration: overline underline rgb(187, 138, 46);
+    position: relative; //設為相對定位(relative) 因應解析度顯示
+  }
+}

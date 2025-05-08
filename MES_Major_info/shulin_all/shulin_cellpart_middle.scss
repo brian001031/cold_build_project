@@ -1,0 +1,162 @@
+@import "../../styles/responsive.scss";
+@import "../../styles/variablecolor.scss";
+
+.shulin_cellpart_middle {
+  width: 100%; /* 或者確保給容器一個合適的寬度 */
+  padding-top: 10px;
+  padding-left: 10%;
+  display: grid;
+  position: relative;
+  gap: 30px;
+  background-color: #ddd9e4;
+  grid-template-columns: repeat(3, 1fr);
+  // grid-template-columns: 1fr 1fr 1fr 1fr 2fr 2fr 2fr 2fr 2fr 2fr;
+  grid-auto-rows: minmax(180px, auto);
+
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image {
+    width: 350x;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .image:hover {
+    transform: scale(1.2, 1.3);
+    box-shadow: 10px 20px rgba(122, 34, 133, 0.2);
+  }
+
+  .title {
+    position: relative;
+    text-align: center;
+    color: #2f850f;
+    text-indent: 20%;
+    white-space: nowrap;
+    text-decoration: underline rgb(179, 245, 231);
+  }
+
+  .productvalue {
+    text-align: center;
+    color: #0b0b0b;
+    display: block;
+    text-indent: 5%;
+    white-space: nowrap;
+    overflow: auto;
+  }
+
+  .box {
+    position: relative;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 10px solid $soft-bg;
+    width: 100%;
+    height: auto;
+    max-width: 700px;
+    padding-left: 20px;
+    background-color: #edb233;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(33, 23, 172, 0.1);
+
+    .image {
+      width: 80%; // 图片宽度为容器的100%
+      height: 35%; // 图片高度为容器的100%
+      object-fit: cover;
+      transition: transform 0.5s ease-in-out;
+      display: block;
+      //object-fit: contain;
+      padding-left: 15%;
+    }
+  }
+
+  .box1 {
+    grid-column: span 1;
+    grid-row: span 1;
+    font-size: 50px;
+    color: rgb(2, 2, 2);
+    transform: translate(1%, 1%);
+    max-width: 900px;
+    text-align: center;
+    max-height: max-content;
+  }
+
+  .box2 {
+    grid-column: span 1;
+    grid-row: span 1;
+    color: rgb(210, 201, 170);
+    font-size: 50px;
+    max-width: 900px;
+    text-align: center;
+    transform: translate(1%, 1%);
+    padding-top: 1%;
+    max-height: max-content;
+  }
+
+  .box3 {
+    grid-column: span 1;
+    grid-row: span 1;
+    font-size: 50px;
+    color: rgb(170, 186, 210);
+    text-align: center;
+    // max-width: 500px;
+    transform: translate(1%, 1%);
+    max-height: max-content;
+    // // @include md {
+    // //   display: none;
+    // }
+  }
+
+  .box4 {
+    grid-column: span 1;
+    grid-row: span 1;
+    color: rgb(210, 201, 170);
+    font-size: 50px;
+    text-align: center;
+    max-height: max-content;
+    // padding-top: 1%;
+    // padding-left: 50px;
+    transform: translate(1%, 1%); /* 在其原始位置基礎上進行進一步調整 */
+  }
+
+  .box5 {
+    grid-column: span 1;
+    grid-row: span 1;
+    color: rgb(210, 201, 170);
+    font-size: 45px;
+    text-align: center;
+    padding-top: 1%;
+    max-width: 950px;
+    max-height: max-content;
+    transform: translate(1%, 1%); /* 在其原始位置基礎上進行進一步調整 */
+  }
+
+  .box6 {
+    grid-column: span 1;
+    grid-row: span 1;
+    color: rgb(210, 201, 170);
+    font-size: 50px;
+    max-height: max-content;
+    height: max-content;
+    text-align: center;
+    position: relative;
+    transform: translate(1%, 1%); /* 在其原始位置基礎上進行進一步調整 */
+    // text-decoration: underline wheat;
+  }
+
+  .span_shulintext {
+    color: rgb(13, 69, 77);
+    font-size: 90px;
+    height: 130px;
+    width: 100%;
+    background-color: #d2bbbbc9;
+    text-align: center;
+    text-decoration: overline underline rgb(187, 138, 46);
+    position: relative; //設為相對定位(relative) 因應解析度顯示
+    padding-bottom: 10%;
+    transform: translate(900px, 15px); /* 在其原始位置基礎上進行進一步調整 */
+  }
+}
