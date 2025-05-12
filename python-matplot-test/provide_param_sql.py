@@ -26,9 +26,10 @@ def generate_sql():
 
     for i in param_range:        
         param_col = f"PARAM{i:02d}"
+        param_col_condition = f"CAST(PARAM{i:02d} AS DECIMAL(10,3))"
         label_min = f"bat_Sealingthickness_{i}_Min"
         label_max = f"bat_Sealingthickness_{i}_Max"
-        condition = f"{param_col} REGEXP '^[0-9.]+$' AND {param_col} NOT LIKE '0'"
+        condition = f"{param_col} REGEXP '^[0-9.]+$' AND {param_col_condition} NOT LIKE '0' AND {param_col_condition} IS NOT NULL AND {param_col_condition} > 0"
 
         sql_min = f"SELECT MIN(CAST({param_col} AS DECIMAL(10,3))) AS result, '{label_min}' AS type FROM cleaned WHERE {condition}"
         sql_max = f"SELECT MAX(CAST({param_col} AS DECIMAL(10,3))) AS result, '{label_max}' AS type FROM cleaned WHERE {condition}"
