@@ -72,11 +72,17 @@ const recycleItem = [
   "金屬廢料混合物(物理)",
   "底料NMP",
   "E004NMP(回收)",
-  "混合五金廢料",
+  "含鋁混和五金廢料(卷料)",
+  "含鋁混和五金廢料(邊/片料)",
+  "含銅混和五金廢料(卷料)",
+  "含銅混和五金廢料(邊/片料)",
   "廢電子零組件",
-  "廢塑膠",
+  "廢塑膠(紙箱含塑膠混和物)",
+  "廢塑膠(鋁塑膜)",
+  "廢塑膠(PP膜)",
   "廢銅",
   "廢鋁",
+  "廢乾電池",
 ];
 
 const dynamicday = () => {
@@ -559,6 +565,63 @@ const dynamicday = () => {
             },
             data: [JSON.parse(month_recyclenum)[11]],
           },
+          {
+            name: recycleItem[12],
+            type: "bar",
+            barGap: 0,
+            label: labelOption_Init,
+            emphasis: {
+              focus: "series",
+            },
+            data: [JSON.parse(month_recyclenum)[12]],
+          },
+          {
+            name: recycleItem[13],
+            type: "bar",
+            label: labelOption_Init,
+            emphasis: {
+              focus: "series",
+            },
+            data: [JSON.parse(month_recyclenum)[13]],
+          },
+          {
+            name: recycleItem[14],
+            type: "bar",
+            barGap: 5,
+            label: labelOption_Init,
+            emphasis: {
+              focus: "series",
+            },
+            data: [JSON.parse(month_recyclenum)[14]],
+          },
+          {
+            name: recycleItem[15],
+            type: "bar",
+            label: labelOption_Init,
+            emphasis: {
+              focus: "series",
+            },
+            data: [JSON.parse(month_recyclenum)[15]],
+          },
+          {
+            name: recycleItem[16],
+            type: "bar",
+            barGap: 0,
+            label: labelOption_Init,
+            emphasis: {
+              focus: "series",
+            },
+            data: [JSON.parse(month_recyclenum)[16]],
+          },
+          {
+            name: recycleItem[17],
+            type: "bar",
+            label: labelOption_Init,
+            emphasis: {
+              focus: "series",
+            },
+            data: [JSON.parse(month_recyclenum)[17]],
+          },
         ],
       };
 
@@ -810,8 +873,8 @@ const dynamicday = () => {
 
     try {
       const response = await axios.get(
-        //  `${config.apiBaseUrl}/recycle/getall_dateinfo`,
-        "http://localhost:3009/recycle/getall_dateinfo",
+        `${config.apiBaseUrl}/recycle/getall_dateinfo`,
+        //"http://localhost:3009/recycle/getall_dateinfo",
         {
           params: {
             selectyear: selectyear, // 這邊搜尋年月回饋指定全月份每天的提交回收全部紀錄

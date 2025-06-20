@@ -1,0 +1,42 @@
+// 目前沒生效
+
+.repairList {
+  td {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; // 確保單元格高度被填滿
+  }
+
+  .editmachine-input {
+    position: relative;    
+    width: 250px;
+    padding: 10px;
+    display: inline-block;
+  }
+
+  .seachmachine-list {
+    // max-width: 2000px;
+    //  height: max-content;
+    // transform: translate(55%, 90%);
+
+    grid-column: span 1;
+    grid-row: span 1;
+    font-size: 50px;
+    color: rgb(37, 33, 18);
+    transform: translate(90%, 1%);
+    text-align: center;
+    height: max-content;
+  }
+
+  .excle-put{
+    line-height: 12px;
+    width: 18px;
+    font-size: 8pt;
+    font-family: tahoma;
+    margin-top: 1px;
+    margin-right: 1000px;
+    position:absolute;
+
+  }
+}

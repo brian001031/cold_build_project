@@ -41,11 +41,17 @@ const flags = [
   "金屬廢料混合物(物理)",
   "底料NMP",
   "E004NMP(回收)",
-  "混合五金廢料",
+  "含鋁混和五金廢料(卷料)",
+  "含鋁混和五金廢料(邊/片料)",
+  "含銅混和五金廢料(卷料)",
+  "含銅混和五金廢料(邊/片料)",
   "廢電子零組件",
-  "廢塑膠",
+  "廢塑膠(紙箱含塑膠混和物)",
+  "廢塑膠(鋁塑膜)",
+  "廢塑膠(PP膜)",
   "廢銅",
   "廢鋁",
+  "廢乾電池",
 ];
 
 const updateFrequency = 3000;
@@ -128,8 +134,8 @@ const Analyticsyear = () => {
     const ReflashRecycleChart = async () => {
       try {
         const response = await axios.get(
-          // `${config.apiBaseUrl}/recycle/getyearamont`,
-          "http://localhost:3009/recycle/getyearamont",
+          `${config.apiBaseUrl}/recycle/getyearamont`,
+          //"http://localhost:3009/recycle/getyearamont",
           {
             params: {
               year: currentYear,
@@ -137,7 +143,7 @@ const Analyticsyear = () => {
           }
         );
 
-        //console.log(response.data);
+        console.log(response.data);
         if (response.status === 200) {
           // 将字符串分割为数组并转换为浮点数
           const dataArray = response.data.split(",").map(Number);
@@ -149,7 +155,14 @@ const Analyticsyear = () => {
 
         option = {
           title: {
-            text: "",
+            text: "年全項目累積總量",
+            left: "center", // 可選：讓標題置中
+            top: 10, // 可選：調整上下位置
+            bottom: 10, // 可選：調整上下位置
+            textStyle: {
+              fontSize: 5,
+              fontWeight: "bold",
+            },
           },
           grid: {
             top: 100,
@@ -235,11 +248,17 @@ const Analyticsyear = () => {
               "金屬廢料混合物(物理)",
               "底料NMP",
               "E004NMP(回收)",
-              "混合五金廢料",
+              "含鋁混和五金廢料(卷料)",
+              "含鋁混和五金廢料(邊/片料)",
+              "含銅混和五金廢料(卷料)",
+              "含銅混和五金廢料(邊/片料)",
               "廢電子零組件",
-              "廢塑膠",
+              "廢塑膠(紙箱含塑膠混和物)",
+              "廢塑膠(鋁塑膜)",
+              "廢塑膠(PP膜)",
               "廢銅",
               "廢鋁",
+              "廢乾電池",
             ],
             inverse: true,
             animationDuration: 200,
@@ -379,7 +398,13 @@ const Analyticsyear = () => {
 
       option = {
         title: {
-          text: "",
+          text: "年全項目累積總量",
+          left: "center", // 可選：讓標題置中
+          top: 10, // 可選：調整上下位置
+          textStyle: {
+            fontSize: 5,
+            fontWeight: "bold",
+          },
         },
         grid: {
           top: 100,
@@ -466,16 +491,22 @@ const Analyticsyear = () => {
             "金屬廢料混合物(物理)",
             "底料NMP",
             "E004NMP(回收)",
-            "混合五金廢料",
+            "含鋁混和五金廢料(卷料)",
+            "含鋁混和五金廢料(邊/片料)",
+            "含銅混和五金廢料(卷料)",
+            "含銅混和五金廢料(邊/片料)",
             "廢電子零組件",
-            "廢塑膠",
+            "廢塑膠(紙箱含塑膠混和物)",
+            "廢塑膠(鋁塑膜)",
+            "廢塑膠(PP膜)",
             "廢銅",
             "廢鋁",
+            "廢乾電池",
           ],
           inverse: true,
           animationDuration: 200,
           animationDurationUpdate: 300,
-          max: 11, // only the largest 12 will be displayed
+          max: 17, // only the largest 12 will be displayed
           // inverse: true,
           // max: 10,
           // axisLabel: {
@@ -590,8 +621,8 @@ const Analyticsyear = () => {
       try {
         //2024-09-25 API 這邊要重寫對應之後台
         const response = await axios.get(
-          // `${config.apiBaseUrl}/recycle/getyearamont`,
-          "http://localhost:3009/recycle/getyearamont",
+          `${config.apiBaseUrl}/recycle/getyearamont`,
+          //"http://localhost:3009/recycle/getyearamont",
           {
             params: {
               year: value,

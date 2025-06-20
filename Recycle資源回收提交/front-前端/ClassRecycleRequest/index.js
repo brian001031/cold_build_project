@@ -9,12 +9,34 @@ import { useNavigate } from "react-router-dom";
 //成功提示套件
 import { toast } from "react-toastify";
 
+const recycle_itemLIST = [
+  "請選擇項目",
+  "廢塑膠混合物",
+  "廢木材棧板",
+  "非有害油泥",
+  "金屬廢料混合物(熱處理)",
+  "金屬廢料混合物(物理)",
+  "底料NMP",
+  "E004NMP(回收)",
+  "含鋁混和五金廢料(卷料)",
+  "含鋁混和五金廢料(邊/片料)",
+  "含銅混和五金廢料(卷料)",
+  "含銅混和五金廢料(邊/片料)",
+  "廢電子零組件",
+  "廢塑膠(紙箱含塑膠混和物)",
+  "廢塑膠(鋁塑膜)",
+  "廢塑膠(PP膜)",
+  "廢銅",
+  "廢鋁",
+  "廢乾電池",
+];
+
 const ClassRecycleRequest = () => {
   const [formData, setFormData] = useState({
     name: "", //填擔人員名稱
     submittime: dayjs().format("YYYY-MM-DDTHH:mm"),
     region: "E008正極配料區", //區域
-    itemname: "廢塑膠混合物", //項目名稱
+    itemname: "請選擇項目", //項目名稱
     itemnumber: "", //項目代碼
     maketonne: "", //本日處理量(公斤/單位)
     monthtotaltonne: "", //本月已累積處理量(公斤/單位)
@@ -70,8 +92,8 @@ const ClassRecycleRequest = () => {
       }
       try {
         const response = await axios.get(
-          // `${config.apiBaseUrl}/employee/getmemberinfo`,
-          "http://localhost:3009/employee/getmemberinfo",
+          `${config.apiBaseUrl}/employee/getmemberinfo`,
+          // "http://localhost:3009/employee/getmemberinfo",
           {
             params: {
               query: value,
@@ -85,11 +107,11 @@ const ClassRecycleRequest = () => {
     }
 
     //回收項目名稱
-    if (name === "itemname") {
+    if (name === "itemname" && value !== "請選擇項目") {
       try {
         const response = await axios.get(
-          "http://localhost:3009/recycle/itemnumber",
-          // `${config.apiBaseUrl}/recycle/itemnumber`,
+          // "http://localhost:3009/recycle/itemnumber",
+          `${config.apiBaseUrl}/recycle/itemnumber`,
           {
             params: {
               query: value,
@@ -245,8 +267,8 @@ const ClassRecycleRequest = () => {
     console.log(formData);
     try {
       const response = await axios.post(
-        // `${config.apiBaseUrl}/recycle/recycle_question`,
-        "http://localhost:3009/recycle/recycle_question",
+        `${config.apiBaseUrl}/recycle/recycle_question`,
+        // "http://localhost:3009/recycle/recycle_question",
         formDataToSend,
         {
           headers: {
@@ -353,20 +375,11 @@ const ClassRecycleRequest = () => {
             onChange={handleChange}
             required
           >
-            <option value="廢塑膠混合物">廢塑膠混合物</option>
-            <option value="廢木材棧板">廢木材棧板</option>
-            <option value="非有害油泥">非有害油泥</option>
-            <option value="金屬廢料混合物(熱處理)">
-              金屬廢料混合物(熱處理)
-            </option>
-            <option value="金屬廢料混合物(物理)">金屬廢料混合物(物理)</option>
-            <option value="底料NMP">底料NMP</option>
-            <option value="E004NMP(回收)">E004NMP(回收)</option>
-            <option value="混合五金廢料">混合五金廢料</option>
-            <option value="廢電子零組件">廢電子零組件</option>
-            <option value="廢塑膠">廢塑膠</option>
-            <option value="廢銅">廢銅</option>
-            <option value="廢鋁">廢鋁</option>
+            {recycle_itemLIST.map((item, index) => (
+              <option key={index} value={item} hidden={index === 0}>
+                {item}
+              </option>
+            ))}
           </Form.Select>
         </Form.Group>
         <br />

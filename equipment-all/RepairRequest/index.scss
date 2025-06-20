@@ -1,0 +1,36 @@
+.repairRequest {
+  .autocomplete-options {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-width: 100%;
+    width: auto;
+    overflow-y: auto;
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .autocomplete-options li {
+    cursor: pointer;
+    padding: 8px 16px;
+  }
+
+  .autocomplete-options li:hover {
+    background-color: #f0f0f0;
+  }
+
+  .errcode_option {
+    border: 2px solid rgb(194, 187, 206);
+    background-color: rgb(214, 234, 235);
+    font-style: italic;
+    font-size: medium;
+    margin-top: 1px;
+    padding: 1px;
+    list-style-type: revert-layer;
+    cursor: pointer;
+  }
+}

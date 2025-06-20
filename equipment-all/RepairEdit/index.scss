@@ -1,0 +1,25 @@
+.repairEdit {
+  .autocomplete-options {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-width: 100%;
+    width: auto;
+    overflow-y: auto;
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .autocomplete-options li {
+    cursor: pointer;
+    padding: 8px 16px;
+  }
+
+  .autocomplete-options li:hover {
+    background-color: #f0f0f0;
+  }
+}

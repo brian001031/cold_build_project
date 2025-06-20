@@ -1,0 +1,69 @@
+.recyclechart * {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+.recyclechart main {
+  display: "flex";
+  width: 500%;
+  padding: 20px;
+}
+.recyclechart .sidebar {
+  background: #080e11;
+  text-align: center;
+  height: 100vh;
+  width: 300px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-out;
+  color: #a8bd32;
+}
+.recyclechart .container {
+  display: "flex";
+}
+.recyclechart .top_section {
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+}
+.recyclechart .logo {
+  font-size: 40px;
+}
+.recyclechart .bars {
+  display: flex;
+  font-size: 15px;
+  margin-left: 10px;
+}
+.recyclechart .link {
+  display: flex;
+  color: #fff;
+  padding: 10px 15px;
+  gap: 15px;
+  transition: all 0.5s;
+}
+.recyclechart .link:hover {
+  background-color: #5089a8;
+  -webkit-text-size-adjust: 5px;
+     -moz-text-size-adjust: 5px;
+          text-size-adjust: 5px;
+  cursor: pointer;
+}
+.recyclechart .active {
+  background: rgb(162, 40, 65);
+  color: #000;
+}
+.recyclechart .icon,
+.recyclechart .link_text {
+  font-size: 20px;
+}
+.recyclechart .charteverylog {
+  background-color: #04aa6d; /* Green */
+  position: relative;
+  right: 50px;
+  width: 50px;
+  padding: 16px 18px;
+  margin-left: 10%;
+  color: #1fb681;
+  display: flex;
+  flex-wrap: wrap;
+}/*# sourceMappingURL=index.css.map */

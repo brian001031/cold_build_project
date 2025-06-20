@@ -1,0 +1,51 @@
+.recyclechart_dynamic .button {
+  padding: 0px 15px;
+  margin-left: 2.5%;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #04aa6d;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+.recyclechart_dynamic .button:hover {
+  background-color: #3e8e41;
+}
+.recyclechart_dynamic .button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.recyclechart_dynamic .wrap {
+  overflow: hidden;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0 0 20px rgba(41, 159, 149, 0.35);
+}
+.recyclechart_dynamic table {
+  font-family: "Oswald", sans-serif;
+  border-collapse: collapse;
+}
+.recyclechart_dynamic th {
+  background-color: rgba(22, 9, 203, 0.662745098);
+  color: #c13939;
+  width: 25vw;
+  height: 35px;
+}
+.recyclechart_dynamic td {
+  background-color: #b4a691;
+  width: 35vw;
+  height: 50px;
+  text-align: center;
+}
+.recyclechart_dynamic tr {
+  border-bottom: 2px solid #a4c22b;
+}
+.recyclechart_dynamic tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+.recyclechart_dynamic tr:nth-of-type(even) td {
+  background-color: #dfe3d5;
+}/*# sourceMappingURL=index.css.map */
