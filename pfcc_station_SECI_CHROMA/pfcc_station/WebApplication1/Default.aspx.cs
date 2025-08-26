@@ -479,6 +479,7 @@ namespace WebApplication1
 
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
                             //if (cell_Boxbatt.Equals("MW0025B01497") || cell_Boxbatt.Equals("MW0025B01496") || cell_Boxbatt.Equals("MW0025B02060") || cell_Boxbatt.Equals("MW0025B02059"))
+                            //if (cell_Boxbatt.Equals("MW2009A29665") || cell_Boxbatt.Equals("MW2009A29618") || cell_Boxbatt.Equals("MW2009A29619") || cell_Boxbatt.Equals("MW2009A29622") || cell_Boxbatt.Equals("MW2009A29623") || cell_Boxbatt.Equals("MW2009A29625") || cell_Boxbatt.Equals("MW2009A29658") || cell_Boxbatt.Equals("MW2009A29660"))
                             //if (cell_Boxbatt.Equals("MW0025C00873"))
                             //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
@@ -613,6 +614,18 @@ namespace WebApplication1
                                                 }
                                                 else
                                                 {
+                                                    //於實際驗算的count有落差,因充放電有step步數不一致狀態,這邊予以微調降步數才能索引到實際參數值(電流)
+                                                    //if (n == 4 || n == 3)
+                                                    //if (n == 4)
+                                                    //{
+                                                    //    Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
+
+                                                    //    //if(cacula_number > 5125)
+                                                    //    //  cacula_number = cacula_number - 4;
+
+                                                    //    //微調步數往前推移擷取
+                                                    //    //cacula_number = cacula_number - 5;
+                                                    //}
 
                                                     cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n) + " ";
                                                 }
@@ -916,11 +929,17 @@ namespace WebApplication1
                                 vState = vState + 7;
 
                                 //DEBUG用
-                                //if (iFlag == 18)
+                                //if (iFlag == 13 || iFlag ==　18 || iFlag == 24 || iFlag == 25)
                                 //{
                                 //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                                 //    vComID = vComID + 14;
                                 //    vState = vState + 14;
+                                //}
+                                //else if (iFlag == 15 || iFlag == 17)
+                                //{
+                                //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                //    vComID = vComID + 21;
+                                //    vState = vState + 21;
                                 //}
                                 //else
                                 //{
