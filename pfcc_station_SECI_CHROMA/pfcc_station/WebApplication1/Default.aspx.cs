@@ -26,6 +26,7 @@ namespace WebApplication1
         List<string> g_Batt_Classtype;
         List<string> g_NG_PFCC_File;
         List<string> g_ERROR_STATUS;
+        List<int>    g_OnlyExist_ModleID_Number;
 
 
         bool timerunheck = false;
@@ -480,7 +481,7 @@ namespace WebApplication1
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
                             //if (cell_Boxbatt.Equals("MW0025B01497") || cell_Boxbatt.Equals("MW0025B01496") || cell_Boxbatt.Equals("MW0025B02060") || cell_Boxbatt.Equals("MW0025B02059"))
                             //if (cell_Boxbatt.Equals("MW2009A29665") || cell_Boxbatt.Equals("MW2009A29618") || cell_Boxbatt.Equals("MW2009A29619") || cell_Boxbatt.Equals("MW2009A29622") || cell_Boxbatt.Equals("MW2009A29623") || cell_Boxbatt.Equals("MW2009A29625") || cell_Boxbatt.Equals("MW2009A29658") || cell_Boxbatt.Equals("MW2009A29660"))
-                            //if (cell_Boxbatt.Equals("MW0025C00873"))
+                            //if (cell_Boxbatt.Equals("R25D12C26155"))
                             //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    BattaryID += 7;
@@ -509,16 +510,21 @@ namespace WebApplication1
                             AllInsert = calculate_insert_currentNumber(g_Batt_Classtype, vparameter);
                         } else
                             AllInsert = 36;
-                            
-                        //開36個insert 
+
+                    //判定是否為整個tray 等同36
+                    bool isOnlyValid = (AllInsert != 36);
+
+                    //開36個insert 
                     for (int iFlag = 1; iFlag <= AllInsert; iFlag++)
                     {
                         //初始要閃過的2個電芯號序號,依實際狀況做調整----debug用----- start--------
                         //if (iFlag < 3)
+                        //當假設有前17顆modleID ="",這邊先pass忽略做其他電芯優先
+                        //if (iFlag <= 17)
                         //{
                         //    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                         //    vComID = vComID + 7;
-                        //    vState = vState + 7;                            
+                        //    vState = vState + 7;
                         //    continue;
                         //}
                         //-----end--------
@@ -810,6 +816,8 @@ namespace WebApplication1
                                         Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
                                         int cap_type = Assign_Cap_mAH_Type(VAHD35);
+
+                                        insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag-1] : insert_num;
                                         CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
                                         int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);
@@ -829,7 +837,11 @@ namespace WebApplication1
                                         VV3 = Convert.ToString(dr_detail["V3"].ToString()); 
                                         VV4 = Convert.ToString(dr_detail["V4"].ToString());
                                             //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
-                                           
+
+                                        //當擷取V3數值為空
+                                        if (VV3=="" ||  VV3 !="0.0") {
+                                                VV3 = "0.0";
+                                        }
                                             
 
                                         Vpara = "CC2";
@@ -929,17 +941,18 @@ namespace WebApplication1
                                 vState = vState + 7;
 
                                 //DEBUG用
-                                //if (iFlag == 13 || iFlag ==　18 || iFlag == 24 || iFlag == 25)
-                                //{
-                                //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                                //    vComID = vComID + 14;
-                                //    vState = vState + 14;
-                                //}
-                                //else if (iFlag == 15 || iFlag == 17)
+                                //if (iFlag == 13 || iFlag == 18 || iFlag == 24 || iFlag == 25)
                                 //{
                                 //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                                 //    vComID = vComID + 21;
                                 //    vState = vState + 21;
+                                //}
+
+                                //if (iFlag == 33)
+                                //{
+                                //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                //    vComID = vComID + 14;
+                                //    vState = vState + 14;
                                 //}
                                 //else
                                 //{
@@ -1448,7 +1461,8 @@ namespace WebApplication1
 
                 }
                 else if (number >= 1 && number < 36) //查沒有36組, 36組以內 
-                {
+                {                    
+                    g_OnlyExist_ModleID_Number = new List<int>();
                     //紀錄當前modle 在all_batterycell搜尋列的index 位置
                     for (int find = 0; find < actual_find_model.Count; find++)
                     {
@@ -1465,7 +1479,8 @@ namespace WebApplication1
                             {
                                 // 將 index 和對應的 classType 存入 matchingIndexes
                                 matchingIndexes.Add(new Tuple<int, string>(Convert.ToInt32(search), actual_find_classtype[find]));
-                                searchedIndexes.Add(search);  // 記錄已經搜尋過的 index                               
+                                searchedIndexes.Add(search);  // 記錄已經搜尋過的 index
+                                g_OnlyExist_ModleID_Number.Add(search); //啟動僅存有找到電芯ID號碼
                             }
                         }
                     }
@@ -3031,6 +3046,7 @@ namespace WebApplication1
                                             Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
                                             int cap_type = Assign_Cap_mAH_Type(VAHD35);
+                                            
                                             CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
                                             int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);
@@ -3694,9 +3710,6 @@ namespace WebApplication1
                     tempSql = tempSql.Substring(0, tempSql.Length - 1) + " from test_LoadPFData003 LIMIT 7, 1 "; //因為取標頭只有一列
                                                                                                                  // tempSql = tempSql  + " from test_LoadPFData003 LIMIT 7, 1 ";
 
-
-
-
                     dr.Close();
 
                     comm = new MySqlCommand(tempSql, conn);
@@ -3836,7 +3849,11 @@ namespace WebApplication1
                                     continue;
                                 }
                             }
-                           
+
+
+                            //判定是否為整個tray 等同36
+                            bool isOnlyValid = (AllInsert != 36);
+
                             //開36個insert 
                             for (int iFlag = 1; iFlag <= AllInsert; iFlag++)
                             {
@@ -4164,6 +4181,9 @@ namespace WebApplication1
                                                 Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
                                                 int cap_type = Assign_Cap_mAH_Type(VAHD35);
+
+                                                insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - 1] : insert_num;
+
                                                 CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
                                                 int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);
