@@ -1,11 +1,11 @@
 ﻿select count(*) AS cell_HT_product_num from ITFC_MES_UPLOAD_STATUS_TB where 1=1 
-and replace(convert(nvarchar(100),create_date,120),'.','-') between '2025-09-03 00:00' and '2025-09-03 20:00' 
+and replace(convert(nvarchar(100),create_date,120),'.','-') between '2025-09-22 00:00' and '2025-09-22 20:00' 
 and BIN_CODE like 'H%' 
 and type=4 
 and BOX_BATT <> 'NANANANANANA'
 
 select count(*) AS cell_RT_1_period_product_num from ITFC_MES_UPLOAD_STATUS_TB where 1=1 
-and replace(convert(nvarchar(100),create_date,120),'.','-') between '2025-09-03 00:00' and '2025-09-03 20:00' 
+and replace(convert(nvarchar(100),create_date,120),'.','-') between '2025-09-22 00:00' and '2025-09-22 20:00' 
 and BIN_CODE like 'N%' 
 and type=4 
 and BOX_BATT <> 'NANANANANANA'
@@ -13,7 +13,7 @@ and BOX_BATT <> 'NANANANANANA'
  
 
 select count(*) AS cell_RT_2_period_product_num from ITFC_MES_UPLOAD_STATUS_TB where 1=1 
-and replace(convert(nvarchar(100),create_date,120),'.','-') between '2025-09-03 00:00' and '2025-09-03 20:00' 
+and replace(convert(nvarchar(100),create_date,120),'.','-') between '2025-09-22 00:00' and '2025-09-22 20:00' 
 and BIN_CODE like 'N2%' 
 and type=4 
 and BOX_BATT <> 'NANANANANANA'

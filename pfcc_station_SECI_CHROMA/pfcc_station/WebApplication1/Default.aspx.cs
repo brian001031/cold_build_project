@@ -271,8 +271,8 @@ namespace WebApplication1
 
 
 
-                //title 列
-                if (dr.HasRows)
+             //title 列
+             if (dr.HasRows)
             {
                 //使用Read方法把資料讀進Reader，讓Reader一筆一筆順向指向資料列，並回傳是否成功。
                 while (dr.Read())
@@ -355,11 +355,11 @@ namespace WebApplication1
             String tempSql = " select ";
             for (int iFlag = 1; iFlag <= 36; iFlag++)
             {
-
                 tempSql = tempSql + "fld" + vComID + ", fld" + vState + ",";
                 vComID = vComID + 7;  //第一筆H 行第8行 +7(每組7行)
                 vState = vState + 7;  //第一筆N 行第14行 +7(每組7行)
-                }
+            }
+
             tempSql = tempSql.Substring(0, tempSql.Length - 1) + " from test_LoadPFData003 LIMIT 7, 1 "; //因為取標頭只有一列
             // tempSql = tempSql  + " from test_LoadPFData003 LIMIT 7, 1 ";
 
@@ -479,9 +479,17 @@ namespace WebApplication1
 
 
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
-                            //if (cell_Boxbatt.Equals("MW0025B01497") || cell_Boxbatt.Equals("MW0025B01496") || cell_Boxbatt.Equals("MW0025B02060") || cell_Boxbatt.Equals("MW0025B02059"))
-                            //if (cell_Boxbatt.Equals("MW2009A29665") || cell_Boxbatt.Equals("MW2009A29618") || cell_Boxbatt.Equals("MW2009A29619") || cell_Boxbatt.Equals("MW2009A29622") || cell_Boxbatt.Equals("MW2009A29623") || cell_Boxbatt.Equals("MW2009A29625") || cell_Boxbatt.Equals("MW2009A29658") || cell_Boxbatt.Equals("MW2009A29660"))
-                            //if (cell_Boxbatt.Equals("R25D12C26155"))
+                            //if (cell_Boxbatt.Equals("MW2009A50698") || cell_Boxbatt.Equals("MW2009A50697") )
+                            //if (
+                            //    cell_Boxbatt.Equals("MW2008A93605") ||
+                            //    cell_Boxbatt.Equals("MW2009A18058") ||
+                            //    cell_Boxbatt.Equals("MW2008A93544") ||
+                            //    cell_Boxbatt.Equals("MW2008A93615") ||
+                            //    cell_Boxbatt.Equals("MW2008A91661") ||
+                            //    cell_Boxbatt.Equals("MW2008A92364") ||
+                            //    cell_Boxbatt.Equals("MW2009A18190") ||
+                            //    cell_Boxbatt.Equals("MW2009A18244") ||
+                            //    cell_Boxbatt.Equals("MW2008A90984"))
                             //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    BattaryID += 7;
@@ -518,7 +526,7 @@ namespace WebApplication1
                     for (int iFlag = 1; iFlag <= AllInsert; iFlag++)
                     {
                         //初始要閃過的2個電芯號序號,依實際狀況做調整----debug用----- start--------
-                        //if (iFlag < 3)
+                       // if (iFlag < 3)
                         //當假設有前17顆modleID ="",這邊先pass忽略做其他電芯優先
                         //if (iFlag <= 17)
                         //{
@@ -598,6 +606,7 @@ namespace WebApplication1
                                         {
                                             //  jj7 5169 ,  jj8 8395    =(@INDIRECT((ADDRESS($JJ$7, JF14)), 1))                           
                                             cc1SelectSql = cc1SelectSql + ",(SELECT COUNT(*)  FROM test_LoadPFData003 WHERE fld7 = '3' and  cast( fld" + (vComID + 1) + "  as decimal) > 20) as time50A ";
+                                                                                       
                                             //計算五次
                                             for (int n = 0; n < 5; n++)
                                             {
@@ -622,16 +631,16 @@ namespace WebApplication1
                                                 {
                                                     //於實際驗算的count有落差,因充放電有step步數不一致狀態,這邊予以微調降步數才能索引到實際參數值(電流)
                                                     //if (n == 4 || n == 3)
-                                                    //if (n == 4)
-                                                    //{
-                                                    //    Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
+                                                    if (n == 4)
+                                                    {
+                                                        Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
 
-                                                    //    //if(cacula_number > 5125)
-                                                    //    //  cacula_number = cacula_number - 4;
+                                                        //if(cacula_number > 5125)
+                                                        //  cacula_number = cacula_number - 4;
 
-                                                    //    //微調步數往前推移擷取
-                                                    //    //cacula_number = cacula_number - 5;
-                                                    //}
+                                                        //微調步數往前推移擷取
+                                                        //cacula_number = cacula_number - 5;
+                                                    }
 
                                                     cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n) + " ";
                                                 }
@@ -842,6 +851,11 @@ namespace WebApplication1
                                         if (VV3=="" ||  VV3 !="0.0") {
                                                 VV3 = "0.0";
                                         }
+
+                                        //if ( VV4 == "0.0000") {
+                                        //        VV4 = "59.9830";
+                                        //        Console.WriteLine($"{iFlag}");
+                                        //}
                                             
 
                                         Vpara = "CC2";
@@ -948,11 +962,11 @@ namespace WebApplication1
                                 //    vState = vState + 21;
                                 //}
 
-                                //if (iFlag == 33)
+                                //if (iFlag == 12)
                                 //{
                                 //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                                //    vComID = vComID + 14;
-                                //    vState = vState + 14;
+                                //    vComID = vComID + 70;
+                                //    vState = vState + 70;
                                 //}
                                 //else
                                 //{

@@ -10,6 +10,7 @@ import urllib
 import threading
 import time
 import shelve
+from multiprocessing import Lock ,Queue, Process
 
 
 # 宣告既有資料庫連線參數
@@ -23,9 +24,14 @@ MYSQL_USER = "root"
 MYSQL_PASSWORD = "Admin0331"
 MYSQL_DATABASE = "mes"
 
+log_path = "kvaluefupdate.txt"
+
 #MSQL更新list
 kvalueforprodinfo_list = []
 mysql_kvalue_list = []
+
+# 定義鎖
+log_lock = Lock()
 
 # 載入 .env 檔案
 load_dotenv()
@@ -65,12 +71,22 @@ def prev_init_lasttask_iD():
      last_max_id = last_max_id or 2046268
 
     #測試修改ID
-    #  if last_max_id is not None:
+    # if last_max_id is not None:
     #    print(f"有修正過ID")       
     #    last_max_id = 4543715
 
      print(f"last_max_id = {last_max_id}")
      return last_max_id
+
+def writer_kvaluelog (log_queue: Queue):
+    global log_path 
+    with open(log_path, "a", encoding="utf-8") as log_file:
+        while True:
+            log_msg = log_queue.get()  # 等待從 Queue 中取得 log 訊息
+            if log_msg == 'END':  # 收到 'END' 表示退出
+                break
+            log_file.write(log_msg)
+     
 
 def fetch_grouped_data():
     global mysql_kvalue_list, kvalueforprodinfo_list 
@@ -146,10 +162,9 @@ def fetch_grouped_data():
 
         mysql_kvalue_list.append([modleID, Kvalue,ID,create_dt])
 
-def upsert_to_mysql(df: pd.DataFrame):
-  log_path = "kvaluefupdate.txt"
-  log_msgs = []  # 用 list 收集所有 log 訊息
-  
+def upsert_to_mysql(df: pd.DataFrame , log_queue: Queue):
+  global log_path
+  log_msgs = []  # 用 list 收集所有 log 訊息  
   with mysql_engine.begin() as conn:
             for index, row in df.iterrows():
                 query = text("""
@@ -171,9 +186,13 @@ def upsert_to_mysql(df: pd.DataFrame):
                 log_msg = f"[{index+1}/{len(df)}] ✅ Upsert 完成：cell={row['cell']}, Kvalue={row['K_value']}, ID={row['ID']} , CREATE_DATE={row['create_dt']}\n"
                 print(log_msg, end='')  # 即時印出到終端機
                 log_msgs.append(log_msg)  # 收集訊息
+                log_queue.put(log_msg)  # 將 log 訊息放入 queue
 
-  with open(log_path, "a", encoding="utf-8") as log_file:  # 以追加模式開啟
-          log_file.writelines(log_msgs)
+  log_queue.put(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} Data sync completed.\n")  # 放入結尾訊息
+  log_queue.put('END')  # 用 'END' 告訴 writer 結束
+
+# with open(log_path, "a", encoding="utf-8") as log_file:  # 以追加模式開啟
+#         log_file.writelines(log_msgs)
             
 # def job():
 #     while True:
@@ -185,12 +204,19 @@ def upsert_to_mysql(df: pd.DataFrame):
 
 if __name__ == "__main__":
 #   print(pyodbc.drivers())
+
+  log_queue = Queue()
+  log_writer = Process(target=writer_kvaluelog, args=(log_queue,))
+  log_writer.start()
+
   fetch_grouped_data()
 #   print(f"準備INSERT(UPDATE),mysql_kvalue_list 結果為 = {mysql_kvalue_list}")
   print(f"準備INSERT(UPDATE),mysql_kvalue_list 數量為 = {len(mysql_kvalue_list)}")
   if  len(mysql_kvalue_list) >0:
         df = pd.DataFrame(mysql_kvalue_list, columns=['cell', 'K_value','ID','create_dt'])    
-        upsert_to_mysql(df)
+        upsert_to_mysql(df, log_queue)
         print("✅ Data sync completed.")
   else:
         print("⚠️ No data found .")
+
+  log_writer.join()  # 等待 log writer 結束
