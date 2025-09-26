@@ -442,6 +442,11 @@ def run_selenium_script(autoLoop_thread_num):
            options.add_argument("--disable-dev-shm-usage")
            options.add_argument('--disable-gpu')  # 禁用 GPU 加速
            options.add_argument(f'--remote-debugging-port={free_port}')  # 指定遠端調試端口
+           #減少 GCM 註冊嘗試，避免錯誤 -----------start-----------------------
+           options.add_argument("--disable-notifications")
+           options.add_argument("--disable-gcm-registration")
+           options.add_argument("--disable-push-api-background-mode")
+           # -----------end-----------------------
            # 創建 WebDriver 服務
            service = Service(executable_path=chromedriver_path)
            # 使用預設的 chromedriver 路徑

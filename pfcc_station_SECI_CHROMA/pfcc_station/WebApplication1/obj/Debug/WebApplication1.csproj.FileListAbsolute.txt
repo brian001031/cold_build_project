@@ -625,7 +625,6 @@ C:\coldelecpower\pushvite\git-branch-two\cold_build_project\pfcc_station_SECI_CH
 C:\coldelecpower\pushvite\git-branch-two\cold_build_project\pfcc_station_SECI_CHROMA\pfcc_station\WebApplication1\bin\Microsoft.AspNet.FriendlyUrls.xml
 C:\coldelecpower\pushvite\git-branch-two\cold_build_project\pfcc_station_SECI_CHROMA\pfcc_station\WebApplication1\bin\zh-Hant\System.Web.Optimization.resources.dll
 C:\coldelecpower\pushvite\git-branch-two\cold_build_project\pfcc_station_SECI_CHROMA\pfcc_station\WebApplication1\bin\zh-Hant\Microsoft.AspNet.FriendlyUrls.resources.dll
-C:\coldelecpower\pushvite\git-branch-two\cold_build_project\pfcc_station_SECI_CHROMA\pfcc_station\WebApplication1\obj\Debug\WebApplication1.csproj.AssemblyReference.cache
 C:\coldelecpower\pushvite\git-branch-two\cold_build_project\pfcc_station_SECI_CHROMA\pfcc_station\WebApplication1\obj\Debug\WebApplication1.csproj.CoreCompileInputs.cache
 C:\coldelecpower\pushvite\git-branch-two\cold_build_project\pfcc_station_SECI_CHROMA\pfcc_station\WebApplication1\obj\Debug\WebApplication1.csproj.CopyComplete
 C:\coldelecpower\pushvite\git-branch-two\cold_build_project\pfcc_station_SECI_CHROMA\pfcc_station\WebApplication1\obj\Debug\WebApplication1.dll
