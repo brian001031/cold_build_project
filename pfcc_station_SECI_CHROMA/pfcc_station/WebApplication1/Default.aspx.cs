@@ -479,18 +479,10 @@ namespace WebApplication1
 
 
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
-                            //if (cell_Boxbatt.Equals("MW2009A50698") || cell_Boxbatt.Equals("MW2009A50697") )
-                            //if (
-                            //    cell_Boxbatt.Equals("MW2008A93605") ||
-                            //    cell_Boxbatt.Equals("MW2009A18058") ||
-                            //    cell_Boxbatt.Equals("MW2008A93544") ||
-                            //    cell_Boxbatt.Equals("MW2008A93615") ||
-                            //    cell_Boxbatt.Equals("MW2008A91661") ||
-                            //    cell_Boxbatt.Equals("MW2008A92364") ||
-                            //    cell_Boxbatt.Equals("MW2009A18190") ||
-                            //    cell_Boxbatt.Equals("MW2009A18244") ||
-                            //    cell_Boxbatt.Equals("MW2008A90984"))
-                            //{
+                            //  if (cell_Boxbatt.Equals("MW2009A50698") || cell_Boxbatt.Equals("MW2009A50697"))
+                            //if (cell_Boxbatt.Equals("MW2008A30071") )                        
+                            //{ 
+
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    BattaryID += 7;
                             //}
@@ -498,7 +490,6 @@ namespace WebApplication1
                             //{
                             //    g_batterycell_number.Add(cell_Boxbatt);
                             //    BattaryID += 7;
-
                             //}
                             // ------------------------end-------------------------------------------------------
 
@@ -519,23 +510,25 @@ namespace WebApplication1
                         } else
                             AllInsert = 36;
 
-                    //判定是否為整個tray 等同36
-                    bool isOnlyValid = (AllInsert != 36);
+                   //判定是否為整個tray 等同36
+                   bool isOnlyValid = (AllInsert != 36);
 
-                    //開36個insert 
-                    for (int iFlag = 1; iFlag <= AllInsert; iFlag++)
-                    {
-                        //初始要閃過的2個電芯號序號,依實際狀況做調整----debug用----- start--------
-                       // if (iFlag < 3)
-                        //當假設有前17顆modleID ="",這邊先pass忽略做其他電芯優先
-                        //if (iFlag <= 17)
-                        //{
-                        //    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                        //    vComID = vComID + 7;
-                        //    vState = vState + 7;
-                        //    continue;
-                        //}
-                        //-----end--------
+                   //開36個insert 
+                   //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆
+                  // for (int iFlag = 1; iFlag <= AllInsert+2; iFlag++) 
+                    for (int iFlag = 1; iFlag <= AllInsert ; iFlag++)
+                   {
+                            //初始要閃過的2個電芯號序號,依實際狀況做調整----debug用----- start--------
+                           // if (iFlag < 3)
+                            //當假設有前17顆modleID ="",這邊先pass忽略做其他電芯優先
+                            //if (iFlag <= 34)
+                            //{
+                            //    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                            //    vComID = vComID + 7;
+                            //    vState = vState + 7;
+                            //    continue;
+                            //}
+                            //-----end--------
                         cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                         cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                         cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
@@ -552,8 +545,8 @@ namespace WebApplication1
                             
 
                             
-                            //detailSelect  是用在 VLOOKUP  如VD28=XLOOKUP(1,(G11:G5000(STEP) =2)*(N11:N5000=JK8[Reached Target voltage] ),H11:H5000(n-6),0,0)  //每個parameter 底層都一樣
-                            detailSelect = "from( "
+                        //detailSelect  是用在 VLOOKUP  如VD28=XLOOKUP(1,(G11:G5000(STEP) =2)*(N11:N5000=JK8[Reached Target voltage] ),H11:H5000(n-6),0,0)  //每個parameter 底層都一樣
+                        detailSelect = "from( "
                          + "select fld7, fld8, fld9 ,fld12, fld14, case when fld7 = '" + stepValue[0] + "' /*2*/ then  fld" + (vState - 6) + "  end VD28, case when fld7 = '" + stepValue[0] + "'  /*2*/ then  fld" + (vState - 2) + " end VAHD28 "
                             + ", case when fld7 = '" + stepValue[1] + "' /*4*/  then  fld" + (vState - 6) + "  end VD32, case when fld7 = '" + stepValue[1] + "' then  fld" + (vState - 2) + "  end VAHD32 "
                             + ", case when fld7 = '" + stepValue[2] + "'/*6*/ then  fld" + (vState - 6) + "  end VD35, case when fld7 = '" + stepValue[2] + "' then  fld" + (vState - 2) + "  end VAHD35 "
@@ -631,16 +624,16 @@ namespace WebApplication1
                                                 {
                                                     //於實際驗算的count有落差,因充放電有step步數不一致狀態,這邊予以微調降步數才能索引到實際參數值(電流)
                                                     //if (n == 4 || n == 3)
-                                                    if (n == 4)
-                                                    {
-                                                        Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
+                                                    //if (n == 4)
+                                                    //{
+                                                    //    Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
 
-                                                        //if(cacula_number > 5125)
-                                                        //  cacula_number = cacula_number - 4;
+                                                    //    //if(cacula_number > 5125)
+                                                    //    //  cacula_number = cacula_number - 4;
 
-                                                        //微調步數往前推移擷取
-                                                        //cacula_number = cacula_number - 5;
-                                                    }
+                                                    //    //微調步數往前推移擷取
+                                                    //    //cacula_number = cacula_number - 5;
+                                                    //}
 
                                                     cc1SelectSql = cc1SelectSql + ",(select  fld" + (vComID + 1) + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n) + " ";
                                                 }
@@ -957,16 +950,16 @@ namespace WebApplication1
                                 //DEBUG用
                                 //if (iFlag == 13 || iFlag == 18 || iFlag == 24 || iFlag == 25)
                                 //{
-                                //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                //     當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                                 //    vComID = vComID + 21;
                                 //    vState = vState + 21;
                                 //}
 
-                                //if (iFlag == 12)
+                                //if (iFlag == 9)
                                 //{
-                                //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                                //    vComID = vComID + 70;
-                                //    vState = vState + 70;
+                                //   // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                //   vComID = vComID + 14;
+                                //    vState = vState + 14;
                                 //}
                                 //else
                                 //{
