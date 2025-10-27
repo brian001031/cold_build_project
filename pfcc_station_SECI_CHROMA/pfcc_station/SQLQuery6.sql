@@ -1,40 +1,10 @@
-﻿SELECT
-                              
-                                COUNT(CASE
-                                        WHEN
-                                          REPLACE(CONVERT(NVARCHAR(100), create_date, 120), '.', '-')
-                                          BETWEEN '2025-10-22 00:00:00' AND '2025-10-22 23:59:59'  
-                                          AND (BIN_CODE LIKE 'N%' AND BIN_CODE  LIKE 'N2%')
-                                        THEN 1
-                                      END) AS todayevening_total_capacity                   
-                              FROM ITFC_MES_UPLOAD_STATUS_TB
-                              WHERE
-                                TYPE = 4
-                                AND BOX_BATT <> 'NANANANANANA'
+﻿WITH RankedBox_Batt AS (SELECT *,  ROW_NUMBER() OVER(PARTITION BY BOX_BATT ORDER BY ID DESC) AS rn FROM HTBI_K_Value_MapperType2_V  WHERE BOX_BATT IN( 'MW2011A07456', 'MW2011A07454', 'MW2011A07453', 'MW2011A07452', 'MW2011A07451' ) )  SELECT * FROM RankedBox_Batt WHERE rn = 1 ORDER BY CASE BOX_BATT  WHEN 'MW2011A07456' THEN 1
+ WHEN 'MW2011A07454' THEN 2
+ WHEN 'MW2011A07453' THEN 3
+ WHEN 'MW2011A07452' THEN 4
+ WHEN 'MW2011A07451' THEN 5
+
+ELSE 6 END;
 
 
 
- SELECT 
-                        COUNT(CASE WHEN BIN_CODE LIKE 'N%' THEN 1 END) AS 常溫一期
-                     /*   COUNT(CASE WHEN BIN_CODE LIKE 'N2%' THEN 1 END) AS 常溫二期, */
-                     /* COUNT(CASE WHEN BIN_CODE LIKE 'N%' THEN 1 END) + COUNT(CASE WHEN BIN_CODE LIKE 'N2%' THEN 1 END) AS 常溫當天總產能*/
-                      FROM ITFC_MES_UPLOAD_STATUS_TB
-                      WHERE 
-                        TYPE = 4
-                        AND BOX_BATT <> 'NANANANANANA'
-                        AND REPLACE(CONVERT(NVARCHAR(100), create_date, 120), '.', '-') BETWEEN '2025-10-22 08:00:00' AND '2025-10-22 23:59:59';
-
-
-SELECT
-                              
-                                COUNT(CASE
-                                        WHEN
-                                          REPLACE(CONVERT(NVARCHAR(100), create_date, 120), '.', '-')
-                                          BETWEEN '2025-10-22 00:00:00' AND '2025-10-22 23:59:59'  
-                                          AND (BIN_CODE LIKE 'N%' AND BIN_CODE  LIKE 'N2%')
-                                        THEN 1
-                                      END) AS todayevening_total_capacity                   
-                              FROM ITFC_MES_UPLOAD_STATUS_TB
-                              WHERE
-                                TYPE = 4
-                                AND BOX_BATT <> 'NANANANANANA'

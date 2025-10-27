@@ -92,10 +92,10 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
-           //string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -477,24 +477,24 @@ namespace WebApplication1
                             //-------end--------
 
 
-                            g_batterycell_number.Add(cell_Boxbatt);
-                            BattaryID += 7;
+                            //g_batterycell_number.Add(cell_Boxbatt);
+                            //BattaryID += 7;
 
 
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
                             //  if (cell_Boxbatt.Equals("MW2009A50698") || cell_Boxbatt.Equals("MW2009A50697"))
                             // if (cell_Boxbatt.Equals("MW2010A18986") || cell_Boxbatt.Equals("MW2010A18987"))
-                            //if (cell_Boxbatt.Equals("") )
-                            //{
+                            if (cell_Boxbatt.Equals(""))
+                            {
 
-                            //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
-                            //    BattaryID += 7;
-                            //}
-                            //else
-                            //{
-                            //    g_batterycell_number.Add(cell_Boxbatt);
-                            //    BattaryID += 7;
-                            //}
+                                Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
+                                BattaryID += 7;
+                            }
+                            else
+                            {
+                                g_batterycell_number.Add(cell_Boxbatt);
+                                BattaryID += 7;
+                            }
                             // ------------------------end-------------------------------------------------------
 
                         }
@@ -505,37 +505,37 @@ namespace WebApplication1
 
                         //檢視最後g_Batt_Classtype 存取狀態顯示
                         Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype , g_Modle_CC_Kvalue));
-                        
-                        int AllInsert ;
+
+                        int AllInsert;
 
                         //計算要insert的實際數量,若有?則跳過不計,針對CC分容站
-                        if (vparameter != "023") {
+                        if (vparameter != "023")
+                        {
                             AllInsert = calculate_insert_currentNumber(g_Batt_Classtype, vparameter);
-                        } else
-                            AllInsert = 36;
+                        }
+                        else {
+                            AllInsert = g_Modle_CC_Kvalue.Count();                           
+                        }
+                           
+                        //判定是否為整個tray 等同36
+                        bool isOnlyValid = (AllInsert != 36);
 
-                   //判定是否為整個tray 等同36
-                   bool isOnlyValid = (AllInsert != 36);
-
-                  //判定Kvalue 索引總數量
-                   int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
+                         //判定Kvalue 索引總數量
+                        int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
 
                    //開36個insert 
-                   //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆
-                   //   for (int iFlag = 1; iFlag <= AllInsert+28; iFlag++) 
-                    for (int iFlag = 1; iFlag <= AllInsert ; iFlag++)
+                   //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
+                   for (int iFlag = 1; iFlag <= AllInsert+ Kpasslen; iFlag++)
                    {
-                            //初始要閃過的2個電芯號序號,依實際狀況做調整----debug用----- start--------
-                           // if (iFlag < 29)
-                            //當假設有前17顆modleID ="",這邊先pass忽略做其他電芯優先
-                            //if (iFlag <= 15)
-                            //{
-                            //    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                            //    vComID = vComID + 7;
-                            //    vState = vState + 7;
-                            //    continue;
-                            //}
-                            //-----end--------
+                        //初始要閃過的個電芯號序號,依實際狀況做調整----debug用----- start--------
+                        if (isOnlyValid  && iFlag < Kpasslen+1)                                                    
+                        {
+                            //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                            vComID = vComID + 7;
+                            vState = vState + 7;
+                            continue;
+                        }
+                        //-----end--------
                         cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                         cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                         cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
@@ -781,7 +781,15 @@ namespace WebApplication1
 
                                 switch (vparameter)
                                 {
-
+                                    case "023": //pf
+                                        if (g_Modle_CC_Kvalue.Count() != 0)
+                                        {
+                                            if (AllInsert != 0)
+                                                Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
+                                            else
+                                                Get_K_Value = "";
+                                        }
+                                         break;
                                     case "010": //cc1                                     
                                         VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());                                                                                       
                                         VOCV = Convert.ToString(dr_detail["OCV"].ToString());
@@ -794,12 +802,16 @@ namespace WebApplication1
 
 
                                         //if (iFlag - 13 <= g_Modle_CC_Kvalue.Count())
+                                        if(g_Modle_CC_Kvalue.Count() != 0)
                                         {
-                                            Get_K_Value = g_Modle_CC_Kvalue[iFlag- 1].ToString();
+                                                if (AllInsert != 0)
+                                                    Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
+                                                else
+                                                    Get_K_Value = "";
                                         }
 
-                                            //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
-                                            if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
+                                        //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
+                                        if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
                                         {
                                             VCCcurrent = VaverageV1 = VaverageV3 = "0.0";
                                         }
@@ -836,9 +848,9 @@ namespace WebApplication1
 
                                         int cap_type = Assign_Cap_mAH_Type(VAHD35);
 
-                                        insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag-1] : insert_num;
+                                        insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag- Kpasslen - 1] : insert_num;
 
-                                        Get_K_Value = g_Modle_CC_Kvalue[iFlag-1].ToString();
+                                        Get_K_Value = isOnlyValid? g_Modle_CC_Kvalue[iFlag- Kpasslen - 1].ToString(): g_Modle_CC_Kvalue[iFlag  - 1].ToString();
 
                                         CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
@@ -1322,7 +1334,7 @@ namespace WebApplication1
                 for (int modle = 0; modle < all_battery_class.Count; modle++)
                 {
                     // CC2需要sync 有電芯K值數據才有意義,CC1目前不需要,以下做區分
-                    if (pfcc_param.StartsWith("017") && all_battery_class[modle] != "?" || pfcc_param.StartsWith("010"))
+                    if (pfcc_param.StartsWith("017") && all_battery_class[modle] != "?" || pfcc_param.StartsWith("010") )
                         count++;                    
                 }
             }
@@ -2403,12 +2415,12 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前開發本機端MYSQL 設定
-          // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-             string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           //  string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             // 遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3532,10 +3544,10 @@ namespace WebApplication1
                 //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
 
                 //目前佈署端local host MYSQL 設定
-                string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+               // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
                 //目前開發本機端MYSQL 設定
-              //  string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+                string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
                 //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3864,8 +3876,18 @@ namespace WebApplication1
                                 //}
                                 //if (ibattary != 100) cell_Boxbatt = "MW2007HXXXXXXX".ToString();
                                 //-------end--------
-                                g_batterycell_number.Add(cell_Boxbatt);
-                                BattaryID += 7;
+                          
+                                if (cell_Boxbatt.Equals(""))
+                                {
+
+                                  //  Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
+                                    BattaryID += 7;
+                                }
+                                else
+                                {
+                                    g_batterycell_number.Add(cell_Boxbatt);
+                                    BattaryID += 7;
+                                }
                             }
 
                             //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
@@ -3873,7 +3895,9 @@ namespace WebApplication1
 
 
                             //檢視最後g_Batt_Classtype 存取狀態顯示
-                            Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype));
+                           // Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype));
+                            Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype, g_Modle_CC_Kvalue));
+
 
                             int AllInsert;
 
@@ -3883,7 +3907,9 @@ namespace WebApplication1
                                 AllInsert = calculate_insert_currentNumber(g_Batt_Classtype, vparameter);
                             }
                             else
-                                AllInsert = 36;
+                            {
+                                AllInsert = g_Modle_CC_Kvalue.Count();
+                            }
 
                             //這邊目前可能為電芯目前為(全部?)產生導致,原因流程尚未建立資料庫搜尋無著落
                             if (AllInsert == 0) {                                
@@ -3897,15 +3923,27 @@ namespace WebApplication1
                                 }
                             }
 
-
+                        
                             //判定是否為整個tray 等同36
                             bool isOnlyValid = (AllInsert != 36);
 
+                            //判定Kvalue 索引總數量
+                            int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
+
                             //開36個insert 
-                            for (int iFlag = 1; iFlag <= AllInsert; iFlag++)
+                            //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
+                            for (int iFlag = 1; iFlag <= AllInsert + Kpasslen; iFlag++)
                             {
-
-
+                                //初始要閃過的個電芯號序號,依實際狀況做調整----debug用----- start--------
+                                if (isOnlyValid && iFlag < Kpasslen + 1)
+                                {
+                                    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                    vComID = vComID + 7;
+                                    vState = vState + 7;
+                                    continue;
+                                }
+                                //-----end--------
+                                
                                 cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                                 cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                                 cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
@@ -4169,6 +4207,15 @@ namespace WebApplication1
 
                                         switch (vparameter)
                                         {
+                                            case "023": //pf
+                                                if (g_Modle_CC_Kvalue.Count() != 0)
+                                                {
+                                                    if (AllInsert != 0)
+                                                        Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
+                                                    else
+                                                        Get_K_Value = "";
+                                                }
+                                                break;
 
                                             case "010": //cc1                                     
 
@@ -4198,8 +4245,12 @@ namespace WebApplication1
                                                 }
 
                                                 //if (iFlag - 13 <= g_Modle_CC_Kvalue.Count())
+                                                if (g_Modle_CC_Kvalue.Count() != 0)
                                                 {
-                                                    Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                                    if (AllInsert != 0)
+                                                        Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
+                                                    else
+                                                        Get_K_Value = "";
                                                 }
 
                                                 Vtime50A = "0";
@@ -4233,11 +4284,10 @@ namespace WebApplication1
                                                 Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
                                                 int cap_type = Assign_Cap_mAH_Type(VAHD35);
+                                               
+                                                insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - Kpasslen - 1] : insert_num;
+                                                Get_K_Value = isOnlyValid ? g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString() : g_Modle_CC_Kvalue[iFlag - 1].ToString();
 
-                                                Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();
-
-                                                insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - 1] : insert_num;
-                                                
                                                 CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
                                                 int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);

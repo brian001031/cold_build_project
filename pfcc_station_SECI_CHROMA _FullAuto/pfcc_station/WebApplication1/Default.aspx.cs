@@ -1342,7 +1342,7 @@ namespace WebApplication1
             return 0;
         }
 
-        private int calculate_insert_currentNumber(List<string> all_battery_class)
+        private int calculate_insert_currentNumber(List<string> all_battery_class, String pfcc_param)
         {
             int count = 0;
             if (all_battery_class.Count == 0)
@@ -1351,7 +1351,10 @@ namespace WebApplication1
             {
                 for (int modle = 0; modle < all_battery_class.Count; modle++)
                 {
-                    if (all_battery_class[modle] != "?")
+                    //if (all_battery_class[modle] != "?")
+                    //    count++;
+                    // CC2需要sync 有電芯K值數據才有意義,CC1目前不需要,以下做區分
+                    if (pfcc_param.StartsWith("017") && all_battery_class[modle] != "?" || pfcc_param.StartsWith("010"))
                         count++;
                 }
             }
@@ -3929,8 +3932,19 @@ namespace WebApplication1
                                 //}
                                 //if (ibattary != 100) cell_Boxbatt = "MW2007HXXXXXXX".ToString();
                                 //-------end--------
-                                g_batterycell_number.Add(cell_Boxbatt);
-                                BattaryID += 7;
+                        
+
+                                if (cell_Boxbatt.Equals(""))
+                                {
+
+                                    //  Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
+                                    BattaryID += 7;
+                                }
+                                else
+                                {
+                                    g_batterycell_number.Add(cell_Boxbatt);
+                                    BattaryID += 7;
+                                }
                             }
 
                             //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
@@ -3945,10 +3959,13 @@ namespace WebApplication1
                             //計算要insert的實際數量,若有?則跳過不計,針對CC分容站
                             if (vparameter != "023")
                             {
-                                AllInsert = calculate_insert_currentNumber(g_Batt_Classtype);
+                                AllInsert = calculate_insert_currentNumber(g_Batt_Classtype , vparameter);
                             }
                             else
+                            {
+                                //AllInsert = g_Modle_CC_Kvalue.Count();
                                 AllInsert = 36;
+                            }
 
                             //這邊目前可能為電芯目前為(全部?)產生導致,原因流程尚未建立資料庫搜尋無著落
                             if (AllInsert == 0)
@@ -3963,17 +3980,28 @@ namespace WebApplication1
                                 }
                             }
 
-
                             //判定是否為整個tray 等同36
                             bool isOnlyValid = (AllInsert != 36);
 
                             //判定Kvalue 索引總數量
                             int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
 
-                            //開36個insert 
-                            for (int iFlag = 1; iFlag <= AllInsert; iFlag++)
-                            {
+                            //預設PF化成 無loss 
+                            if (vparameter == "023")
+                                Kpasslen = 0;
 
+                            //開36個insert 
+                            for (int iFlag = 1; iFlag <= AllInsert + Kpasslen; iFlag++)
+                            {
+                                //初始要閃過的個電芯號序號,依實際狀況做調整----debug用----- start--------
+                                if (vparameter!= "023" && isOnlyValid && iFlag < Kpasslen + 1)
+                                {
+                                    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
+                                    vComID = vComID + 7;
+                                    vState = vState + 7;
+                                    continue;
+                                }
+                                //-----end--------
 
                                 cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                                 cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
@@ -4238,6 +4266,15 @@ namespace WebApplication1
 
                                         switch (vparameter)
                                         {
+                                            case "023": //pf
+                                              //  if (g_Modle_CC_Kvalue.Count() != 0)
+                                                {
+                                                    if (AllInsert == 36)
+                                                        Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                                    else
+                                                        Get_K_Value = "";
+                                                }
+                                                break;
 
                                             case "010": //cc1                                     
 
@@ -4261,8 +4298,12 @@ namespace WebApplication1
                                                 Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
                                                 //if (iFlag - 13 <= g_Modle_CC_Kvalue.Count())
+                                                if (g_Modle_CC_Kvalue.Count() != 0)
                                                 {
-                                                    Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                                    if (AllInsert != 0)
+                                                        Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
+                                                    else
+                                                        Get_K_Value = "";
                                                 }
 
                                                 //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
@@ -4303,9 +4344,9 @@ namespace WebApplication1
 
                                                 int cap_type = Assign_Cap_mAH_Type(VAHD35);
 
-                                                insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - 1] : insert_num;
+                                                insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - Kpasslen - 1] : insert_num;
 
-                                                Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                                Get_K_Value = isOnlyValid ? g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString() : g_Modle_CC_Kvalue[iFlag - 1].ToString();
 
                                                 CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
@@ -4430,7 +4471,7 @@ namespace WebApplication1
                                             tableTitleSql = tableTitleSql + " (ID,StartDateD,EnddateD,trayID,parameter ";
                                             tableTitleSql = tableTitleSql + ",State,VD28,VS28,VAHD28,VAHS28 ";
                                             tableTitleSql = tableTitleSql + " ,VD32 ,VS32 ,VAHD32,VAHS32 ,VD35  ";
-                                            tableTitleSql = tableTitleSql + " ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD,interpretcode,position ";
+                                            tableTitleSql = tableTitleSql + " ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD,interpretcode,position,K_Value ";
 
                                             valueSql = valueSql + " ,'" + CC2_interpretcode + "','" + CC2_position + "','" + Get_K_Value + "'";
 
@@ -4454,7 +4495,7 @@ namespace WebApplication1
                                             columnSql = columnSql + " ,VSC,VAHDC ,VAHSC,FileName,Process,AnlaysisDayD ";
                                             columnSql = columnSql + ",Para ";
                                             columnSql = columnSql + ",CCcurrent,OCV,averageV1,averageV2,averageV3,charge34V,charge345V,charge35V"; //cc1有的，
-                                            columnSql = columnSql + ",time50A,v,v1,v2,v3,v4,mOhm,interpretcode,position,analysisDT"; //cc2才有的，cc1要塞的話，值均為0 mOhm 是用算值出來的
+                                            columnSql = columnSql + ",time50A,v,v1,v2,v3,v4,mOhm,interpretcode,position,K_Value,analysisDT"; //cc2才有的，cc1要塞的話，值均為0 mOhm 是用算值出來的
 
                                             valueSql = valueSql + ",'" + Vpara + "'";  //para
                                             valueSql = valueSql + ", " + VCCcurrent + "," + VOCV + "," + VaverageV1 + "," + VaverageV2 + "," + VaverageV3 + "," + Vcharge34V + "," + Vcharge345V + "," + Vcharge35V;
