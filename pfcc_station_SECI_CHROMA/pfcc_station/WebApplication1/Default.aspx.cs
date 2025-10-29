@@ -92,10 +92,10 @@ namespace WebApplication1
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             
             //目前佈署端local host MYSQL 設定
-           // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+            string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
             //目前開發本機端MYSQL 設定
-           string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           //string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -784,7 +784,7 @@ namespace WebApplication1
                                     case "023": //pf
                                         if (g_Modle_CC_Kvalue.Count() != 0)
                                         {
-                                            if (AllInsert != 0)
+                                            if (AllInsert != 0 && iFlag - 1 < g_Modle_CC_Kvalue.Count())
                                                 Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
                                             else
                                                 Get_K_Value = "";
@@ -804,7 +804,7 @@ namespace WebApplication1
                                         //if (iFlag - 13 <= g_Modle_CC_Kvalue.Count())
                                         if(g_Modle_CC_Kvalue.Count() != 0)
                                         {
-                                                if (AllInsert != 0)
+                                                if (AllInsert != 0 && iFlag - 1 < g_Modle_CC_Kvalue.Count())
                                                     Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
                                                 else
                                                     Get_K_Value = "";
@@ -2415,12 +2415,12 @@ namespace WebApplication1
             //Yuping 本機端MYSQL 設定
             //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
             //目前開發本機端MYSQL 設定
-            string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+           // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             //目前佈署端local host MYSQL 設定
             //string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;";
-           //  string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+             string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
             // 遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3529,8 +3529,10 @@ namespace WebApplication1
 
             for (int i = 0; i < totalTasks; i++)
             {
+                bool skipCurrentFile = false;
                 string taskId = g_csvFile[i].ToString();
                 string tasktype = g_pfcctype[i].ToString();
+
 
                 //------增加 NG檔案 判斷-----start--------
                 check_have_ng = false;
@@ -3544,10 +3546,10 @@ namespace WebApplication1
                 //string connection = "server=localhost;user id=root;password=27763923;database=sakila; pooling=true;";
 
                 //目前佈署端local host MYSQL 設定
-               // string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+                string connection = "server=localhost;user id=root;password=Xcold@246810;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
                 //目前開發本機端MYSQL 設定
-                string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
+               // string connection = "server=localhost;user id=root;password=K@admin123456;database=sakila; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
 
 
                 //遠端remote合併 hr.test_mergepfcc MYSQL 設定
@@ -3616,7 +3618,7 @@ namespace WebApplication1
                 conn.Close();
 
 
-                if (fileResult == "1")
+                if (fileResult == "1" && !skipCurrentFile)
                 {
                     //總共要塞的欄位
                     // insert into pfprocess001()
@@ -3890,6 +3892,20 @@ namespace WebApplication1
                                 }
                             }
 
+                            if (g_batterycell_number.Count() == 0)
+                            {
+                                check_ng_num++;
+                                check_modlename_nodata = true;
+                                if (check_ng_num == 1 && check_modlename_nodata)
+                                {
+                                    g_NG_PFCC_File.Add(loadcsvFile);
+                                    g_ERROR_STATUS.Add(loadcsvFile + " 搜尋電芯號全無(空)");
+                                    skipCurrentFile = true;  
+                                    break;  // 跳出 while
+                                }
+                            }
+
+
                             //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
                             Sync_HTBI_Merge_Classparam(STR_MSSQL_ARASHTBI, g_batterycell_number);
 
@@ -3912,13 +3928,13 @@ namespace WebApplication1
                             }
 
                             //這邊目前可能為電芯目前為(全部?)產生導致,原因流程尚未建立資料庫搜尋無著落
-                            if (AllInsert == 0) {                                
+                            if (AllInsert == 0 ) {                                
                                 check_ng_num++;
                                 check_modlename_nodata = true;
                                 if (check_ng_num == 1 && check_modlename_nodata)
                                 {
-                                    g_NG_PFCC_File.Add(loadcsvFile);
-                                    g_ERROR_STATUS.Add(loadcsvFile+" 搜尋電芯號全無");                                    
+                                    g_NG_PFCC_File.Add(loadcsvFile);                                    
+                                    g_ERROR_STATUS.Add(loadcsvFile+" 搜尋電芯號全無(英文類碼無)");                                    
                                     continue;
                                 }
                             }
@@ -3929,6 +3945,10 @@ namespace WebApplication1
 
                             //判定Kvalue 索引總數量
                             int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
+
+                            //有些數據可能沒有同步K_VALUE
+                            if (AllInsert == 36)
+                                Kpasslen = 0;
 
                             //開36個insert 
                             //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
@@ -4210,7 +4230,7 @@ namespace WebApplication1
                                             case "023": //pf
                                                 if (g_Modle_CC_Kvalue.Count() != 0)
                                                 {
-                                                    if (AllInsert != 0)
+                                                    if (AllInsert != 0 && iFlag - 1 < g_Modle_CC_Kvalue.Count()+ Kpasslen)
                                                         Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
                                                     else
                                                         Get_K_Value = "";
@@ -4247,7 +4267,7 @@ namespace WebApplication1
                                                 //if (iFlag - 13 <= g_Modle_CC_Kvalue.Count())
                                                 if (g_Modle_CC_Kvalue.Count() != 0)
                                                 {
-                                                    if (AllInsert != 0)
+                                                    if (AllInsert != 0 && iFlag - 1 < g_Modle_CC_Kvalue.Count() + Kpasslen)
                                                         Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
                                                     else
                                                         Get_K_Value = "";
@@ -4457,6 +4477,9 @@ namespace WebApplication1
                         //LResult.Text = insertSql;
                         conn_detail.Close();
 
+                        if (skipCurrentFile)
+                            continue;
+
 
                         //String testSql = "insert INTO pfprocess001  (ID,StartDateD,EnddateD,trayID,parameter ,State,VD28,VS28,VAHD28,VAHS28  ,VD32 ,VS32 ,VAHD32,VAHS32 ,VD35   ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD)VALUES ( 'MW2007A05101',  '2024/01/01 02:17:02','2024/01/01 07:15:14','PF-03-K000001','023', 'OK' ,'2.8000','2.8000','2627.0','2627.0', '3.3000' ,'3.3000','13802.2','13802.2','3.4000', '3.4000' ,'30400.0','30400.0','0000001.txt','00:Pressure Formation',now()) ; ";
                         //testSql = testSql + "insert INTO pfprocess001(ID, StartDateD, EnddateD, trayID, parameter, State, VD28, VS28, VAHD28, VAHS28, VD32, VS32, VAHD32, VAHS32, VD35, VS35, VAHD35, VAHS35, FileName, Process, AnlaysisDayD)VALUES('MW2007A05101', '2024/01/01 02:18:02', '2024/01/01 07:16:14', 'PF-03-K000001', '023', 'OK', '2.8000', '2.8000', '2627.0', '2627.0', '3.3000', '3.3000', '13802.2', '13802.2', '3.4000', '3.4000', '30400.0', '30400.0', '0000001.txt', '00:Pressure Formation', now()); ";
@@ -4582,44 +4605,42 @@ namespace WebApplication1
                     //當執行完畢到最後一筆
                    if (i == totalTasks-1) 
                    {
-                        DirectoryInfo tempDir = new DirectoryInfo(DestinationFolder);
-                        foreach (FileInfo fi in tempDir.EnumerateFiles())
-                        {
-                            // 目錄下C:\\tempcsv 內檔案全部刪除
-                            File.Delete(DestinationFolder + Path.DirectorySeparatorChar + fi.Name);
-                        }
+                        //DirectoryInfo tempDir1 = new DirectoryInfo(DestinationFolder);
+                        //foreach (FileInfo fi in tempDir1.EnumerateFiles())
+                        //{
+                        //    // 目錄下C:\\tempcsv 內檔案全部刪除
+                        //    File.Delete(DestinationFolder + Path.DirectorySeparatorChar + fi.Name);
+                        //}
 
-                        if (succesfulnum == totalTasks)
-                            LResult.Text = "分析完篩選型號及合併資料完畢!";
-                        else
-                        {
-                            LResult.Text = "資料合併異常,NG {";
-                            for (int ng = 0; ng < g_NG_PFCC_File.Count; ng++)
-                            {
-                                LResult.Text += g_NG_PFCC_File[ng].ToString()+" ";
+                        //if (succesfulnum == totalTasks)
+                        //    LResult.Text = "分析完篩選型號及合併資料完畢!";
+                        //else
+                        //{
+                        //    LResult.Text = "資料合併異常,NG {";
+                        //    for (int ng = 0; ng < g_NG_PFCC_File.Count; ng++)
+                        //    {
+                        //        LResult.Text += g_NG_PFCC_File[ng].ToString()+" ";
 
-                                if (ng == g_NG_PFCC_File.Count - 1)
-                                    LResult.Text += " 錯誤狀態寫入於error_record.txt}";
-                            }
+                        //        if (ng == g_NG_PFCC_File.Count - 1)
+                        //            LResult.Text += " 錯誤狀態寫入於error_record.txt}";
+                        //    }
 
-                            //將分析NG原始數據檔案放置 既定 C:\copy_temp\pf-cc-testNG
-                            COPY_NG_Directionary(SourceFolder, NG_file_Path, g_NG_PFCC_File);
+                        //    //將分析NG原始數據檔案放置 既定 C:\copy_temp\pf-cc-testNG
+                        //    COPY_NG_Directionary(SourceFolder, NG_file_Path, g_NG_PFCC_File);
 
-                            //將原始數據分析後錯誤狀態寫入待後續追蹤
-                            RewriteAndAppendToFile(NG_STARUS_record, g_ERROR_STATUS);
-
-
-                            DirectoryInfo csvDir = new DirectoryInfo(SourceFolder);
-                            foreach (FileInfo fi in csvDir.EnumerateFiles())
-                            {
-                                // 目錄下C:\copy_temp\source_pfcc 內檔案全部刪除,確定都NG
-                                File.Delete(SourceFolder + Path.DirectorySeparatorChar + fi.Name);
-                            }
-                        }
-
-                        LResult.Text += ",請確認分析完PF_CC系列數據格式!";
+                        //    //將原始數據分析後錯誤狀態寫入待後續追蹤
+                        //    RewriteAndAppendToFile(NG_STARUS_record, g_ERROR_STATUS);
 
 
+                        //    DirectoryInfo csvDir = new DirectoryInfo(SourceFolder);
+                        //    foreach (FileInfo fi in csvDir.EnumerateFiles())
+                        //    {
+                        //        // 目錄下C:\copy_temp\source_pfcc 內檔案全部刪除,確定都NG
+                        //        File.Delete(SourceFolder + Path.DirectorySeparatorChar + fi.Name);
+                        //    }
+                        //}
+
+                        //LResult.Text += ",請確認分析完PF_CC系列數據格式!";
                     }
 
                     //透過C:\\copy_pfcc_result.bat 將產出pf cc1 cc2 等數據csv 回存到 網路工作磁碟(ex:\\192.168.3.100\pfcc_result)
@@ -4631,7 +4652,43 @@ namespace WebApplication1
 
             }
 
+            // ✅ for 迴圈執行完畢後，進行收尾處理
+            DirectoryInfo tempDir = new DirectoryInfo(DestinationFolder);
+            foreach (FileInfo fi in tempDir.EnumerateFiles())
+            {
+                // 目錄下C:\\tempcsv 內檔案全部刪除
+                File.Delete(DestinationFolder + Path.DirectorySeparatorChar + fi.Name);
+            }
 
+            if (succesfulnum == totalTasks)
+                LResult.Text = "分析完篩選型號及合併資料完畢!";
+            else
+            {
+                LResult.Text = "資料合併異常,NG {";
+                for (int ng = 0; ng < g_NG_PFCC_File.Count; ng++)
+                {
+                    LResult.Text += g_NG_PFCC_File[ng].ToString() + " ";
+
+                    if (ng == g_NG_PFCC_File.Count - 1)
+                        LResult.Text += " 錯誤狀態寫入於error_record.txt}";
+                }
+
+                //將分析NG原始數據檔案放置 既定 C:\copy_temp\pf-cc-testNG
+                COPY_NG_Directionary(SourceFolder, NG_file_Path, g_NG_PFCC_File);
+
+                //將原始數據分析後錯誤狀態寫入待後續追蹤
+                RewriteAndAppendToFile(NG_STARUS_record, g_ERROR_STATUS);
+
+
+                DirectoryInfo csvDir = new DirectoryInfo(SourceFolder);
+                foreach (FileInfo fi in csvDir.EnumerateFiles())
+                {
+                    // 目錄下C:\copy_temp\source_pfcc 內檔案全部刪除,確定都NG
+                    File.Delete(SourceFolder + Path.DirectorySeparatorChar + fi.Name);
+                }
+            }
+
+            LResult.Text += ",請確認分析完PF_CC系列數據格式!";
         }
     }
 }

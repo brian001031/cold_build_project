@@ -3577,6 +3577,7 @@ namespace WebApplication1
 
             for (int i = 0; i < totalTasks; i++)
             {
+                bool skipCurrentFile = false;
                 string taskId = g_csvFile[i].ToString();
                 string tasktype = g_pfcctype[i].ToString();
 
@@ -3669,7 +3670,7 @@ namespace WebApplication1
                 conn.Close();
 
 
-                if (fileResult == "1")
+                if (fileResult == "1" && !skipCurrentFile)
                 {
                     //總共要塞的欄位
                     // insert into pfprocess001()
@@ -3947,6 +3948,19 @@ namespace WebApplication1
                                 }
                             }
 
+                            if (g_batterycell_number.Count() == 0)
+                            {
+                                check_ng_num++;
+                                check_modlename_nodata = true;
+                                if (check_ng_num == 1 && check_modlename_nodata)
+                                {
+                                    g_NG_PFCC_File.Add(loadcsvFile);
+                                    g_ERROR_STATUS.Add(loadcsvFile + " 搜尋電芯號全無(空)");
+                                    skipCurrentFile = true;
+                                    break;  // 跳出 while
+                                }
+                            }
+
                             //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
                             Sync_HTBI_Merge_Classparam(STR_MSSQL_ARASHTBI, g_batterycell_number);
 
@@ -3975,7 +3989,7 @@ namespace WebApplication1
                                 if (check_ng_num == 1 && check_modlename_nodata)
                                 {
                                     g_NG_PFCC_File.Add(loadcsvFile);
-                                    g_ERROR_STATUS.Add(loadcsvFile + " 搜尋電芯號全無");
+                                    g_ERROR_STATUS.Add(loadcsvFile + " 搜尋電芯號全無(英文類碼無)");
                                     continue;
                                 }
                             }
@@ -3987,7 +4001,7 @@ namespace WebApplication1
                             int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
 
                             //預設PF化成 無loss 
-                            if (vparameter == "023")
+                            if (vparameter == "023" || AllInsert== 36)
                                 Kpasslen = 0;
 
                             //開36個insert 
@@ -4267,13 +4281,21 @@ namespace WebApplication1
                                         switch (vparameter)
                                         {
                                             case "023": //pf
-                                              //  if (g_Modle_CC_Kvalue.Count() != 0)
+                                                //  if (g_Modle_CC_Kvalue.Count() != 0)
                                                 {
                                                     if (AllInsert == 36)
                                                         Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();
                                                     else
                                                         Get_K_Value = "";
                                                 }
+
+                                                //if (g_Modle_CC_Kvalue.Count() != 0)
+                                                //{
+                                                //    if (AllInsert != 0 && iFlag - 1 < g_Modle_CC_Kvalue.Count() + Kpasslen)
+                                                //        Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
+                                                //    else
+                                                //        Get_K_Value = "";
+                                                //}
                                                 break;
 
                                             case "010": //cc1                                     
@@ -4300,7 +4322,7 @@ namespace WebApplication1
                                                 //if (iFlag - 13 <= g_Modle_CC_Kvalue.Count())
                                                 if (g_Modle_CC_Kvalue.Count() != 0)
                                                 {
-                                                    if (AllInsert != 0)
+                                                    if (AllInsert != 0 && iFlag - 1 < g_Modle_CC_Kvalue.Count() + Kpasslen)
                                                         Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
                                                     else
                                                         Get_K_Value = "";
@@ -4523,6 +4545,9 @@ namespace WebApplication1
                         //LResult.Text = insertSql;
                         conn_detail.Close();
 
+                        //if (skipCurrentFile)
+                        //    continue;
+
 
                         //String testSql = "insert INTO pfprocess001  (ID,StartDateD,EnddateD,trayID,parameter ,State,VD28,VS28,VAHD28,VAHS28  ,VD32 ,VS32 ,VAHD32,VAHS32 ,VD35   ,VS35,VAHD35 ,VAHS35,FileName,Process,AnlaysisDayD)VALUES ( 'MW2007A05101',  '2024/01/01 02:17:02','2024/01/01 07:15:14','PF-03-K000001','023', 'OK' ,'2.8000','2.8000','2627.0','2627.0', '3.3000' ,'3.3000','13802.2','13802.2','3.4000', '3.4000' ,'30400.0','30400.0','0000001.txt','00:Pressure Formation',now()) ; ";
                         //testSql = testSql + "insert INTO pfprocess001(ID, StartDateD, EnddateD, trayID, parameter, State, VD28, VS28, VAHD28, VAHS28, VD32, VS32, VAHD32, VAHS32, VD35, VS35, VAHD35, VAHS35, FileName, Process, AnlaysisDayD)VALUES('MW2007A05101', '2024/01/01 02:18:02', '2024/01/01 07:16:14', 'PF-03-K000001', '023', 'OK', '2.8000', '2.8000', '2627.0', '2627.0', '3.3000', '3.3000', '13802.2', '13802.2', '3.4000', '3.4000', '30400.0', '30400.0', '0000001.txt', '00:Pressure Formation', now()); ";
@@ -4697,9 +4722,6 @@ namespace WebApplication1
                 } //end if (讀檔錯誤判斷====>)
 
             }
-
-
-
 
         }
 
