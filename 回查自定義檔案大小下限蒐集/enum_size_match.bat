@@ -4,7 +4,8 @@ setlocal enabledelayedexpansion
 
 
 set /p "searchpath=請輸入要分析的資料夾（例如 D:\Data）："
-set /p maxSize=請輸入要列出檔案的最大大小（bytes）： 
+set /p minSize=請輸入要列出檔案的最小(Min)（bytes）：
+set /p maxSize=請輸入要列出檔案的最大(Max)（bytes）： 
 
 :: ✅ 檢查目錄是否存在
 if not exist "!searchpath!" (
@@ -13,12 +14,12 @@ if not exist "!searchpath!" (
     exit /b
 )
 
-::先刪除既有log檔案
 del reachsize_list.txt 2>nul
 del sorted_size_list.txt 2>nul
 
-echo Debug: searchpath = "!searchpath!"
-echo Debug: maxSize = "!maxSize!"
+::echo Debug: searchpath = "!searchpath!"
+::echo Debug: minSize = "!minSize!"
+::echo Debug: maxSize = "!maxSize!"
 
 if not exist "!searchpath!" (
     echo 錯誤：指定的資料夾不存在。
@@ -30,11 +31,18 @@ if not exist "!searchpath!" (
 pushd "!searchpath!"
 for /r %%i in (*) do (
     set "size=%%~zi"
-    echo ScanFile: %%~nxi size=!size!
-    if !size! LSS !maxSize! (
+    echo DebugFile: %%~nxi size=!size!
+	
+	
+	:: 檢查檔案大小是否在max>=0(就符合搜尋條件)
+   :: if !size! LSS !maxSize!
+    :: 檢查檔案大小是否在範圍內
+	if !size! GEQ !minSize! (
+        if !size! LEQ !maxSize! (       
         for /f "tokens=1-4*" %%a in ('dir /T:W /-C /A:-D "%%i" ^|findstr /R "^[0-9]"') do (
             echo %%~nxi^|%%~zi bytes ^| Last Modified: %%a %%b %%c >>  "%~dp0reachsize_list.txt"
         )
+	  )
     )
 )
 popd
