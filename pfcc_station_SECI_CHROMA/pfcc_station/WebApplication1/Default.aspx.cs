@@ -27,7 +27,8 @@ namespace WebApplication1
         List<string> g_NG_PFCC_File;
         List<string> g_ERROR_STATUS;
         List<int>    g_OnlyExist_ModleID_Number;
-        List<string> g_Modle_CC_Kvalue; 
+        List<string> g_Modle_CC_Kvalue;
+        
 
         bool timerunheck = false;
         public static  readonly object _lock = new object();
@@ -67,6 +68,8 @@ namespace WebApplication1
 
         //配方版本
         string sVer = string.Empty;
+
+       
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -484,34 +487,36 @@ namespace WebApplication1
                             //-------end--------
 
 
-                            //g_batterycell_number.Add(cell_Boxbatt);
-                            //BattaryID += 7;
+                            g_batterycell_number.Add(cell_Boxbatt);
+                            BattaryID += 7;
 
 
                             //Debug用,當有電芯號無充放電數據,這邊做修正讓其他電芯號作分析-----start-------------
                             //  if (cell_Boxbatt.Equals("MW2009A50698") || cell_Boxbatt.Equals("MW2009A50697"))
                             // if (cell_Boxbatt.Equals("MW2010A18986") || cell_Boxbatt.Equals("MW2010A18987"))
-                            
-                            if (cell_Boxbatt.Equals("") || cell_Boxbatt.Equals("MW2008A93605") ||
-                                cell_Boxbatt.Equals("MW2009A18058") ||
-                                cell_Boxbatt.Equals("MW2008A93544") ||
-                                cell_Boxbatt.Equals("MW2008A93615") ||
-                                cell_Boxbatt.Equals("MW2008A91661") ||
-                                cell_Boxbatt.Equals("MW2008A92364") ||
-                                cell_Boxbatt.Equals("MW2009A18190") ||
-                                cell_Boxbatt.Equals("MW2009A18244") ||
-                                cell_Boxbatt.Equals("MW2008A90984"))
-                            {
 
-                                Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
-                                //g_batterycell_number.Add(cell_Boxbatt);
-                                BattaryID += 7;
-                            }
-                            else
-                            {
-                                g_batterycell_number.Add(cell_Boxbatt);
-                                BattaryID += 7;
-                            }
+                            //if (cell_Boxbatt.Equals("") || cell_Boxbatt.Equals("MW2008A93605") ||
+                            //    cell_Boxbatt.Equals("MW2009A18058") ||
+                            //    cell_Boxbatt.Equals("MW2008A93544") ||
+                            //    cell_Boxbatt.Equals("MW2008A93615") ||
+                            //    cell_Boxbatt.Equals("MW2008A91661") ||
+                            //    cell_Boxbatt.Equals("MW2008A92364") ||
+                            //    cell_Boxbatt.Equals("MW2009A18190") ||
+                            //    cell_Boxbatt.Equals("MW2009A18244") ||
+                            //    cell_Boxbatt.Equals("MW2008A90984"))
+
+                            //if (cell_Boxbatt.Equals("MW2010A17850") || cell_Boxbatt.Equals("MW2010A17849"))
+                            //{
+
+                            //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
+                            //   // g_batterycell_number.Add(cell_Boxbatt);
+                            //    BattaryID += 7;
+                            //}
+                            //else
+                            //{
+                            //    g_batterycell_number.Add(cell_Boxbatt);
+                            //    BattaryID += 7;
+                            //}
                             // ------------------------end-------------------------------------------------------
 
                         }
@@ -542,19 +547,23 @@ namespace WebApplication1
                         int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
 
                         //Debug 時,Kpasslen不考慮 設定為0
-                        Kpasslen = 0;
+                       Kpasslen = 0;
 
                     //開36個insert 
                     //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
-                    for (int iFlag = 1; iFlag <= AllInsert + Kpasslen; iFlag++)                
+                    for (int iFlag = 1; iFlag <= AllInsert + Kpasslen ; iFlag++)                
                     {
                         //初始要閃過的個電芯號序號,依實際狀況做調整----debug用----- start--------
-                        //if (isOnlyValid && iFlag < Kpasslen + 2)
+                        //if (isOnlyValid && iFlag < Kpasslen + 1)
                         //{
                         //    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                        //    vComID = vComID + 12 * 7;
-                        //    vState = vState + 12 * 7;
+                        //    //vComID = vComID + 12 * 7;
+                        //    //vState = vState + 12 * 7;
                         //    //continue;
+
+                        //    vComID = vComID + 18 * 7;
+                        //    vState = vState + 18 * 7;
+                        //    // continue;
                         //}
                         //-----end--------
                         cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
@@ -645,6 +654,7 @@ namespace WebApplication1
                                                         //這邊有遇到演算異常,實際計算的count會overflow = 1,這邊透過-1 下面query才會正常,依實際狀況調整(目前遇到為V2計算量)
                                                         //if (n == 2)
                                                         //    cacula_number = cacula_number - 1;
+
                                                         cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n);
                                                     }
                                                 }
@@ -652,16 +662,16 @@ namespace WebApplication1
                                                 {
                                                     //於實際驗算的count有落差,因充放電有step步數不一致狀態,這邊予以微調降步數才能索引到實際參數值(電流)
                                                     //if (n == 4 || n == 3)
-                                                    //if (n == 4)
-                                                    //{
-                                                    //    Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
+                                                    if (n == 4)
+                                                    {
+                                                        Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
 
-                                                    //    //if (cacula_number > 5125)
-                                                    //    //    cacula_number = cacula_number - 4;
+                                                        //if (cacula_number > 5125)
+                                                        //    cacula_number = cacula_number - 4;
 
-                                                    //    //微調步數往前推移擷取
-                                                    //   // cacula_number = cacula_number - 5;
-                                                    //}
+                                                        //微調步數往前推移擷取
+                                                        // cacula_number = cacula_number - 5;
+                                                    }
 
                                                     //if (iFlag == 19 || iFlag == 20)
                                                     //    cacula_number = cacula_number - 44;
@@ -965,7 +975,18 @@ namespace WebApplication1
                                             VV4 = ToNullORVALUE_CheckString(dr_detail["V4"]);
                                         }
 
-                                       //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
+                                        //if (iFlag  == 1 || iFlag == 2)
+                                        //{
+                                        //    string modle_ID = g_batterycell_number[iFlag - 1].ToString();
+                                        //    Console.WriteLine("模組ID:" + modle_ID);
+                                        //    Console.WriteLine("VV1 =" + VV1);
+                                        //    Console.WriteLine("VV2 =" + VV2);
+                                        //    Console.WriteLine("VV3 =" + VV3);
+                                        //    Console.WriteLine("VV4 =" + VV4);
+                                        //}
+
+
+                                        //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
 
                                         //當擷取V3數值為空
                                         if (VV3=="" ||  VV3 !="0.0") {
@@ -982,11 +1003,15 @@ namespace WebApplication1
                                         }
 
                                         Vpara = "CC2";
-                                        //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
-                                        //if (divisor == 0) divisor = 0.0039M;
-                                        //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
+                                            //Decimal divisor = Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4));
+                                            //if (divisor == 0) divisor = 0.0039M;
+                                            //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
 
-                                        if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 !="0.0")
+
+
+
+                                       //  if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
+                                        if (g_Batt_Classtype[insert_num] != "?")
                                             VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
                                         else
                                             VmOhm = "0.000";
@@ -1026,7 +1051,7 @@ namespace WebApplication1
                                 string cvt_enddate = dt_end.ToString("yyyy/MM/dd tt hh:mm:ss", taiwanCulture);
                 
                                 valueSql = "VALUES ( '" + dr["fld" + vComID].ToString() + "',  '" + vStart_date + "','" + cvt_enddate + "','" + vtary_ID + "','" + vparameter + "',";
-                                valueSql = valueSql + " '" + dr["fld" + vState].ToString() + "' ,'" + (VD28 == null ? "NULL" : $"{VD28}") + "','" + (VD28 == null ? "NULL" : $"{VD28}") + "','" + (VAHD28 == null ? "NULL" : $"{VAHD28}") + "','" + (VAHD28 == null ? "NULL" : $"{VAHD28}") + "',";
+                                valueSql = valueSql + " '" + dr["fld" + vState].ToString() + "' ,'" + (VD28 == null ? "NULL" :  $"{VD28}") + "','" + (VD28 == null ? "NULL" : $"{VD28}") + "','" + (VAHD28 == null ? "NULL" : $"{VAHD28}") + "','" + (VAHD28 == null ? "NULL" : $"{VAHD28}") + "',";
                                 valueSql = valueSql + " '" + (VD32 == null ? "NULL" : $"{VD32}") + "' ,'" + (VD32 == null ? "NULL" : $"{VD32}") + "','" + (VAHD32 == null ? "NULL" : $"{VAHD32}") + "','" + (VAHD32 == null ? "NULL" : $"{VAHD32}") + "','" + (VD35 == null ? "NULL" : $"{VD35}") + "',";
                                 //valueSql = valueSql + " '" + VD35 + "' ,'" + VAHD35 + "','" + VAHD35 + "','" + Filename + "','" + vprocess + "',now()";
                                 valueSql = valueSql + " '" + (VD35 == null ? "NULL" : $"{VD35}") + "' ,'" + (VAHD35 == null ? "NULL" : $"{VAHD35}") + "','" + (VAHD35 == null ? "NULL" : $"{VAHD35}") + "','" + Filename + "','" + vprocess + "','" + displayTimeStr + "'";
@@ -1085,11 +1110,11 @@ namespace WebApplication1
                                 //    vState = vState + 21;
                                 //}
 
-                                //if (iFlag == 12)
+                                //if (iFlag == 18)
                                 //{
                                 //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                                //    vComID = vComID + 70;
-                                //    vState = vState + 70;
+                                //    vComID = vComID + 21;
+                                //    vState = vState + 21;
                                 //}
                                 //else
                                 //{
@@ -3461,6 +3486,12 @@ namespace WebApplication1
             } //end if (讀檔錯誤判斷====>)
         }
 
+        public string SqlVal_Define(string v)
+        {          
+            if (v == "") return "''";
+            return v;
+        }
+
         public void RewriteAndAppendToFile(string filePath, List<string> newLines)
         {
             // 讀取舊檔案內容
@@ -3676,6 +3707,12 @@ namespace WebApplication1
             //錯誤狀態清空重新記錄
             g_ERROR_STATUS = new List<string>();
 
+            //宣告總收集error raw data 後續insert
+            List<ErrorRaw> g_total_error_raw = new List<ErrorRaw>();
+
+            //宣告global MES 連線池
+            String g_Mes_connectpool = "" , g_remote_connect="";
+
 
             for (int i = 0; i < totalTasks; i++)
             {
@@ -3704,7 +3741,7 @@ namespace WebApplication1
 
                 //遠端remote合併 hr.test_mergepfcc MYSQL 設定
                 string connection_merge = "server=192.168.3.100;user id=root;password=Admin0331;database=mes; pooling=true;Min Pool Size=0;Max Pool Size=3000;";
-
+                g_Mes_connectpool = connection_merge;
 
                 string STR_MSSQL_ARASHTBI = string.Format("server={0};database={1};uid={2};pwd={3};Connect Timeout = 180", MS_Server, MS_Database, MS_dbuid, MS_dbpwd);
 
@@ -3723,7 +3760,7 @@ namespace WebApplication1
                 String LoadSql = "";
 
                 String dumpcsv = "";
-                String merge_sql_var = "", merge_table_rowdata = "", All_col_listname = "";                
+                String merge_sql_var = "", merge_table_rowdata = "", All_col_listname = "" ;                
                 bool iscsvexist = false;               
                 bool mannulrun = true;
                 //load 資料
@@ -4049,6 +4086,14 @@ namespace WebApplication1
                                 {
                                     g_NG_PFCC_File.Add(loadcsvFile);
                                     g_ERROR_STATUS.Add(loadcsvFile + " 搜尋電芯號全無(空)");
+
+                                    g_total_error_raw.Add(new ErrorRaw
+                                    {
+                                        NgFile = loadcsvFile,
+                                        ErrorStatus = "搜尋電芯號全無(空)",
+                                        Machine_TrayID = vtary_ID
+                                    });
+
                                     skipCurrentFile = true;  
                                     break;  // 跳出 while
                                 }
@@ -4083,7 +4128,13 @@ namespace WebApplication1
                                 if (check_ng_num == 1 && check_modlename_nodata)
                                 {
                                     g_NG_PFCC_File.Add(loadcsvFile);                                    
-                                    g_ERROR_STATUS.Add(loadcsvFile+" 搜尋電芯號全無(英文類碼無)");                                    
+                                    g_ERROR_STATUS.Add(loadcsvFile+" 搜尋電芯號全無(英文類碼無)");
+                                    g_total_error_raw.Add(new ErrorRaw
+                                    {
+                                        NgFile = loadcsvFile,
+                                        ErrorStatus = "搜尋電芯號全無(英文類碼無)",
+                                        Machine_TrayID = vtary_ID
+                                    });
                                     continue;
                                 }
                             }
@@ -4095,9 +4146,10 @@ namespace WebApplication1
                             //判定Kvalue 索引總數量
                             int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
 
+                            Kpasslen = 0;
                             //有些數據可能沒有同步K_VALUE
-                           // if (AllInsert == 36)
-                           //    Kpasslen = 0;
+                            //if (AllInsert == 36)
+                            //    Kpasslen = 0;
 
                             //開36個insert 
                             //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
@@ -4343,6 +4395,17 @@ namespace WebApplication1
                                                 VAHD35 = Convert.ToString(dr_detail["VAHD35"].ToString());
                                             }
 
+                                            // ✅ 空值檢查 (主動丟出 Exception)
+                                            if (string.IsNullOrWhiteSpace(VD28) ||
+                                                string.IsNullOrWhiteSpace(VAHD28) ||
+                                                string.IsNullOrWhiteSpace(VD32) ||
+                                                string.IsNullOrWhiteSpace(VAHD32) ||
+                                                string.IsNullOrWhiteSpace(VD35) ||
+                                                string.IsNullOrWhiteSpace(VAHD35))
+                                            {
+                                                throw new Exception("VD28~VAHD35 欄位有空值");
+                                            }
+
 
                                         }
                                         catch (FormatException ex)
@@ -4355,15 +4418,22 @@ namespace WebApplication1
                                         catch (Exception ex)
                                         {
                                             // 捕捉其他類型的錯誤
+                                            Console.WriteLine("ValueNullException: " + ex.Message);                                         
                                             check_ng_num++;
-                                            check_have_ng = true;
-                                            VD28 = VD32 = VAHD32 = VD35 = VAHD35 = "電壓值空值判定異常";
+                                            check_have_ng = true;                                           
+                                            // VD28 = VD32 = VAHD32 = VD35 = VAHD35 = "電壓值空值判定異常";
 
 
                                             if (check_ng_num == 1 && check_have_ng)
                                             {
                                                 g_NG_PFCC_File.Add(loadcsvFile);
-                                                g_ERROR_STATUS.Add(loadcsvFile + " VD28 ~VAHD35電壓值範圍偵測有空,異常");
+                                                g_ERROR_STATUS.Add(loadcsvFile + " VD28 ~VAHD35電壓值範圍偵測有空,異常");                                                
+                                                g_total_error_raw.Add(new ErrorRaw
+                                                {
+                                                    NgFile = loadcsvFile,
+                                                    ErrorStatus = "VD28 ~VAHD35電壓值範圍偵測有空,異常",
+                                                    Machine_TrayID = vtary_ID
+                                                });
                                                 continue;
                                             }
 
@@ -4513,6 +4583,12 @@ namespace WebApplication1
                                                     {
                                                         g_NG_PFCC_File.Add(loadcsvFile);
                                                         g_ERROR_STATUS.Add(loadcsvFile + $" 阻值計算失敗,有空值導致 VV3 ={VV3} VV4 ={VV4}");
+                                                        g_total_error_raw.Add(new ErrorRaw
+                                                        {
+                                                            NgFile = loadcsvFile,
+                                                            ErrorStatus = $"阻值計算失敗,有空值導致 VV3 ={VV3} VV4 ={VV4}",
+                                                            Machine_TrayID = vtary_ID
+                                                        });
                                                         continue;
                                                     }
 
@@ -4527,7 +4603,13 @@ namespace WebApplication1
                                                     if (check_ng_num == 1 && check_have_ng)
                                                     {
                                                         g_NG_PFCC_File.Add(loadcsvFile);
-                                                        g_ERROR_STATUS.Add(loadcsvFile+" V1到V4電壓值都空狀態,異常");
+                                                        g_ERROR_STATUS.Add(loadcsvFile + " V1到V4電壓值都空狀態,異常");                                                       
+                                                        g_total_error_raw.Add(new ErrorRaw
+                                                        {
+                                                            NgFile = loadcsvFile,
+                                                            ErrorStatus = "V1到V4電壓值都空狀態,異常",
+                                                            Machine_TrayID = vtary_ID
+                                                        });
                                                         continue;
                                                     }
                                                 }
@@ -4822,6 +4904,27 @@ namespace WebApplication1
                     if (ng == g_NG_PFCC_File.Count - 1)
                         LResult.Text += " 錯誤狀態寫入於error_record.txt}";
                 }
+
+
+                //將異常之PFCC原始數據(檔案名稱,異常狀態,所屬機器ID)存入異常表單--------start----
+               String All_mes_error_record_columns = $@"SELECT GROUP_CONCAT(CASE
+                       WHEN COLUMN_NAME NOT IN('id') THEN COLUMN_NAME
+                        ELSE NULL
+                        END  ORDER BY ORDINAL_POSITION) AS col_list
+                        FROM INFORMATION_SCHEMA.COLUMNS
+                        WHERE TABLE_NAME = 'productionerror_record'
+                        AND TABLE_SCHEMA = 'mes'; ";
+
+
+                //宣告最後要執行csv應用類別物件
+                ExportToCsv resultcsv_2 = new ExportToCsv();
+
+
+                if (resultcsv_2.Insert_Error_convert_Raw(g_Mes_connectpool, All_mes_error_record_columns, g_total_error_raw) == true)
+                    Console.WriteLine("存入異常表單完成!");                   
+                else
+                    Console.WriteLine("存入異常表單失敗 --冏--");
+                //---------------------------------end------------------------------------------
 
                 //將分析NG原始數據檔案放置 既定 C:\copy_temp\pf-cc-testNG
                 COPY_NG_Directionary(SourceFolder, NG_file_Path, g_NG_PFCC_File);
