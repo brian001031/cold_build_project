@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "face_identify_app"
+version = "0.1.0"
+description = "Online face clustering using 3D landmarks"
+authors = [{ name = "coldelectric_need" }]
+readme = "README.md"
+requires-python = ">=3.9"
+
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "mediapipe"
+]
+
+[tool.setuptools.packages.find]
+where = ["Face_identify_app"]
+

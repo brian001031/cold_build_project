@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+Face_identify_app/camera/__init__.py
+Face_identify_app/clustering/__init__.py
+Face_identify_app/face_identify_app.egg-info/PKG-INFO
+Face_identify_app/face_identify_app.egg-info/SOURCES.txt
+Face_identify_app/face_identify_app.egg-info/dependency_links.txt
+Face_identify_app/face_identify_app.egg-info/requires.txt
+Face_identify_app/face_identify_app.egg-info/top_level.txt
+Face_identify_app/features/__init__.py
+Face_identify_app/landmarks/__init__.py
+Face_identify_app/landmarks/extractor.py
+Face_identify_app/storage/__init__.py
+Face_identify_app/utils/__init__.py

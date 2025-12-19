@@ -495,21 +495,21 @@ namespace WebApplication1
                             //  if (cell_Boxbatt.Equals("MW2009A50698") || cell_Boxbatt.Equals("MW2009A50697"))
                             // if (cell_Boxbatt.Equals("MW2010A18986") || cell_Boxbatt.Equals("MW2010A18987"))
 
-                            //if (cell_Boxbatt.Equals("") || cell_Boxbatt.Equals("MW2008A93605") ||
-                            //    cell_Boxbatt.Equals("MW2009A18058") ||
-                            //    cell_Boxbatt.Equals("MW2008A93544") ||
-                            //    cell_Boxbatt.Equals("MW2008A93615") ||
-                            //    cell_Boxbatt.Equals("MW2008A91661") ||
-                            //    cell_Boxbatt.Equals("MW2008A92364") ||
-                            //    cell_Boxbatt.Equals("MW2009A18190") ||
-                            //    cell_Boxbatt.Equals("MW2009A18244") ||
-                            //    cell_Boxbatt.Equals("MW2008A90984"))
-
-                            //if (cell_Boxbatt.Equals("MW2010A17850") || cell_Boxbatt.Equals("MW2010A17849"))
+                            //if(cell_Boxbatt.Equals("MW2010A52709") ||
+                            //    cell_Boxbatt.Equals("MW2011A87235") ||                                
+                            //    cell_Boxbatt.Equals("MW2011A87237") ||
+                            //    cell_Boxbatt.Equals("MW2011A87238") ||
+                            //    cell_Boxbatt.Equals("MW2011A87239") ||
+                            //    cell_Boxbatt.Equals("MW2011A87241") ||
+                            //    cell_Boxbatt.Equals("MW2011A87244") ||
+                            //    cell_Boxbatt.Equals("MW2011A87251") ||
+                            //    cell_Boxbatt.Equals("MW2011A87252"))
                             //{
 
+                            //if (cell_Boxbatt.Equals("MW2027B04964") ||  cell_Boxbatt.Equals(""))
+                            //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
-                            //   // g_batterycell_number.Add(cell_Boxbatt);
+                            //    // g_batterycell_number.Add(cell_Boxbatt);
                             //    BattaryID += 7;
                             //}
                             //else
@@ -526,7 +526,8 @@ namespace WebApplication1
 
 
                         //檢視最後g_Batt_Classtype 存取狀態顯示
-                       Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype , g_Modle_CC_Kvalue));
+                       
+                        Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype , g_Modle_CC_Kvalue));
 
                         int AllInsert;
 
@@ -666,8 +667,8 @@ namespace WebApplication1
                                                     {
                                                         Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
 
-                                                        //if (cacula_number > 5125)
-                                                        //    cacula_number = cacula_number - 4;
+                                                        if (cacula_number > 5000)
+                                                            cacula_number = cacula_number - 5;
 
                                                         //微調步數往前推移擷取
                                                         // cacula_number = cacula_number - 5;
@@ -1113,8 +1114,8 @@ namespace WebApplication1
                                 //if (iFlag == 18)
                                 //{
                                 //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                                //    vComID = vComID + 21;
-                                //    vState = vState + 21;
+                                //    vComID = vComID + 7 * (1 + 1);
+                                //    vState = vState + 7 * (1 + 1);
                                 //}
                                 //else
                                 //{
