@@ -397,6 +397,11 @@ namespace WebApplication1
                             string record_errorStatus = error_rawdata[er].ErrorStatus.ToString();
                             insert_value_error += " '" + record_errorStatus + "' ,";
                         }
+                        else if (col == 17)  //在記錄時間 需要和  紀錄創建時間 第一次提交同步
+                        {                                                        
+                            insert_value_error += " now()" + ",";
+                        }
+
                         else
                         {
                             insert_value_error += " ' ',";
@@ -458,7 +463,7 @@ namespace WebApplication1
                 else
                     updatefield_error = updatefield_error + $"{columnNames_error[col]} = VALUES({columnNames_error[col]}),\n";
             }
-            insertQuery.Append(updatefield_error);
+           // insertQuery.Append(updatefield_error);
 
             Error_record_final_InsertQuery = insertQuery.ToString().Trim('{', '}');
 

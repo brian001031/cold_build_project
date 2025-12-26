@@ -654,7 +654,7 @@ namespace WebApplication1
                                                     {
                                                         //這邊有遇到演算異常,實際計算的count會overflow = 1,這邊透過-1 下面query才會正常,依實際狀況調整(目前遇到為V2計算量)
                                                         //if (n == 2)
-                                                        //    cacula_number = cacula_number - 1;
+                                                        //    cacula_number = cacula_number - 2;
 
                                                         cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n);
                                                     }
@@ -667,8 +667,8 @@ namespace WebApplication1
                                                     {
                                                         Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
 
-                                                        if (cacula_number > 5000)
-                                                            cacula_number = cacula_number - 5;
+                                                        //if (cacula_number > 5000)
+                                                        //    cacula_number = cacula_number - 5;
 
                                                         //微調步數往前推移擷取
                                                         // cacula_number = cacula_number - 5;
@@ -860,10 +860,10 @@ namespace WebApplication1
                                                     //    Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();
 
                                                     //正常INSERT                                                  
-                                                     Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();                                                   
-                                                }
-                                                else
-                                                   Get_K_Value = "";
+                                                    // Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();                                                   
+                                             }
+                                             else
+                                                  Get_K_Value = "";
                                         }
                                         else
                                              Get_K_Value = "";
@@ -1319,9 +1319,19 @@ namespace WebApplication1
         {
             //配方版本: 例如 Ver.001
             if (sVer.EndsWith("001"))
-            {
-                if (Assign_number == 0 || Assign_number == 1) return 15;
-                if (Assign_number == 8 || Assign_number == 9) return 31;
+            {               
+                if (Assign_number <= 1)
+                {
+                    //E00 重新定位 '31' ,其他00維持15
+                    if (Assign_number == 0 && char_En[0] == 'E') {
+                        return 31;
+                    }
+                    else {
+                        return 15;
+                    }                    
+                }
+                
+                if (Assign_number == 8 || Assign_number == 9) return 1;
 
                 if (char_En[0] == 'G') //G判斷
                 {
@@ -1354,11 +1364,17 @@ namespace WebApplication1
                     {
                         if (Assign_number >= 2 && Assign_number <= 6)
                         {
-                            return Assign_number / 2;
+                            //A02 重新定位 '13' ,其他維持/=2
+                            if (Assign_number == 2) {
+                                return 13;
+                            }
+                            else {
+                                return Assign_number / 2;
+                            }                            
                         }
                     }
                     else
-                    { //奇數
+                    {   //奇數
                         if (Assign_number >= 3 && Assign_number <= 7)
                         {
                             int divnum = Assign_number / 2;
