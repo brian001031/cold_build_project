@@ -279,7 +279,7 @@ namespace WebApplication1
 
             string sort_temp = "";
 
-            bool check_cc2_algorithm = false , haveTargetvoltage = true , insertNg_ack = false ;
+            bool check_cc2_algorithm = false , haveTargetvoltage = true , insertNg_ack = true;
 
              //title 列
              if (dr.HasRows)
@@ -506,7 +506,7 @@ namespace WebApplication1
                             //    cell_Boxbatt.Equals("MW2011A87252"))
                             //{
 
-                            //if (cell_Boxbatt.Equals("MW2027B04964") ||  cell_Boxbatt.Equals(""))
+                            //if (cell_Boxbatt.Equals("MW2026B00343") || cell_Boxbatt.Equals(""))
                             //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    // g_batterycell_number.Add(cell_Boxbatt);
@@ -548,11 +548,13 @@ namespace WebApplication1
                         int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
 
                         //Debug 時,Kpasslen不考慮 設定為0
-                       Kpasslen = 0;
+                         Kpasslen = 0;
+
+                        // AllInsert = 26;
 
                     //開36個insert 
                     //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
-                    for (int iFlag = 1; iFlag <= AllInsert + Kpasslen ; iFlag++)                
+                        for (int iFlag = 1; iFlag <= AllInsert + Kpasslen ; iFlag++)                
                     {
                         //初始要閃過的個電芯號序號,依實際狀況做調整----debug用----- start--------
                         //if (isOnlyValid && iFlag < Kpasslen + 1)
@@ -871,19 +873,40 @@ namespace WebApplication1
                                             break;
                                     case "010": //cc1                                     
                                         VCCcurrent = Convert.ToString(dr_detail["CCcurrent"].ToString());                                                                                       
-                                        VOCV = Convert.ToString(dr_detail["OCV"].ToString());
-                                        VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
-                                        VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
-                                        VaverageV3 = Convert.ToString(dr_detail["averageV3"].ToString());
-                                        Vcharge34V = Convert.ToString(dr_detail["charge34V"].ToString());
-                                        Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
-                                        Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
+                                        //VOCV = Convert.ToString(dr_detail["OCV"].ToString());
+                                        //VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
+                                        //VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
+                                        //VaverageV3 = Convert.ToString(dr_detail["averageV3"].ToString());
+                                        //Vcharge34V = Convert.ToString(dr_detail["charge34V"].ToString());
+                                        //Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
+                                        //Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
+                                        //不存入NG電芯
+                                        if (!insertNg_ack)
+                                        {
+                                            VOCV = Convert.ToString(dr_detail["OCV"].ToString());
+                                            VaverageV1 = Convert.ToString(dr_detail["averageV1"].ToString());
+                                            VaverageV2 = Convert.ToString(dr_detail["averageV2"].ToString());
+                                            VaverageV3 = Convert.ToString(dr_detail["averageV3"].ToString());
+                                            Vcharge34V = Convert.ToString(dr_detail["charge34V"].ToString());
+                                            Vcharge345V = Convert.ToString(dr_detail["charge345V"].ToString());
+                                            Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
+                                        }
+                                        else
+                                        {
+                                            VOCV = ToNullORVALUE_CheckString(dr_detail["OCV"]);
+                                            VaverageV1 = ToNullORVALUE_CheckString(dr_detail["averageV1"]);
+                                            VaverageV2 = ToNullORVALUE_CheckString(dr_detail["averageV2"]);
+                                            VaverageV3 = ToNullORVALUE_CheckString(dr_detail["averageV3"]);
+                                            Vcharge34V = ToNullORVALUE_CheckString(dr_detail["charge34V"]);
+                                            Vcharge345V = ToNullORVALUE_CheckString(dr_detail["charge345V"]);
+                                            Vcharge35V = ToNullORVALUE_CheckString(dr_detail["charge35V"]);
+                                        }
 
                                         //if (iFlag - 13 <= g_Modle_CC_Kvalue.Count())
-                                        if(g_Modle_CC_Kvalue.Count() != 0)
+                                        if (g_Modle_CC_Kvalue.Count() != 0)
                                         {
-                                                if (AllInsert != 0 && iFlag - 1 < g_Modle_CC_Kvalue.Count()+ Kpasslen)
+                                                if (AllInsert != 0 && iFlag - 1 < g_Modle_CC_Kvalue.Count() + Kpasslen)
                                                     Get_K_Value = g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString();
                                                 else
                                                     Get_K_Value = "";
@@ -971,8 +994,7 @@ namespace WebApplication1
                                             VV = ToNullORVALUE_CheckString(dr_detail["V"]);
                                             VV1 = ToNullORVALUE_CheckString(dr_detail["V1"]);
                                             VV2 = ToNullORVALUE_CheckString(dr_detail["V2"]);
-                                            VV3 = Convert.ToString(dr_detail["V3"].ToString());
-                                            //VV4 = Convert.ToString(dr_detail["V4"].ToString());
+                                            VV3 = Convert.ToString(dr_detail["V3"].ToString());                                            
                                             VV4 = ToNullORVALUE_CheckString(dr_detail["V4"]);
                                         }
 
@@ -1008,15 +1030,12 @@ namespace WebApplication1
                                             //if (divisor == 0) divisor = 0.0039M;
                                             //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
 
-
-
-
-                                       //  if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
-                                        if (g_Batt_Classtype[insert_num] != "?")
-                                            VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
-                                        else
-                                            VmOhm = "0.000";
-                                        break;
+                                    // if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
+                                       if (g_Batt_Classtype[insert_num] != "?")
+                                          VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
+                                       else
+                                          VmOhm = "0.000";
+                                       break;
 
 
 
@@ -1059,7 +1078,7 @@ namespace WebApplication1
 
                                 //select CCcurrent, OCV, averageV1, averageV2, averageV3, charge34V, charge345V, charge35V
                                 //  , time50A, v, v1, v2, v3, v4, mOhm from processcc
-                                switch (vparameter)
+                            switch (vparameter)
                             {
                                 case "023": //pf
                                     tableTitleSql = " INSERT INTO pfprocess001  ";
@@ -1111,7 +1130,7 @@ namespace WebApplication1
                                 //    vState = vState + 21;
                                 //}
 
-                                //if (iFlag == 18)
+                                //if (iFlag == 8)
                                 //{
                                 //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                                 //    vComID = vComID + 7 * (1 + 1);
@@ -1282,7 +1301,7 @@ namespace WebApplication1
         //9 > 53
         private int Assign_Cap_mAH_Type(string sCap_mAH)
         {
-            int require_mAH = 0;
+            int require_mAH = 0 , final_code_number = 1 , diff_range=0;
 
             if (!string.IsNullOrEmpty(sCap_mAH))
             {
@@ -1296,19 +1315,50 @@ namespace WebApplication1
                 Console.WriteLine("sCap_mAH 是空字串或 null");
             }
 
+            //初版第一次32分選辨識碼
+            //if (require_mAH < 42) return 0;
+            //else if (require_mAH >= 42 && require_mAH < 45) return 1;
+            //else if (require_mAH >= 45 && require_mAH < 46) return 2;
+            //else if (require_mAH >= 46 && require_mAH < 47) return 3;
+            //else if (require_mAH >= 47 && require_mAH < 48) return 4;
+            //else if (require_mAH >= 48 && require_mAH < 49) return 5;
+            //else if (require_mAH >= 49 && require_mAH < 50) return 6;
+            //else if (require_mAH >= 50 && require_mAH < 51) return 7;
+            //else if (require_mAH >= 51 && require_mAH < 53) return 8;
+            //else if (require_mAH >= 53) return 9;
+            //return 0;
 
-            if (require_mAH < 42) return 0;
-            else if (require_mAH >= 42 && require_mAH < 45) return 1;
-            else if (require_mAH >= 45 && require_mAH < 46) return 2;
-            else if (require_mAH >= 46 && require_mAH < 47) return 3;
-            else if (require_mAH >= 47 && require_mAH < 48) return 4;
-            else if (require_mAH >= 48 && require_mAH < 49) return 5;
-            else if (require_mAH >= 49 && require_mAH < 50) return 6;
-            else if (require_mAH >= 50 && require_mAH < 51) return 7;
-            else if (require_mAH >= 51 && require_mAH < 53) return 8;
-            else if (require_mAH >= 53) return 9;
+            // 第一次32分選辨識碼 (區分低電容量 50000 mAH含以下 , 高電容量 以上)
+            if (require_mAH < 25)
+            {
+                return 1;
+            } //1.級距為 5000mAH = 5c ,  5 <= grade_span_Quo < 9
+            else if (require_mAH >= 25 && require_mAH < 45)
+            {
+                int grade_span_Quo = (int)require_mAH / 5;
+                int grade_span_Div = (int)require_mAH % 5;
+                diff_range = grade_span_Quo - 5;
 
-            return 0;
+                final_code_number += 1; //初始為2             
+
+            } //2.級距為 1000mAH = 1c 
+            else if (require_mAH >= 45 && require_mAH < 64)
+            {
+                final_code_number += 5; //初始為6
+                diff_range = require_mAH - 45;
+            }
+
+            //初始化回傳位置
+            if (diff_range == 0)
+                return final_code_number;
+
+            //級距計算累加
+            while (diff_range != 0)
+            {
+                final_code_number += 1;
+                diff_range--;
+            }
+            return final_code_number; //若都找無結果預設1 最低容量, 或是經過計算的位置
         }
 
         // 判斷邏輯	00	優先去15
@@ -1452,7 +1502,7 @@ namespace WebApplication1
                 }
                 else //當搜尋到未知的符號,目前若電芯號碼串接無資訊回傳,預設 char_En[0] -> '?'
                 {
-                    return 0;
+                    return 32;
                 }
 
             }
@@ -1461,7 +1511,7 @@ namespace WebApplication1
 
             }
 
-            return 0;
+            return 32;
         }
 
         private int calculate_insert_currentNumber(List<string> all_battery_class,String pfcc_param) 

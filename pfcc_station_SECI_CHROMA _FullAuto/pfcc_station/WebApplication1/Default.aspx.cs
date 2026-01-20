@@ -1176,7 +1176,7 @@ namespace WebApplication1
         //9 > 53
         private int Assign_Cap_mAH_Type(string sCap_mAH)
         {
-            int require_mAH = 0;
+            int require_mAH = 0, final_code_number = 1, diff_range = 0;
 
             if (!string.IsNullOrEmpty(sCap_mAH))
             {
@@ -1190,19 +1190,50 @@ namespace WebApplication1
                 Console.WriteLine("sCap_mAH 是空字串或 null");
             }
 
+            //初版第一次32分選辨識碼
+            //if (require_mAH < 42) return 0;
+            //else if (require_mAH >= 42 && require_mAH < 45) return 1;
+            //else if (require_mAH >= 45 && require_mAH < 46) return 2;
+            //else if (require_mAH >= 46 && require_mAH < 47) return 3;
+            //else if (require_mAH >= 47 && require_mAH < 48) return 4;
+            //else if (require_mAH >= 48 && require_mAH < 49) return 5;
+            //else if (require_mAH >= 49 && require_mAH < 50) return 6;
+            //else if (require_mAH >= 50 && require_mAH < 51) return 7;
+            //else if (require_mAH >= 51 && require_mAH < 53) return 8;
+            //else if (require_mAH >= 53) return 9;
+            //return 0;
 
-            if (require_mAH < 42) return 0;
-            else if (require_mAH >= 42 && require_mAH < 45) return 1;
-            else if (require_mAH >= 45 && require_mAH < 46) return 2;
-            else if (require_mAH >= 46 && require_mAH < 47) return 3;
-            else if (require_mAH >= 47 && require_mAH < 48) return 4;
-            else if (require_mAH >= 48 && require_mAH < 49) return 5;
-            else if (require_mAH >= 49 && require_mAH < 50) return 6;
-            else if (require_mAH >= 50 && require_mAH < 51) return 7;
-            else if (require_mAH >= 51 && require_mAH < 53) return 8;
-            else if (require_mAH >= 53) return 9;
+            // 第一次32分選辨識碼 (區分低電容量 50000 mAH含以下 , 高電容量 以上)
+            if (require_mAH < 25)
+            {
+                return 1;
+            } //1.級距為 5000mAH = 5c ,  5 <= grade_span_Quo < 9
+            else if (require_mAH >= 25 && require_mAH < 45)
+            {
+                int grade_span_Quo = (int)require_mAH / 5;
+                int grade_span_Div = (int)require_mAH % 5;
+                diff_range = grade_span_Quo - 5;
 
-            return 0;
+                final_code_number += 1; //初始為2             
+
+            } //2.級距為 1000mAH = 1c 
+            else if (require_mAH >= 45 && require_mAH < 64)
+            {
+                final_code_number += 5; //初始為6
+                diff_range = require_mAH - 45;
+            }
+
+            //初始化回傳位置
+            if (diff_range == 0)
+                return final_code_number;
+
+            //級距計算累加
+            while (diff_range != 0)
+            {
+                final_code_number += 1;
+                diff_range--;
+            }
+            return final_code_number; //若都找無結果預設1 最低容量, 或是經過計算的位置
         }
 
         // 判斷邏輯	00	優先去15
@@ -1214,8 +1245,20 @@ namespace WebApplication1
             //配方版本: 例如 Ver.001
             if (sVer.EndsWith("001"))
             {
-                if (Assign_number == 0 || Assign_number == 1) return 15;
-                if (Assign_number == 8 || Assign_number == 9) return 31;
+                if (Assign_number <= 1)
+                {
+                    //E00 重新定位 '31' ,其他00維持15
+                    if (Assign_number == 0 && char_En[0] == 'E')
+                    {
+                        return 31;
+                    }
+                    else
+                    {
+                        return 15;
+                    }
+                }
+
+                if (Assign_number == 8 || Assign_number == 9) return 1;
 
                 if (char_En[0] == 'G') //G判斷
                 {
@@ -1248,7 +1291,15 @@ namespace WebApplication1
                     {
                         if (Assign_number >= 2 && Assign_number <= 6)
                         {
-                            return Assign_number / 2;
+                            //A02 重新定位 '13' ,其他維持/=2
+                            if (Assign_number == 2)
+                            {
+                                return 13;
+                            }
+                            else
+                            {
+                                return Assign_number / 2;
+                            }
                         }
                     }
                     else
@@ -1330,7 +1381,7 @@ namespace WebApplication1
                 }
                 else //當搜尋到未知的符號,目前若電芯號碼串接無資訊回傳,預設 char_En[0] -> '?'
                 {
-                    return 0;
+                    return 32;
                 }
 
             }
@@ -1339,7 +1390,7 @@ namespace WebApplication1
 
             }
 
-            return 0;
+            return 32;
         }
 
         private int calculate_insert_currentNumber(List<string> all_battery_class, String pfcc_param)
