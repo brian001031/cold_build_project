@@ -72,6 +72,8 @@ namespace WebApplication1
         string flagValue = string.Empty;
 
 
+        // 紀錄沒有K值的索引
+        List<int> g_K_serial_NohaveIndexes;
 
         protected void Page_Load(object sender, EventArgs e)
         {            
@@ -1396,6 +1398,7 @@ namespace WebApplication1
         private int calculate_insert_currentNumber(List<string> all_battery_class, String pfcc_param)
         {
             int count = 0;
+            g_K_serial_NohaveIndexes = new List<int>();
             if (all_battery_class.Count == 0)
                 count = all_battery_class.Count;
             else
@@ -1405,8 +1408,14 @@ namespace WebApplication1
                     //if (all_battery_class[modle] != "?")
                     //    count++;
                     // CC2需要sync 有電芯K值數據才有意義,CC1目前不需要,以下做區分
-                    if (pfcc_param.StartsWith("017") && all_battery_class[modle] != "?" || pfcc_param.StartsWith("010"))
+                    if (pfcc_param.StartsWith("017") && all_battery_class[modle] != "" || pfcc_param.StartsWith("010"))
                         count++;
+
+                    if (all_battery_class[modle] == "?")
+                    {
+                        //存取無K值索引位置
+                        // g_K_serial_NohaveIndexes.Add(modle);
+                    }
                 }
             }
 
@@ -4419,7 +4428,22 @@ namespace WebApplication1
 
                                                 insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - Kpasslen - 1] : insert_num;
 
-                                                Get_K_Value = isOnlyValid ? g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString() : g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                                try
+                                                {
+                                                    Get_K_Value = isOnlyValid ? g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString() : g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    // 捕捉的錯誤(K值沒有mapping)
+                                                    check_ng_num++;
+                                                    check_modlename_nodata = true;
+                                                    if (check_ng_num == 1 && check_modlename_nodata)
+                                                    {
+                                                        g_NG_PFCC_File.Add(loadcsvFile);
+                                                        g_ERROR_STATUS.Add(loadcsvFile + " 搜尋電芯號全無(英文類碼無)");                                                        
+                                                        continue;
+                                                    }
+                                                }
 
                                                 CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 

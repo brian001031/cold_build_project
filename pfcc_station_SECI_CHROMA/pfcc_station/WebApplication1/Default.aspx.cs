@@ -2,18 +2,15 @@
 using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using MySql.Data.MySqlClient;
 using System.Data;
 using System.Text;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Diagnostics;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace WebApplication1
 {
@@ -69,7 +66,13 @@ namespace WebApplication1
         //配方版本
         string sVer = string.Empty;
 
-       
+
+        // 紀錄沒有K值的索引
+        List<int> g_K_serial_NohaveIndexes;
+
+        // 紀錄已經搜尋過的索引
+        HashSet<int> g_searcheno_Kclass ;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -506,7 +509,7 @@ namespace WebApplication1
                             //    cell_Boxbatt.Equals("MW2011A87252"))
                             //{
 
-                            //if (cell_Boxbatt.Equals("MW2026B00343") || cell_Boxbatt.Equals(""))
+                            //if (cell_Boxbatt.Equals("MW2026B00283") || cell_Boxbatt.Equals("MW2026B00289"))
                             //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    // g_batterycell_number.Add(cell_Boxbatt);
@@ -526,7 +529,6 @@ namespace WebApplication1
 
 
                         //檢視最後g_Batt_Classtype 存取狀態顯示
-                       
                         Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype , g_Modle_CC_Kvalue));
 
                         int AllInsert;
@@ -540,7 +542,13 @@ namespace WebApplication1
                             //AllInsert = g_Modle_CC_Kvalue.Count();
                             AllInsert = 36;
                         }
-                           
+                        
+
+                        Console.WriteLine("電芯無K值英文序號 索引位置 = " +  g_K_serial_NohaveIndexes);
+
+                        if (g_K_serial_NohaveIndexes.Count() != 0)
+                            g_searcheno_Kclass = new HashSet<int>();
+
                         //判定是否為整個tray 等同36
                         bool isOnlyValid = (AllInsert != 36);
 
@@ -548,25 +556,28 @@ namespace WebApplication1
                         int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
 
                         //Debug 時,Kpasslen不考慮 設定為0
-                         Kpasslen = 0;
+                        Kpasslen = 0;
 
                         // AllInsert = 26;
 
-                    //開36個insert 
-                    //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
+                        int add_count = 0; // 14 -1
+                        
+
+                        //開36個insert 
+                        //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
                         for (int iFlag = 1; iFlag <= AllInsert + Kpasslen ; iFlag++)                
                     {
                         //初始要閃過的個電芯號序號,依實際狀況做調整----debug用----- start--------
-                        //if (isOnlyValid && iFlag < Kpasslen + 1)
+                        //if (isOnlyValid && iFlag < Kpasslen )
                         //{
                         //    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                         //    //vComID = vComID + 12 * 7;
                         //    //vState = vState + 12 * 7;
                         //    //continue;
 
-                        //    vComID = vComID + 18 * 7;
-                        //    vState = vState + 18 * 7;
-                        //    // continue;
+                        //    vComID = vComID + 1 * 7;
+                        //    vState = vState + 1 * 7;
+                        //    continue;
                         //}
                         //-----end--------
                         cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
@@ -656,7 +667,11 @@ namespace WebApplication1
                                                     {
                                                         //這邊有遇到演算異常,實際計算的count會overflow = 1,這邊透過-1 下面query才會正常,依實際狀況調整(目前遇到為V2計算量)
                                                         //if (n == 2)
+                                                        //{
+                                                        //    Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
                                                         //    cacula_number = cacula_number - 2;
+                                                        //}
+
 
                                                         cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n);
                                                     }
@@ -673,7 +688,7 @@ namespace WebApplication1
                                                         //    cacula_number = cacula_number - 5;
 
                                                         //微調步數往前推移擷取
-                                                        // cacula_number = cacula_number - 5;
+                                                         cacula_number = cacula_number - 5;
                                                     }
 
                                                     //if (iFlag == 19 || iFlag == 20)
@@ -912,8 +927,8 @@ namespace WebApplication1
                                                     Get_K_Value = "";
                                         }
 
-                                        //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
-                                        if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
+                                        //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值                           
+                                        if (VCCcurrent.ToString() == "" || string.IsNullOrEmpty(VaverageV1) || string.IsNullOrEmpty(VaverageV3))
                                         {
                                             VCCcurrent = VaverageV1 = VaverageV3 = "0.0";
                                         }
@@ -930,6 +945,7 @@ namespace WebApplication1
 
                                         break;
                                     case "017":  //cc2 or cc2-2 or cc2-chroma2
+                                        bool check_K_nohave = false;
 
                                         if (!haveTargetvoltage)
                                         {
@@ -962,10 +978,71 @@ namespace WebApplication1
                                         }
                                        
                                         int cap_type = Assign_Cap_mAH_Type(VAHD35);
+                                        
+                                        insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - Kpasslen -1 ] : insert_num;
 
-                                        insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag- Kpasslen - 1] : insert_num;
+                                        //若遇到K值無英文代碼目前做法是忽略,其餘照舊判斷
+                                        //if ( iFlag >= 14 && iFlag <= 16)
+                                        //{
+                                        //    Get_K_Value = "";
+                                        //}                                           
+                                        //else
+                                        //{
+                                        //        string check_kval = "";
+                                        //        //if (iFlag >= 8 && iFlag <= 19)
+                                        //        //{
+                                        //        //     check_kval = g_Modle_CC_Kvalue[iFlag- 8].ToString();
 
-                                        Get_K_Value = isOnlyValid? g_Modle_CC_Kvalue[iFlag- Kpasslen - 1].ToString(): g_Modle_CC_Kvalue[iFlag  - 1].ToString();
+                                        //        //} else if (iFlag >=25 ) {
+                                        //        //    add_count++;
+                                        //        //    check_kval = g_Modle_CC_Kvalue[add_count].ToString();
+                                        //        //}
+
+                                        //        if (iFlag < 14 )
+                                        //        {
+                                        //            check_kval = g_Modle_CC_Kvalue[iFlag -1].ToString();
+
+                                        //        }
+                                        //        else if (iFlag >=17)
+                                        //        {
+                                        //            add_count++;
+                                        //            check_kval = g_Modle_CC_Kvalue[add_count].ToString();
+                                        //        }
+
+                                        //        Get_K_Value = check_kval;
+                                        //        Console.WriteLine("check_kval:" + Get_K_Value);
+                                        //        //Get_K_Value = isOnlyValid ? g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString() : g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                        //}
+
+                                        //有K值找無NotFind狀況已下判斷                                    
+                                        for (int idx = 0; idx < g_K_serial_NohaveIndexes.Count(); idx++) {
+
+                                            // 跳過已經搜尋過無K英文別名稱的索引位置
+                                            if (g_searcheno_Kclass.Contains(g_K_serial_NohaveIndexes[idx]))
+                                            {
+                                                continue;
+                                            }
+
+                                            //當有符合序號(未找到K 序號),0要額外再加判斷
+                                            if (iFlag-1  == g_K_serial_NohaveIndexes[idx] ) {
+                                                // 記錄已經搜尋過的
+                                                g_searcheno_Kclass.Add(g_K_serial_NohaveIndexes[idx]);
+                                                Get_K_Value = "";
+                                                add_count++;
+                                                check_K_nohave = true;
+                                                break;
+                                            }
+                                        }
+                                            
+                                        //當狀態為其他有序號
+                                        if (g_K_serial_NohaveIndexes.Count() != 0 && !check_K_nohave) {                                                
+                                                Get_K_Value = g_Modle_CC_Kvalue[iFlag- add_count-1].ToString();
+                                        }
+
+                                       //正常36顆電芯走下方     
+                                        if (g_K_serial_NohaveIndexes.Count() == 0) {                                                                                 
+                                            Get_K_Value = isOnlyValid ? g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString() : g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                        }
 
                                         CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
@@ -998,21 +1075,21 @@ namespace WebApplication1
                                             VV4 = ToNullORVALUE_CheckString(dr_detail["V4"]);
                                         }
 
-                                        //if (iFlag  == 1 || iFlag == 2)
-                                        //{
-                                        //    string modle_ID = g_batterycell_number[iFlag - 1].ToString();
-                                        //    Console.WriteLine("模組ID:" + modle_ID);
-                                        //    Console.WriteLine("VV1 =" + VV1);
-                                        //    Console.WriteLine("VV2 =" + VV2);
-                                        //    Console.WriteLine("VV3 =" + VV3);
-                                        //    Console.WriteLine("VV4 =" + VV4);
-                                        //}
+                                            if (iFlag == 28 || iFlag == 29 || iFlag == 27 || iFlag == 25  || iFlag == 30 || iFlag == 31 || iFlag == 34)
+                                            {
+                                                string modle_ID = g_batterycell_number[iFlag - 1].ToString();
+                                                Console.WriteLine("模組ID:" + modle_ID);
+                                                Console.WriteLine("VV1 =" + VV1);
+                                                Console.WriteLine("VV2 =" + VV2);
+                                                Console.WriteLine("VV3 =" + VV3);
+                                                Console.WriteLine("VV4 =" + VV4);
+                                            }
 
 
-                                        //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
+                                            //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
 
-                                        //當擷取V3數值為空
-                                        if (VV3=="" ||  VV3 !="0.0") {
+                                            //當擷取V3數值為空
+                                            if (VV3=="" ||  VV3 !="0.0") {
                                                 VV3 = "0.0";
                                         }
 
@@ -1030,12 +1107,12 @@ namespace WebApplication1
                                             //if (divisor == 0) divisor = 0.0039M;
                                             //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
 
-                                    // if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
-                                       if (g_Batt_Classtype[insert_num] != "?")
+                                     if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
+                                   //    if (g_Batt_Classtype[insert_num] != "?")
                                           VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
-                                       else
+                                     else
                                           VmOhm = "0.000";
-                                       break;
+                                     break;
 
 
 
@@ -1130,7 +1207,7 @@ namespace WebApplication1
                                 //    vState = vState + 21;
                                 //}
 
-                                //if (iFlag == 8)
+                                //if (iFlag == 25 || iFlag == 28)
                                 //{
                                 //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
                                 //    vComID = vComID + 7 * (1 + 1);
@@ -1141,6 +1218,17 @@ namespace WebApplication1
                                 //    vComID = vComID + 7;
                                 //    vState = vState + 7;
                                 //}
+
+                                //int vComID = 8; //comid 如MW2005A53693 第一筆H 欄+7 為第二組 Ch1_V(V)
+                                //int vState = 14; //N 欄 如 ok: Ch1_Remark
+                                //if (vComID >= 264 || vState >=264) 
+                                //{
+                                //    string modle_ID = g_batterycell_number[iFlag - 1].ToString();
+                                //    Console.WriteLine("模組ID:" + modle_ID);                       
+                                //    Console.WriteLine($" iFlag為{iFlag}項:,  第vComID:{vComID}個:欄位 , 第vState:{vState}筆");
+                                //    break;
+                                //}
+
 
                                 insert_num++;
 
@@ -1515,8 +1603,9 @@ namespace WebApplication1
         }
 
         private int calculate_insert_currentNumber(List<string> all_battery_class,String pfcc_param) 
-        {
+        {            
             int count = 0;
+            g_K_serial_NohaveIndexes = new List<int>();
             if (all_battery_class.Count == 0)
                 count = all_battery_class.Count;
             else
@@ -1524,8 +1613,14 @@ namespace WebApplication1
                 for (int modle = 0; modle < all_battery_class.Count; modle++)
                 {
                     // CC2需要sync 有電芯K值數據才有意義,CC1目前不需要,以下做區分
-                    if (pfcc_param.StartsWith("017") && all_battery_class[modle] != "?" || pfcc_param.StartsWith("010") )
-                        count++;                    
+                    if (pfcc_param.StartsWith("017") && all_battery_class[modle] != "" || pfcc_param.StartsWith("010"))
+                        count++;
+
+                    if (all_battery_class[modle] == "?") { 
+                        //存取無K值索引位置
+                        g_K_serial_NohaveIndexes.Add(modle);
+                    }
+
                 }
             }
 
@@ -1703,7 +1798,7 @@ namespace WebApplication1
                 else if (number >= 1 && number < 36) //查沒有36組, 36組以內 
                 {                    
                     g_OnlyExist_ModleID_Number = new List<int>();
-                    g_Modle_CC_Kvalue = new List<string>();
+                    g_Modle_CC_Kvalue = new List<string>();                    
                     //紀錄當前modle 在all_batterycell搜尋列的index 位置
                     for (int find = 0; find < actual_find_model.Count; find++)
                     {
@@ -1742,13 +1837,11 @@ namespace WebApplication1
                             //當classtype 尚未產生,預設 ?
                             if (matchingResult.Item2.ToString() == "")
                             {
-                                g_Batt_Classtype[run] = "?";
-                              
+                                g_Batt_Classtype[run] = "?";                            
                             }
                             else
                             {
-                                g_Batt_Classtype[run] = matchingResult.Item2.ToString();
-                              
+                                g_Batt_Classtype[run] = matchingResult.Item2.ToString();                              
                             }
 
                             // 找到對應的索引
@@ -1758,7 +1851,7 @@ namespace WebApplication1
                         //沒有找到電芯號
                         if (!findBox_Batt)
                         {
-                            g_Batt_Classtype[run] = "?";                           
+                            g_Batt_Classtype[run] = "?";                     
                         }
 
                         ////實際query找到目前電芯的位置號碼
@@ -1788,11 +1881,11 @@ namespace WebApplication1
                     }
                 }
                 else //查無任何電芯號 
-                {
+                {                
                     for (int modle = 0; modle < all_batterycell.Count; modle++)
                     {
                         g_Batt_Classtype[modle] = "?";
-                        g_Modle_CC_Kvalue[modle] = "";
+                        g_Modle_CC_Kvalue[modle] = "";                 
                     }
                 }
 
@@ -3021,7 +3114,7 @@ namespace WebApplication1
 
 
                         //檢視最後g_Batt_Classtype 存取狀態顯示
-                        Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype));
+                        Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype, g_Modle_CC_Kvalue));
 
 
                         //開36個insert 
@@ -4590,9 +4683,31 @@ namespace WebApplication1
                                                 Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
                                                 int cap_type = Assign_Cap_mAH_Type(VAHD35);
-                                               
+
                                                 insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - Kpasslen - 1] : insert_num;
-                                                Get_K_Value = isOnlyValid ? g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString() : g_Modle_CC_Kvalue[iFlag - 1].ToString();
+
+                                                try
+                                                {
+                                                    Get_K_Value = isOnlyValid ? g_Modle_CC_Kvalue[iFlag - Kpasslen - 1].ToString() : g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    // 捕捉的錯誤(K值沒有mapping)
+                                                    check_ng_num++;
+                                                    check_modlename_nodata = true;                                                    
+                                                    if (check_ng_num ==1  && check_modlename_nodata)
+                                                    {
+                                                        g_NG_PFCC_File.Add(loadcsvFile);
+                                                        g_ERROR_STATUS.Add(loadcsvFile + " 搜尋電芯號全無(英文類碼無)");
+                                                        g_total_error_raw.Add(new ErrorRaw
+                                                        {
+                                                            NgFile = loadcsvFile,
+                                                            ErrorStatus = "搜尋電芯號全無(英文類碼無)",
+                                                            Machine_TrayID = vtary_ID
+                                                        });
+                                                        continue;
+                                                    }                                                   
+                                                }
 
                                                 CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
