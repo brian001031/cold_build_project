@@ -282,7 +282,7 @@ namespace WebApplication1
 
             string sort_temp = "";
 
-            bool check_cc2_algorithm = false , haveTargetvoltage = true , insertNg_ack = true;
+            bool check_cc2_algorithm = false , haveTargetvoltage = true , insertNg_ack = false;
 
              //title 列
              if (dr.HasRows)
@@ -529,7 +529,7 @@ namespace WebApplication1
 
 
                         //檢視最後g_Batt_Classtype 存取狀態顯示
-                        Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype , g_Modle_CC_Kvalue));
+                       Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype , g_Modle_CC_Kvalue));
 
                         int AllInsert;
 
@@ -539,15 +539,19 @@ namespace WebApplication1
                             AllInsert = calculate_insert_currentNumber(g_Batt_Classtype, vparameter);
                         }
                         else {
-                            //AllInsert = g_Modle_CC_Kvalue.Count();
+                            //AllInsert = g_Modle_CC_Kvalue.Count();                          
                             AllInsert = 36;
                         }
                         
 
                         Console.WriteLine("電芯無K值英文序號 索引位置 = " +  g_K_serial_NohaveIndexes);
 
-                        if (g_K_serial_NohaveIndexes.Count() != 0)
-                            g_searcheno_Kclass = new HashSet<int>();
+                        if (vparameter != "023")
+                        {
+                            if (g_K_serial_NohaveIndexes.Count() != 0)
+                                g_searcheno_Kclass = new HashSet<int>();
+                        }
+                       
 
                         //判定是否為整個tray 等同36
                         bool isOnlyValid = (AllInsert != 36);
@@ -1107,8 +1111,8 @@ namespace WebApplication1
                                             //if (divisor == 0) divisor = 0.0039M;
                                             //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
 
-                                     if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
-                                   //    if (g_Batt_Classtype[insert_num] != "?")
+                                    //  if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
+                                     if (g_Batt_Classtype[insert_num] != "?")
                                           VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
                                      else
                                           VmOhm = "0.000";
@@ -1368,7 +1372,7 @@ namespace WebApplication1
 
                 //透過C:\\copy_pfcc_result.bat 將產出pf cc1 cc2 等數據csv 回存到 網路工作磁碟(ex:\\192.168.3.100\pfcc_result)
                 // PFCC_result_SaveExecuteBatFile();
-                EXEC_Save_PFCCbat();
+               // EXEC_Save_PFCCbat();
 
 
             } //end if (讀檔錯誤判斷====>)

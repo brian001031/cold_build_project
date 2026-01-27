@@ -4343,8 +4343,8 @@ namespace WebApplication1
                                             case "023": //pf
                                                 //  if (g_Modle_CC_Kvalue.Count() != 0)
                                                 {
-                                                    if (AllInsert == 36)
-                                                        Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString();
+                                                    if (AllInsert == 36 && g_Modle_CC_Kvalue.Count != 0 && iFlag <= g_Modle_CC_Kvalue.Count)
+                                                        Get_K_Value = g_Modle_CC_Kvalue[iFlag - 1].ToString() ?? "";
                                                     else
                                                         Get_K_Value = "";
                                                 }
