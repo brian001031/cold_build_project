@@ -282,7 +282,7 @@ namespace WebApplication1
 
             string sort_temp = "";
 
-            bool check_cc2_algorithm = false , haveTargetvoltage = true , insertNg_ack = false;
+            bool check_cc2_algorithm = false , haveTargetvoltage = true , insertNg_ack = true;
 
              //title 列
              if (dr.HasRows)
@@ -510,6 +510,7 @@ namespace WebApplication1
                             //{
 
                             //if (cell_Boxbatt.Equals("MW2026B00283") || cell_Boxbatt.Equals("MW2026B00289"))
+                            //if (cell_Boxbatt.Equals(""))
                             //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
                             //    // g_batterycell_number.Add(cell_Boxbatt);
@@ -1079,15 +1080,15 @@ namespace WebApplication1
                                             VV4 = ToNullORVALUE_CheckString(dr_detail["V4"]);
                                         }
 
-                                            if (iFlag == 28 || iFlag == 29 || iFlag == 27 || iFlag == 25  || iFlag == 30 || iFlag == 31 || iFlag == 34)
-                                            {
-                                                string modle_ID = g_batterycell_number[iFlag - 1].ToString();
-                                                Console.WriteLine("模組ID:" + modle_ID);
-                                                Console.WriteLine("VV1 =" + VV1);
-                                                Console.WriteLine("VV2 =" + VV2);
-                                                Console.WriteLine("VV3 =" + VV3);
-                                                Console.WriteLine("VV4 =" + VV4);
-                                            }
+                                            //if (iFlag == 28 || iFlag == 29 || iFlag == 27 || iFlag == 25  || iFlag == 30 || iFlag == 31 || iFlag == 34)
+                                            //{
+                                            //    string modle_ID = g_batterycell_number[iFlag - 1].ToString();
+                                            //    Console.WriteLine("模組ID:" + modle_ID);
+                                            //    Console.WriteLine("VV1 =" + VV1);
+                                            //    Console.WriteLine("VV2 =" + VV2);
+                                            //    Console.WriteLine("VV3 =" + VV3);
+                                            //    Console.WriteLine("VV4 =" + VV4);
+                                            //}
 
 
                                             //=ABS(KD14-KE14)/ABS(KF14-KG14)*1000
@@ -1111,8 +1112,8 @@ namespace WebApplication1
                                             //if (divisor == 0) divisor = 0.0039M;
                                             //VmOhm = Convert.ToString( Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / divisor);
 
-                                    //  if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
-                                     if (g_Batt_Classtype[insert_num] != "?")
+                                     if (g_Batt_Classtype[insert_num] !="?" && VV4 != null && VV4 != "0.0")
+                                   //  if (g_Batt_Classtype[insert_num] != "?")
                                           VmOhm = Convert.ToString(Math.Abs(Convert.ToDecimal(VV1) - Convert.ToDecimal(VV2)) / Math.Abs(Convert.ToDecimal(VV3) - Convert.ToDecimal(VV4)));
                                      else
                                           VmOhm = "0.000";
@@ -1211,11 +1212,11 @@ namespace WebApplication1
                                 //    vState = vState + 21;
                                 //}
 
-                                //if (iFlag == 25 || iFlag == 28)
+                                //if (iFlag == 14)
                                 //{
                                 //    // 當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                                //    vComID = vComID + 7 * (1 + 1);
-                                //    vState = vState + 7 * (1 + 1);
+                                //    vComID = vComID + 7 * (1 + 8);
+                                //    vState = vState + 7 * (1 + 8);
                                 //}
                                 //else
                                 //{
@@ -4687,8 +4688,29 @@ namespace WebApplication1
                                                 Vcharge35V = Convert.ToString(dr_detail["charge35V"].ToString());
 
                                                 int cap_type = Assign_Cap_mAH_Type(VAHD35);
-
-                                                insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - Kpasslen - 1] : insert_num;
+                                               
+                                                try
+                                                {
+                                                    insert_num = isOnlyValid ? g_OnlyExist_ModleID_Number[iFlag - Kpasslen - 1] : insert_num;
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    // 捕捉的錯誤(索引的序號有overflow)
+                                                    check_ng_num++;
+                                                    check_modlename_nodata = true;
+                                                    if (check_ng_num == 1 && check_modlename_nodata)
+                                                    {
+                                                        g_NG_PFCC_File.Add(loadcsvFile);
+                                                        g_ERROR_STATUS.Add(loadcsvFile + " 充放電週期無完整");
+                                                        g_total_error_raw.Add(new ErrorRaw
+                                                        {
+                                                            NgFile = loadcsvFile,
+                                                            ErrorStatus = "充放電週期無完整",
+                                                            Machine_TrayID = vtary_ID
+                                                        });
+                                                        continue;
+                                                    }
+                                                }
 
                                                 try
                                                 {
