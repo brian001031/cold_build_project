@@ -526,7 +526,8 @@ namespace WebApplication1
                         }
 
                         //這邊串接HTBI_K_Value_MapperType2_V 找尋 K_Value 所判定為ClassType所屬英文代號
-                        Sync_HTBI_Merge_Classparam(STR_MSSQL_ARASHTBI, g_batterycell_number);
+                        if (vparameter != "023")
+                            Sync_HTBI_Merge_Classparam(STR_MSSQL_ARASHTBI, g_batterycell_number);
 
 
                         //檢視最後g_Batt_Classtype 存取狀態顯示
@@ -558,7 +559,7 @@ namespace WebApplication1
                         bool isOnlyValid = (AllInsert != 36);
 
                         //判定Kvalue 索引總數量
-                        int Kpasslen = 36 - g_Modle_CC_Kvalue.Count();
+                        int Kpasslen = (vparameter != "023") ?  36 - g_Modle_CC_Kvalue.Count() :0;
 
                         //Debug 時,Kpasslen不考慮 設定為0
                         Kpasslen = 0;
@@ -573,13 +574,9 @@ namespace WebApplication1
                         for (int iFlag = 1; iFlag <= AllInsert + Kpasslen ; iFlag++)                
                     {
                         //初始要閃過的個電芯號序號,依實際狀況做調整----debug用----- start--------
-                        //if (isOnlyValid && iFlag < Kpasslen )
+                        //if (isOnlyValid && iFlag < Kpasslen + 1)
                         //{
                         //    //當有要跳過的電芯號數列,這邊需要跳出次數以這邊參考,多增加跳躍7個欄位, 在依照實際跳躍的電芯號數量做判定
-                        //    //vComID = vComID + 12 * 7;
-                        //    //vState = vState + 12 * 7;
-                        //    //continue;
-
                         //    vComID = vComID + 1 * 7;
                         //    vState = vState + 1 * 7;
                         //    continue;
@@ -693,7 +690,7 @@ namespace WebApplication1
                                                         //    cacula_number = cacula_number - 5;
 
                                                         //微調步數往前推移擷取
-                                                         cacula_number = cacula_number - 5;
+                                                       //  cacula_number = cacula_number - 5;
                                                     }
 
                                                     //if (iFlag == 19 || iFlag == 20)
@@ -859,7 +856,7 @@ namespace WebApplication1
                                 switch (vparameter)
                                 {
                                     case "023": //pf
-                                        if (g_Modle_CC_Kvalue.Count() != 0)
+                                        if (g_Modle_CC_Kvalue != null &&  g_Modle_CC_Kvalue.Count() != 0)
                                         {
                                             if (AllInsert != 0 && iFlag - 1 < AllInsert )
                                             {
