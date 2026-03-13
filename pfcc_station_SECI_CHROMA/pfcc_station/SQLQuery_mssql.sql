@@ -13,6 +13,7 @@
 FROM ITFC_MES_UPLOAD_STATUS_TB
 WHERE TYPE = 4
   AND BOX_BATT <> 'NANANANANANA'
-   AND create_date >= '2026-02-10 00:00:00'
-   AND create_date < '2026-02-11 00:00:00'
+   AND create_date >= '2026-03-03 00:00:00'
+   AND create_date < '2026-03-03 12:00:00'
+
    

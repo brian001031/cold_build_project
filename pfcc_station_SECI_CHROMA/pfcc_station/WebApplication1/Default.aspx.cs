@@ -333,6 +333,10 @@ namespace WebApplication1
                             } else {
                                // for SECI 
                                 vparameter = vparameter_All.Substring(0, 3);
+
+                                //若原檔案站點旗標有異常,這邊先行轉換讓程序能run,視實際狀況
+                                //vparameter = "010";
+
                                 vparameter_chg = vparameter_All.Substring((vparameter_All.Length - 9), 4);
                                 if (vparameter_chg == "2023")
                                 {
@@ -569,9 +573,9 @@ namespace WebApplication1
                         int add_count = 0; // 14 -1
                         
 
-                        //開36個insert 
-                        //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
-                        for (int iFlag = 1; iFlag <= AllInsert + Kpasslen ; iFlag++)                
+                    //開36個insert 
+                    //當有第一開頭序號有NG,會先忽略不計,但要補償少做的數量,若閃2顆就要加回2顆                 
+                    for (int iFlag = 1; iFlag <= AllInsert + Kpasslen ; iFlag++)                
                     {
                         //初始要閃過的個電芯號序號,依實際狀況做調整----debug用----- start--------
                         //if (isOnlyValid && iFlag < Kpasslen + 1)
@@ -581,7 +585,7 @@ namespace WebApplication1
                         //    vState = vState + 1 * 7;
                         //    continue;
                         //}
-                        //-----end--------
+                          //-----end--------
                         cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                         cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                         cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
@@ -3811,7 +3815,8 @@ namespace WebApplication1
             bool copy_one = false; //false -> 複製全部 / true -> 複製單項
             bool check_have_ng = false; //確認file分析 flag ,預設false
             bool check_modlename_nodata = false; //預設電芯號都無搜尋 false
-            int check_ng_num ; //NG file 偵測電芯號 數量 ,預設為0
+            int  check_index_overflow_number ; //預設查詢電芯序號序號為正常沒有溢位,0
+            int  check_ng_num ; //NG file 偵測電芯號 數量 ,預設為0
 
             // 創建NG資料夾（如果不存在）
             if (!Directory.Exists(NG_file_Path))
@@ -3886,7 +3891,8 @@ namespace WebApplication1
                 //------增加 NG檔案 判斷-----start--------
                 check_have_ng = false;
                 check_ng_num = 0;
-                check_modlename_nodata = false;
+                check_index_overflow_number = 0;
+                check_modlename_nodata = false;                
                 //------end-------- 
 
                 LResult.Text = $"處理表單{taskId}進行中.....";
@@ -4732,11 +4738,34 @@ namespace WebApplication1
                                                     }                                                   
                                                 }
 
-                                                CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
-                                                int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);
+                                                try
+                                                {
+                                                    CC2_interpretcode = Convert.ToString(g_Batt_Classtype[insert_num]) + cap_type.ToString("D2");
 
-                                                CC2_position = Convert.ToString(check_position);
+                                                    int check_position = Determination_Type_Position(g_Batt_Classtype[insert_num], cap_type);
+
+                                                    CC2_position = Convert.ToString(check_position);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    // 捕捉的錯誤(判別碼溢位導致Crash)
+                                                    check_ng_num++;
+                                                    check_index_overflow_number++;
+                                                    check_modlename_nodata  = true;
+                                                    if ((check_ng_num == 1 && check_modlename_nodata) || check_index_overflow_number ==1)
+                                                    {
+                                                        g_NG_PFCC_File.Add(loadcsvFile);
+                                                        g_ERROR_STATUS.Add(loadcsvFile + " 判別碼序號讀取超出範圍 ");
+                                                        g_total_error_raw.Add(new ErrorRaw
+                                                        {
+                                                            NgFile = loadcsvFile,
+                                                            ErrorStatus = "判別碼序號讀取超出範圍",
+                                                            Machine_TrayID = vtary_ID
+                                                        });
+                                                        continue;
+                                                    }
+                                                }
 
                                                 //目前CHROMA 數據有問題  CHX_I(A) 都是負值,條件式需要大於10 , Current 目前因 Reached Target voltage無故無法收驗找到相對應值
                                                 if (VCCcurrent.ToString() == "" || VaverageV1.ToString() == "" || VaverageV3.ToString() == "")
