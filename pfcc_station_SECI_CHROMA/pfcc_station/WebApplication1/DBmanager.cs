@@ -5,7 +5,6 @@ namespace WebApplication1
 {
     public class DBmanager
     {
-
         public String Data
         {
             get

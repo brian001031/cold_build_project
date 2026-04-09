@@ -1,0 +1,176 @@
+.quantify_data_graph {
+
+  padding-top: "100px";
+  .header {
+    text-align: "center";
+    margin-bottom: "16px";
+    // fieldset {
+    //   border: 1px solid #7ed381;
+    //   border-radius: 4px;
+    //   padding: 10px;
+    //   legend {
+    //     font-size: 1.2em;
+    //     font-weight: bold;
+    //     margin-bottom: 10px;
+    //   }
+    // }
+  }
+
+    .button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 22px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #afd3b4;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    transform: translate(50%, -7%);
+    transition: transform 0.1s, box-shadow 0.2s;
+  }
+
+  .button:hover {
+    background-color: #3e8e41;
+  }
+
+  .button:active {
+   // background-color: #3e8e41;
+    box-shadow: 0 5px #d8acac;    
+    transform: translate(55%, -3%);
+  }
+
+  .title_name_header{
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    font-Size:5em;
+    padding-Top:25px
+  }
+
+  /* Main Layout */
+  .main_layout{
+    display: flex;
+    flex: 1;
+    overflow: hidden; /* prevent overall scroll */
+  }
+
+
+  .serial_label_setting {
+    border: 13px solid #8df7c4;
+    font: 36px Tahoma, cursive;
+    display: inline-flex;
+    line-height: 2.5;
+    height: 5%;
+    padding: 0px 20px;
+    width: 20%;
+    //text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+   /* Left filter panel */
+  .filter-panel {
+    width: 700px;
+    border-right: 10px solid #08278f;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Right chart panel */
+  .chart-panel {
+    flex: 1;
+    padding: 30px;
+    // max-height: 5em;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  /* Chart container fills panel */
+  .chart-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .serialselect {
+    position: relative;    
+    width: 238px;
+    font-size: 36px;
+    transform: translate(26%, 10%);
+    padding-left: 20px;
+    background-color: bisque;
+    display: inline-block;
+  }
+
+  .type_select {
+    position: relative;    
+    width: 160px;
+    height: 36px;
+    font-size: 20px;
+    transform: translate(3%, 5%);
+    background-color: rgb(223, 224, 238);
+    display: inline-block;
+  }
+
+  .positive_select {
+    display: inline-flex;
+    align-items: center;       
+    width: 250px;   
+    font-size: 20px;
+    transform: translate(3%, 5%);
+    background-color: rgb(167, 218, 194);   
+    padding: 15px 8px;
+  }
+
+  .condition-list {
+    max-width: 830px;
+    max-height: 650px;
+    overflow-y: auto;
+    overflow-X : "hidden";
+    padding-right: 5px;
+    background-color: rgb(199, 230, 199);
+  }
+
+  .dropdown-wrapper {
+    position: relative; /* 🔥 讓 dropdown 參考這個 */
+    width: 195px;       /* 跟 input 一樣寬 */    
+  } 
+
+
+  .dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0%;
+    width: 150%; /* 👈 讓 dropdown 跟 input 一樣寬 */
+    max-height: 650px;
+    overflow-y: auto;
+    background-color: rgb(236, 235, 170);
+    border: 10px solid #141d57;
+    z-index: 10;
+    display: inline-block;
+    list-style: none;
+    margin: 4px 0 0;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    font-size: 26px;
+    padding: 0;
+  }
+
+  .dropdown-option {
+    padding: 2px 12px;
+    cursor: pointer;
+  }
+
+  .dropdown-option:hover {
+    background-color: #d85757;
+  }
+
+}

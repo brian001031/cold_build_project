@@ -585,7 +585,7 @@ namespace WebApplication1
                         //    vState = vState + 1 * 7;
                         //    continue;
                         //}
-                          //-----end--------
+                        //-----end--------
                         cc1SelectSql = "select max(a.VD28) VD28, max(a.VAHD28) VAHD28, max(a.VD32) VD32, max(a.VAHD32) VAHD32, max(a.VD35) VD35, max(a.VAHD35) VAHD35 ";
                         cc1SelectSql = cc1SelectSql + ",(select fld" + vComID + " as OCV from test_LoadPFData003 LIMIT 10, 1)  OCV  /*fld做變更*/ ";
                         cc1SelectSql = cc1SelectSql + " , max(a.CCcurrent) CCcurrent ";
@@ -1350,11 +1350,11 @@ namespace WebApplication1
                         WHERE TABLE_NAME = '{pfcc_tablename}'
                         AND TABLE_SCHEMA = '{schema_DB}'; ";
 
-                               
+
                 if (resultcsv.Merge_existfilter_value(connection, connection_merge, All_col_listname, schema_DB, pfcc_tablename) == true)
-                        LResult.Text = "分析完篩選型號及合併資料完畢!";
+                    LResult.Text = "分析完篩選型號及合併資料完畢!";
                 else
-                        LResult.Text = "資料合併異常,NG,請確認分析完PF_CC系列數據格式!";
+                    LResult.Text = "資料合併異常,NG,請確認分析完PF_CC系列數據格式!";
 
 
                 DirectoryInfo tempDir = new DirectoryInfo(DestinationFolder);

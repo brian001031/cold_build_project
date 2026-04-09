@@ -6,12 +6,15 @@ from tkinter import TRUE
 from datetime import datetime
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+#Selenium 4.6+ 之後你不需要手動下載 ChromeDriver----start------
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+#-----------------------end-------------------------------------
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.service import Service
 import threading
 import random
 import socket
@@ -314,7 +317,8 @@ def start_new_selenium_session():
     # 使用預設的 chromedriver 路徑
     #service = Service()
    
-    driver = webdriver.Chrome(service=service , options=options)     
+    #driver = webdriver.Chrome(service=service , options=options)
+    driver = webdriver.Chrome(options=options)  # 不要指定 ChromeDriver 路徑    
     return driver
 
 # 用來啟動多執行緒的範例
@@ -403,6 +407,14 @@ def DetecProcess_reportcsv_timing(curenttime_status):
             print(f"已發送通知到 Discord: {current_time}", flush=True)
             already_triggered.add(target)
 
+# 加 driver 狀態防護（避免用到已關閉 session）
+def is_driver_alive(driver):
+    try:
+        driver.title  # 嘗試存取
+        return True
+    except:
+        return False                       
+
 def run_selenium_script(autoLoop_thread_num):
   #當需要lock 單一執行續,需要使用driver 全域變數 , 並在外部宣告 driver = None -----start---
   global driver  # Access the global driver variable
@@ -410,6 +422,11 @@ def run_selenium_script(autoLoop_thread_num):
 
   #當需要使用多執行續,不使用driver 全域變數, 直接在函式內部宣告 driver = None
   #driver = None
+  
+  #同時間只會有一個 Selenium 不會重複觸發 不會互相關掉視窗(預防措施)
+  if selenium_lock.locked():
+     print("Selenium 執行中，跳過")
+     return
 
   with selenium_lock:    
     if driver is None or not is_browser_alive(driver):
@@ -451,7 +468,8 @@ def run_selenium_script(autoLoop_thread_num):
            service = Service(executable_path=chromedriver_path)
            # 使用預設的 chromedriver 路徑
            #service = Service()
-           driver = webdriver.Chrome(service=service , options=options) 
+           #driver = webdriver.Chrome(service=service , options=options)
+           driver = webdriver.Chrome(options=options)  # 不要指定 ChromeDriver 路徑
 
         #driver.get("http://192.168.3.101:8002/")
         driver.get(url)  # 開啟對應的 URL
@@ -474,6 +492,11 @@ def run_selenium_script(autoLoop_thread_num):
        # 等待網頁載入完成，並確認 autoLoop 按鈕已經被點擊
        try:
            while Begin_run:
+           
+               if not is_driver_alive(driver):
+                  print("driver 已關閉，停止分析原始數據")
+                  break
+           
                try:				
                    Result_element = driver.find_element(By.ID, "MainContent_LResult")
                    run_count += 1
@@ -488,14 +511,19 @@ def run_selenium_script(autoLoop_thread_num):
                       #     notify_discord_webhook(f"分析站:{side_part} {Result_element.text.strip()} \n 檔案列: {csv_filename}")
                            print(" AutoLoop complete, result updated @.@", flush=True)
                        Begin_run = False  # 停止 while 迴圈                       
-                   break
+                   else:
+                       #擱置一秒緩衝
+                       time.sleep(1)
                except Exception as e:
                    # Handle exception if element is not found
                    print(f"Error occurred: {e}")
-               time.sleep(1)  # Sleep to avoid overloading the system with constant checks 確保操作完成        
+                   time.sleep(1)  # Sleep to avoid overloading the system with constant checks 確保操作完成        
        finally:
-           driver.quit()  # Close the browser tab and quit the driver session
-           print("Browser session closed.")
+          try:
+             driver.quit()  # Close the browser tab and quit the driver session
+             print("Browser session closed.")
+          except:
+             pass
 
 def run_selenium_script_mulitThread(url, autoLoop_thread_num):
     driver = None
