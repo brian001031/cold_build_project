@@ -1,0 +1,177 @@
+.manufact_consumable_request{
+   *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+    .container{
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+    }
+
+/* ================= HEADER ================= */
+    .header{
+      height: 70px;
+      background: #1e293b;
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 20px;
+
+      overflow: hidden;
+    }
+
+    .title{
+      font-size: 28px;
+      font-weight: bold;
+      min-width: 300px;
+    }
+
+    /* 跑馬燈區 */
+    .marquee-wrapper{
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-left: 20px;
+    }
+
+    .marquee{
+      display: inline-block;
+      padding-left: 100%;
+      animation: marqueeMove 15s linear infinite;
+      font-size: 22px;
+      color: #38bdf8;
+      font-weight: bold;
+    }
+
+    @keyframes marqueeMove{
+      0%{
+        transform: translateX(0%);
+      }
+
+      100%{
+        transform: translateX(-100%);
+      }
+    }
+
+    /* ================= BODY ================= */
+
+    .main-content{
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* 左側 */
+    .sidebar{
+      width: 240px;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+
+    .menu-title{
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .menu-list{
+       list-style: none;
+       padding: 10;
+    }
+
+    .menu-list li{
+       padding: 14px;
+      margin-bottom: 10px;
+      background: #1e293b;
+      border-radius: 8px;
+      cursor: pointer;
+
+        /* 動畫 */
+        transition: 
+          background 0.3s ease,
+          transform 0.3s ease,
+          font-size 0.3s ease;
+
+        font-size: 16px;
+    }
+
+    /* hover效果 */
+    .menu-list li:hover{
+      background: #dfdd93;
+      /* 放大 */
+      transform: scale(1.05) translateX(6px);
+      /* 字體放大 */
+      font-size: 18px;
+      color: #c02d2d;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* 右側 */
+   .content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    background: white;
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    /* 卡片容器 */
+    .card-grid {
+      display: grid;
+
+      /* 自動換行 */
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+
+      gap: 20px;
+    }
+
+    /* 單一卡片 */
+    .mini-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+
+      border: 1px solid #dcdcdc;
+
+      transition: all 0.25s ease;
+
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        border-color: #4fa3ff;
+      }
+
+      .card-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        color: #222;
+      }
+
+      .card-desc {
+        font-size: 15px;
+        line-height: 1.6;
+        color: #666;
+      }
+    }
+  }
+
+}
+

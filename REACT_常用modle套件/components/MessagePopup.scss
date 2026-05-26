@@ -1,0 +1,142 @@
+// MessagePopup 樣式
+.message-popup {
+  .modal-dialog {
+    max-width: 500px;
+  }
+
+  .modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+
+  .modal-header {
+    border: none;
+    padding: 1.5rem;
+    
+    .modal-title {
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+  }
+
+  .modal-body {
+    padding: 2rem 1.5rem;
+    
+    .message-icon {
+      animation: bounceIn 0.6s ease-out;
+    }
+    
+    .message-text {
+      color: #495057;
+      white-space: pre-line;
+    }
+  }
+
+  .modal-footer {
+    border: none;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+  }
+}
+
+// 成功樣式
+.message-popup-success {
+  .modal-header {
+    background: linear-gradient(135deg, #28a745, #20c997);
+  }
+  
+  .message-icon span {
+    color: #28a745;
+    text-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+  }
+}
+
+// 錯誤樣式
+.message-popup-error {
+  .modal-header {
+    background: linear-gradient(135deg, #dc3545, #e74c3c);
+  }
+  
+  .message-icon span {
+    color: #dc3545;
+    text-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+  }
+}
+
+// 警告樣式
+.message-popup-warning {
+  .modal-header {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+  }
+  
+  .message-icon span {
+    color: #ffc107;
+    text-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
+  }
+}
+
+// 提示樣式
+.message-popup-info {
+  .modal-header {
+    background: linear-gradient(135deg, #17a2b8, #6f42c1);
+  }
+  
+  .message-icon span {
+    color: #17a2b8;
+    text-shadow: 0 2px 4px rgba(23, 162, 184, 0.3);
+  }
+}
+
+// 動畫效果
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// 按鈕懸停效果
+.message-popup .btn {
+  transition: all 0.3s ease;
+  border-radius: 25px;
+  font-weight: 600;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// 響應式設計
+@media (max-width: 576px) {
+  .message-popup {
+    .modal-dialog {
+      margin: 1rem;
+      max-width: calc(100% - 2rem);
+    }
+    
+    .modal-body {
+      padding: 1.5rem 1rem;
+      
+      .message-icon span {
+        font-size: 2.5rem !important;
+      }
+      
+      .message-text {
+        font-size: 1rem !important;
+      }
+    }
+  }
+}

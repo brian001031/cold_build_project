@@ -61,16 +61,70 @@
     overflow: hidden; /* prevent overall scroll */
   }
 
+  .radio-container {
+    display: flex;
+    gap: 5rem; /* 元件之間的間距 */
+    padding-left: 53%;
+    flex-wrap: wrap; /* 如果空間不足換行 */
+  }
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border: 3px solid #1a28a5;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f1f1eb; /* 預設背景色 */
+    transition: all 0.3s ease;
+  }
+
+  .radio-label input {
+    display: none;
+  }
+
+  .radio-label .label-text {
+    font-size: 10px;
+  }
+
+  .radio-label.isSelected {
+    background-color: #e6e4df;
+    transform: scale(1.65);
+  }
+
+    /* 化成 */
+  .radio-label.isSelected.pfStyle {
+    background-color: #e61111;
+    font-style: italic;
+    color: #fff;
+   
+  }
+
+  /* 分容 */
+  .radio-label.isSelected.ccStyle {
+    background-color: #b8d3f1;
+    font-style: italic;
+    color: #0c0b0b;    
+  }
+
+  /* 選中的 radio 放大 */
+  .radio-label.isSelected .label-text {
+    transform: scale(1.6);
+    font-size: 0.7em;
+     
+  }
+
 
   .serial_label_setting {
     border: 13px solid #8df7c4;
     font: 36px Tahoma, cursive;
     display: inline-flex;
     line-height: 2.5;
-    height: 5%;
-    padding: 0px 20px;
-    width: 20%;
-    //text-align: left;
+    padding: 10px 20px;
+    width: fit-content;
+    height: auto;   
+    text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -87,16 +141,17 @@
   /* Right chart panel */
   .chart-panel {
     flex: 1;
-    padding: 30px;
-    // max-height: 5em;
+     min-width: 0;
     height: 100%;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    //overflow-y: auto;   
   }
 
   /* Chart container fills panel */
   .chart-container {
     width: 100%;
-    height: 100%;
+    height: 100%;    
   }
 
   .serialselect {
@@ -173,4 +228,167 @@
     background-color: #d85757;
   }
 
+  .switch_container {
+    display: flex;
+    align-items: center;
+    width: 180%; /* Width of the outside container */
+    gap: 30px; /* switch 與日期區塊間距 */
+  }
+
+  /* 只隱藏 id="switch" 的 checkbox */
+  #switch[type="checkbox"] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+    display: none; /* ✅ 完全不佔空間 */
+  }
+
+  /* 只針對 id="switch" 對應的 label 調整樣式 */
+  /* 開關外殼 */
+  #switch + label {
+    z-index: 0; /* 確保它不會在 slider 上層 */
+    cursor: pointer;
+    width: 330px;
+    height: 30px;
+    background: #ebafaf;
+    display: inline-block;
+    border-radius: 30px;
+    position: relative;
+    padding-left: 50px;
+    transition: background 0.3s;
+  }
+
+  /* 白色圓點 */
+  #switch + label:after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background: #0223a6;
+    border-radius: 50%;
+    transition: 0.3s;
+    z-index: 1;
+  }
+
+  #switch:checked + label:after {
+    left: 302px;
+  }
+
+  #switch + label {
+    transition: background 0.3s ease;
+  }
+  #switch + label:after {
+    transition: left 0.3s ease;
+  }
+
+  /* 當選取時，圓點向右移、背景變綠 */
+  #switch:checked + label {
+    background: #78da7c;
+  }
+
+  /* 顯示文字 */
+  #switch + label .switch-txt {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    width: 100%;
+    height: 80%;
+    text-align: center;
+    transform: translate(-70%, -70%);
+    font-size: 25px;
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  #switch + label .switch-txt::before {
+    content: attr(turnOff);
+    color: white;
+    transition: opacity 0.3s ease;
+  }
+
+  #switch:checked + label .switch-txt::before {
+    content: attr(turnOn);
+    color: rgb(224, 238, 23);
+  }
+
+  .switch_wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 30px; /* switch 與文字間距 */
+  }
+
+  .progress-box {
+    width: 100%;
+    max-width: 200px;   /* ⭐ 控制整體最大寬度 */ 
+    transform: translate(2%, 10%);        
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 34px;    
+    background: #b7d68e;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #133580;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.25s ease;
+  }
+
+  .skeleton-cell {
+    height: 16px;
+    border-radius: 4px;
+    background: linear-gradient(
+      90deg,
+      #c7df8e 75%,
+      #c0a471 77%,
+      #b1c2cf 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.6s ease infinite;
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
+  }
+
+  .loading-wrapper{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:22px;
+    color:#fff;
+  }
+
+  .loading-spinner{
+      width: 55px;
+      height: 55px;
+      border: 6px solid #ddd;
+      border-top: 6px solid #00c3ff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: auto;
+  }
+
+  @keyframes spin{
+      100%{
+          transform: rotate(360deg);
+      }
+  }
 }

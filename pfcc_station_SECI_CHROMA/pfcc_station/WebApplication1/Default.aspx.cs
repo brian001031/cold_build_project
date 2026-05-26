@@ -282,7 +282,7 @@ namespace WebApplication1
 
             string sort_temp = "";
 
-            bool check_cc2_algorithm = false , haveTargetvoltage = true , insertNg_ack = true;
+            bool check_cc2_algorithm = false , haveTargetvoltage = true, insertNg_ack = true;
 
              //title 列
              if (dr.HasRows)
@@ -535,7 +535,7 @@ namespace WebApplication1
 
 
                         //檢視最後g_Batt_Classtype 存取狀態顯示
-                       Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype , g_Modle_CC_Kvalue));
+                        Console.WriteLine("電芯目前全classtype 36組顯示 = " + string.Join(", ", g_Batt_Classtype , g_Modle_CC_Kvalue));
 
                         int AllInsert;
 
@@ -566,7 +566,7 @@ namespace WebApplication1
                         int Kpasslen = (vparameter != "023") ?  36 - g_Modle_CC_Kvalue.Count() :0;
 
                         //Debug 時,Kpasslen不考慮 設定為0
-                        Kpasslen = 0;
+                         Kpasslen = 0;
 
                         // AllInsert = 26;
 
@@ -629,16 +629,17 @@ namespace WebApplication1
                                     sqlQuery = sqlQuery + " from test_LoadPFData003  where fld" + vState + " = 'Reached Target voltage' ) a ";
                                     */
                                     break;
-                            case "010":  //cc1
+                            case "0100":  //cc1
                                 //vComID = 8;//H欄     vState = 14;//N欄
 
                                 sqlQuery = cc1SelectSql + detailSelect; //+ " ) finalR ";
 
                                 break;
 
-                            case "017":                           
-                                if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2") //cc2-2 2024 , cc2 017-chroma2 2024開始
-                                {
+                            case "017":
+                            case "010":  //cc1
+                                   if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1") //cc2-2 2024 , cc2 017-chroma2 2024開始
+                                   {
 
                                         //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數                                        
                                          if (vparameter_chg == "0172" && check_cc2_algorithm) // for 測試正常                                       
@@ -812,7 +813,7 @@ namespace WebApplication1
                                     //string smaH35 = Convert.ToString(dr_detail["absmAH35"].ToString());
 
 
-                                    if (!haveTargetvoltage  && vparameter == "017")
+                                    if (!haveTargetvoltage  && (vparameter == "017" || vparameter == "010"))
                                     {
                                         //不存入NG電芯
                                         if (!insertNg_ack)

@@ -1,0 +1,39 @@
+.purchasing_material_view{
+
+    .header{
+
+
+    }
+
+    .titlerange {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: -50px 0;
+    padding-left: 30%;
+    gap: 25px;
+  }
+
+  .chart-container {
+    display: "flex";
+    flex-wrap: "wrap";
+    gap: "10px";
+    justify-content: "space-between";
+  }
+
+  .chart-image {
+    width: "calc(50% - 5px)";
+    height: "190px";
+    display: "block";
+    background-color: "#f0f0f0"; /* 可刪：讓空白div有背景方便看*/
+  }
+  
+
+
+
+
+
+
+
+}
