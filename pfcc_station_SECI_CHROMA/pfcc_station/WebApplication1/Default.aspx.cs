@@ -282,7 +282,7 @@ namespace WebApplication1
 
             string sort_temp = "";
 
-            bool check_cc2_algorithm = false , haveTargetvoltage = true, insertNg_ack = true;
+            bool check_cc2_algorithm = false , haveTargetvoltage = false, insertNg_ack = true;
 
              //title 列
              if (dr.HasRows)
@@ -629,7 +629,7 @@ namespace WebApplication1
                                     sqlQuery = sqlQuery + " from test_LoadPFData003  where fld" + vState + " = 'Reached Target voltage' ) a ";
                                     */
                                     break;
-                            case "0100":  //cc1
+                            case "010":  //cc1
                                 //vComID = 8;//H欄     vState = 14;//N欄
 
                                 sqlQuery = cc1SelectSql + detailSelect; //+ " ) finalR ";
@@ -637,7 +637,7 @@ namespace WebApplication1
                                 break;
 
                             case "017":
-                            case "010":  //cc1
+                          //  case "010":  //cc1
                                    if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                    {
 
@@ -813,7 +813,7 @@ namespace WebApplication1
                                     //string smaH35 = Convert.ToString(dr_detail["absmAH35"].ToString());
 
 
-                                    if (!haveTargetvoltage  && (vparameter == "017" || vparameter == "010"))
+                                    if (!haveTargetvoltage  && (vparameter == "017"))
                                     {
                                         //不存入NG電芯
                                         if (!insertNg_ack)

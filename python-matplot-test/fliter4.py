@@ -173,10 +173,50 @@ def main():
     # a= open(os.path.join(path,i),'rb')
     #id = pathsrc[i].split(',')[0]
     #a_img = Image.open(path+'/'+pathsrc[i])
-    a_img = Image.open(pathsrc+'/plot-mergy.jpg')
+
+    # 優先找固定檔名
+    default_img = os.path.join(pathsrc, 'plot-mergy.jpg')
+    
+    if os.path.exists(default_img):
+        img_path = default_img
+      #  print(f'使用預設圖片: {img_path}')
+    else:
+        # 搜尋其他 Special*.jpg
+        search_pattern = os.path.join(pathsrc, 'Special*.jpg')
+        img_list = sorted(glob.glob(search_pattern))
+
+        # 排除 plot-mergy.jpg 自己
+        img_list = [
+            x for x in img_list
+            if os.path.basename(x) != 'plot-mergy.jpg'
+        ]
+
+        if len(img_list) == 0:
+            raise Exception('找不到 plot-mergy 系列圖片')
+
+        # 使用第一張
+        img_path = img_list[0]
+        print(f'找不到 plot-mergy.jpg，改用: {img_path}')
+
+    # 開啟圖片
+#   a_img = Image.open(pathsrc+'/plot-mergy.jpg')
+    a_img = Image.open(img_path)
+    
+    # 取得圖片尺寸
     w_len , h_len = a_img.size
 
+    print('此工作圖片_{}_寬 / _{}_高分別為:' , w_len , h_len)
 
+    # 當遇到寬高比值小於1, (代表寬比高小),需要做圖片rotate轉向90度,原先指向相w,h對調,但無法真正將圖片對應運算
+    #   功能	寫法	方向
+    # 左轉90度	Image.ROTATE_90	逆時針
+    # 右轉90度	Image.ROTATE_270	順時針
+    # 180度	Image.ROTATE_180	上下顛倒
+    if (w_len < h_len):
+         print('圖片高度大於寬度,這邊做轉向90度(Width , Heigth )數值對調')
+         a_img = a_img.transpose(Image.ROTATE_90)
+         w_len , h_len = a_img.size
+       
     #(平均分割)
     if splitmodel == 1:
      strselectmode = "平均分割"
@@ -200,7 +240,8 @@ def main():
         for k in range(splitnum): #裁切寬 ,高度不變 , 第一筆 N0 , 第二筆 N0+N1 ,類推
             if k < splitnum: # 最後一次為原圖origin size,因此不用執行 
                 if k == splitnum - 1:
-                    shutil.copyfile(pathsrc+'/plot-mergy.jpg',path_mergeall+'/{:3d}.jpg'.format(k))
+                   # shutil.copyfile(pathsrc+'/plot-mergy.jpg',path_mergeall+'/{:3d}.jpg'.format(k))
+                    shutil.copyfile(img_path,path_mergeall+'/{:3d}.jpg'.format(k))
                     continue  
                 box = ( weigth_gap * 0 , leigth*0, weigth_gap* (k+1),  leigth)
                 region = a_img.crop(box)
