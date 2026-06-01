@@ -3811,7 +3811,9 @@ namespace WebApplication1
                                     {
 
                                         vparameter = vparameter_All.Substring(2, 3);
+                                        Session["vparameter"] = vparameter;  //Session 緩存存取
                                         vparameter_chg = vparameter_All.Substring(vparameter_All.Length - 17);
+
 
                                         // 當vparameter 為017 -> CC2時,目前下面做記號
                                         if (vparameter.StartsWith("017") && vparameter_chg.Contains("CC2"))
@@ -3837,6 +3839,7 @@ namespace WebApplication1
                                     {
                                         // for SECI 
                                         vparameter = vparameter_All.Substring(0, 3);
+                                        Session["vparameter"] = vparameter;  //Session 緩存存取
                                         vparameter_chg = vparameter_All.Substring((vparameter_All.Length - 9), 4);
                                         if (vparameter_chg == "2023")
                                         {
@@ -4661,6 +4664,11 @@ namespace WebApplication1
                     //將重新解析的(PF or CC1 or CC2)存成csv,並呈現table含數據於頁面上
                     //只取檔案名稱,忽略副檔名
                     Filename = Path.GetFileNameWithoutExtension(Filename);
+
+                    if (string.IsNullOrWhiteSpace(vparameter))
+                    {
+                        vparameter = Convert.ToString(Session["vparameter"]);
+                    }
 
                     switch (vparameter)  //STEP 
                     {
