@@ -21,9 +21,11 @@ DETEC_VENDER_FOLDERS = [
 #     r"C:\\copy_temp\\Chroma_Source_CC",
 # ]
 
+
 #半自動或手動目前預設工作路徑
 RUNTIME_ACTION_FOLDERS = [
-    "C:\\copy_temp\\source_pfcc",
+    #r"Y:\\source_pfcc",
+    "C:\\copy_temp\\\source_pfcc",    
 ]
 
 
@@ -60,8 +62,15 @@ def create_nowyear_folder_path_and_backup():
            if len(SECI_CHROMA_All_thisyear_csv) > 0 :
              for csv_origin_analysis in SECI_CHROMA_All_thisyear_csv:
                 try:
-                  # 複製檔案到備份當年資料夾
-                  shutil.copy2(csv_origin_analysis, year_folder_path)
+
+                  target_file = os.path.join(
+                        year_folder_path,
+                        os.path.basename(csv_origin_analysis)
+                    )
+
+                  #  先確認是否有同樣資料再目標資料夾存在,若不存在再複製檔案到備份當年資料夾
+                  if os.path.abspath(csv_origin_analysis) != os.path.abspath(target_file):
+                     shutil.copy2(csv_origin_analysis, year_folder_path)
                   
                   # 複製檔案到實際運行路徑資料夾
                   for runtime_folder in RUNTIME_ACTION_FOLDERS:
@@ -86,13 +95,28 @@ def check_csv_file_this_year_exists(folder_name):
   
     SECI_CHROMA_All_thisyear_csv.clear() 
     
-    # 檢查指定資料夾下是否有符合條件的 CSV 檔案
+    # 檢查指定資料夾下是否有符合條件的 CSV 檔案 (walk 為根目錄全部走訪, listdir 為只搜尋目前目錄 )
+
+    # walk 方法    
     for root, dirs, files in os.walk(folder_name):
-        for file in files:
-            if file.endswith(".csv") and this_year in file:
-                print(f"檔案 {file} 在資料夾 {folder_name} 中找到，符合當年日期。")
-                csv_thisyear_file = os.path.join(root, file)
-                SECI_CHROMA_All_thisyear_csv.append(csv_thisyear_file)  # 儲存檔案名稱(含原始路徑)
+        #加下列只搜尋指定路徑
+        if root != folder_name:
+           continue
+
+        for file in files:        
+          if file.endswith(".csv") and this_year in file:
+            print(f"檔案 {file} 在資料夾 {folder_name} 中找到，符合當年日期。")
+            csv_thisyear_file = os.path.join(root, file)
+            SECI_CHROMA_All_thisyear_csv.append(csv_thisyear_file)  # 儲存檔案名稱(含原始路徑)
+
+    # listdir 方法
+    # for file in os.listdir(folder_name):
+    #     full_path = os.path.join(folder_name, file)
+    #     #只搜尋檔案
+    #     if os.path.isfile(full_path):
+    #         if file.endswith(".csv") and this_year in file:
+    #             print(f"檔案 {file} 在資料夾 {folder_name} 中找到，符合當年日期。")              
+    #             SECI_CHROMA_All_thisyear_csv.append(full_path)
                 
     if len(SECI_CHROMA_All_thisyear_csv) > 0:       
        return True  # 找到符合條件的檔案，返回 True    
