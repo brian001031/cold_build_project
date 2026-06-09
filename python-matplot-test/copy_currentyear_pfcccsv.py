@@ -6,11 +6,19 @@ from tkinter import TRUE
 from datetime import datetime
 
 # 監控的資料夾
+# DETEC_VENDER_FOLDERS = [
+#     r"X:\\TrayCellData\\R_bak_HTBI\\All_case\\CC",
+#     r"X:\\TrayCellData\\R_bak_HTBI\\All_case\\PF",
+#     r"X:\\TrayCellData\\R_bak_HTBI\\All_case\\Chroma\\CC",
+#     r"X:\\TrayCellData\\R_bak_HTBI\\All_case\\Chroma\\PF",
+# ]
+
+
 DETEC_VENDER_FOLDERS = [
-    r"Y:\\TrayCellData\\R_bak_HTBI\\CC",
-    r"Y:\\TrayCellData\\R_bak_HTBI\\PF",
-    r"Y:\\TrayCellData\\R_bak_HTBI\\Chroma\\CC",
-    r"Y:\\TrayCellData\\R_bak_HTBI\\Chroma\\PF",
+    r"X:\\TrayCellData\\R_bak_HTBI\\CC",
+    r"X:\\TrayCellData\\R_bak_HTBI\\PF",
+    r"X:\\TrayCellData\\R_bak_HTBI\\Chroma\\CC",
+    r"X:\\TrayCellData\\R_bak_HTBI\\Chroma\\PF",
 ]
 
 #本機端環境DEBUG測試
@@ -24,8 +32,8 @@ DETEC_VENDER_FOLDERS = [
 
 #半自動或手動目前預設工作路徑
 RUNTIME_ACTION_FOLDERS = [
-    #r"Y:\\source_pfcc",
-    "C:\\copy_temp\\\source_pfcc",    
+    r"Y:\\source_pfcc",
+    #"C:\\copy_temp\\test_source_dev",    
 ]
 
 
