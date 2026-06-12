@@ -131,8 +131,9 @@ const handle_allocate_popup = async (  e , order_str, all_record ) =>{
   const allocat_pkid = all_record.id;
   const allocat_itemcode = all_record.item_code;
   const allocat_spec = all_record.specification;
+  const allocat_venderid = all_record.vendor_id;
 
-  const all_allocat_info = [  order_str , allocat_pkid , allocat_spec , allocat_itemcode , allocat_value , allocat_unit ];
+  const all_allocat_info = [  order_str , allocat_pkid , allocat_spec , allocat_itemcode , allocat_value , allocat_unit ,allocat_venderid];
 
   setPuchaes_AllocateData(all_allocat_info);
 }
