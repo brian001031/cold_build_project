@@ -637,7 +637,7 @@ namespace WebApplication1
                                 break;
 
                             case "017":
-                            //case "010":  //cc1
+                           // case "010":  //cc1
                                    if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                    {
 
@@ -660,8 +660,7 @@ namespace WebApplication1
                                                                                        
                                             //計算五次
                                             for (int n = 0; n < 5; n++)
-                                            {
-
+                                            {                                               
                                                 int cacula_number = Parse_chroma_V_serial_count(n, vComID, vComID + 1, connection);
                                                 if (n <= 2)
                                                 {
@@ -711,6 +710,9 @@ namespace WebApplication1
                                             if (!haveTargetvoltage) {                                                 
                                                 for ( int k = 0 ; k < step_caculator_value.Count(); k++) 
                                                 {
+                                                    //增加判斷充放電週期有無正常數據流limit count 算出
+                                                    int stepCount = int.TryParse(step_caculator_value[k].ToString(), out int val) ? val : 0;
+
                                                     if (k < 6) {
 
                                                         if (k%2 == 0 || k==0)
@@ -727,6 +729,10 @@ namespace WebApplication1
                                                                 detailVD = "absVD35";
                                                                 like_step = step_abs_value[2];
                                                             }
+                                                                                                                      
+                                                            //這邊增加機制防止crash(針對週期有少的情況)
+                                                            if (stepCount == 0)
+                                                                step_caculator_value[k] = 3; 
 
                                                             cc1SelectSql = cc1SelectSql + ",( select abs(fld" + vComID + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k]-3) + " ,1 ) as "+ detailVD + "" ;
 
@@ -749,6 +755,10 @@ namespace WebApplication1
                                                                 like_step = step_abs_value[2];
                                                             }
 
+                                                            //這邊增加機制防止crash(針對週期有少的情況)
+                                                            if (stepCount == 0)
+                                                                step_caculator_value[k] = 3;
+
                                                             cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID+4) + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - 3) + " ,1 ) as " + detailmAH + "";
                                                         }
 
@@ -756,6 +766,11 @@ namespace WebApplication1
                                                     else {
                                                         //取current 電流                                                          
                                                         detailCurent = "absCurrentmA";
+
+                                                        //這邊增加機制防止crash(針對週期有少的情況)
+                                                        if (stepCount == 0)
+                                                            step_caculator_value[k] = 1;
+
                                                         cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID + 1) + ")  from test_LoadPFData003 WHERE fld7 LIKE '1' limit " + (step_caculator_value[k] - 1) + " ,1 ) as " + detailCurent + " " ;
                                                     }
                                                 }
@@ -2702,7 +2717,7 @@ namespace WebApplication1
            //Console.WriteLine("所有pf,cc1,cc2轉換任務已完成。");
 
 
-            EXEC_Save_PFCCbat();
+          //  EXEC_Save_PFCCbat();
 
             LResult.Text = "所有pf,cc1,cc2轉換任務已完成 / 請執行copy_pfcc_result.bat將數據結果存到 pfcc_result";
 
