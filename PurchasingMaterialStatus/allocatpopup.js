@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, Suspense ,useMemo , useCallback ,startTransition } from "react";
 import { json, Route } from "react-router-dom";
 import { Modal, Button, Card, Row, Col, Table, FormControl, Toast } from 'react-bootstrap';
 import Form from "react-bootstrap/Form";
@@ -7,6 +7,7 @@ import moment from "moment";
 import 'moment/locale/zh-tw'; 
 import { isArray, kebabCase, lowerCase } from "lodash";
 import DatePicker from "react-datepicker";
+import Skeleton from "react-loading-skeleton";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormattedMessage, useIntl } from "react-intl";
 import dayjs from "dayjs";
@@ -18,12 +19,53 @@ import config from "../../config";
 import './index_allocat.scss';
 import { number } from "echarts";
 import { NonBinaryIcon } from "lucide-react";
- 
+import { useAuth } from "../../context/GlobalProvider"; //引入Auth 權限身分者
+// 導入 MessagePopup 組件
+import MessagePopup from '../../components/MessagePopup';
+import { faL } from "@fortawesome/free-solid-svg-icons";
+import {
+  FaFilePdf,
+  FaFileWord,
+  FaFileExcel,
+  FaFileImage,
+  FaPaperclip
+} from "react-icons/fa";
+import {
+  Select,
+  MenuItem,
+  Checkbox,
+  ListItemText,
+} from "@mui/material";
+const Confirm_AllocationModal = React.lazy(() => import("../../components/Confirm_AllocationModal")); // 確認按鈕加載組件
 
 
-const allocate_info_key = [ "採購單號","工作序" , "物料名" , "編碼","數量","單位","廠商碼"];
+const allocate_info_key = [ "採購單號","工作序" ,  "物料名" , "規格", "編碼","數量","單位","廠商碼"];
 
+//預設庫別
+const warehouse_type = [ "TR-07","樹林物料總倉" , "觀音物料總倉" , "外租用總倉"];
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10mb
 const ONE_DAY_MILSEC = 24 * 3600 * 1000   // 1個小時總毫秒數量
+
+const lower_percentage_torlence = parseFloat("0.99"); //相當於可接受1%下限
+const upper_percentage_torlence = parseFloat("1.01"); //相當於可接受1%上限
+
+  //目前許可上傳的檔案格式
+  const allowedExtensions = [
+    "png",
+    "jpg",
+    "jpeg",
+    "bmp",
+    "pdf",
+    "tiff"
+    // "doc",
+    // "docx",
+    // "xlsx",
+    // "xls",
+  ]; // 允許的檔案副檔名
+
+  // const allowed = [".pdf", ".jpg", ".jpeg", ".png", ".tiff", ".bmp"]; //目前許可上傳的檔案格式
+
 
 const unit_options = [
   { val: "g", type: "公克" },
@@ -47,6 +89,8 @@ const unit_len_mapping= {
   roll: ["cm", "m", "m_2"],
 };
 
+const Issue_all_Options = [ "缺料" ,"外觀毀損瑕疵","檢驗特性不良"];
+
 //初始化空數據組
   const createMannulValue ={
       date_stage_code: '',  //分配包裝辨識週期字串
@@ -56,12 +100,22 @@ const unit_len_mapping= {
 
 const not_weight_units = [ "pcs", "qty" , "roll"]
 
+// 正規表達式判斷是否包含英文和數字
+const regex_repairerr = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+
 function AllocationPopup_Work({ show, onHide,allocat_data }) {
+  const { user } = useAuth();
+  const [name, setName] = useState("");	
+	const [memberID, setMemberID] = useState("");
+  const [positionarea, setPositionarea] = useState([]); // 預設無部門
+  const [storeitems, setStoreItems] = useState([]);
+  const [locationitems, setLocationItems] = useState([]);
   const [allocate_baseweight, setAllocate_BaseWeight] = useState(0);   //判定units 若是PCS計量需要自訂義單位重量,預設為0公克
   const [final_weight, setAll_FinalWeight] = useState(0);
   const [confirm_lastunit, setConfirm_LastUnit] = useState("");  
   const [enable_radiomode, setEnable_RadioMode] = useState(false);
   const [allocate_need, setAllocate_select_need] = useState(false);
+  const [modalIsOpen, setmodalIsOpen] = useState(false);
   const [baseuiut_type, setbaseuiut_type] = useState(unit_options[0]["val"]);   
   const [weightError, setWeightError] = useState("");
   const [inputErrors, setInputErrors] = useState({});  // 手動分配數值異常 (error紀錄顯示訊息提醒)
@@ -69,6 +123,7 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
   const [allocatecase, setSelectedAllocateCase] = useState({
     prorated_method: "",
     manual_method: "",
+    normal_method: ""
   });
 
   const [radiomethod, setRadioMethod] = useState(""); // 用於儲存選擇的物料分配類型
@@ -83,32 +138,86 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
     dayjs().subtract(0, "day").format("YYYY-MM-DD") // 預設,目前只能擷取最新前日
   );
   const [float_support, setfloat_support] = useState("0"); // 用於自動分配精準度與否切換 ,預設不支援浮點數 
-  const [max_packet_num, setMax_Packet_Num] = useState(1); // 用於自動分配精準度與否切換 ,預設不支援浮點數 
+  const [max_packet_num, setMax_Packet_Num] = useState(1); // 用於自動分配精準度與否切換 ,預設不支援浮點數
+  const [warehouse_label, setWarehouse_label] = useState("");   //庫別設定
+  const [stackposition_label, setStackPosition_label] = useState("");  //倉位設定
   const prevWeightRef = useRef(allocate_baseweight); // 監聽狀態儲存(初始化)
+  const [stack_codevalid, setStackCodeValid] = useState(false);  //倉位字串(英文加數字)是否有效
+  const [allocaTarget, setAllocaTarget] = useState(null); // 儲存要分配的資料內容
+  const [loading, setLoading] = useState(false); //增加提交緩衝判斷狀態
+  const [uploadProgress,setUploadProgress] = useState(0);  //增加處理百分比進度
+  const [istaskallocate_mode, setTaskAllocate_Mode] = useState(true); //預設一開始為"生產配料介面""
+  // MessagePopup 狀態管理
+  const [messagePopup, setMessagePopup] = useState({
+      show: false,
+      type: 'info',
+      title: '',
+      message: ''
+  });
+
+  const [check_iqc_mode, setCheckIQC_MODE] = useState(""); // 好 或 不良
+  const [error_status, setError_status] = useState([]); // 多選錯誤情形
+  const [isIssuecheck, setIsIssueChecked] = useState(false); //是否有物料不良或缺少
+  const [ismustattached, setMustAttached] = useState(false);  
+  const [isFilesUpload, setIsFilesUpload] = useState(false);
+  const [isOverLimit, setOverLimit] = useState(false); // 初始化表單數據為空
+  const [totalMB, setTotalMB] = useState(0); // 用於顯示上傳的檔案總大小
+  const [file, setFile] = useState([]);
+  const fileInputRef = useRef(null);
+
   
   // const key_prefix_purchstr = String(Object.values(allocat_data)[0]).slice(5);
   // console.log("接收allocat_data 資料型態為: "+ typeof allocat_data +  "前綴單號字串為:" + String(key_prefix_purchstr));
 
-  // !Array.isArray(allocat_data)?console.log("接收allocat_data 資料內容為: "+ JSON.stringify(allocat_data,null,2))
-  //                             :console.log("接收allocat_data 資料內容List為: "+ Object.values( allocat_data));
+  !Array.isArray(allocat_data)?console.log("接收allocat_data 資料內容為: "+ JSON.stringify(allocat_data,null,2))
+                              :console.log("接收allocat_data 資料內容List為: "+ Object.values( allocat_data));
 
-  
+  const purch_formId = Object.values(allocat_data)[0];
+  const pur_pk_serialID = Object.values(allocat_data)[1];
+  const pdc_name = Object.values(allocat_data)[2];
+  const pdc_spec = Object.values(allocat_data)[3];
   const unit_fields = Object.values(allocat_data)[Object.values(allocat_data).length-2];  
-  const number_request_value  = Object.values(allocat_data)[Object.values(allocat_data).length-3];   // index:4 為數量值    
+  const number_request_value  = Object.values(allocat_data)[Object.values(allocat_data).length-3];      
   const item_encode =   Object.values(allocat_data)[Object.values(allocat_data).length-4];
   const venderid = Object.values(allocat_data)[Object.values(allocat_data).length-1];
   const adjust_unit_refix = not_weight_units.includes(lowerCase(unit_fields)) ;
   const [allocatePCS, setAllocatePCS] = useState(1 ||Math.ceil(Number(number_request_value)));   //預設為 allocate 分配為採購給予的pcs數值
-  
+  const [check_error_pcs, setCheck_Error_PCS] = useState(0);  //NG檢驗數量(預設:0)
+  const [mux_add_subtrac, setTotalmux_Add_Subtrac] = useState(0);  //預設一般通用分配總數(預設:0),實際需要跟採購單進貨單總數一致才合理(若有NG也需要總和等同)
+
   const g_unitText_type = adjust_unit_refix ? String(baseuiut_type) : String(unit_fields);
 
   // console.log("目前年是: "+ nowyear);
   // console.log("今年第一天 是禮拜 "+ dayOfFirstDate);
   console.log("是否要重新定義物料重量:"+ adjust_unit_refix);
+          
+  // 顯示訊息
+  const showMessage = useCallback((type, message, title = '') => {
+    setMessagePopup({
+      show: true,
+      type,
+      title,
+      message
+    });
+  }, []);
 
+  // 關閉訊息
+  const hideMessage = useCallback(() => {
+    setMessagePopup(prev => ({ ...prev, show: false }));
+  }, []);
 
+  function toMySQLDateTime(date) {
+        const pad = n => String(n).padStart(2, "0");
+        return (
+            date.getFullYear() + "-" +
+            pad(date.getMonth() + 1) + "-" +
+            pad(date.getDate()) + " " +
+            pad(date.getHours()) + ":" +
+            pad(date.getMinutes()) + ":" +
+            pad(date.getSeconds())
+        );
+  };
   
-
   const displayUnitOptions = unit_len_mapping[lowerCase(unit_fields)]
     ? unit_options.filter((item) =>
       unit_len_mapping[lowerCase(unit_fields)].includes(item.val)
@@ -147,6 +256,23 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
 
     return String(maxNo + 1).padStart(3, "0");
  };
+
+ const toggleGroup = (name) => {
+  setError_status((prev) =>
+    prev.includes(name)
+      ? prev.filter((x) => x !== name)
+      : [...prev, name]
+  );
+};
+
+  const handleError_list_SelectChange = (event) => {
+    const { value } = event.target;
+    
+    // if (isIssuecheck) return;
+
+    //將選取的select item 依序填入arraylist
+    setError_status(typeof value === "string" ? value.split(",") : value);   
+  };
 
 
  //每年的第一個星期四作為起始日期，指定日期所在周的星期四作為終止日期，再將兩者的差值除以7，即為所求週數 
@@ -237,7 +363,9 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
     for (let i = 0; i < avg_quantity; i++) {
       //目前流水號從001~999 (最多一千筆)
       const save_stage = parseInt(stage) < 10 ? String(stage).padStart(2, '0'):String(stage);
-      const serial_houwave_code = final_itemconde_entry+'-'+ String(venderid) +'-' + house_wave_year+save_stage+'-'+ String(i + 1).padStart(3, '0');
+      //const serial_houwave_code = final_itemconde_entry+'-'+ String(venderid) +'-' + house_wave_year+save_stage+'-'+ String(i + 1).padStart(3, '0');
+      const serial_houwave_code = final_itemconde_entry+'-' + house_wave_year+save_stage+'-'+ String(i + 1).padStart(3, '0');
+
       avg_row.push({
         date_stage_code: serial_houwave_code,
         // inputValue: i < avg_quantity -1 ? String(avg) : String(avg + remainder)
@@ -267,7 +395,8 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
    const final_itemconde_entry = item_encode!==null ? item_encode.trim() :"??-???-???";
    
 
-   const serial_houwave_code =final_itemconde_entry +"-" + String(venderid) + '-' +house_wave_year +save_stage +"-" +String(allocate_dataRows.length + 1).padStart(3, "0");
+   //const serial_houwave_code =final_itemconde_entry +"-" + String(venderid) + '-' +house_wave_year +save_stage +"-" +String(allocate_dataRows.length + 1).padStart(3, "0");
+   const serial_houwave_code =final_itemconde_entry +"-" +house_wave_year +save_stage +"-" +String(allocate_dataRows.length + 1).padStart(3, "0");
 
 
    const newRow = {
@@ -284,7 +413,40 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
 
        
     //setallocate_DataRows(prev => [...prev,{ ...createMannulValue }]);
- });
+  });
+
+ //一般通用分配
+ const buildNormalRows = async( house_wave_year , stage , avg_quantity , qcng_pcs) => {
+
+  const temp_add_subtrac =  Math.ceil(avg_quantity + qcng_pcs);
+  //存取分配加總後續提交判斷是否合理
+  setTotalmux_Add_Subtrac(Number(temp_add_subtrac));
+
+	//const avg_normal =  Number(avg_quantity - qcng_pcs);
+  const avg_normal =  Number(avg_quantity );
+	console.log("實際要存入倉內數量 = "+ parseFloat(avg_normal) + "NG和PASS加總為:" +  temp_add_subtrac  + "  IQC NG 數量為 = "+ parseFloat(qcng_pcs));
+
+    const avg_row = [];
+    const final_itemconde_entry = item_encode!==null ? item_encode.trim() :"??-???-???";
+
+    for (let i = 0; i < avg_normal; i++) {
+      //目前流水號從001~999 (最多一千筆)
+      const save_stage = parseInt(stage) < 10 ? String(stage).padStart(2, '0'):String(stage);
+     // const serial_houwave_code = final_itemconde_entry+'-'+ String(venderid) +'-' + house_wave_year+save_stage+'-'+ String(i + 1).padStart(3, '0');
+      const serial_houwave_code = final_itemconde_entry+'-'+ house_wave_year+save_stage+'-'+ String(i + 1).padStart(3, '0');
+
+      avg_row.push({
+        date_stage_code: serial_houwave_code,
+        inputValue:  ""   //預設每筆都"
+      });
+    }
+
+   
+    Number(qcng_pcs) > 0 ? setMustAttached(true):setMustAttached(false);  // 判定是否要提供附加文件啟動    
+    setallocate_DataRows(avg_row); //存入自動分配紀錄
+
+    
+ }
 
   //刪除指定id序號
  const removeMannulCfg =  ((idx) => {
@@ -359,6 +521,51 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
     error_Rows: []
   }
  );
+
+  useEffect(() => {
+    const fetchStore_Infolist = async () => {
+      try {
+        const response = await axios.get(
+          `${config.apiBaseUrl}/purchsaleinvtory/store_nowList`
+        //   "http://localhost:3009/purchsaleinvtory/store_nowList"
+        );
+        
+        // console.log("目前倉庫別回傳為:"+ JSON.stringify(response.data.store_allname,null,2));
+        // console.log("目前位置回傳為:"+ JSON.stringify(response.data.location_allname,null,2));
+        
+         setStoreItems(response.data.store_allname);
+         setLocationItems(response.data.location_allname);
+
+         
+         setWarehouse_label(response.data.store_allname[0].name);
+         setStackPosition_label(response.data.location_allname[0].name);
+      } catch (error) {
+        console.error("取得倉庫資訊列表錯誤", error);
+      }
+    };
+
+    fetchStore_Infolist();
+  }, []);
+
+ useEffect(() => {
+    try {
+      if(user){
+        startTransition(() => {
+          console.log("user總組態:", user);
+          // console.log("authPosition組態為:" + typeof user?.authPosition)
+          // console.log("authPosition 取值為:" + Object.values(user?.authPosition));
+          const auth_departpart = Object.values(user?.authPosition);
+          setName(user?.reg_schedulename || "");
+          setMemberID(user?.memberID || "無工號");
+          setPositionarea(typeof auth_departpart === "string" ? String(user?.authPosition).replace(/,/g, " , ") : auth_departpart); 
+          //  setPositionarea(String(user.positionarea).replace(/,/g, " , "));
+        });
+      }
+    } catch (err) {
+        console.error("AllocationPopup_Work get Auth Behavior error:", err);
+    }
+
+  }, [user]);
  
   //先行確認unit type 
   useEffect(() => {
@@ -376,6 +583,27 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
       
    }, [adjust_unit_refix]);
 
+   //切換工作模式
+   useEffect(() => {
+      if (istaskallocate_mode) {
+      // 生產配料
+      setSelectedAllocateCase({});      
+      setEnable_RadioMode(true);
+      setallocate_DataRows([]);
+      setCheck_Error_PCS(0);
+      setFile([]);
+    } else {
+      //一般通用
+      console.log("切換到一般通用入庫模式"); 
+      setEnable_RadioMode(true);    
+      setallocate_DataRows([]);
+      setCheck_Error_PCS(0);
+      setOverLimit(false)
+      setFile([]);
+    }
+
+  }, [istaskallocate_mode]);
+
    useEffect(() => {
       if (
         prevWeightRef.current !== "" &&
@@ -386,6 +614,20 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
 
       prevWeightRef.current = allocate_baseweight;
 }, [allocate_baseweight]);
+
+  const handleCheckIssueChange = (event) => {
+    const checked = event.target.checked;
+    setCheckIQC_MODE(check_iqc_mode === "Error" ? "" : "Error");
+    //增加手動異常判斷下列邏輯
+    setIsIssueChecked(checked);    
+    if (checked) {
+      // const allissue = Issue_all_Options.map((opt) => opt).join(", ");
+      // console.log("所有問題列-> " + allissue);
+      // setError_status(allissue);      
+    } else {
+      setError_status([]);
+    }
+  };
 
 
     // 監聽 Radio或日期 Button 切換
@@ -402,16 +644,112 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
       setRadioMethod("mannul");
       setEnable_RadioMode(true);
       setallocate_DataRows([]);
-    } else if(name === "trip-start"){      
+    }else if (name === "normal_method") {
+      setSelectedAllocateCase({ ...allocatecase, [name]: "normal" });
+      setRadioMethod("normal");
+      setEnable_RadioMode(true);
+      setallocate_DataRows([]);
+    }      
+    else if(name === "trip-start"){      
       setAllocstage_Calculate(value);       
     }else if(name === "avg-set"){      
       setfloat_support(value);       
-    } 
+    }else if(name === "warehouse"){      
+      setWarehouse_label(value);       
+    } else if(name === "stack_position"){      
+      setStackPosition_label(value);    
+      
+       //取倉位字串當下輸入狀態有錯誤以下可能
+        if (!regex_repairerr.test(value)) {
+          setStackCodeValid(false);
+        } else {
+          setStackCodeValid(true);
+        }
+    }else if( name === "pass_check"){
+        setCheckIQC_MODE(check_iqc_mode === "Pass" ? "" : "Pass");
+        setError_status([]);
+        setCheck_Error_PCS(0);
+        setIsFilesUpload(false);
+        setIsIssueChecked(false);
+    }
 
     //清除既有的分配欄位及對應當前選的
    // setallocate_DataRows([]);
   };          
 
+  const handleFileChange = async (event) => {     
+    const files = Array.from(event.target.files);
+    setOverLimit(false);
+    setIsFilesUpload(false);
+    let totalSize = 0 , check_allow_filecount = 0;
+
+    if (!files || files.length === 0 || !files.length) {
+      setFile([]);
+      setTotalMB("0.00");
+      setOverLimit(false);   // 初始化為未超過限制
+      setIsFilesUpload(false); // 初始化為未上傳開啟功能
+      if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+      }
+      return;
+   }
+
+
+    if (event && event.target && event.target.files) {
+      const selectedFiles = Array.from(event.target.files);
+      // const now = moment().format("YYYYMMDD");
+
+      const title = `${item_encode}-${venderid}-NG`;
+
+      let renamedFiles = [];
+      //目前需要將選擇的檔案名稱 rename
+      //格式: moment(當前日期)-title-流水號-檔案名稱.副檔名
+      selectedFiles.forEach((file, idx) => {
+        // console.log(`第 ${idx} 項： 檔案:${file}`);
+        // // 或 push 到另一個陣列 newArr.push(item)
+        const ext = file.name.slice(file.name.lastIndexOf("."));
+        const single_size = file.size;
+        const newdefineName = `${title}-${idx+1}`; // 格式: 日期-物料碼-廠商號-序號.ext
+
+        const fileExtension = file.name.split(".").pop().toLowerCase();
+
+        if (!allowedExtensions.includes(fileExtension)) {
+          // 如果檔案副檔名不在允許的清單中，拒絕上傳
+          console.log("拒絕上傳：", fileExtension);
+        } else {
+          console.log("允許上傳：", file.name);
+          renamedFiles.push(file);
+        }
+
+      //  renamedFiles.push(new File([file], newdefineName, { type: ext }));
+      
+        totalSize += single_size; // 累加檔案大小
+
+        if (totalSize > MAX_FILE_SIZE) {
+          setOverLimit(true);
+        }
+      
+      });
+
+      const cal_totalMB = totalSize / (1024 * 1024);
+      setTotalMB(cal_totalMB.toFixed(2)); // 更新總大小狀態
+
+      //初始化errorfile
+      if(Number(renamedFiles.length) > 0 ){
+        console.log("目前提交上傳檔案數量為:"+ Number(renamedFiles.length));
+        setIsFilesUpload(true);
+      }      
+      setFile(renamedFiles);
+    }
+  };
+
+   const InitPrevent_allset = () => {
+    setFile([]);
+    
+    if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+    }  
+  }
 
   //切換最小單位重量為
   useEffect(() => {
@@ -419,7 +757,10 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
     console.log(`選擇單位為:${allocate_baseweight} ${baseuiut_type}`);
 
     //1. 判定若是pcs,qty計價單位,則需要換算, 其他則就原始重量
-    const total_weight = adjust_unit_refix ? allocate_baseweight * number_request_value : number_request_value;          
+
+    //若有NG不良的狀況,需要參照
+    const Ref_isNG_Result_Number = isIssuecheck && Number(check_error_pcs) >0 ? Number(number_request_value-check_error_pcs):number_request_value;
+    const total_weight = adjust_unit_refix ? allocate_baseweight * Ref_isNG_Result_Number : Ref_isNG_Result_Number;          
     const unitText_final = adjust_unit_refix ? String(baseuiut_type) : String(unit_fields);
   
     // 2. 轉換為數字前先確認 final_weight 存在
@@ -427,11 +768,16 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
     const weightDisplay = isNaN(weightNum) ? "0.00" : weightNum;
 
     //3. 存入暫存後續導入分配
-    setAll_FinalWeight(weightNum);
-    setConfirm_LastUnit(unitText_final);
-  
-         
-  }, [allocate_baseweight,baseuiut_type]);
+    if(String(radiomethod)=== "normal"){       
+      setAll_FinalWeight(Number(allocatePCS));
+      setConfirm_LastUnit(unit_fields);
+
+    }else{
+      setAll_FinalWeight(weightNum);
+      setConfirm_LastUnit(unitText_final);
+    }
+
+  }, [allocate_baseweight,baseuiut_type,isIssuecheck,check_error_pcs,radiomethod]);
 
 
   //切換日期算出實際週期
@@ -466,15 +812,15 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
           return {
             ...item,
             date_stage_code:
-              `${parts[0]}-${parts[1]}-${parts[2]}-${parts[3]}-${house_wave_year}${save_stage}-${String(index+1).padStart(3,"0")}`
-          };
+              //`${parts[0]}-${parts[1]}-${parts[2]}-${parts[3]}-${house_wave_year}${save_stage}-${String(index+1).padStart(3,"0")}`
+              `${parts[0]}-${parts[1]}-${parts[2]}-${house_wave_year}${save_stage}-${String(index+1).padStart(3,"0")}`
+            };
         })
       );
     }
   }, [allocstage_calculate]);
 
   const handleCancel = () => {
-
      onHide();
   };
 
@@ -495,9 +841,39 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
         return;  
      }
 
+     //當若有參照NG數量加總後,配置小於等於0(負值)則不通行
+     if(Number(final_weight) <= 0){
+        toast.error(`配置總統計為:${final_weight},目前為0或小於0,無法配置!`);
+        setAllocate_select_need(false)        
+        return;      
+     }
+
+     //若選擇有異常狀態,但值為0則不通行
+     if( check_iqc_mode === "Error" && Number(check_error_pcs) === 0){
+        toast.error(`目前已切換異常模式,數量為:${check_error_pcs},無法配置!`);
+        setAllocate_select_need(false)        
+        return;      
+     }
+
      //當確認無誤(數值(浮點數),且不為0的情況下)
      setAllocate_select_need(true);    
+    //  console.log("實際不良原因為:"+ error_status);
      
+  };
+
+  const getFileIcon = (fileName) => {
+    const ext = fileName.split(".").pop().toLowerCase();
+    if (ext === "pdf") return <FaFilePdf style={{ color: "red" }} />;
+    if (ext === "doc" || ext === "docx")
+      return <FaFileWord style={{ color: "blue" }} />;
+    if (ext.includes("xls") || ext === "csv") return <FaFileExcel style={{ color: "green" }} />;
+    if (ext === "sql") return <FaPaperclip style={{ color: "grey" }} />;
+    if (     
+      ext !== "pdf" 
+    ) {
+      return <FaFileImage style={{ color: "orange" }} />;
+    }
+    return null;
   };
 
 
@@ -521,16 +897,25 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
         const stage_d = String(getWeekOfYear(allocstage_calculate)).trim(); 
          
 
-        //自動分配
-        if(String(radiomethod)=== "prorated"){                      
-            buildProratedRows( erp_year , stage_d ,allocatePCS);
-        } //手動執行分配
-        else{
-
+        //自動分配  
+        if(String(radiomethod)=== "prorated"){ 
+            buildProratedRows( erp_year , stage_d ,allocatePCS );
         }
-      } 
-    }, [ enable_radiomode,allocstage_calculate,allocatePCS,float_support]);
+        // 一般通用分配
+        else if(String(radiomethod)=== "normal" ){                      
+            buildNormalRows( erp_year , stage_d ,allocatePCS , check_error_pcs );
+        }          
+        //手動執行分配
+        else{
+        }
 
+        //判定是否要開啟異常附加檔案提交元件(非一般模式下)
+        if(String(radiomethod) !== "normal"){
+          Number(check_error_pcs) > 0 ? setMustAttached(true):setMustAttached(false);  // 判定是否要提供附加文件啟動
+        }
+
+      } 
+    }, [ enable_radiomode,allocstage_calculate,allocatePCS,check_error_pcs,radiomethod, float_support]);
 
   //回到初始第一步
   const handle_backfirststep = () => {
@@ -539,6 +924,7 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
     setRadioMethod("");
     setallocate_DataRows([]); //清空reset init
     setAllocatePCS(1);
+    setFile([]);
   };
 
   const select_suitable_unit = ( reciver_unit) => {     
@@ -589,10 +975,14 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
             console.log(`${msg} ,後續無法提交作業!`);            
           }   
           
+          const input_empty_count =  Math.ceil( Number(allocate_dataRows.length) - Number(Mannul_Result.count)).toString();
+
           //偵測目前提交數值總和
           if(Mannul_Result.count > 0 &&  Mannul_Result.sum > 0){                
-             console.log(`目前提交分配量總和為-> ${parseFloat(Mannul_Result.sum).toFixed(2)}`);
 
+
+             console.log(`目前提交分配量總和為-> ${parseFloat(Mannul_Result.sum).toFixed(2)}  \r\n 數量為:${Mannul_Result.count} \r\n 尚未輸入值的數量為:${input_empty_count}`);
+             
           }else{
             console.log(`目前無任何提交量數值:${Mannul_Result.sum} ! 數量為:${Mannul_Result.count}`);
           }
@@ -600,15 +990,320 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
       }
     }, [allocate_dataRows]);
 
+  
+   const handle_Allocation_OnHide =  async (meg) => {
+    setmodalIsOpen(false);
+
+    if(meg ==="Yes")
+    {      
+      //執行分配指定採購form_id指向item並綁定各入倉週期編碼
+       Implement_Erp_MaterialAllcation(allocaTarget);
+      // toast.success("分配料成功!");  
+    }else{
+      // toast.success("取消分配物料作業!");  
+    }    
+  };
+
 
   const handleSubmit_allocate = async (e) => {
-
     e.preventDefault();  //預防未keyin就提交
 
-     
+    let final_sum_calculation = parseFloat(Mannul_Result.sum).toFixed(2);
+    const input_empty_count =  Math.ceil( Number(allocate_dataRows.length) - Number(Mannul_Result.count)).toString();
+
+    const lower_allowable_value = Number((final_weight * lower_percentage_torlence).toFixed(2));
+    const upper_allowable_value = Number((final_weight * upper_percentage_torlence).toFixed(2));
+
+    const diff_tolence_val = Number(final_sum_calculation - final_weight).toFixed(3);
+    const all_allocate_packet = Number(Mannul_Result.count);
+    
+    console.log(`單號採購量為:${Number(final_weight)} \r\n` +"最後要提交的總量為:"+final_sum_calculation +  '\r\n'+"配發量為:" + Mannul_Result.count +  '\r\n'+"與實際採購誤差量:"+ diff_tolence_val);
+    
+    console.log("radiomethod 模式目前為:"+radiomethod);
+
+    //以下為確認提交資訊(有輸入計總量低於5%下限,或空值或不合法的狀態),此機制只針對手動模式判斷
+    if( radiomethod  === "mannul" ){           
+      if(input_empty_count > 0){
+        showMessage('error','確認提交資訊(有輸入空值或不合法的狀態),請確認!');
+        return; 
+      }else if(allocate_dataRows.length === 0){
+        showMessage('warning','請增加配置量!');
+        return;   
+      }else if (final_sum_calculation < lower_allowable_value ){
+        showMessage('error',`目前的提交總量:${final_sum_calculation},\r\n已低於下限量(lowlimit)->${lower_allowable_value}\r\n 請輸入符合之總量值!`);
+        return;
+      } else if ( final_sum_calculation > upper_allowable_value){
+        showMessage('error',`目前的提交總量:${final_sum_calculation},\r\n已高於上限量(uplimit)->${upper_allowable_value}\r\n 請輸入符合之總量值!`);
+        return;
+      }        
+    }   
+    else{
+        //自動分配模式
+      if( radiomethod  === "prorated" )
+      {
+           if(allocate_dataRows.length === 0 || Number(final_sum_calculation) <= 0){
+              // console.log("自動分配模式目前輸入資訊量為:"+ Number(allocate_dataRows.length));
+              showMessage('warning','請選擇分配包材量!'); 
+              return;
+           }
+      }
+      // 一般入倉通用模式
+      else
+      {
+          const all_normal_packet = Math.ceil(Number(mux_add_subtrac));  //實際要提交之總量
+          const form_order_quantity =  Math.ceil(Number(number_request_value)); //採購單數量
+
+          //只針對存取數據量不能空 
+           if(allocate_dataRows.length === 0){
+              showMessage('warning','請選擇分配包材量!'); 
+              return;
+           }
+
+           //有檢驗NG數量,若無提供附加文件(圖檔或pdf)則卡控
+          if( Number(check_error_pcs) > 0 && file.length === 0 ){
+              showMessage('error','請至少提供一個至多個異常附加文件(圖片,pdf)!'); 
+              return;
+          }
+
+          //  if(!isFilesUpload){
+          //     showMessage('error','沒有提供上傳異常附加檔案!'); 
+          //     return;
+          // }
+           //超出附加檔案總大小限制
+          if(isOverLimit){
+              showMessage('error','已經超出附加檔案總大小限制(10MB)!'); 
+              return;
+          }
+                   
+          //針對IQ檢驗OK數量和NG數量加總判斷, 與採購單號數量需要一致
+          if ( all_normal_packet < form_order_quantity  ){
+            showMessage('error',`目前的進料入倉總量:${all_normal_packet},\r\n已低於採購單量(lowlimit)->${form_order_quantity}\r\n 請輸入符合之總量值!`);
+            return;
+          } else if (all_normal_packet > form_order_quantity ){
+            showMessage('error',`目前的進料入倉總量:${all_normal_packet},\r\n已高於採購單量(uplimit)->${form_order_quantity}\r\n 請輸入符合之總量值!`);
+            return;
+          }
+
+          // console.log(`OK ->目前的進料入倉總量:${all_normal_packet},已平於於採購單量(uplimit)->${form_order_quantity}\r\n 符合之總量值.準備提交prepare!`);
+          // return;
+      }    
+    }
+
+    //這邊順勢檢查倉位是否合理字串
+    // if(!stack_codevalid){          
+    //   toast.error("倉位字串有錯誤(應為:英文加數字)!");
+    //   return;
+    // }
+
+    // console.log("不良原因狀態為:"+error_status +  "error_status 結構為 " + typeof error_status  + "  check_iqc_mode 模式為:"+ check_iqc_mode + "  isIssuecheck 布林狀態為:"+ isIssuecheck )
+
+
+    //有檢驗NG數量,若無提供附加文件(圖檔或pdf)則卡控
+    if( Number(check_error_pcs) > 0 && file.length === 0 ){
+        showMessage('error','請至少提供一個至多個異常附加文件(圖片,pdf)!'); 
+        return;
+    }
+
+    // console.log("radiomethod模式為=" + radiomethod+ " - 不良原因狀態為:"+error_status +  "error_status 結構為 " + typeof error_status  + "  check_iqc_mode 模式為:"+ check_iqc_mode + "  isIssuecheck 布林狀態為:"+ isIssuecheck )
+
+
+    if( check_iqc_mode === "Error" && isIssuecheck ){  
+          
+          if( error_status.length === 0 || error_status.includes("")){
+            showMessage('warning','沒有選擇異常原因,請選擇至少一項!'); 
+            return;
+          }
+
+          if(!isFilesUpload){
+              showMessage('error','沒有提供上傳異常附加檔案!'); 
+              return;
+          }
+
+           //超出附加檔案總大小限制
+          if(isOverLimit){
+              showMessage('error','已經超出附加檔案總大小限制(10MB)!'); 
+              return;
+          }
+      }
+
+    // 權限通過 → 打開二次確認 Modal
+    setAllocaTarget({ final_weight, final_sum_calculation, all_allocate_packet , diff_tolence_val, g_unitText_type , name,memberID ,radiomethod});
+    setmodalIsOpen(true);
+  };
+
+  //將要提交的組態重新打包
+  const prepare_submit_allocateData = ( sum_calcula_number ,task_name, task_memid ) => {
+
+    let payload =[];
+    const submitTime = new Date(); // JS Date 物件
+
+    //將 submitTime 轉 MySQL DATETIME 格式
+    const create_date = toMySQLDateTime(submitTime);
+  
+    // console.log("原先要分配組態內容為:"+ JSON.stringify(allocate_dataRows,null,2));
+
+    const auth_convert_type  =!Array.isArray(positionarea) ? JSON.parse(positionarea).join('_'):positionarea.join('_');
+
+    //確認檔案狀態
+    const issue_filelist = file.length > 0
+                          ? file
+                              .map(f => f.name)
+                              .filter(name => name !== "")
+                              .join(",")
+                          : "";
+
+    //確認有內容,至少一組
+    if(allocate_dataRows.length > 0 ){          
+        //  allocate_dataRows.map(( row , index)=>{                         
+        //     const temp = [ 
+        //       create_date ,              // 提交日期(時間) 
+        //       purch_formId,              // 採購單號
+        //       pur_pk_serialID,           // 採購單table pk 序號
+        //       product_name ,             // 物料名稱
+        //       specification,             // 規格
+        //       row.date_stage_code,       // 入倉編碼
+        //       sum_calcula_number,        // 計算totalb入總量              
+        //       row.inputValue,            // 每批次量
+        //       g_unitText_type,           // 計算單位
+        //       task_name,                 //分配者姓名
+        //       task_memid,                //分配者工號
+        //       positionarea,              //分配者所屬部門
+        //       warehouse_label,           //庫別
+        //       stackposition_label        //倉位
+        //     ];
+        //     payload.push(temp)
+        // });
+
+        return allocate_dataRows.map(row => [
+            create_date,
+            purch_formId,
+            pur_pk_serialID,
+            String(item_encode)||"?",
+            String(pdc_name)||"",
+            String(pdc_spec)||"",
+            String(venderid)||"",
+            row.date_stage_code,
+            String(radiomethod)=== "normal"? Number(final_weight+check_error_pcs):sum_calcula_number,
+            !isNaN(parseFloat(row.inputValue))? parseFloat(row.inputValue).toFixed(2): "",
+            String(radiomethod)=== "normal"? unit_fields:g_unitText_type,
+            Number(check_error_pcs),
+            unit_fields,
+            String(error_status).trim("")||"",
+            task_name,
+            task_memid,
+            auth_convert_type,
+            warehouse_label,
+            stackposition_label,
+            String(radiomethod).trim(""),
+            issue_filelist         
+        ]);
+    }
+
+    return payload;
 
   };
 
+
+  //執行分配api運行
+  const Implement_Erp_MaterialAllcation = async ( allocaTarget) => {
+       const {  final_weight, final_sum_calculation, all_allocate_packet , diff_tolence_val, g_unitText_type , name,memberID } = allocaTarget || {};
+       
+       const formData_final = prepare_submit_allocateData( final_sum_calculation,name,memberID);
+
+      //確認檔案狀態
+      const issue_filelist = file.length > 0
+                            ? file
+                                .map(f => f.name)
+                                .filter(name => name !== "")
+                                .join(",")
+                            : "";
+     
+       const final_allocate_packet = (radiomethod === "mannul") ? parseInt(Mannul_Result.count):parseInt(allocatePCS);
+       
+      //  const convert_json_formData = JSON.stringify(formDataToSend);
+        
+      //  !Array.isArray(formDataToSend)?console.log("即將要分配組態內容為 formDataToSend: "+ JSON.stringify(formDataToSend,null,2))
+      //                         :console.log("formDataToSend 資料內容List為: "+ Object.values(formDataToSend)+ "一共"+Object.values(formDataToSend).length +"筆資料");
+       
+      // formDataToSend.forEach((item, index) => {
+      //   console.log(`第 ${index + 1} 筆資料`);
+      //   console.log(JSON.stringify(item, null, 2));
+      // });   
+      
+      //預防重複click響應
+      if (loading) return;
+
+      setLoading(true);
+
+      // 前端 HTTP 分批大小
+      const API_BATCH_SIZE = 100;
+       
+      try {      
+            const totalCount = formData_final.length;
+            let successCount = 0;
+            for (let i = 0 ; i < totalCount; i += API_BATCH_SIZE) {
+                
+                  const chunk_bat = formData_final.slice(
+                    i,
+                    i + API_BATCH_SIZE
+                  );
+
+                  const formDataToSend = new FormData();
+
+                  //---start-------------
+                  //資料跟檔案要一起送
+                  formDataToSend.append(
+                      "allocateData",
+                      JSON.stringify(chunk_bat)
+                  );
+
+                   //檔案批送
+                  if (issue_filelist!=="") {
+                      file.forEach((fname, idx) => {
+                        formDataToSend.append("files", fname);          
+                      });
+                  }
+
+                  //紀錄批次序號當(chunkIndex === 0)後端判斷完整寫入空間和存庫,其餘都只存庫
+                   formDataToSend.append("chunkIndex", i / API_BATCH_SIZE ); 
+                  //---end-------------
+
+                  const res = await axios.post(
+                    `${config.apiBaseUrl}/purchsaleinvtory/allocation_mulitrow`,
+                   //  "http://localhost:3009/purchsaleinvtory/allocation_mulitrow",
+                      formDataToSend,
+                    {
+                      headers: {
+                        "Content-Type": "multipart/form-data",
+                      },
+                    });
+
+                  if(res.status === 200){
+
+                      successCount += chunk_bat.length;
+
+                      setUploadProgress(
+                        Math.round(((i+chunk_bat.length)/totalCount)*100)
+                      );
+
+                      if(successCount >= totalCount -1 ){
+                          // ✅ 成功全部分配後將當前pumpup關閉              
+                          toast.success(`分配採購序序號完成,一共配發${final_allocate_packet}包!`); 
+                          handleCancel();
+                      }
+                  }
+            }                                
+
+        } catch (error) {
+            if (axios.isCancel(error)) {
+              console.log("🚫 request 被取消");
+            } else {
+              console.error("Error post convert_json_formData:", error);
+            }        
+        } finally{
+           setLoading(false);
+        }
+ };
   
   return(
     <Modal show={show} onHide={onHide} dialogClassName="allocatetion_form">
@@ -627,7 +1322,7 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                         <h1 style={{ textAlign: "center", verticalAlign: "middle",fontSize: "36px"}}>採購物料分配|Material Procurement Allocation</h1>                    
                         <button
                           type="button"
-                          style={{ marginLeft: "70px", backgroundColor: "red" , alignItems:"center" ,width:"70px" }}
+                          style={{ marginLeft: "70px", backgroundColor: "red" , alignItems:"center" ,width:"70px" }}                          
                           onClick={handleCancel}
                         >
                           關閉
@@ -673,7 +1368,7 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                     </span>                         						      
                    {
                     allocat_data
-                      .slice(1, 7)
+                      .slice(1, 8)
                       .map((it, idx) => (
                         <div
                           key={idx}
@@ -707,33 +1402,257 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                             </span>                          
                         </div>
                       ))
-                  }
-                  
+                  }                  
               </div>
+        
               <div className="allocate-switch">                
-                <input type="checkbox" id="switch"/>
-                <label htmlFor="switch">
+                <input type="checkbox" 
+                       id="switch"                       
+                       checked={istaskallocate_mode}                       
+                       onChange={(e) => setTaskAllocate_Mode(e.target.checked)}
+                />
+                <label className="switch-label" htmlFor="switch">
                     <span className="switch-txt"
-                          turn_allocate="生產用料"
-                          turn_direct="一般通用"
+                          turn_direct="一般通用" 
+                          turn_allocate="生產用料"                                                                             
                      >    
                     </span>
                 </label>
-                <p style={{alignItems:"center", fontSize:"1.0rem" , fontStyle:"oblique"}}>模式|Mode</p>
+                <p style={{alignItems:"center", fontSize:"1.0rem" , fontStyle:"oblique"}}>模式|Mode</p>                                                  
+                <div className="warehouse-group">
+                  <label >庫別:
+                      <select
+                        name="warehouse"
+                        style={{marginRight:"5px" , transform: "translateX(5px)" , backgroundColor:"rgba(240, 240, 221, 0.73)" }}
+                        value={warehouse_label}                        
+                        onChange={handle_Change}
+                      >			   
+                        {
+                          storeitems.map((it, idx) => (
+                            <option key={it.id} value={it.name}>
+                              {/* {`${idx+1}`}.{it.name} */}
+                              {it.name}
+                              </option>
+                          ))
+                        }
+                      </select>	
+                  </label> 
+                  <span className="">倉位:
+                  <select
+                        name="stack_position"
+                        style={{
+                          width: "79%",
+                          paddingleft: "100px",
+                          fontSize: "15px",
+                          paddingRight: "10px", 
+                          borderRadius: "4px", 
+                          backgroundColor:"rgba(240, 240, 221, 0.73)"              
+                        }}
+                        value={stackposition_label}
+                        onChange={handle_Change}
+                      >			   
+                        {
+                          locationitems.map((it, idx) => (
+                            <option key={it.id} value={it.name}>
+                              {/* {`${idx+1}`}.{it.name} */}
+                              {it.name}
+                              </option>
+                          ))
+                        }
+                      </select>	
+                  </span>
+                  {/* <input                    
+                      name="stack_position"
+                      placeholder="輸入倉位(英文含數字)"                                                                    
+                      style={{
+                          width: "39%",
+                          paddingleft: "100px",
+                          fontSize: "15px",
+                          paddingRight: "10px", 
+                          borderRadius: "4px",                
+                      }}
+                      type="text"                          
+                      value={stackposition_label}			 
+                      onChange={handle_Change}
+                    /> */}
+                      
+                </div>                        
               </div>
                {/* 當單位為pcs 以下需要做重量設定在往下一步*/}
-               { adjust_unit_refix &&           
-                  <div
+               {  adjust_unit_refix && istaskallocate_mode &&           
+                    <div
                           className="mb-3"
                           style={{
-                            textAlign: "center",
-                            backgroundColor: "#FFDAC8",
-                            padding: "20px 10px",
-                          }}
-                        >
-                        <label htmlFor="allcate_code">
-                          <strong style={{ fontSize: "26px" }}>請先設置{unit_fields}單位→</strong>
+                            display: "flex",                              
+                            alignItems: "center",                                                                          
+                            backgroundColor: "#c8efff",
+                            padding: "20px 10px",                            
+                            justifyContent: "center",   // ⭐ 關鍵：整體置中
+                            gap: "20px",                 // 每個元件間距                                        
+                            flexWrap: "wrap",         // 螢幕太小時自動換行
+                            marginTop: "25px",
+                            marginBottom: "30px",
+                            margin: "20px 10px 0px",                     
+                          }}                      
+                     >
+                        <label style={{fontSize:"1.7rem" , marginRight: "30px"}}>
+                          <input
+                            name="pass_check"
+                            type="checkbox"
+                             style={{
+                              transform: "scale(1.5)",   
+                              marginRight: "8px",
+                            }}                         
+                            checked={check_iqc_mode === "Pass"}
+                            onChange={handle_Change}
+                            // onChange={() => setCheckIQC_MODE(check_iqc_mode === "Pass" ? "" : "Pass")}
+                          />
+                          全良品
                         </label>
+                       <label style={{fontSize:"1.7rem"}}>
+                          <input
+                            type="checkbox"
+                             style={{
+                              transform: "scale(1.5)",    
+                              //marginRight: "8px",
+                            }}
+                            checked={check_iqc_mode === "Error"}
+                            onChange={handleCheckIssueChange}
+                          />
+                          有異常
+                        </label>
+                        {check_iqc_mode === "Error" && isIssuecheck &&
+                          <div 
+                              style={{
+                                  display: "flex",
+                                  alignItems: "center",                                  
+                                  gap: "10px",
+                                  flexWrap: "nowrap",     // ⭐ 不換行關鍵
+                                  flexShrink: 0,
+                                  whiteSpace: "nowrap",                              
+                              }}
+                          >
+                            <span style={{font:"caption", fontSize: "20px", whiteSpace: "wrap"}}>
+                              檢驗異常數量:
+                            </span>
+                            <input
+                              type="number"
+                              style={{
+                                marginLeft: "10px",
+                                width: "100px",
+                                padding: "8px 10px",
+                                fontSize: "20px",
+                                alignItems:"center",
+                                color:"rgb(22, 22, 17)",
+                                backgroundColor:"rgb(231, 116, 121)"
+                              }}
+                              value={check_error_pcs} 
+                              min={0}
+                              onChange={(e) =>
+                                setCheck_Error_PCS(Number(e.target.value))
+                              }
+                              ></input>
+                              <Select
+                                multiple
+                                value={error_status}
+                                onChange={handleError_list_SelectChange}
+                                displayEmpty
+                                sx={{
+                                  minWidth: 220,
+                                  height: 42,
+                                  flexShrink: 0,
+                                }}
+                                renderValue={(selected) => {
+                                  if (isIssuecheck && selected.length === 0) {
+                                    return (
+                                      <span style={{ color: "#999" }}>
+                                        請選擇異常原因 
+                                      </span>
+                                    );
+                                  } else return selected.join(", ");
+                                }}
+                              >                      
+                              {Issue_all_Options.map((item , index) => (
+                                <MenuItem
+                                  key={item}
+                                  value={item}                                  
+                               //   onChange={() => toggleGroup(item)}                                                                    
+                                >
+                                  <Checkbox checked={error_status.indexOf(item) > -1} />                                  
+                                  <ListItemText
+                                  primary={`${item}`}
+                                  />
+                                </MenuItem>
+                              ))}
+                           </Select> 
+                           {/*如果檢驗異常數量是大等於1以上,下面開啟選擇NG文件附加啟動*/}
+                           {ismustattached && 
+                              <div style={{display:"inline-block",alignItems:"center",gap:"30px"}}>
+                                <label className="TitleName" htmlFor="file-upload">
+                                    NG文件上傳 :
+                                </label>
+                                <label
+                                    className="TitleName"
+                                    htmlFor="file-upload"
+                                    style={{ fontSize: "16px", color: "red", fontWeight: "900"}}
+                                >
+                                    *文件上傳限制10mb : 
+                                </label>
+                                <Form.Control
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileChange}
+                                    accept=".pdf, .jpg, .jpeg, .png ,.tiff , .bmp"
+                                    ref={fileInputRef}
+                                    
+                                  />
+                                  {file.length > 0 && (
+                                    <div className="mt-3"                                         
+                                    >
+                                      <h5>選擇上傳文件:</h5>
+                                      <ul>
+                                        {file.map((fileItem, index) => (
+                                          <li
+                                            key={index}
+                                            style={{                                                                  
+                                              display: "flex",
+                                              gap: "5px",              // 每個元件間距
+                                              flexWrap: "nowrap",         // 不換行
+                                              marginTop: "5px",
+                                            }}
+                                          >
+                                            {getFileIcon(fileItem.name)} {fileItem.name} (
+                                           {`檔案:${index+1}:`} {(fileItem.size / (1024 * 1024)).toFixed(2)} MB)
+                                          </li>
+                                        ))}
+                                      </ul>
+                                      <p style={{ fontWeight: "bold" }}>
+                                          總檔案大小：{totalMB} MB（
+                                          <span style={{ color: isOverLimit ? "red" : "green" }}>
+                                            {isOverLimit ? "已超過限制 10MB" : "可上傳"}
+                                          </span>
+                                          ）
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                            }
+                           </div>                         
+                         }
+                        {check_iqc_mode !==""  && 
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              textAlign:"center",
+                              gap: "10px",
+                              flexWrap: "wrap",
+                              flexShrink: 0,
+                            }}
+                          >
+                         <label htmlFor="allcate_code">
+                           <strong style={{ fontSize: "26px" , ...(check_iqc_mode === "Error" ? {} : { marginLeft: "10px" }),}}>請先設置{unit_fields}單位→</strong>
+                         </label>
                       <input
                         // type={isPasswordVisible ? "text" : "allcate_code"}  
                         placeholder="單位輸入(小數2位)..."           
@@ -783,7 +1702,7 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                       <select
                           onChange={(event) => setbaseuiut_type(event.target.value)}
                           style={{
-                            width: "170px",
+                            width: "110px",
                             height: "50px",
                             marginRight:"10px",
                             fontSize: "1.6rem",
@@ -812,33 +1731,50 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                           }}
                         >
                           共計{select_suitable_unit(baseuiut_type)}為: {final_weight}{adjust_unit_refix?baseuiut_type:unit_fields}
-                      </span>
+                        </span>
+                        </div>                       
+                      }               
                   </div>          
                 }
 
-                  {allocate_need && 
+                {allocate_need &&   
+                  istaskallocate_mode &&
                     <div className="radio-container">
-                    <label className="radio-item">
-                      <input
-                        type="radio"
-                        name="prorated_method"
-                        value={allocatecase.prorated_method}
-                        checked={radiomethod === "prorated"}
-                        onChange={handle_Change}
-                      />
-                      <p className="dbselect">平均分配</p>
-                    </label>
-                    <label className="radio-item">
-                      <input
-                        type="radio"
-                        name="manual_method"
-                        value={allocatecase.manual_method}
-                        checked={radiomethod === "mannul"}
-                        onChange={handle_Change}
-                      />
-                      <p className="dbselect">手動自行分配</p>
-                    </label>
-                  </div>                   
+                      <label className="radio-item">
+                        <input
+                          type="radio"
+                          name="prorated_method"
+                          value={allocatecase.prorated_method}
+                          checked={radiomethod === "prorated"}
+                          onChange={handle_Change}
+                        />
+                        <p className="dbselect">平均分配</p>
+                      </label>
+                      <label className="radio-item">
+                        <input
+                          type="radio"
+                          name="manual_method"
+                          value={allocatecase.manual_method}
+                          checked={radiomethod === "mannul"}
+                          onChange={handle_Change}
+                        />
+                        <p className="dbselect">手動自行分配</p>
+                      </label>
+                    </div>
+                  }
+                  { !istaskallocate_mode &&
+                    <div className="radio-container">
+                      <label className="radio-item">
+                        <input
+                          type="radio"
+                          name="normal_method"
+                          value={allocatecase.normal_method}
+                          checked={radiomethod === "normal"}
+                          onChange={handle_Change}
+                        />
+                        <p className="dbselect">一般檢驗入倉</p>
+                      </label>
+                  </div>                                                                                      
                 }                         
         </div>                
         {/*當選擇好分配模式,顯示以下元件*/}
@@ -881,9 +1817,38 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                 >
                   提交分配
                 </Button>
+                 {loading  && (
+                    <div 
+                          style={{  display: "flex",
+                                   flexDirection: "column",
+                                   alignItems: "center",
+                                   gap: "12px",
+                                   padding: "20px"
+                          }}
+                    >
+                      <Skeleton height={200} style={{ marginBottom: 2 ,borderRadius: 8 ,width: "150%"} } baseColor="#475ac0" highlightColor="#e7eec6" animation="wave"  />                
+                      {/* <Skeleton height={50} baseColor="#2c8f96" highlightColor="#ebec95" animation="wave" /> */}
+                      {/* 旋轉大區塊 Skeleton */}
+                      <div className="spinner-wrapper">
+                        <div className="loading-spinner"></div>
+                          <Skeleton
+                              circle
+                              width={50}
+                              height={50}
+                              baseColor="#10daa7"
+                              style={{
+                                position: "absolute"
+                              }}
+                          />
+                      </div> 
+                        資料提交中 {uploadProgress}%                 
+                    </div>                    
+                   ) 
+              } 
+
                </div>
                 {/* prorated 平均自動分配*/}
-                {radiomethod === "prorated" && (
+                {istaskallocate_mode && radiomethod === "prorated" && (
                  <div
                        style={{
                           width: "80%",
@@ -906,7 +1871,9 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                       type="number"
                       style={{
                         marginLeft: "10px",
-                        width: "120px",
+                        width: "100px",
+                        padding: "8px 10px",
+                        fontSize: "20px",
                         alignItems:"center",
                         color:"rgb(22, 22, 17)",
                         backgroundColor:"rgb(231, 227, 213)"
@@ -996,7 +1963,7 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                   </div>
                 )}
                 {/* mannul 手動分配 */}
-                 {radiomethod === "mannul" && (  
+                 {istaskallocate_mode  && radiomethod === "mannul" && (  
                   <div
                     style={{
                       width: "80%",
@@ -1040,9 +2007,9 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                             {/* 左側日期區塊 */}
                             <span
                               style={{
-                                fontSize: "22px",
+                                fontSize: "20px",
                                 fontWeight: "bold",
-                                padding: "2px 8px",
+                                padding: "2px 10px",
                                 borderRadius: "8px",
                                 background: "rgba(0,0,0,0.12)", // 遮罩感
                                 backdropFilter: "blur(4px)", // 毛玻璃效果
@@ -1144,7 +2111,229 @@ function AllocationPopup_Work({ show, onHide,allocat_data }) {
                )
               }
             </div>
-         }           
+         }   
+          {/* normal 一般分配 */}
+		      {!istaskallocate_mode && radiomethod === "normal" && (  
+           <div
+              style={{
+                display: "flex",
+                 alignItems: "center",
+                 justifyContent: "center",
+                 gap: "40px",             
+              }}
+           >
+            <div
+                style={{
+                  width: "103%",
+                  marginTop:"20px",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",                          
+                  marginBlock: "inline-block",                          
+                  background: "#f7f7f7",
+                  margin: "10px 30px",
+                }}
+            >
+              {/* 分配PCS */}
+              <div
+                style={{
+                  display:"flex",
+                  //justifyContent: "center", // 整體置中
+                   alignItems: "center",     // 垂直置中
+                  gap: "5px",              // 每個元件間距
+                  flexWrap: "wrap",         // 螢幕太小時自動換行
+                  marginTop: "25px",
+                  marginBottom: "30px",
+                  margin: "20px 10px 0px",
+                }}
+              >
+                <span style={{font:"caption", fontSize:"20px"}}>
+                  入倉檢驗合格數量:
+                </span>
+                <input
+                      type="number"
+                      style={{
+                        marginLeft: "10px",
+                        width: "100px",
+                        padding: "8px 10px",
+                        fontSize: "20px",
+                        alignItems:"center",
+                        color:"rgb(22, 22, 17)",
+                        backgroundColor:"rgb(156, 252, 193)"
+                      }}
+                      value={allocatePCS}                          
+                      min={1}
+                      max={10000}
+                      onChange={(e) =>
+                        setAllocatePCS(Number(e.target.value))
+                      }
+                />                  
+                <span style={{font:"caption", fontSize:"20px"}}>
+                  檢驗異常數量:
+                </span>
+                <input
+                  type="number"
+                  style={{
+                    marginLeft: "10px",
+                    width: "100px",
+                    padding: "8px 10px",
+                    fontSize: "20px",
+                    alignItems:"center",
+                    color:"rgb(22, 22, 17)",
+                    backgroundColor:"rgb(231, 116, 121)"
+                  }}
+                  value={check_error_pcs} 
+                  min={0}
+                  onChange={(e) =>
+                    setCheck_Error_PCS(Number(e.target.value))
+                  }
+                />
+                {/*如果檢驗異常數量是大等於1以上,下面開啟選擇NG文件附加啟動*/}
+                {ismustattached && 
+                  <div style={{display:"flex",alignItems:"center",gap:"30px"}}>
+                    <label className="TitleName" htmlFor="file-upload">
+                        NG文件上傳 :
+                    </label>
+                    <label
+                        className="TitleName"
+                        htmlFor="file-upload"
+                        style={{ fontSize: "16px", color: "red", fontWeight: "900"}}
+                    >
+                        *文件上傳限制10mb : 
+                    </label>
+                    <Form.Control
+                        type="file"
+                        multiple
+                        onChange={handleFileChange}
+                        accept=".pdf, .jpg, .jpeg, .png ,.tiff , .bmp"
+                        ref={fileInputRef}
+                        
+                      />
+                      {file.length > 0 && (
+                        <div className="mt-3">
+                          <h5>選擇上傳文件:</h5>
+                          <ul>
+                            {file.map((fileItem, index) => (
+                              <li
+                                key={index}
+                                style={{                                                                  
+                                  display: "flex",
+                                  gap: "5px",              // 每個元件間距
+                                  flexWrap: "nowrap",         // 不換行
+                                  marginTop: "5px",
+                                }}
+                              >
+                                 {getFileIcon(fileItem.name)} {fileItem.name} (
+                                {(fileItem.size / (1024 * 1024)).toFixed(2)} MB)
+                              </li>
+                            ))}
+                          </ul>
+                          <p style={{ fontWeight: "bold" }}>
+                              總檔案大小：{totalMB} MB（
+                              <span style={{ color: isOverLimit ? "red" : "green" }}>
+                                {isOverLimit ? "已超過限制 10MB" : "可上傳"}
+                              </span>
+                              ）
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                   }
+                  </div>                  
+                   <div  
+                      style={{
+                          maxHeight: "400px", // 最大高度
+                          overflowY: "auto", // 超過出現捲軸
+                          overflowX: "hidden",
+                          paddingRight: "8px",
+                           marginRight:"12px"
+                        }}
+                      >       
+                        <span 
+                         style={{
+                              display: "block",
+                              width: "fit-content",
+                              margin: "5px auto",
+                              fontSize: "3rem",
+                              fontWeight: "bold",
+                              borderBottom: "2px solid #71cfc7",
+                              paddingBottom: "8px",
+                          }}                          
+                        >通用編碼 
+                        </span>
+
+                        {allocate_dataRows.map((row, idx) => (
+                          <div 
+                              style={{
+                                display: "flex",                                
+                                gap: "20px",                                
+                                borderBottom: "1px solid #71cfc7",
+                                // justifyContent: "space-between", // 平均分配左右空間
+                                alignItems: "center",
+                                gap: "20px",
+                                padding: "12px 16px",
+                                marginBottom: "1px solid #71cfc7", // 每個 row 間距
+                              }}
+                              key={idx}
+                          >                        
+                            {/* 左側日期區塊 */}
+                            <span
+                              style={{
+                                width:"920px",
+                                fontSize: "22px",
+                                fontWeight: "bold",
+                                padding: "10px 30px",
+                                borderRadius: "8px",
+                                background: "rgba(0,0,0,0.12)", // 遮罩感
+                                backdropFilter: "blur(4px)", // 毛玻璃效果
+                                WebkitBackdropFilter: "blur(4px)",
+                                boxShadow: "0 2px 6px rgba(213, 216, 178, 0.15)",
+                                color: "#020408",                               
+                              }}
+                            >
+                              第{idx + 1}筆: {row.date_stage_code}
+                            </span>
+                            {/* 右側重量 */}
+                              <span
+                                style={{
+                                  fontSize: "18px",
+                                  fontWeight: "60px",
+                                  color: "#134e4a",
+                                  flex: 1,
+                                  textAlign: "right",
+                                  paddingRight:"20px"
+                                }}
+                              >
+                                {row.inputValue||""}
+                                {" "}({unit_fields})
+                              </span>                       
+                          </div>
+                        ))}
+                     </div>
+                  </div>             
+                </div>
+		          )
+         }
+
+         {modalIsOpen && allocaTarget ? (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Confirm_AllocationModal
+                show={modalIsOpen}
+                onHide={handle_Allocation_OnHide}
+                centered={true}
+                distribute_info={allocaTarget}
+              />
+            </Suspense>
+          ) : null} 
+          {/* MessagePopup 組件 */}
+          <MessagePopup
+            show={messagePopup.show}
+            type={messagePopup.type}
+            title={messagePopup.title}
+            message={messagePopup.message}
+            onHide={hideMessage}
+            autoClose={messagePopup.type === 'success'}
+            autoCloseDelay={3000}
+          />         
       </Modal>
   );
 }

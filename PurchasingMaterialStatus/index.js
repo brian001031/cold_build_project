@@ -1,7 +1,7 @@
  
 import { BrowserRouter, Routes, Route  } from "react-router-dom";
 import { Suspense } from "react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback  } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
@@ -10,6 +10,9 @@ import axios from "axios";
 import config from "../../config";
 import dayjs from "dayjs";
 import './index.scss';
+import { toast } from "react-toastify";
+// 導入 MessagePopup 組件
+import MessagePopup from '../../components/MessagePopup';
 
 const AllocatPopup = React.lazy(() => import("../../pages/PurchasingMaterialStatus/allocatpopup")); //分配料彈出視窗
 
@@ -24,6 +27,29 @@ const [purchaseItemDetail, setPurchaseItemDetail] = useState({});  //存取當�
 const [open_allocate_popup, setOpenAllocatePopup] = useState(false);  //開啟物料分配彈出視窗控制
 const [puchaes_allocatedata, setPuchaes_AllocateData] = useState([]);  // promp 引入popup 分配參考
 
+// MessagePopup 狀態管理
+  const [messagePopup, setMessagePopup] = useState({
+      show: false,
+      type: '',
+      title: '',
+      message: ''
+  });
+
+  // 顯示訊息
+  const showMessage = useCallback((type, message, title = '') => {
+    setMessagePopup({
+      show: true,
+      type,
+      title,
+      message
+    });
+  }, []);
+
+  // 關閉訊息
+  const hideMessage = useCallback(() => {
+    setMessagePopup(prev => ({ ...prev, show: false }));
+  }, []);
+
 
   const handleOpen = (link) => {
     setCurrentLink(link);
@@ -35,8 +61,8 @@ const [puchaes_allocatedata, setPuchaes_AllocateData] = useState([]);  // promp 
     const fetch_PurchaseItemData = async () => {
       try {
         const response = await axios.get(
-          `${config.apiBaseUrl}/purchsaleinvtory/getPurchase_LastnewData`
-          // "http://localhost:3009/purchsaleinvtory/getPurchase_LastnewData"
+         `${config.apiBaseUrl}/purchsaleinvtory/getPurchase_LastnewData`
+         // "http://localhost:3009/purchsaleinvtory/getPurchase_LastnewData"
         );
 
         const res_info = response.data;        
@@ -95,7 +121,7 @@ const toggleGroup = async (formId,  purch_case ,delivery_status) => {
     try {
       const response = await axios.get(
           `${config.apiBaseUrl}/purchsaleinvtory/Purchase_Index_Detail`
-         // "http://localhost:3009/purchsaleinvtory/Purchase_Index_Detail"
+         //   "http://localhost:3009/purchsaleinvtory/Purchase_Index_Detail"
            ,
            {
               params: {
@@ -120,10 +146,48 @@ const toggleGroup = async (formId,  purch_case ,delivery_status) => {
 };
 
 
+const check_if_allocate_barcode = async (form_id, pk_idnum) =>{
+
+  try {
+      const res = await axios.get(
+          `${config.apiBaseUrl}/purchsaleinvtory/check_erp_allocate_barcode`
+         //   "http://localhost:3009/purchsaleinvtory/check_erp_allocate_barcode"
+           ,
+           {
+              params: {
+                purch_orderform: form_id,
+                pk_number:pk_idnum
+              }
+           }
+        );
+
+      const result_count = res.data?.get_allocate_num;
+
+      // console.log("回傳建立入倉數量為: "+ result_count)   
+
+      return result_count > 0;
+          
+    } catch (err) {
+      console.error(err);
+    }
+}
+
+
 const handle_allocate_popup = async (  e , order_str, all_record ) =>{
 
   e.preventDefault(); //  防止 form / input 重送
+
+  //先行確認是否有分配好入倉編碼(allocate_barcode_text)  
+  const check_have = await check_if_allocate_barcode(order_str, all_record.id);
   
+  // console.log("確認是否有建立入倉編碼: "+ check_have)   
+
+  if(check_have){
+    // toast.success(`此採購單/工序:${order_str}-${all_record.id},目前已經分配入倉完畢!`);
+    showMessage('',`此工序:${all_record.id} \r\n 採購單號:${order_str} \r\n 目前已經分配入倉完畢!`);
+    return ;
+  }
+
   OpenAllocate_Enable();
 
   const allocat_value = all_record.quantity;
@@ -132,8 +196,10 @@ const handle_allocate_popup = async (  e , order_str, all_record ) =>{
   const allocat_itemcode = all_record.item_code;
   const allocat_spec = all_record.specification;
   const allocat_venderid = all_record.vendor_id;
+  const allocat_itemname = all_record.product_name;
 
-  const all_allocat_info = [  order_str , allocat_pkid , allocat_spec , allocat_itemcode , allocat_value , allocat_unit ,allocat_venderid];
+
+  const all_allocat_info = [  order_str , allocat_pkid , allocat_itemname ,allocat_spec , allocat_itemcode , allocat_value , allocat_unit ,allocat_venderid];
 
   setPuchaes_AllocateData(all_allocat_info);
 }
@@ -362,7 +428,10 @@ return (
                                                         background:"rgb(240, 240, 239)"
                                                       }}
                                                     >
-
+                                                        <div>
+                                                          採購工序：
+                                                          {detail.id}
+                                                        </div>
                                                         <div>
                                                           品名：
                                                           {detail.product_name}
@@ -434,7 +503,7 @@ return (
                                                             e.currentTarget.style.boxShadow =
                                                               "0 4px 10px rgba(0,0,0,0.25)";
                                                           }}
-                                                           onClick={(e) => handle_allocate_popup( e, id, detail)}
+                                                           onClick={(e) => handle_allocate_popup( e, id, detail )}
                                                         >
                                                           執行分配
                                                         </div>
@@ -563,7 +632,10 @@ return (
                                                       border: "1px solid #0e0202"
                                                     }}
                                                   >  
-                                                  
+                                                      <div>
+                                                          採購工序：
+                                                          {detail.id}
+                                                      </div>
                                                       <div>
                                                         品名：{detail.product_name}
                                                       </div>
@@ -645,7 +717,17 @@ return (
 
                         </Suspense>
                       )
-                    }
+                   }
+                   {/* MessagePopup 組件 */}
+                    <MessagePopup
+                      show={messagePopup.show}
+                      type={messagePopup.type}
+                      title={messagePopup.title}
+                      message={messagePopup.message}
+                      onHide={hideMessage}
+                      autoClose={messagePopup.type === 'success'}
+                      autoCloseDelay={3000}
+                    />     
             </div>
      );
 };

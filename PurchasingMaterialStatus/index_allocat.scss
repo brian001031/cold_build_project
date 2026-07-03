@@ -1,10 +1,10 @@
 
    //直接全域
   .allocatetion_form {
-        max-width: 1150px;   
-        max-height: 1100px;
-        width: 108%;
-        height: 90%;
+      max-width: 1150px;   
+      max-height: 1100px;
+      width: 108%;
+      height: 110%;
  
 
  .titlerange {
@@ -14,6 +14,11 @@
     align-items: center;
     margin: 20px 0;
     gap: 15px;
+ }
+
+ .slect-cutumer {
+  display: flex;
+  flex-direction: column;
  }
 
 .radio-container {
@@ -115,34 +120,47 @@
   }
 
   /* OFF */
-  .switch-txt::before {
-    content: attr(turn_allocate);
+  .switch-txt::before{
+    content: attr(turn_direct);
     right: 20px;
     color: #1726ca;
   }
 
   /* ON */
   .switch-txt::after {
-    content: attr(turn_direct);
+    content: attr(turn_allocate);
     left: 20px;
     color: #1e2112;
   }
 
   /* 預設 OFF 顯示 */
-  #switch + label .switch-txt::before {
+  
+
+  /* Toggle ON */
+  #switch:checked + .switch-label {
+    background: #ffd59e;
+  }
+
+  #switch:checked + .switch-label:after {
+    //left: calc(100% - 1px);   
+     transform: translateX(98px); 
+  }
+
+  /* 文字切換 */
+  #switch + .switch-label .switch-txt::before {
     opacity: 1;
   }
 
-  #switch + label .switch-txt::after {
+  #switch + .switch-label .switch-txt::after {
     opacity: 0;
   }
 
   /* 切換後 ON 顯示 */
-  #switch:checked + label .switch-txt::before {
+  #switch:checked + .switch-label .switch-txt::before {
     opacity: 0;
   }
 
-  #switch:checked + label .switch-txt::after {
+  #switch:checked + .switch-label .switch-txt::after {
     opacity: 1;
   }
 
@@ -159,6 +177,28 @@
 	  transform: translateX(-100%);
   }
 
+  .switch-label {
+    cursor: pointer;
+    width: 150px;
+    height: 32px;
+    background: #bdedb0; // 綠色
+    border-radius: 100px;
+    position: relative;
+    transition: all .3s ease;
+  }
+
+  .switch-label:after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 48px;
+    height: 28px;
+    border-radius: 20px;
+    background: #014d27;
+    transition: all .3s ease;
+  }
+
   .allocate-switch input[type="checkbox"] {
     height: 0;
     width: 0;
@@ -171,7 +211,7 @@
     gap: 2px;
   }
 
-  .allocate-switch label {
+  .allocate-switch .switch-label {
     cursor: pointer;
     width: 150px;
     height: 30px;
@@ -181,7 +221,7 @@
     position: relative;
   }
 
-  .allocate-switch label:after {
+  .allocate-switch .switch-label:after {
     content: '';
     position: absolute;
     top: 1px;
@@ -197,6 +237,13 @@
     margin: 0;
     font-size: 1rem;
     font-weight: bold;
+  }
+
+  .warehouse-group{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-left:auto;
   }
 
   #send_alloc {
@@ -222,6 +269,50 @@
     box-shadow: 0 5px #666;
     transform: translateY(4px);
   }
-    
+
+  .spinner-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loading-spinner {
+    position: absolute;
+    width: 80;
+    height: 80;
+    border: 8px solid #130f0f;
+    border-top: 8px solid #2410da;
+    border-radius: 50%;
+    animation: spin 1s linear infinite
+  }
+
+  /* 自訂旋轉動畫 */
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .FormGroup {
+    max-width: 200px;
+    margin: 2rem auto;
+    gap: 0.1rem; /* 控制 label 與 Select 間距 */
+  }
+
+  .TitleName {   
+    width: auto;
+    font-weight: bold;
+    font-size: 1.3rem;
+    white-space:nowrap;
+  }
+
  }
 
