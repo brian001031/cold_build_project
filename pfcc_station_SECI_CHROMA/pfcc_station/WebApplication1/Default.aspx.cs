@@ -544,8 +544,8 @@ namespace WebApplication1
                             AllInsert = calculate_insert_currentNumber(g_Batt_Classtype, vparameter);
                         }
                         else {
-                            //AllInsert = g_Modle_CC_Kvalue.Count();       
-                            //AllInsert = g_batterycell_number.Count()-1;
+                          //AllInsert = g_Modle_CC_Kvalue.Count();       
+                          // AllInsert = g_batterycell_number.Count()-1;
                             AllInsert = 36;
                         }
                         
@@ -639,7 +639,7 @@ namespace WebApplication1
                             case "017":   //cc2
                             // case "023":  //pf
                             // case "010":  //cc1
-                                if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1" || vparameter_chg == "0232") //cc2-2 2024 , cc2 017-chroma2 2024開始
+                                if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1" || vparameter_chg == "0232" || vparameter_chg == "023-chromaPF") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                 {
 
                                         //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數                                        
@@ -679,7 +679,8 @@ namespace WebApplication1
                                                         //    cacula_number = cacula_number - 2;
                                                         //}
 
-
+                                                        //向下微調取到合理值 電壓 電流 參數
+                                                       // cacula_number = cacula_number - 150;
                                                         cc1SelectSql = cc1SelectSql + ",(select  fld" + vComID + " from test_LoadPFData003 limit " + (cacula_number) + ",1 ) as V" + (n);
                                                     }
                                                 }
@@ -687,16 +688,16 @@ namespace WebApplication1
                                                 {
                                                     //於實際驗算的count有落差,因充放電有step步數不一致狀態,這邊予以微調降步數才能索引到實際參數值(電流)
                                                     //if (n == 4 || n == 3)
-                                                    if (n == 4)
-                                                    {
-                                                        Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
+                                                    //if (n == 4)
+                                                    //{
+                                                    //    Console.WriteLine($"第{n}個壓段數量:{cacula_number} 第{insert_num}筆");
 
-                                                        //if (cacula_number > 5000)
-                                                        //    cacula_number = cacula_number - 5;
+                                                    //    if (cacula_number > 5000)
+                                                    //        cacula_number = cacula_number - 5;
 
-                                                        //微調步數往前推移擷取
-                                                       //  cacula_number = cacula_number - 5;
-                                                    }
+                                                    //    微調步數往前推移擷取
+                                                    //    cacula_number = cacula_number - 150;
+                                                    //}
 
                                                     //if (iFlag == 19 || iFlag == 20)
                                                     //    cacula_number = cacula_number - 44;
@@ -732,7 +733,7 @@ namespace WebApplication1
                                                             }
                                                                                                                       
                                                             //這邊增加機制防止crash(針對週期有少的情況)
-                                                            if (stepCount == 0)
+                                                            if ( stepCount < 3)
                                                                 step_caculator_value[k] = 3; 
 
                                                             cc1SelectSql = cc1SelectSql + ",( select abs(fld" + vComID + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k]-3) + " ,1 ) as "+ detailVD + "" ;
@@ -757,7 +758,7 @@ namespace WebApplication1
                                                             }
 
                                                             //這邊增加機制防止crash(針對週期有少的情況)
-                                                            if (stepCount == 0)
+                                                            if (stepCount < 3)
                                                                 step_caculator_value[k] = 3;
 
                                                             cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID+4) + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - 3) + " ,1 ) as " + detailmAH + "";
