@@ -1,0 +1,1115 @@
+Attribute VB_Name = "final_package_define_fix"
+Option Explicit
+
+'=========================================================
+' Model / Location 自動產生工具 '
+' 功能：
+' 1. 選擇原始 Excel 檔案
+' 2. 自動尋找欄位： ' PLCCellIDClass_CE ' PLCTrayID_CE
+' 3. 使用者輸入： ' Module No. ' Serial No. ' Cell Group
+' 4. 自動排序： ' Class -> Tray
+' 5. 新增 Model 欄位
+' 6. 新增 Location 欄位
+' 7. Model 格式： ' M9-10496-A46-G
+' 8. 每個 Class： ' 32 顆一個循環 ' 2 顆 = 1 Location ' Location 1~16
+' 9. 原始檔不直接修改
+' 10. 自動另存： ' 原檔名_Package.xlsx '
+' PS註解: SafeExit:、ErrorHandler: 必須留在主 Sub 裡面，而且要放在主程式最後。
+'=========================================================
+
+Sub Generate_Model_Combine_Final()
+
+    Dim sourceFile As Variant
+    
+    Dim wb As Workbook
+    Dim ws As Worksheet
+    
+    Dim classCol As Long
+    Dim trayCol As Long
+	Dim acirCol As Long
+    
+    Dim modelCol As Long
+    Dim locationCol As Long
+	Dim z_impedanceCol As Long
+    
+    Dim lastRow As Long
+    Dim lastCol As Long
+    
+    Dim moduleNo As String
+    Dim serialNo As String
+    Dim cellGroup As String
+    
+    Dim dictLocation As Object
+
+    Dim i As Long
+    Dim classID As String
+    Dim trayID As String	
+	Dim acirID As String
+	
+    Dim locationIndex As Long
+    Dim locationNo As Long
+    
+    
+    Dim headerRange As Range
+        
+        
+    Dim timeCol As Long
+	Dim acirimpedanceCol As Long
+	
+	
+    Dim sourceTime As Variant
+    Dim fileDate As String
+    Dim sequenceNo As Long
+    
+    Dim modelCombine As String
+    
+    Dim processCount As Long
+    Dim classCount As Long
+	Dim match_Count As Long
+    Dim outputFile As String
+    Dim outputFolder As String
+    Dim outputBaseName As String
+    Dim oldCalculation As XlCalculation
+    Dim oldScreenUpdating As Boolean
+    Dim oldEnableEvents As Boolean
+    On Error GoTo ErrorHandler
+    
+    
+    
+    '=====================================================
+    ' 保存 Excel 原始設定
+    '=====================================================
+    oldCalculation = Application.Calculation
+    oldScreenUpdating = Application.ScreenUpdating
+    oldEnableEvents = Application.EnableEvents
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+    Application.Calculation = xlCalculationManual
+    
+    
+    
+    '=====================================================
+    ' 1. 選擇原始 Excel 檔案
+    '=====================================================
+    sourceFile = Application.GetOpenFilename( _
+                 FileFilter:="csv Files (*.csv),*.csv", _
+                 Title:="請選擇原始組裝資料 csv 檔案" _
+                 )
+    
+    If VarType(sourceFile) = vbBoolean Then
+       MsgBox "已取消原始檔案選擇。", vbInformation
+       GoTo SafeExit
+    End If
+    
+    
+    '=====================================================
+    ' 2. 開啟原始組裝csv檔案
+    '=====================================================
+    Set wb = Workbooks.Open(CStr(sourceFile))
+    
+    If wb.Worksheets.Count = 0 Then
+       MsgBox "找不到資料工作表。", vbCritical
+       GoTo SafeExit
+    End If
+    
+    
+    '=====================================================
+    ' 使用第一個工作表
+    '=====================================================
+    Set ws = wb.Worksheets(1)
+    
+    
+    '=====================================================
+    ' 3. 檢查資料
+    '=====================================================
+    
+    If Application.WorksheetFunction.CountA(ws.Cells) = 0 Then
+       MsgBox "原始資料工作表是空白的。", vbCritical
+       GoTo SafeExit
+    End If
+    
+    
+    '=====================================================
+    ' 4. 找最後資料列 / 最後欄
+    '=====================================================
+    
+    lastRow = GetLastRow(ws)
+    lastCol = GetLastColumn(ws)
+    
+    If lastRow < 2 Then
+       MsgBox "找不到資料列。" & vbCrLf & _
+       "請確認第 1 列是欄位名稱。", vbCritical
+       
+       GoTo SafeExit
+    End If
+    
+    
+    '=====================================================
+    ' (5 ,6) 自動尋找 Class 及 Tray 及 timeCol 欄位
+    ' 不依賴固定欄位位置
+    '=====================================================
+    
+    classCol = FindHeaderColumn( _
+               ws, _
+               "PLCCellIDClass_CE" _
+               )
+               
+    trayCol = FindHeaderColumn( _
+               ws, _
+                "PLCTrayID_CE" _
+               )
+                           
+    timeCol = FindHeaderColumn( _
+               ws, _
+                "Time" _
+               )
+			   
+    acirCol = FindHeaderColumn( _
+               ws, _
+                "mOhm" _
+               )
+    
+    If classCol = 0 Or trayCol = 0 Or timeCol = 0 Or acirCol = 0 Then
+         MsgBox _
+        "找不到欄位：" & vbCrLf & _
+        "PLCTrayID_CE 或 PLCCellIDClass_CE 或 Time 或 mOhm" & vbCrLf & _
+        vbCrLf & _
+        "請確認原始檔案第 1 列是否存在此欄位名稱。", _
+        vbCritical, _
+        "欄位檢查失敗"
+       GoTo SafeExit
+    End If
+        
+    '=====================================================
+    ' 7. 使用者輸入 Module
+    '=====================================================
+    
+    
+    moduleNo = InputBox( _
+        "請輸入M模組號", _
+        "Model設定", _
+        "M9")
+    
+    If Trim(moduleNo) = "" Then
+       MsgBox "未輸入模組號。", vbExclamation
+       GoTo SafeExit
+    End If
+    
+    ' 檢查是否 M 開頭
+    If UCase(Left(Trim(moduleNo), 1)) <> "M" Then
+    
+        MsgBox _
+        "模組號格式錯誤，請輸入 M 開頭!" & vbCrLf & _
+        "例如：M9", _
+        vbCritical, _
+        "模組號格式錯誤"
+        
+        GoTo SafeExit
+    End If
+    
+    
+    '=====================================================
+    ' 8. 使用者輸入流水號
+    '=====================================================
+    serialNo = InputBox( _
+        "請輸入流水號", _
+        "流水號設定", _
+        "10496")
+    
+    serialNo = Trim(serialNo)
+    
+    If serialNo = "" Or Not IsNumeric(serialNo) Then
+        MsgBox _
+         "未輸入流水號或流水號不是數字格式。", _
+         vbExclamation
+        GoTo SafeExit
+    End If
+    
+    
+    '=====================================================
+    ' 9. 使用者輸入電芯組別
+    '=====================================================
+    
+    
+    cellGroup = InputBox( _
+        "請輸入電芯組別", _
+        "電芯組別設定", _
+        "G")
+    
+    cellGroup = Trim(cellGroup)
+    
+    If cellGroup = "" Then
+        MsgBox "未輸入電芯組別。", vbExclamation
+        GoTo SafeExit
+    End If
+    
+    
+    
+    '=====================================================
+    ' 10. 建立輸出欄位
+    ' 如果原始檔已經有 Model / Location
+    ' 就直接清除舊資料重新產生
+    ' 如果沒有，就新增欄位
+    '=====================================================
+    
+    
+    modelCol = FindHeaderColumn(ws, "model_combine_number")
+    
+    If modelCol = 0 Then
+       lastCol = GetLastColumn(ws)
+       modelCol = lastCol + 1
+       ws.Cells(1, modelCol).Value = _
+         "model_combine_number"
+    Else
+        ws.Range( _
+            ws.Cells(2, modelCol), _
+            ws.Cells(lastRow, modelCol) _
+       ).ClearContents
+    End If
+    
+    
+    locationCol = FindHeaderColumn(ws, "last_define_location")
+    
+    
+    If locationCol = 0 Then
+       lastCol = GetLastColumn(ws)
+       locationCol = lastCol + 1
+       ws.Cells(1, locationCol).Value = _
+        "last_define_location"
+              
+    Else
+                                
+        ws.Range( _
+           ws.Cells(2, locationCol), _
+           ws.Cells(lastRow, locationCol) _
+        ).ClearContents
+                 
+                 
+    End If
+	
+	
+	z_impedanceCol = FindHeaderColumn(ws, "parallel_match")
+    
+    
+    If z_impedanceCol = 0 Then
+       lastCol = GetLastColumn(ws)
+       z_impedanceCol = lastCol + 1
+       ws.Cells(1, z_impedanceCol).Value = _
+        "parallel_match"
+              
+    Else
+	
+        ws.Range( _
+           ws.Cells(2, z_impedanceCol), _
+           ws.Cells(lastRow, z_impedanceCol) _
+        ).ClearContents
+                 
+    End If
+	
+    
+    '=====================================================
+    ' 取得當前更新最後欄位置
+    '=====================================================
+    lastCol = GetLastColumn(ws)
+    
+    
+    '=====================================================
+    ' 11. 自動排序
+    ' 第一順位：PLCCellIDClass_CE
+    ' 第二順位：PLCTrayID_CE
+	' 第三順位：mOhm
+    '=====================================================
+        
+    With ws.Sort
+         .SortFields.Clear
+         .SortFields.Add _
+            Key:=ws.Range( _
+            ws.Cells(2, classCol), _
+            ws.Cells(lastRow, classCol)), _
+            SortOn:=xlSortOnValues, _
+            Order:=xlAscending, _
+            DataOption:=xlSortNormal
+            
+         .SortFields.Add _
+            Key:=ws.Range( _
+            ws.Cells(2, trayCol), _
+            ws.Cells(lastRow, trayCol)), _
+            SortOn:=xlSortOnValues, _
+            Order:=xlAscending, _
+            DataOption:=xlSortNormal
+	
+	     .SortFields.Add _
+            Key:=ws.Range( _
+            ws.Cells(2, acirCol), _
+            ws.Cells(lastRow, acirCol)), _
+            SortOn:=xlSortOnValues, _
+            Order:=xlAscending, _
+            DataOption:=xlSortNormal
+		  
+			
+		 
+            
+    '-------------------------------------------------
+    ' 設定完整排序範圍
+    '-------------------------------------------------
+            
+         .SetRange ws.Range( _
+                            ws.Cells(1, 1), _
+                            ws.Cells(lastRow, lastCol))
+         
+         .Header = xlYes
+         .MatchCase = False
+         .Orientation = xlTopToBottom
+         .Apply
+         
+    End With
+    
+    
+    '=====================================================
+    ' 12. 建立 Location Dictionary
+    ' ' 每個 Class 獨立計算
+    ' 不看 Tray
+    '=====================================================
+    
+    Set dictLocation = CreateObject("Scripting.Dictionary")
+    
+    
+    
+    '=====================================================
+    ' 13.  開始產生 Model + Location + Impedance_matching
+    '=====================================================
+    
+    processCount = 0
+    classCount = 0
+	
+	Dim previousClassID As String
+    previousClassID = ""
+	
+	Dim pendingCrossClass As Boolean	
+    pendingCrossClass = False
+	
+	Dim previousClassLastRow As Long
+	previousClassLastRow = 0
+	
+	Dim z1_Resistance As String
+	Dim z2_Resistance As String
+	Dim zMatch_Resist As Double
+	
+	Dim record_location As Long
+	
+	record_location = Int(0)
+	match_Count = 0
+	
+
+    
+    '====================================
+    ' 開始處理資料
+    '====================================
+    
+    For i = 2 To lastRow
+        '-------------------------------------------------
+        ' 取得 Class tray 索引當前2組 row ,col位置
+        '-------------------------------------------------
+        classID = Trim(CStr(ws.Cells(i, classCol).Value))
+        trayID = Trim(CStr(ws.Cells(i, trayCol).Value))
+		
+		If classID <> "" Then
+		
+			'=================================================
+			' 判斷是否切換 Class
+			'=================================================					
+			If previousClassID <> "" And _
+                    previousClassID <> classID Then
+               
+			   If match_Count Mod 2 <> 0 Then
+
+					pendingCrossClass = True
+
+					' z1 已經是上一個 Class 最後一顆
+					' 不可以清除
+					' z1_Resistance = previousClassLastResistance
+			   Else
+			        pendingCrossClass = False
+					 				
+					' 防止上一個 Class 的第一顆阻抗
+					' 與新的 Class 第二顆阻抗配對
+					z1_Resistance = ""
+					z2_Resistance = ""
+
+			   End If
+		    
+			  ' 新 Class 開始新的阻抗配對
+			  match_Count = 0
+           End If			
+					
+		   '=================================================
+           ' 建立新的 Class Location
+           '=================================================
+		
+            If Not dictLocation.Exists(classID) Then
+			
+			    '====================== satrt =======================
+			    ' 需要針對32分選碼接續
+			    ' ex: A21  12,12 -> A22 13開始配對位置,不從 1 開始 
+			    If record_location = 0 Then
+
+					dictLocation.Add classID, 1
+                '===================== end ========================
+				Else
+
+					If pendingCrossClass Then
+
+						'-----------------------------------------
+						' 上一個 Class 最後一顆為奇數
+						'
+						' 例如：
+						' A26 index 13 → Location 7
+						' A27 第一顆 index 14 → Location 7
+						'-----------------------------------------
+						dictLocation.Add classID, record_location + 1
+
+					Else
+
+						dictLocation.Add classID, record_location
+
+					End If
+
+				End If
+
+				'====================== satrt =======================
+				' 不需要針對32分選碼接續 
+				' ex: A16  1~16 任何位置 -> 當切換 A17 則配對位置開始從 1開始   
+				' dictLocation.Add classID, 1
+				' match_Count = 0
+				'===================== end========================
+			   classCount = classCount + 1
+			 
+            End If
+    
+           '=============================================
+           ' 取得目前第幾顆
+           '=============================================
+           locationIndex = CLng(dictLocation(classID))
+        
+           '=============================================
+           ' 轉換:
+           '1,1,2,2....16,16
+           '寫入Location 對應 index
+           '=============================================
+           
+           locationNo = Int((locationIndex + 1) / 2)
+		   		   		  
+           ws.Cells(i, locationCol).Value = locationNo
+		   		   
+		   '目前擷取 ACIR->阻抗independece 需要針對兩兩配對做並聯運算
+		   acirID = Trim(CStr(ws.Cells(i, acirCol ).Value))
+		   		   
+		   '=================================================
+		   ' 跨 Class 阻抗配對
+		   '
+		   ' 例如：
+		   ' A26 第3顆 = Location 7
+		   ' A27 第1顆 = Location 7
+		   '
+		   ' A26第3顆 || A27第1顆
+		   ' 結果寫回 A26 第3顆
+		   '=================================================
+		   
+		   If pendingCrossClass Then
+
+				'---------------------------------------------
+				' 目前 i 是新 Class 的第一顆
+				' 上一個 Class 的最後一顆 = z1_Resistance
+				'---------------------------------------------
+
+				z2_Resistance = acirID
+
+				If IsNumeric(z1_Resistance) And _
+				   IsNumeric(z2_Resistance) Then
+
+					If CDbl(z1_Resistance) + _
+					   CDbl(z2_Resistance) <> 0 Then
+
+						zMatch_Resist = _
+							CDbl(z1_Resistance) * _
+							CDbl(z2_Resistance) / _
+							(CDbl(z1_Resistance) + _
+							 CDbl(z2_Resistance))
+
+						zMatch_Resist = Round(zMatch_Resist, 5)
+
+						'-----------------------------------------
+						' 寫回上一個 Class 最後一顆
+						'-----------------------------------------
+						ws.Cells(previousClassLastRow, _
+								 z_impedanceCol).Value = zMatch_Resist
+
+					End If
+
+				End If
+
+				'---------------------------------------------
+				' 跨 Class 配對完成
+				'---------------------------------------------
+				pendingCrossClass = False
+
+				'---------------------------------------------
+				' 目前這顆已經被使用掉
+				' 不可以再拿去和下一顆配對
+				'---------------------------------------------
+				z1_Resistance = ""
+
+				'---------------------------------------------
+				' 清除目前這顆的 impedance 欄位
+				'---------------------------------------------
+				ws.Cells(i, z_impedanceCol).ClearContents
+
+			Else
+		        '=================================================
+                ' 正常同 Class 兩兩配對
+                '=================================================
+                match_Count = match_Count + 1
+						  
+			   '--------------------------------
+			   ' 第一顆阻抗先記錄,後續要匹配的第二顆在計算總並聯阻抗值
+			   '--------------------------------
+			   If match_Count Mod 2 = 0 Then
+			   
+				  z2_Resistance = acirID
+				  
+				  ' 計算兩顆並聯阻抗
+				  If IsNumeric(z1_Resistance) And IsNumeric(z2_Resistance) Then
+				  
+						If CDbl(z1_Resistance) + CDbl(z2_Resistance) <> 0 Then
+
+							zMatch_Resist = _
+								CDbl(z1_Resistance) * CDbl(z2_Resistance) / _
+								(CDbl(z1_Resistance) + CDbl(z2_Resistance))
+
+							' 取小數第 5 位
+							zMatch_Resist = Round(zMatch_Resist, 5)
+
+							'存入第一組並聯阻抗first的位置Row
+							ws.Cells(i - 1, z_impedanceCol).Value = zMatch_Resist
+
+						End If
+
+				  End If
+					
+				 Else 
+					'---------------------------------------------
+					' 第一顆
+					'---------------------------------------------
+					z1_Resistance = acirID
+					
+					' 第二顆位置保持空白
+					ws.Cells(i, z_impedanceCol).ClearContents
+					
+				 End If
+				 
+		   End If
+		   		      
+           '--------------------------------
+           ' Model組合
+           '--------------------------------
+                        
+            modelCombine = _
+                moduleNo & "-" & _
+                serialNo & "-" & _
+                classID & "-" & _
+                cellGroup
+    
+    
+           ws.Cells(i, modelCol).Value = modelCombine
+    
+           '=============================================
+           ' 下一顆
+           '=============================================
+           dictLocation(classID) = locationIndex + 1
+    
+           '=============================================
+           ' 每 32 顆重新循環 '
+           ' 1~32 完成後： '
+           ' 第33顆 = Location 1
+           ' 第34顆 = Location 1
+           '=============================================
+           If dictLocation(classID) > 32 Then
+              dictLocation(classID) = 1
+			  '存取最後配對號紀錄
+		      record_location = 1			  
+			  pendingCrossClass = False
+			  		   
+           ' 若是需要32分類碼連續則下列註解啟動
+           '===================== start ========================  
+		   Else
+		     '---------------------------------------------
+             ' 判斷下一個 Class 應從哪個 Location 開始
+             '---------------------------------------------
+			  If match_Count Mod 2 = 0 Then
+			  
+			    record_location = dictLocation(classID)	
+				
+			  Else
+			    ' 下一個 Class 必須接續同一 Location
+			  	record_location = locationIndex
+				
+			  End If
+		   '===================== end ========================	  
+           End If
+		   
+		   '=================================================
+           '記錄目前 Class
+           '=================================================
+           previousClassID = classID
+              
+           processCount = processCount + 1
+           
+       End If
+       
+    Next i
+    
+    
+    '=====================================================
+    ' 14. 格式化輸出欄位 
+    '=====================================================
+	'"@" 文字欄位
+     With ws.Columns(modelCol)
+             .NumberFormat = "@"
+             .EntireColumn.AutoFit
+     End With
+
+     With ws.Columns(locationCol)
+             .NumberFormat = "0"
+             .EntireColumn.AutoFit
+     End With
+	 
+	 With ws.Columns(z_impedanceCol)
+        ' 顯示到小數第 5 位
+             .NumberFormat = "0.00000"
+             .EntireColumn.AutoFit
+     End With
+    
+    
+    '=====================================================
+    ' 15. 標題格式
+    '=====================================================
+    ' 若三個欄位是連續 ( Model       Location       Impedance)
+    ' Set headerRange = ws.Range( _
+    '     ws.Cells(1, modelCol), _
+    '     ws.Cells(1, z_impedanceCol) _
+    ' )
+	
+	'Union，不會受到欄位位置影響
+	 Set headerRange = Union( _
+			ws.Cells(1, modelCol), _
+			ws.Cells(1, locationCol), _
+			ws.Cells(1, z_impedanceCol) _
+	 )
+
+       
+     With headerRange     
+                .Font.Bold = True
+                .Interior.Color = RGB(217, 225, 242)
+                .HorizontalAlignment = xlCenter
+                
+     End With
+
+      '=====================================================
+      ' 16. 凍結標題列
+      '=====================================================
+       ws.Activate
+       With ActiveWindow
+           .SplitRow = 1
+           .FreezePanes = True
+       End With
+
+      '=====================================================
+      ' 17. 自動儲存輸出檔 (檔案欄位Time日期 , 當前存取路徑流水號依照重複自動加1)'
+      ' 原始： ' ABC.xlsx '
+      ' 輸出： ' ABC_Package.xlsx
+      '=====================================================
+           outputFolder = wb.Path
+           
+           outputBaseName = GetFileNameWithoutExtension(wb.Name)
+
+
+           fileDate = GetDateFromTimeColumn( _
+                        ws, _
+                        timeCol, _
+                        lastRow _
+           )
+
+
+           sequenceNo = GetNextSequenceNumber( _
+                        outputFolder, _
+                        outputBaseName, _
+                        fileDate _
+           )
+       
+       outputFile = outputFolder & Application.PathSeparator & _
+                    outputBaseName & "_" & _
+                    fileDate & "_" & _
+                    Format(sequenceNo, "000") & _
+                                    "_Package.xlsx"
+
+       '=====================================================
+       ' 如果檔案已存在，先刪除
+       '=====================================================
+       '=====================================================
+
+        ' If Len(Dir(outputFile)) > 0 Then
+        '     Application.DisplayAlerts = False
+        '     Kill outputFile
+        '    Application.DisplayAlerts = True
+        ' End If
+       
+       '=====================================================
+       ' 18. 另存新檔
+       '=====================================================
+         Application.DisplayAlerts = False
+         
+         wb.SaveAs _
+             fileName:=outputFile, _
+             FileFormat:=xlOpenXMLWorkbook
+                
+         Application.DisplayAlerts = True
+      
+       '=====================================================
+       ' 19. 完成提示
+       '=====================================================
+        MsgBox _
+            "Model / Location 產生完成！" & vbCrLf & _
+            vbCrLf & _
+            "================================" & vbCrLf & _
+            "Model       : " & moduleNo & vbCrLf & _
+            "流水號      : " & serialNo & vbCrLf & _
+            "電芯組別    : " & cellGroup & vbCrLf & _
+            "================================" & vbCrLf & _
+            "處理資料筆數 : " & processCount & vbCrLf & _
+            "Class 數量   : " & classCount & vbCrLf & _
+            "Location     : 1 ~ 16 循環" & vbCrLf & _
+            "每 32 顆重新循環" & vbCrLf & _
+            "================================" & vbCrLf & _
+            vbCrLf & _
+            "輸出檔案：" & vbCrLf & _
+            outputFile, _
+            vbInformation, _
+            "處理完成"
+            
+       '=====================================================
+   ' 正常結束 / 清理環境
+   '=====================================================
+
+SafeExit:
+
+        On Error Resume Next
+
+        Application.DisplayAlerts = True
+        Application.Calculation = oldCalculation
+        Application.ScreenUpdating = oldScreenUpdating
+        Application.EnableEvents = oldEnableEvents
+
+    Exit Sub
+
+
+   '=====================================================
+   ' 錯誤處理
+   '=====================================================
+ErrorHandler:
+
+      Application.DisplayAlerts = True
+
+      MsgBox _
+        "程式執行發生錯誤。" & vbCrLf & _
+        vbCrLf & _
+        "錯誤編號：" & Err.Number & vbCrLf & _
+        "錯誤內容：" & Err.Description, _
+        vbCritical, _
+        "VBA Error"
+
+      Resume SafeExit
+      
+End Sub
+    
+    
+    '=========================================================
+    ' 函數：FindHeaderColumn '
+    ' 用欄位名稱尋找欄位位置 '
+    ' 不管欄位在 B、F、K、Z... ' 都可以自動找到
+    '=========================================================
+    
+    Private Function FindHeaderColumn( _
+                ByVal ws As Worksheet, _
+                ByVal headerName As String _
+            ) As Long
+            
+        Dim lastCol As Long
+        Dim col As Long
+        
+        Dim currentHeader As String
+        Dim targetHeader As String
+        
+        FindHeaderColumn = 0
+    
+        lastCol = GetLastColumn(ws)
+        targetHeader = NormalizeHeader(headerName)
+        
+        For col = 1 To lastCol
+             currentHeader = NormalizeHeader( _
+                  CStr(ws.Cells(1, col).Value))
+    
+    
+             If currentHeader = targetHeader Then
+                FindHeaderColumn = col
+                Exit Function
+             End If
+             
+        Next col
+        
+    End Function
+    
+    
+    
+    '=========================================================
+    ' 函數：NormalizeHeader '
+    ' 處理欄位名稱中的：
+    ' - 前後空白 ' - 全形空白 ' - 大小寫
+    '=========================================================
+    Private Function NormalizeHeader( _
+        ByVal headerText As String _
+    ) As String
+        
+        headerText = Replace( _
+            headerText, _
+            ChrW(12288), _
+            " ")
+        
+        headerText = Trim(headerText)
+        
+        NormalizeHeader = UCase(headerText)
+        
+    End Function
+    
+        
+    '=========================================================
+    ' 函數：GetLastRow '
+    ' 找工作表最後一筆資料
+    '=========================================================
+    Private Function GetLastRow( _
+          ByVal ws As Worksheet _
+    ) As Long
+            
+        Dim lastCell As Range
+        
+        On Error Resume Next
+        
+        Set lastCell = ws.Cells.Find( _
+            What:="*", _
+            After:=ws.Cells(1, 1), _
+            LookAt:=xlPart, _
+            LookIn:=xlFormulas, _
+            SearchOrder:=xlByRows, _
+            SearchDirection:=xlPrevious, _
+            MatchCase:=False)
+
+        On Error GoTo 0
+        
+        If lastCell Is Nothing Then
+           GetLastRow = 1
+        Else
+           GetLastRow = lastCell.Row
+        End If
+        
+    End Function
+    
+    
+    
+    '=========================================================
+    ' 函數：GetLastColumn '
+    ' 找工作表最後一個欄位
+    '=========================================================
+    Private Function GetLastColumn( _
+              ByVal ws As Worksheet _
+    ) As Long
+           
+        Dim lastCell As Range
+        
+        On Error Resume Next
+        
+        Set lastCell = ws.Cells.Find( _
+                   What:="*", _
+                   After:=ws.Cells(1, 1), _
+                   LookAt:=xlPart, _
+                   LookIn:=xlFormulas, _
+                   SearchOrder:=xlByColumns, _
+                   SearchDirection:=xlPrevious, _
+                   MatchCase:=False)
+                   
+        On Error GoTo 0
+        
+        If lastCell Is Nothing Then
+           GetLastColumn = 1
+        Else
+           GetLastColumn = lastCell.Column
+        End If
+        
+   End Function
+   
+   
+   '=========================================================
+   ' 函數：GetFileNameWithoutExtension '
+   ' ABC.csv ' ↓ ' ABC  擷取轉化分析檔名之前綴字串
+   '=========================================================
+   
+   Private Function GetFileNameWithoutExtension( _
+           ByVal fileName As String) As String
+              
+       Dim dotPosition As Long
+       
+       dotPosition = InStrRev(fileName, ".")
+   
+       If dotPosition > 1 Then
+           GetFileNameWithoutExtension = _
+               Left(fileName, dotPosition - 1)
+       Else
+           GetFileNameWithoutExtension = fileName
+       End If
+       
+   End Function
+   
+   
+   '=========================================================
+        ' 函數：GetDateFromTimeColumn
+        '
+        ' 從 Time 欄位取得日期
+        '
+        ' 範例：
+        '
+        ' 2026/8/11  12:06:00 PM
+        '
+        ' ↓
+        '
+        ' 20260811
+        '
+   '=========================================================
+
+    Private Function GetDateFromTimeColumn( _
+                ByVal ws As Worksheet, _
+                ByVal timeCol As Long, _
+                ByVal lastRow As Long _
+        ) As String
+        
+                Dim i As Long
+                Dim timeValue As Variant
+                Dim parsedDate As Date
+                
+                '清除暫存狀態Time 資訊內容
+                GetDateFromTimeColumn = ""
+        
+                For i = 2 To lastRow
+                        timeValue = ws.Cells(i, timeCol).Value
+                        
+                        If Trim(CStr(timeValue)) <> "" Then
+
+                                '-------------------------------------------------
+                                ' 如果 Excel 已經辨識成日期
+                                '-------------------------------------------------
+
+                                If IsDate(timeValue) Then
+
+                                        parsedDate = CDate(timeValue)
+
+                                        GetDateFromTimeColumn = _
+                                                Format(parsedDate, "yyyymmdd")
+
+                                        Exit Function
+
+                                End If
+
+                        End If
+                        
+             Next i
+                 
+    End Function
+        
+        
+        '=========================================================
+        ' 函數：GetNextSequenceNumber
+        '
+        ' 根據：
+        '   原始檔名 + 當天日期
+        '
+        ' 找出目前最大的流水號
+        '=========================================================
+        
+        Private Function GetNextSequenceNumber( _
+             ByVal folderPath As String, _
+                        ByVal baseName As String, _
+                        ByVal file_first_date As String _
+        ) As Long
+         
+            Dim fileName As String
+                Dim searchPattern As String
+
+                Dim prefix As String
+                Dim suffix As String
+
+                Dim currentSequence As Long
+                Dim maxSequence As Long
+
+                Dim sequenceText As String
+                
+                
+                prefix = baseName & "_" & file_first_date & "_"
+                
+                '-----------------------------------------------------
+                ' 檔名搜尋模式 * 代表目前所有狀態
+        '-----------------------------------------------------
+
+         searchPattern = prefix & "*_Package.xlsx"
+                 
+                 maxSequence = 0
+        
+              
+             fileName = Dir( _
+                        folderPath & Application.PathSeparator & _
+                        searchPattern _
+                 )
+                 
+         '走訪檔名路徑
+                 Do While fileName <> ""
+                         
+                        '-------------------------------------------------
+                        ' 取得：
+                        '
+                        ' ABC_20260811_001_Package.xlsx
+                        '
+                        ' 中間的：
+                        '
+                        ' 001
+                        '-------------------------------------------------
+                        suffix = Replace(fileName, prefix, "")
+                        suffix = Replace(suffix, "_Package.xlsx", "")
+                        sequenceText = suffix
+                
+                
+                        If IsNumeric(sequenceText) Then
+
+                                currentSequence = CLng(sequenceText)
+
+                                If currentSequence > maxSequence Then
+                                        maxSequence = currentSequence
+                                End If
+
+                        End If
+
+            fileName = Dir()
+                        
+                 Loop
+        
+             '-----------------------------------------------------
+                 ' 下一個最新流水號
+                 '-----------------------------------------------------
+                 GetNextSequenceNumber = maxSequence + 1
+                 
+        End Function

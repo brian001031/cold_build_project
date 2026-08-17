@@ -335,7 +335,7 @@ namespace WebApplication1
                                 vparameter = vparameter_All.Substring(0, 3);
 
                                 //若原檔案站點旗標有異常,這邊先行轉換讓程序能run,視實際狀況
-                                //vparameter = "010";
+                                vparameter = "023";
                                 vparameter_chg = vparameter_All.Substring((vparameter_All.Length - 9), 4);
                                 
                                 if (vparameter_chg == "2023")
@@ -637,9 +637,10 @@ namespace WebApplication1
                                 break;
 
                             case "017":   //cc2
-                            // case "023":  //pf
-                            // case "010":  //cc1
-                                if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1" || vparameter_chg == "0232" || vparameter_chg == "023-chromaPF") //cc2-2 2024 , cc2 017-chroma2 2024開始
+                         // case "010":  //cc1
+                         //   case "023":  //pf
+
+                                 if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1" || vparameter_chg == "0232" || vparameter_chg == "023-chromaPF" || vparameter_chg =="010") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                 {
 
                                         //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數                                        
