@@ -1,0 +1,113 @@
+powershell.exe -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'node' } |Select-Object Name, ProcessId, CommandLine"
+powershell.exe -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'Python.py|Py' } |Select-Object Name, ProcessId, CommandLine"
+powershell.exe -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'java.exe|javac' } |Select-Object Name, ProcessId, CommandLine"
+
+asp.net 隸屬illsexpress服務器規管
+powershell.exe -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'iisexpress.exe' } |Select-Object Name, ProcessId, CommandLine"
+
+tasklist | findstr /I "python py"
+tasklist | findstr /I "node npm"
+tasklist | findstr /I "14596 21112 16468"
+//使用 findstr 搜尋多個 PID 
+tasklist | findstr /R "21112 "
+tasklist | findstr /PID  "10772 13528 3356 8400"
+tasklist | findstr /PID  "28212"
+
+
+//刪除指定PID序號
+taskkill /f /IM "XXXXXX"
+
+
+Get-CimInstance Win32_Process |
+Where-Object {
+    $_.Name -eq "node.exe" -and
+    $_.CommandLine -match "COLD_frontweb|MES_Main|checkpointsys"
+} |
+Select-Object ProcessId,CommandLine
+
+
+//------------------------------start 查看指定 PID 占用配比記憶體資訊----------------
+wmic process where processid=41404 get ProcessId,WorkingSetSize,VirtualSize
+
+Get-Process -Id 35612 | Select-Object `
+Name,
+Id,
+CPU,
+Threads,
+Handles,
+WorkingSet64,
+PrivateMemorySize64,
+VirtualMemorySize64
+//------------------------------end ----------------
+
+欄位	說明
+WorkingSet64	目前佔用 RAM
+PrivateMemorySize64	程式專屬配置記憶體
+VirtualMemorySize64	虛擬位址空間
+
+
+rss：實際 RAM（約等於 Working Set）
+heapUsed：V8 已使用 Heap
+heapTotal：V8 已配置 Heap
+external：C++ 模組配置的記憶體
+
+
+C:\Users\Administrator>powershell
+Windows PowerShell
+著作權（C） Microsoft Corporation。保留擁有權利。
+
+安裝最新的 PowerShell 以取得新功能和改進功能！https://aka.ms/PSWindows
+
+PS C:\Users\Administrator> Get-CimInstance Win32_Process |
+>> Where-Object { $_.Name -match 'python|py' } |
+>> Select-Object Name, ProcessId, CommandLine
+
+Name       ProcessId CommandLine
+----       --------- -----------
+python.exe     15988 python.exe  C:\Detec_Watch_AutoRun_Release.py
+
+
+
+//直接啟動使用 powershell 檢視java程序目前應用的PID 
+Get-CimInstance Win32_Process -Filter "Name='java.exe'" |Select-Object ProcessId, CommandLine
+
+
+PS C:\Users\Administrator> tasklist | findstr /I "python py"
+python.exe                   15988 RDP-Tcp#0                  2     80,688 K
+
+
+
+Windows 的 PID 4 不是一般的應用程式，而是 System (NT Kernel & System)。
+
+這表示 44374 並不是直接由 iisexpress.exe 或 w3wp.exe Listen，而是由 HTTP.sys 接管。
+
+這種情況很常見於：
+
+ASP.NET Framework
+IIS
+HTTP.sys
+Web API
+WCF
+URL Reservation (netsh http add urlacl)
+
+
+tasklist /FI "PID eq 4"
+
+tasklist | findstr /I "iisexpress w3wp"
+
+
+查看是哪個 Service 綁定:
+netsh http show servicestate
+
+查看 URL Reservation:
+netsh http show urlacl
+
+
+查看 IIS Express 啟動參數
+
+建議使用 PowerShell：
+
+Get-CimInstance Win32_Process -Filter "Name='iisexpress.exe'" |Select-Object ProcessId, CommandLine
+
+
+wmic process where "name='iisexpress.exe'" get ProcessId,CommandLine

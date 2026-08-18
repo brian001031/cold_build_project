@@ -335,7 +335,7 @@ namespace WebApplication1
                                 vparameter = vparameter_All.Substring(0, 3);
 
                                 //若原檔案站點旗標有異常,這邊先行轉換讓程序能run,視實際狀況
-                                vparameter = "023";
+                                //vparameter = "023";
                                 vparameter_chg = vparameter_All.Substring((vparameter_All.Length - 9), 4);
                                 
                                 if (vparameter_chg == "2023")
