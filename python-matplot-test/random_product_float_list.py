@@ -43,8 +43,8 @@ def generate_random_numbers(count , positive_number , decimal_places , check_fro
 
     for _ in range(count):
         # 代表正整數 bit數自行定義 (目前因電容量分佈常態 50000mAH附近遊走) , 最大正整數位數的 55%
-        ack_intenger_value = int( ((10 ** positive_number) - 1) * 0.55 )
-        #ack_intenger_value = int( ((10 ** positive_number) - 1) * 1.0 )
+        # ack_intenger_value = int( ((10 ** positive_number) - 1) * 0.55 )
+        ack_intenger_value = int( ((10 ** positive_number) - 1) * 1.0 )
         
         #代表亂數 = 10*number -1 
         max_random = (10 ** decimal_places) - 1
@@ -56,12 +56,12 @@ def generate_random_numbers(count , positive_number , decimal_places , check_fro
         #value = number / (10 ** decimal_places)
         # result.append(f"0.000{number:02d}") 
         #使用者自行定義 整數和浮點數位數
-        value = max_integer + decimal_number  / (10 ** decimal_places)
-        result.append(f"{value:.{decimal_places}f}")
+        # value = max_integer + decimal_number  / (10 ** decimal_places)
+        # result.append(f"{value:.{decimal_places}f}")
 
         # 取小數點指定位數顯示 目前下列式ACIR常用顯示位元(小數第五位 4到5顯示值)
-        # value = decimal_number
-        # result.append(f"0.000{value:02d}")
+        value = decimal_number
+        result.append(f"0.000{value:02d}")
 
         
     return result

@@ -1,20 +1,19 @@
-Attribute VB_Name = "final_package_define_fix"
 Option Explicit
 
 '=========================================================
-' Model / Location ¦Û°Ê²£¥Í¤u¨ã '
-' ¥\¯à¡G
-' 1. ¿ï¾Ü­ì©l Excel ÀÉ®×
-' 2. ¦Û°Ê´M§äÄæ¦ì¡G ' PLCCellIDClass_CE ' PLCTrayID_CE
-' 3. ¨Ï¥ÎªÌ¿é¤J¡G ' Module No. ' Serial No. ' Cell Group
-' 4. ¦Û°Ê±Æ§Ç¡G ' Class -> Tray
-' 5. ·s¼W Model Äæ¦ì
-' 6. ·s¼W Location Äæ¦ì
-' 7. Model ®æ¦¡¡G ' M9-10496-A46-G
-' 8. ¨C­Ó Class¡G ' 32 Áû¤@­Ó´`Àô ' 2 Áû = 1 Location ' Location 1~16
-' 9. ­ì©lÀÉ¤£ª½±µ­×§ï
-' 10. ¦Û°Ê¥t¦s¡G ' ­ìÀÉ¦W_Package.xlsx '
-' PSµù¸Ñ: SafeExit:¡BErrorHandler: ¥²¶·¯d¦b¥D Sub ¸Ì­±¡A¦Ó¥B­n©ñ¦b¥Dµ{¦¡³Ì«á¡C
+' Model / Location è‡ªå‹•ç”¢ç”Ÿå·¥å…· '
+' åŠŸèƒ½ï¼š
+' 1. é¸æ“‡åŸå§‹ Excel æª”æ¡ˆ
+' 2. è‡ªå‹•å°‹æ‰¾æ¬„ä½ï¼š ' PLCCellIDClass_CE ' PLCTrayID_CE
+' 3. ä½¿ç”¨è€…è¼¸å…¥ï¼š ' Module No. ' Serial No. ' Cell Group
+' 4. è‡ªå‹•æ’åºï¼š ' Class -> Tray
+' 5. æ–°å¢ Model æ¬„ä½
+' 6. æ–°å¢ Location æ¬„ä½
+' 7. Model æ ¼å¼ï¼š ' M9-10496-A46-G
+' 8. æ¯å€‹ Classï¼š ' 32 é¡†ä¸€å€‹å¾ªç’° ' 2 é¡† = 1 Location ' Location 1~16
+' 9. åŸå§‹æª”ä¸ç›´æ¥ä¿®æ”¹
+' 10. è‡ªå‹•å¦å­˜ï¼š ' åŸæª”å_Package.xlsx '
+' PSè¨»è§£: SafeExit:ã€ErrorHandler: å¿…é ˆç•™åœ¨ä¸» Sub è£¡é¢ï¼Œè€Œä¸”è¦æ”¾åœ¨ä¸»ç¨‹å¼æœ€å¾Œã€‚
 '=========================================================
 
 Sub Generate_Model_Combine_Final()
@@ -26,6 +25,7 @@ Sub Generate_Model_Combine_Final()
     
     Dim classCol As Long
     Dim trayCol As Long
+	Dim acvpCol As Long
 	Dim acirCol As Long
     
     Dim modelCol As Long
@@ -43,7 +43,8 @@ Sub Generate_Model_Combine_Final()
 
     Dim i As Long
     Dim classID As String
-    Dim trayID As String	
+    Dim trayID As String
+	Dim acvpID As String
 	Dim acirID As String
 	
     Dim locationIndex As Long
@@ -77,7 +78,7 @@ Sub Generate_Model_Combine_Final()
     
     
     '=====================================================
-    ' «O¦s Excel ­ì©l³]©w
+    ' ä¿å­˜ Excel åŸå§‹è¨­å®š
     '=====================================================
     oldCalculation = Application.Calculation
     oldScreenUpdating = Application.ScreenUpdating
@@ -89,64 +90,64 @@ Sub Generate_Model_Combine_Final()
     
     
     '=====================================================
-    ' 1. ¿ï¾Ü­ì©l Excel ÀÉ®×
+    ' 1. é¸æ“‡åŸå§‹ Excel æª”æ¡ˆ
     '=====================================================
     sourceFile = Application.GetOpenFilename( _
                  FileFilter:="csv Files (*.csv),*.csv", _
-                 Title:="½Ğ¿ï¾Ü­ì©l²Õ¸Ë¸ê®Æ csv ÀÉ®×" _
+                 Title:="è«‹é¸æ“‡åŸå§‹çµ„è£è³‡æ–™ csv æª”æ¡ˆ" _
                  )
     
     If VarType(sourceFile) = vbBoolean Then
-       MsgBox "¤w¨ú®ø­ì©lÀÉ®×¿ï¾Ü¡C", vbInformation
+       MsgBox "å·²å–æ¶ˆåŸå§‹æª”æ¡ˆé¸æ“‡ã€‚", vbInformation
        GoTo SafeExit
     End If
     
     
     '=====================================================
-    ' 2. ¶}±Ò­ì©l²Õ¸ËcsvÀÉ®×
+    ' 2. é–‹å•ŸåŸå§‹çµ„è£csvæª”æ¡ˆ
     '=====================================================
     Set wb = Workbooks.Open(CStr(sourceFile))
     
     If wb.Worksheets.Count = 0 Then
-       MsgBox "§ä¤£¨ì¸ê®Æ¤u§@ªí¡C", vbCritical
+       MsgBox "æ‰¾ä¸åˆ°è³‡æ–™å·¥ä½œè¡¨ã€‚", vbCritical
        GoTo SafeExit
     End If
     
     
     '=====================================================
-    ' ¨Ï¥Î²Ä¤@­Ó¤u§@ªí
+    ' ä½¿ç”¨ç¬¬ä¸€å€‹å·¥ä½œè¡¨
     '=====================================================
     Set ws = wb.Worksheets(1)
     
     
     '=====================================================
-    ' 3. ÀË¬d¸ê®Æ
+    ' 3. æª¢æŸ¥è³‡æ–™
     '=====================================================
     
     If Application.WorksheetFunction.CountA(ws.Cells) = 0 Then
-       MsgBox "­ì©l¸ê®Æ¤u§@ªí¬OªÅ¥Õªº¡C", vbCritical
+       MsgBox "åŸå§‹è³‡æ–™å·¥ä½œè¡¨æ˜¯ç©ºç™½çš„ã€‚", vbCritical
        GoTo SafeExit
     End If
     
     
     '=====================================================
-    ' 4. §ä³Ì«á¸ê®Æ¦C / ³Ì«áÄæ
+    ' 4. æ‰¾æœ€å¾Œè³‡æ–™åˆ— / æœ€å¾Œæ¬„
     '=====================================================
     
     lastRow = GetLastRow(ws)
     lastCol = GetLastColumn(ws)
     
     If lastRow < 2 Then
-       MsgBox "§ä¤£¨ì¸ê®Æ¦C¡C" & vbCrLf & _
-       "½Ğ½T»{²Ä 1 ¦C¬OÄæ¦ì¦WºÙ¡C", vbCritical
+       MsgBox "æ‰¾ä¸åˆ°è³‡æ–™åˆ—ã€‚" & vbCrLf & _
+       "è«‹ç¢ºèªç¬¬ 1 åˆ—æ˜¯æ¬„ä½åç¨±ã€‚", vbCritical
        
        GoTo SafeExit
     End If
     
     
     '=====================================================
-    ' (5 ,6) ¦Û°Ê´M§ä Class ¤Î Tray ¤Î timeCol Äæ¦ì
-    ' ¤£¨Ì¿à©T©wÄæ¦ì¦ì¸m
+    ' (5 ,6) è‡ªå‹•å°‹æ‰¾ Class åŠ Tray åŠ timeCol æ¬„ä½
+    ' ä¸ä¾è³´å›ºå®šæ¬„ä½ä½ç½®
     '=====================================================
     
     classCol = FindHeaderColumn( _
@@ -164,92 +165,97 @@ Sub Generate_Model_Combine_Final()
                 "Time" _
                )
 			   
+	acvpCol  = FindHeaderColumn( _
+               ws, _
+                "acirVP12_CE" _
+               )   
+			   
     acirCol = FindHeaderColumn( _
                ws, _
-                "mOhm" _
+                "acirRP12_CE" _
                )
     
-    If classCol = 0 Or trayCol = 0 Or timeCol = 0 Or acirCol = 0 Then
+    If classCol = 0 Or trayCol = 0 Or timeCol = 0 Or acvpCol = 0 Or acirCol = 0 Then
          MsgBox _
-        "§ä¤£¨ìÄæ¦ì¡G" & vbCrLf & _
-        "PLCTrayID_CE ©Î PLCCellIDClass_CE ©Î Time ©Î mOhm" & vbCrLf & _
+        "æ‰¾ä¸åˆ°æ¬„ä½ï¼š" & vbCrLf & _
+        "PLCTrayID_CE æˆ– PLCCellIDClass_CE æˆ– Time æˆ– acirVP12_CE æˆ– acirRP12_CE" & vbCrLf & _
         vbCrLf & _
-        "½Ğ½T»{­ì©lÀÉ®×²Ä 1 ¦C¬O§_¦s¦b¦¹Äæ¦ì¦WºÙ¡C", _
+        "è«‹ç¢ºèªåŸå§‹æª”æ¡ˆç¬¬ 1 åˆ—æ˜¯å¦å­˜åœ¨æ­¤æ¬„ä½åç¨±ã€‚", _
         vbCritical, _
-        "Äæ¦ìÀË¬d¥¢±Ñ"
+        "æ¬„ä½æª¢æŸ¥å¤±æ•—"
        GoTo SafeExit
     End If
         
     '=====================================================
-    ' 7. ¨Ï¥ÎªÌ¿é¤J Module
+    ' 7. ä½¿ç”¨è€…è¼¸å…¥ Module
     '=====================================================
     
     
     moduleNo = InputBox( _
-        "½Ğ¿é¤JM¼Ò²Õ¸¹", _
-        "Model³]©w", _
+        "è«‹è¼¸å…¥Mæ¨¡çµ„è™Ÿ", _
+        "Modelè¨­å®š", _
         "M9")
     
     If Trim(moduleNo) = "" Then
-       MsgBox "¥¼¿é¤J¼Ò²Õ¸¹¡C", vbExclamation
+       MsgBox "æœªè¼¸å…¥æ¨¡çµ„è™Ÿã€‚", vbExclamation
        GoTo SafeExit
     End If
     
-    ' ÀË¬d¬O§_ M ¶}ÀY
+    ' æª¢æŸ¥æ˜¯å¦ M é–‹é ­
     If UCase(Left(Trim(moduleNo), 1)) <> "M" Then
     
         MsgBox _
-        "¼Ò²Õ¸¹®æ¦¡¿ù»~¡A½Ğ¿é¤J M ¶}ÀY!" & vbCrLf & _
-        "¨Ò¦p¡GM9", _
+        "æ¨¡çµ„è™Ÿæ ¼å¼éŒ¯èª¤ï¼Œè«‹è¼¸å…¥ M é–‹é ­!" & vbCrLf & _
+        "ä¾‹å¦‚ï¼šM9", _
         vbCritical, _
-        "¼Ò²Õ¸¹®æ¦¡¿ù»~"
+        "æ¨¡çµ„è™Ÿæ ¼å¼éŒ¯èª¤"
         
         GoTo SafeExit
     End If
     
     
     '=====================================================
-    ' 8. ¨Ï¥ÎªÌ¿é¤J¬y¤ô¸¹
+    ' 8. ä½¿ç”¨è€…è¼¸å…¥æµæ°´è™Ÿ
     '=====================================================
     serialNo = InputBox( _
-        "½Ğ¿é¤J¬y¤ô¸¹", _
-        "¬y¤ô¸¹³]©w", _
+        "è«‹è¼¸å…¥æµæ°´è™Ÿ", _
+        "æµæ°´è™Ÿè¨­å®š", _
         "10496")
     
     serialNo = Trim(serialNo)
     
     If serialNo = "" Or Not IsNumeric(serialNo) Then
         MsgBox _
-         "¥¼¿é¤J¬y¤ô¸¹©Î¬y¤ô¸¹¤£¬O¼Æ¦r®æ¦¡¡C", _
+         "æœªè¼¸å…¥æµæ°´è™Ÿæˆ–æµæ°´è™Ÿä¸æ˜¯æ•¸å­—æ ¼å¼ã€‚", _
          vbExclamation
         GoTo SafeExit
     End If
     
     
     '=====================================================
-    ' 9. ¨Ï¥ÎªÌ¿é¤J¹qªä²Õ§O
+    ' 9. ä½¿ç”¨è€…è¼¸å…¥é›»èŠ¯çµ„åˆ¥
     '=====================================================
     
     
     cellGroup = InputBox( _
-        "½Ğ¿é¤J¹qªä²Õ§O", _
-        "¹qªä²Õ§O³]©w", _
+        "è«‹è¼¸å…¥é›»èŠ¯çµ„åˆ¥", _
+        "é›»èŠ¯çµ„åˆ¥è¨­å®š", _
         "G")
     
     cellGroup = Trim(cellGroup)
     
     If cellGroup = "" Then
-        MsgBox "¥¼¿é¤J¹qªä²Õ§O¡C", vbExclamation
+        MsgBox "æœªè¼¸å…¥é›»èŠ¯çµ„åˆ¥ã€‚", vbExclamation
         GoTo SafeExit
     End If
     
     
     
     '=====================================================
-    ' 10. «Ø¥ß¿é¥XÄæ¦ì
-    ' ¦pªG­ì©lÀÉ¤w¸g¦³ Model / Location
-    ' ´Nª½±µ²M°£ÂÂ¸ê®Æ­«·s²£¥Í
-    ' ¦pªG¨S¦³¡A´N·s¼WÄæ¦ì
+    ' 10. å»ºç«‹è¼¸å‡ºæ¬„ä½
+    ' å¦‚æœåŸå§‹æª”å·²ç¶“æœ‰ Model / Location
+    ' å°±ç›´æ¥æ¸…é™¤èˆŠè³‡æ–™é‡æ–°ç”¢ç”Ÿ
+    ' å¦‚æœæ²’æœ‰ï¼Œå°±æ–°å¢æ¬„ä½
     '=====================================================
     
     
@@ -308,16 +314,17 @@ Sub Generate_Model_Combine_Final()
 	
     
     '=====================================================
-    ' ¨ú±o·í«e§ó·s³Ì«áÄæ¦ì¸m
+    ' å–å¾—ç•¶å‰æ›´æ–°æœ€å¾Œæ¬„ä½ç½®
     '=====================================================
     lastCol = GetLastColumn(ws)
     
     
     '=====================================================
-    ' 11. ¦Û°Ê±Æ§Ç
-    ' ²Ä¤@¶¶¦ì¡GPLCCellIDClass_CE
-    ' ²Ä¤G¶¶¦ì¡GPLCTrayID_CE
-	' ²Ä¤T¶¶¦ì¡GmOhm
+    ' 11. è‡ªå‹•æ’åº
+    ' ç¬¬ä¸€é †ä½ï¼šPLCCellIDClass_CE
+    ' ç¬¬äºŒé †ä½ï¼šPLCTrayID_CE
+	' ç¬¬ä¸‰é †ä½ï¼š acirVP12_CE
+	' ç¬¬å››é †ä½ï¼š acirRP12_CE
     '=====================================================
         
     With ws.Sort
@@ -337,7 +344,15 @@ Sub Generate_Model_Combine_Final()
             SortOn:=xlSortOnValues, _
             Order:=xlAscending, _
             DataOption:=xlSortNormal
-	
+			
+		 .SortFields.Add _
+            Key:=ws.Range( _
+            ws.Cells(2, acvpCol), _
+            ws.Cells(lastRow, acvpCol)), _
+            SortOn:=xlSortOnValues, _
+            Order:=xlAscending, _
+            DataOption:=xlSortNormal
+					 
 	     .SortFields.Add _
             Key:=ws.Range( _
             ws.Cells(2, acirCol), _
@@ -350,7 +365,7 @@ Sub Generate_Model_Combine_Final()
 		 
             
     '-------------------------------------------------
-    ' ³]©w§¹¾ã±Æ§Ç½d³ò
+    ' è¨­å®šå®Œæ•´æ’åºç¯„åœ
     '-------------------------------------------------
             
          .SetRange ws.Range( _
@@ -366,9 +381,9 @@ Sub Generate_Model_Combine_Final()
     
     
     '=====================================================
-    ' 12. «Ø¥ß Location Dictionary
-    ' ' ¨C­Ó Class ¿W¥ß­pºâ
-    ' ¤£¬İ Tray
+    ' 12. å»ºç«‹ Location Dictionary
+    ' ' æ¯å€‹ Class ç¨ç«‹è¨ˆç®—
+    ' ä¸çœ‹ Tray
     '=====================================================
     
     Set dictLocation = CreateObject("Scripting.Dictionary")
@@ -376,7 +391,7 @@ Sub Generate_Model_Combine_Final()
     
     
     '=====================================================
-    ' 13.  ¶}©l²£¥Í Model + Location + Impedance_matching
+    ' 13.  é–‹å§‹ç”¢ç”Ÿ Model + Location + Impedance_matching
     '=====================================================
     
     processCount = 0
@@ -397,88 +412,56 @@ Sub Generate_Model_Combine_Final()
 	
 	Dim record_location As Long
 	
+	Dim globalLocationIndex As Long
+	
 	record_location = Int(0)
 	match_Count = 0
-	
-
-    
+	globalLocationIndex = 1
+	    
     '====================================
-    ' ¶}©l³B²z¸ê®Æ
+    ' é–‹å§‹è™•ç†è³‡æ–™
     '====================================
     
     For i = 2 To lastRow
         '-------------------------------------------------
-        ' ¨ú±o Class tray ¯Á¤Ş·í«e2²Õ row ,col¦ì¸m
+        ' å–å¾— Class tray ç´¢å¼•ç•¶å‰2çµ„ row ,colä½ç½®
         '-------------------------------------------------
         classID = Trim(CStr(ws.Cells(i, classCol).Value))
         trayID = Trim(CStr(ws.Cells(i, trayCol).Value))
 		
-		If classID <> "" Then
-		
-			'=================================================
-			' §PÂ_¬O§_¤Á´« Class
-			'=================================================					
-			If previousClassID <> "" And _
-                    previousClassID <> classID Then
-               
-			   If match_Count Mod 2 <> 0 Then
-
-					pendingCrossClass = True
-
-					' z1 ¤w¸g¬O¤W¤@­Ó Class ³Ì«á¤@Áû
-					' ¤£¥i¥H²M°£
-					' z1_Resistance = previousClassLastResistance
-			   Else
-			        pendingCrossClass = False
-					 				
-					' ¨¾¤î¤W¤@­Ó Class ªº²Ä¤@Áûªı§Ü
-					' »P·sªº Class ²Ä¤GÁûªı§Ü°t¹ï
-					z1_Resistance = ""
-					z2_Resistance = ""
-
-			   End If
-		    
-			  ' ·s Class ¶}©l·sªºªı§Ü°t¹ï
-			  match_Count = 0
-           End If			
+		If classID <> "" Then	 				
+			' é˜²æ­¢ä¸Šä¸€å€‹ Class çš„ç¬¬ä¸€é¡†é˜»æŠ—
+			' èˆ‡æ–°çš„ Class ç¬¬äºŒé¡†é˜»æŠ—é…å°
+			'z1_Resistance = ""
+			'z2_Resistance = ""
+			' æ–° Class é–‹å§‹æ–°çš„é˜»æŠ—é…å°
+			'match_Count = 0
+            			
 					
 		   '=================================================
-           ' «Ø¥ß·sªº Class Location
+           ' å»ºç«‹æ–°çš„ Class Location
            '=================================================
 		
             If Not dictLocation.Exists(classID) Then
 			
 			    '====================== satrt =======================
-			    ' »İ­n°w¹ï32¤À¿ï½X±µÄò
-			    ' ex: A21  12,12 -> A22 13¶}©l°t¹ï¦ì¸m,¤£±q 1 ¶}©l 
-			    If record_location = 0 Then
+			    ' éœ€è¦é‡å°32åˆ†é¸ç¢¼æ¥çºŒ
+			    ' ex: A21  12,12 -> A22 13é–‹å§‹é…å°ä½ç½®,ä¸å¾ 1 é–‹å§‹ 
+			    'If record_location = 0 Then
 
-					dictLocation.Add classID, 1
+				'	dictLocation.Add classID, 1
                 '===================== end ========================
-				Else
+				'Else
+				'	dictLocation.Add classID, record_location
+				'End If
+				
+				dictLocation.Add classID, globalLocationIndex
 
-					If pendingCrossClass Then
-
-						'-----------------------------------------
-						' ¤W¤@­Ó Class ³Ì«á¤@Áû¬°©_¼Æ
-						'
-						' ¨Ò¦p¡G
-						' A26 index 13 ¡÷ Location 7
-						' A27 ²Ä¤@Áû index 14 ¡÷ Location 7
-						'-----------------------------------------
-						dictLocation.Add classID, record_location + 1
-
-					Else
-
-						dictLocation.Add classID, record_location
-
-					End If
-
-				End If
+      
 
 				'====================== satrt =======================
-				' ¤£»İ­n°w¹ï32¤À¿ï½X±µÄò 
-				' ex: A16  1~16 ¥ô¦ó¦ì¸m -> ·í¤Á´« A17 «h°t¹ï¦ì¸m¶}©l±q 1¶}©l   
+				' ä¸éœ€è¦é‡å°32åˆ†é¸ç¢¼æ¥çºŒ 
+				' ex: A16  1~16 ä»»ä½•ä½ç½® -> ç•¶åˆ‡æ› A17 å‰‡é…å°ä½ç½®é–‹å§‹å¾ 1é–‹å§‹   
 				' dictLocation.Add classID, 1
 				' match_Count = 0
 				'===================== end========================
@@ -487,97 +470,84 @@ Sub Generate_Model_Combine_Final()
             End If
     
            '=============================================
-           ' ¨ú±o¥Ø«e²Ä´XÁû
+           ' å–å¾—ç›®å‰ç¬¬å¹¾é¡†
            '=============================================
            locationIndex = CLng(dictLocation(classID))
+	
         
            '=============================================
-           ' Âà´«:
+           ' è½‰æ›:
            '1,1,2,2....16,16
-           '¼g¤JLocation ¹ïÀ³ index
+           'å¯«å…¥Location å°æ‡‰ index
            '=============================================
            
            locationNo = Int((locationIndex + 1) / 2)
 		   		   		  
            ws.Cells(i, locationCol).Value = locationNo
-		   		   
-		   '¥Ø«eÂ^¨ú ACIR->ªı§Üindependece »İ­n°w¹ï¨â¨â°t¹ï°µ¨ÃÁp¹Bºâ
-		   acirID = Trim(CStr(ws.Cells(i, acirCol ).Value))
-		   		   
-		   '=================================================
-		   ' ¸ó Class ªı§Ü°t¹ï
-		   '
-		   ' ¨Ò¦p¡G
-		   ' A26 ²Ä3Áû = Location 7
-		   ' A27 ²Ä1Áû = Location 7
-		   '
-		   ' A26²Ä3Áû || A27²Ä1Áû
-		   ' µ²ªG¼g¦^ A26 ²Ä3Áû
-		   '=================================================
 		   
-		   If pendingCrossClass Then
+		   
+		  
+		   Dim AcIr_Vp_voltage As String
+			
+		   AcIr_Vp_voltage = Trim(CStr(ws.Cells(i, acvpCol).Value))
+		   
+		   If AcIr_Vp_voltage <> "" And IsNumeric(AcIr_Vp_voltage) Then
 
-				'---------------------------------------------
-				' ¥Ø«e i ¬O·s Class ªº²Ä¤@Áû
-				' ¤W¤@­Ó Class ªº³Ì«á¤@Áû = z1_Resistance
-				'---------------------------------------------
+			   acvpID = FormatNumber( _
+                CDbl(AcIr_Vp_voltage), _
+					5, _
+					-1, _
+					0, _
+					False _
+				 )
 
-				z2_Resistance = acirID
+		   Else
 
-				If IsNumeric(z1_Resistance) And _
-				   IsNumeric(z2_Resistance) Then
+			   acvpID   = ""
 
-					If CDbl(z1_Resistance) + _
-					   CDbl(z2_Resistance) <> 0 Then
+		   End If
+		   
+		   'å°‡acvp é›»å£“ ç²¾æº–æµ®é»æ•¸è‡³5ä½æ•¸å›å¡«å¯«
+		   ws.Cells(i, acvpCol).Value = acvpID
+		   		   
+		   'ç›®å‰æ“·å– ACIR->é˜»æŠ—independece éœ€è¦é‡å°å…©å…©é…å°åšä¸¦è¯é‹ç®—
+		   	'-------------------------------------------------
+			' æ“·å– ACIR
+			' å·¥ç¨‹å–®ä½ä¾‹å¦‚ï¼š
+			' 4.50E-04 â†’ 0.00045
+			' 8.90E-04 â†’ 0.00089
+			'-------------------------------------------------
+			Dim Resis_Value As String
+			
+		    Resis_Value = Trim(CStr(ws.Cells(i, acirCol).Value))
+			
+            If Resis_Value <> "" And IsNumeric(Resis_Value) Then
 
-						zMatch_Resist = _
-							CDbl(z1_Resistance) * _
-							CDbl(z2_Resistance) / _
-							(CDbl(z1_Resistance) + _
-							 CDbl(z2_Resistance))
-
-						zMatch_Resist = Round(zMatch_Resist, 5)
-
-						'-----------------------------------------
-						' ¼g¦^¤W¤@­Ó Class ³Ì«á¤@Áû
-						'-----------------------------------------
-						ws.Cells(previousClassLastRow, _
-								 z_impedanceCol).Value = zMatch_Resist
-
-					End If
-
-				End If
-
-				'---------------------------------------------
-				' ¸ó Class °t¹ï§¹¦¨
-				'---------------------------------------------
-				pendingCrossClass = False
-
-				'---------------------------------------------
-				' ¥Ø«e³oÁû¤w¸g³Q¨Ï¥Î±¼
-				' ¤£¥i¥H¦A®³¥h©M¤U¤@Áû°t¹ï
-				'---------------------------------------------
-				z1_Resistance = ""
-
-				'---------------------------------------------
-				' ²M°£¥Ø«e³oÁûªº impedance Äæ¦ì
-				'---------------------------------------------
-				ws.Cells(i, z_impedanceCol).ClearContents
+				'acirID = CDbl(Resis_Value)
+				acirID = FormatNumber( _
+                CDbl(Resis_Value), _
+					5, _
+					-1, _
+					0, _
+					False _
+				 )
 
 			Else
-		        '=================================================
-                ' ¥¿±`¦P Class ¨â¨â°t¹ï
-                '=================================================
-                match_Count = match_Count + 1
+
+				acirID = ""
+
+			End If
+				 
+            match_Count = match_Count + 1
 						  
-			   '--------------------------------
-			   ' ²Ä¤@Áûªı§Ü¥ı°O¿ı,«áÄò­n¤Ç°tªº²Ä¤GÁû¦b­pºâÁ`¨ÃÁpªı§Ü­È
-			   '--------------------------------
-			   If match_Count Mod 2 = 0 Then
+		   '--------------------------------
+		   ' ç¬¬ä¸€é¡†é˜»æŠ—å…ˆè¨˜éŒ„,å¾ŒçºŒè¦åŒ¹é…çš„ç¬¬äºŒé¡†åœ¨è¨ˆç®—ç¸½ä¸¦è¯é˜»æŠ—å€¼
+		   '--------------------------------
+			If match_Count Mod 2 = 0 Then
 			   
 				  z2_Resistance = acirID
 				  
-				  ' ­pºâ¨âÁû¨ÃÁpªı§Ü
+				  ' è¨ˆç®—å…©é¡†ä¸¦è¯é˜»æŠ—
 				  If IsNumeric(z1_Resistance) And IsNumeric(z2_Resistance) Then
 				  
 						If CDbl(z1_Resistance) + CDbl(z2_Resistance) <> 0 Then
@@ -586,31 +556,56 @@ Sub Generate_Model_Combine_Final()
 								CDbl(z1_Resistance) * CDbl(z2_Resistance) / _
 								(CDbl(z1_Resistance) + CDbl(z2_Resistance))
 
-							' ¨ú¤p¼Æ²Ä 5 ¦ì
+							' å–å°æ•¸ç¬¬ 5 ä½
 							zMatch_Resist = Round(zMatch_Resist, 5)
 
-							'¦s¤J²Ä¤@²Õ¨ÃÁpªı§Üfirstªº¦ì¸mRow
+							'å­˜å…¥ç¬¬ä¸€çµ„ä¸¦è¯é˜»æŠ—firstçš„ä½ç½®Row
+							ws.Cells(i - 1, z_impedanceCol).Value = zMatch_Resist
+                        
+						ElseIf IsNumeric(z1_Resistance) And z2_Resistance = "" Then
+
+							'-----------------------------------------------
+							' ç¬¬ä¸€é¡†æœ‰é˜»æŠ—ã€ç¬¬äºŒé¡†ç©ºç™½
+							' â†’ æœ‰æ•ˆé˜»æŠ— / 2
+							'-----------------------------------------------
+
+							zMatch_Resist = CDbl(z1_Resistance) / 2
+
+							zMatch_Resist = Round(zMatch_Resist, 5)
+
+							ws.Cells(i - 1, z_impedanceCol).Value = zMatch_Resist
+
+
+						ElseIf z1_Resistance = "" And IsNumeric(z2_Resistance) Then
+
+							'-----------------------------------------------
+							' ç¬¬ä¸€é¡†ç©ºç™½ã€ç¬¬äºŒé¡†æœ‰é˜»æŠ—
+							' â†’ æœ‰æ•ˆé˜»æŠ— / 2
+							'-----------------------------------------------
+
+							zMatch_Resist = CDbl(z2_Resistance) / 2
+
+							zMatch_Resist = Round(zMatch_Resist, 5)
+
 							ws.Cells(i - 1, z_impedanceCol).Value = zMatch_Resist
 
 						End If
-
+						
 				  End If
 					
-				 Else 
+			Else 
 					'---------------------------------------------
-					' ²Ä¤@Áû
+					' ç¬¬ä¸€é¡†
 					'---------------------------------------------
 					z1_Resistance = acirID
 					
-					' ²Ä¤GÁû¦ì¸m«O«ùªÅ¥Õ
+					' ç¬¬äºŒé¡†ä½ç½®ä¿æŒç©ºç™½
 					ws.Cells(i, z_impedanceCol).ClearContents
 					
-				 End If
-				 
-		   End If
+		    End If
 		   		      
            '--------------------------------
-           ' Model²Õ¦X
+           ' Modelçµ„åˆ
            '--------------------------------
                         
             modelCombine = _
@@ -623,45 +618,53 @@ Sub Generate_Model_Combine_Final()
            ws.Cells(i, modelCol).Value = modelCombine
     
            '=============================================
-           ' ¤U¤@Áû
+           ' ä¸‹ä¸€é¡†
            '=============================================
-           dictLocation(classID) = locationIndex + 1
+          ' dictLocation(classID) = locationIndex + 1
+		   globalLocationIndex = globalLocationIndex + 1
     
            '=============================================
-           ' ¨C 32 Áû­«·s´`Àô '
-           ' 1~32 §¹¦¨«á¡G '
-           ' ²Ä33Áû = Location 1
-           ' ²Ä34Áû = Location 1
+           ' æ¯ 32 é¡†é‡æ–°å¾ªç’° '
+           ' 1~32 å®Œæˆå¾Œï¼š '
+           ' ç¬¬33é¡† = Location 1
+           ' ç¬¬34é¡† = Location 1
            '=============================================
-           If dictLocation(classID) > 32 Then
-              dictLocation(classID) = 1
-			  '¦s¨ú³Ì«á°t¹ï¸¹¬ö¿ı
-		      record_location = 1			  
-			  pendingCrossClass = False
-			  		   
-           ' ­Y¬O»İ­n32¤ÀÃş½X³sÄò«h¤U¦Cµù¸Ñ±Ò°Ê
-           '===================== start ========================  
-		   Else
-		     '---------------------------------------------
-             ' §PÂ_¤U¤@­Ó Class À³±q­ş­Ó Location ¶}©l
-             '---------------------------------------------
-			  If match_Count Mod 2 = 0 Then
-			  
-			    record_location = dictLocation(classID)	
-				
-			  Else
-			    ' ¤U¤@­Ó Class ¥²¶·±µÄò¦P¤@ Location
-			  	record_location = locationIndex
-				
-			  End If
-		   '===================== end ========================	  
-           End If
+         '  If dictLocation(classID) > 32 Then
+         '    dictLocation(classID) = 1
+		'	  'å­˜å–æœ€å¾Œé…å°è™Ÿç´€éŒ„
+		 '    record_location = 1			  
+         ' ' è‹¥æ˜¯éœ€è¦32åˆ†é¡ç¢¼é€£çºŒå‰‡ä¸‹åˆ—è¨»è§£å•Ÿå‹•
+         ' '===================== start ========================  
+		 ' Else
+		 '   '---------------------------------------------
+         '   ' åˆ¤æ–·ä¸‹ä¸€å€‹ Class æ‡‰å¾å“ªå€‹ Location é–‹å§‹
+         '   '---------------------------------------------
+		'	  If match_Count Mod 2 = 0 Then
+		'	  
+		'	    record_location = dictLocation(classID)	
+		'		
+		'	  Else
+		'	    ' ä¸‹ä¸€å€‹ Class å¿…é ˆæ¥çºŒåŒä¸€ Location
+		'	  	record_location = locationIndex
+		'		
+		'	  End If
+		 ' '===================== end ========================	  
+         ' End If
 		   
-		   '=================================================
-           '°O¿ı¥Ø«e Class
-           '=================================================
-           previousClassID = classID
-              
+		   
+		   
+		    If globalLocationIndex > 32 Then
+				globalLocationIndex = 1
+			End If
+
+
+			'=================================================
+			' æ›´æ–°ç›®å‰ Class çš„ä½ç½®
+			'=================================================
+			dictLocation(classID) = globalLocationIndex
+
+			record_location = globalLocationIndex
+
            processCount = processCount + 1
            
        End If
@@ -670,9 +673,9 @@ Sub Generate_Model_Combine_Final()
     
     
     '=====================================================
-    ' 14. ®æ¦¡¤Æ¿é¥XÄæ¦ì 
+    ' 14. æ ¼å¼åŒ–è¼¸å‡ºæ¬„ä½ 
     '=====================================================
-	'"@" ¤å¦rÄæ¦ì
+	'"@" æ–‡å­—æ¬„ä½
      With ws.Columns(modelCol)
              .NumberFormat = "@"
              .EntireColumn.AutoFit
@@ -683,26 +686,32 @@ Sub Generate_Model_Combine_Final()
              .EntireColumn.AutoFit
      End With
 	 
+	 With ws.Columns(acvpCol)
+        ' é¡¯ç¤ºåˆ°å°æ•¸ç¬¬ 5 ä½
+             .NumberFormat = "0.00000"
+             .EntireColumn.AutoFit
+     End With
+	 
 	 With ws.Columns(z_impedanceCol)
-        ' Åã¥Ü¨ì¤p¼Æ²Ä 5 ¦ì
+        ' é¡¯ç¤ºåˆ°å°æ•¸ç¬¬ 5 ä½
              .NumberFormat = "0.00000"
              .EntireColumn.AutoFit
      End With
     
     
     '=====================================================
-    ' 15. ¼ĞÃD®æ¦¡
+    ' 15. æ¨™é¡Œæ ¼å¼
     '=====================================================
-    ' ­Y¤T­ÓÄæ¦ì¬O³sÄò ( Model       Location       Impedance)
+    ' è‹¥ä¸‰å€‹æ¬„ä½æ˜¯é€£çºŒ ( Model       Location       Impedance)
     ' Set headerRange = ws.Range( _
     '     ws.Cells(1, modelCol), _
     '     ws.Cells(1, z_impedanceCol) _
     ' )
 	
-	'Union¡A¤£·|¨ü¨ìÄæ¦ì¦ì¸m¼vÅT
+	'Unionï¼Œä¸æœƒå—åˆ°æ¬„ä½ä½ç½®å½±éŸ¿
 	 Set headerRange = Union( _
 			ws.Cells(1, modelCol), _
-			ws.Cells(1, locationCol), _
+			ws.Cells(1, locationCol), _		
 			ws.Cells(1, z_impedanceCol) _
 	 )
 
@@ -715,7 +724,7 @@ Sub Generate_Model_Combine_Final()
      End With
 
       '=====================================================
-      ' 16. ­áµ²¼ĞÃD¦C
+      ' 16. å‡çµæ¨™é¡Œåˆ—
       '=====================================================
        ws.Activate
        With ActiveWindow
@@ -724,9 +733,9 @@ Sub Generate_Model_Combine_Final()
        End With
 
       '=====================================================
-      ' 17. ¦Û°ÊÀx¦s¿é¥XÀÉ (ÀÉ®×Äæ¦ìTime¤é´Á , ·í«e¦s¨ú¸ô®|¬y¤ô¸¹¨Ì·Ó­«½Æ¦Û°Ê¥[1)'
-      ' ­ì©l¡G ' ABC.xlsx '
-      ' ¿é¥X¡G ' ABC_Package.xlsx
+      ' 17. è‡ªå‹•å„²å­˜è¼¸å‡ºæª” (æª”æ¡ˆæ¬„ä½Timeæ—¥æœŸ , ç•¶å‰å­˜å–è·¯å¾‘æµæ°´è™Ÿä¾ç…§é‡è¤‡è‡ªå‹•åŠ 1)'
+      ' åŸå§‹ï¼š ' ABC.xlsx '
+      ' è¼¸å‡ºï¼š ' ABC_Package.xlsx
       '=====================================================
            outputFolder = wb.Path
            
@@ -753,7 +762,7 @@ Sub Generate_Model_Combine_Final()
                                     "_Package.xlsx"
 
        '=====================================================
-       ' ¦pªGÀÉ®×¤w¦s¦b¡A¥ı§R°£
+       ' å¦‚æœæª”æ¡ˆå·²å­˜åœ¨ï¼Œå…ˆåˆªé™¤
        '=====================================================
        '=====================================================
 
@@ -764,7 +773,7 @@ Sub Generate_Model_Combine_Final()
         ' End If
        
        '=====================================================
-       ' 18. ¥t¦s·sÀÉ
+       ' 18. å¦å­˜æ–°æª”
        '=====================================================
          Application.DisplayAlerts = False
          
@@ -775,29 +784,29 @@ Sub Generate_Model_Combine_Final()
          Application.DisplayAlerts = True
       
        '=====================================================
-       ' 19. §¹¦¨´£¥Ü
+       ' 19. å®Œæˆæç¤º
        '=====================================================
         MsgBox _
-            "Model / Location ²£¥Í§¹¦¨¡I" & vbCrLf & _
+            "Model / Location ç”¢ç”Ÿå®Œæˆï¼" & vbCrLf & _
             vbCrLf & _
             "================================" & vbCrLf & _
             "Model       : " & moduleNo & vbCrLf & _
-            "¬y¤ô¸¹      : " & serialNo & vbCrLf & _
-            "¹qªä²Õ§O    : " & cellGroup & vbCrLf & _
+            "æµæ°´è™Ÿ      : " & serialNo & vbCrLf & _
+            "é›»èŠ¯çµ„åˆ¥    : " & cellGroup & vbCrLf & _
             "================================" & vbCrLf & _
-            "³B²z¸ê®Æµ§¼Æ : " & processCount & vbCrLf & _
-            "Class ¼Æ¶q   : " & classCount & vbCrLf & _
-            "Location     : 1 ~ 16 ´`Àô" & vbCrLf & _
-            "¨C 32 Áû­«·s´`Àô" & vbCrLf & _
+            "è™•ç†è³‡æ–™ç­†æ•¸ : " & processCount & vbCrLf & _
+            "Class æ•¸é‡   : " & classCount & vbCrLf & _
+            "Location     : 1 ~ 16 å¾ªç’°" & vbCrLf & _
+            "æ¯ 32 é¡†é‡æ–°å¾ªç’°" & vbCrLf & _
             "================================" & vbCrLf & _
             vbCrLf & _
-            "¿é¥XÀÉ®×¡G" & vbCrLf & _
+            "è¼¸å‡ºæª”æ¡ˆï¼š" & vbCrLf & _
             outputFile, _
             vbInformation, _
-            "³B²z§¹¦¨"
+            "è™•ç†å®Œæˆ"
             
        '=====================================================
-   ' ¥¿±`µ²§ô / ²M²zÀô¹Ò
+   ' æ­£å¸¸çµæŸ / æ¸…ç†ç’°å¢ƒ
    '=====================================================
 
 SafeExit:
@@ -813,17 +822,17 @@ SafeExit:
 
 
    '=====================================================
-   ' ¿ù»~³B²z
+   ' éŒ¯èª¤è™•ç†
    '=====================================================
 ErrorHandler:
 
       Application.DisplayAlerts = True
 
       MsgBox _
-        "µ{¦¡°õ¦æµo¥Í¿ù»~¡C" & vbCrLf & _
+        "ç¨‹å¼åŸ·è¡Œç™¼ç”ŸéŒ¯èª¤ã€‚" & vbCrLf & _
         vbCrLf & _
-        "¿ù»~½s¸¹¡G" & Err.Number & vbCrLf & _
-        "¿ù»~¤º®e¡G" & Err.Description, _
+        "éŒ¯èª¤ç·¨è™Ÿï¼š" & Err.Number & vbCrLf & _
+        "éŒ¯èª¤å…§å®¹ï¼š" & Err.Description, _
         vbCritical, _
         "VBA Error"
 
@@ -833,9 +842,9 @@ End Sub
     
     
     '=========================================================
-    ' ¨ç¼Æ¡GFindHeaderColumn '
-    ' ¥ÎÄæ¦ì¦WºÙ´M§äÄæ¦ì¦ì¸m '
-    ' ¤£ºŞÄæ¦ì¦b B¡BF¡BK¡BZ... ' ³£¥i¥H¦Û°Ê§ä¨ì
+    ' å‡½æ•¸ï¼šFindHeaderColumn '
+    ' ç”¨æ¬„ä½åç¨±å°‹æ‰¾æ¬„ä½ä½ç½® '
+    ' ä¸ç®¡æ¬„ä½åœ¨ Bã€Fã€Kã€Z... ' éƒ½å¯ä»¥è‡ªå‹•æ‰¾åˆ°
     '=========================================================
     
     Private Function FindHeaderColumn( _
@@ -871,9 +880,9 @@ End Sub
     
     
     '=========================================================
-    ' ¨ç¼Æ¡GNormalizeHeader '
-    ' ³B²zÄæ¦ì¦WºÙ¤¤ªº¡G
-    ' - «e«áªÅ¥Õ ' - ¥ş§ÎªÅ¥Õ ' - ¤j¤p¼g
+    ' å‡½æ•¸ï¼šNormalizeHeader '
+    ' è™•ç†æ¬„ä½åç¨±ä¸­çš„ï¼š
+    ' - å‰å¾Œç©ºç™½ ' - å…¨å½¢ç©ºç™½ ' - å¤§å°å¯«
     '=========================================================
     Private Function NormalizeHeader( _
         ByVal headerText As String _
@@ -892,8 +901,8 @@ End Sub
     
         
     '=========================================================
-    ' ¨ç¼Æ¡GGetLastRow '
-    ' §ä¤u§@ªí³Ì«á¤@µ§¸ê®Æ
+    ' å‡½æ•¸ï¼šGetLastRow '
+    ' æ‰¾å·¥ä½œè¡¨æœ€å¾Œä¸€ç­†è³‡æ–™
     '=========================================================
     Private Function GetLastRow( _
           ByVal ws As Worksheet _
@@ -925,8 +934,8 @@ End Sub
     
     
     '=========================================================
-    ' ¨ç¼Æ¡GGetLastColumn '
-    ' §ä¤u§@ªí³Ì«á¤@­ÓÄæ¦ì
+    ' å‡½æ•¸ï¼šGetLastColumn '
+    ' æ‰¾å·¥ä½œè¡¨æœ€å¾Œä¸€å€‹æ¬„ä½
     '=========================================================
     Private Function GetLastColumn( _
               ByVal ws As Worksheet _
@@ -957,8 +966,8 @@ End Sub
    
    
    '=========================================================
-   ' ¨ç¼Æ¡GGetFileNameWithoutExtension '
-   ' ABC.csv ' ¡õ ' ABC  Â^¨úÂà¤Æ¤ÀªRÀÉ¦W¤§«eºó¦r¦ê
+   ' å‡½æ•¸ï¼šGetFileNameWithoutExtension '
+   ' ABC.csv ' â†“ ' ABC  æ“·å–è½‰åŒ–åˆ†ææª”åä¹‹å‰ç¶´å­—ä¸²
    '=========================================================
    
    Private Function GetFileNameWithoutExtension( _
@@ -979,15 +988,15 @@ End Sub
    
    
    '=========================================================
-        ' ¨ç¼Æ¡GGetDateFromTimeColumn
+        ' å‡½æ•¸ï¼šGetDateFromTimeColumn
         '
-        ' ±q Time Äæ¦ì¨ú±o¤é´Á
+        ' å¾ Time æ¬„ä½å–å¾—æ—¥æœŸ
         '
-        ' ½d¨Ò¡G
+        ' ç¯„ä¾‹ï¼š
         '
         ' 2026/8/11  12:06:00 PM
         '
-        ' ¡õ
+        ' â†“
         '
         ' 20260811
         '
@@ -1003,7 +1012,7 @@ End Sub
                 Dim timeValue As Variant
                 Dim parsedDate As Date
                 
-                '²M°£¼È¦sª¬ºATime ¸ê°T¤º®e
+                'æ¸…é™¤æš«å­˜ç‹€æ…‹Time è³‡è¨Šå…§å®¹
                 GetDateFromTimeColumn = ""
         
                 For i = 2 To lastRow
@@ -1012,7 +1021,7 @@ End Sub
                         If Trim(CStr(timeValue)) <> "" Then
 
                                 '-------------------------------------------------
-                                ' ¦pªG Excel ¤w¸g¿ëÃÑ¦¨¤é´Á
+                                ' å¦‚æœ Excel å·²ç¶“è¾¨è­˜æˆæ—¥æœŸ
                                 '-------------------------------------------------
 
                                 If IsDate(timeValue) Then
@@ -1034,12 +1043,12 @@ End Sub
         
         
         '=========================================================
-        ' ¨ç¼Æ¡GGetNextSequenceNumber
+        ' å‡½æ•¸ï¼šGetNextSequenceNumber
         '
-        ' ®Ú¾Ú¡G
-        '   ­ì©lÀÉ¦W + ·í¤Ñ¤é´Á
+        ' æ ¹æ“šï¼š
+        '   åŸå§‹æª”å + ç•¶å¤©æ—¥æœŸ
         '
-        ' §ä¥X¥Ø«e³Ì¤jªº¬y¤ô¸¹
+        ' æ‰¾å‡ºç›®å‰æœ€å¤§çš„æµæ°´è™Ÿ
         '=========================================================
         
         Private Function GetNextSequenceNumber( _
@@ -1063,7 +1072,7 @@ End Sub
                 prefix = baseName & "_" & file_first_date & "_"
                 
                 '-----------------------------------------------------
-                ' ÀÉ¦W·j´M¼Ò¦¡ * ¥Nªí¥Ø«e©Ò¦³ª¬ºA
+                ' æª”åæœå°‹æ¨¡å¼ * ä»£è¡¨ç›®å‰æ‰€æœ‰ç‹€æ…‹
         '-----------------------------------------------------
 
          searchPattern = prefix & "*_Package.xlsx"
@@ -1076,15 +1085,15 @@ End Sub
                         searchPattern _
                  )
                  
-         '¨«³XÀÉ¦W¸ô®|
+         'èµ°è¨ªæª”åè·¯å¾‘
                  Do While fileName <> ""
                          
                         '-------------------------------------------------
-                        ' ¨ú±o¡G
+                        ' å–å¾—ï¼š
                         '
                         ' ABC_20260811_001_Package.xlsx
                         '
-                        ' ¤¤¶¡ªº¡G
+                        ' ä¸­é–“çš„ï¼š
                         '
                         ' 001
                         '-------------------------------------------------
@@ -1108,7 +1117,7 @@ End Sub
                  Loop
         
              '-----------------------------------------------------
-                 ' ¤U¤@­Ó³Ì·s¬y¤ô¸¹
+                 ' ä¸‹ä¸€å€‹æœ€æ–°æµæ°´è™Ÿ
                  '-----------------------------------------------------
                  GetNextSequenceNumber = maxSequence + 1
                  
