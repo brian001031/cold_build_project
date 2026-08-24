@@ -63,6 +63,9 @@ Sub Generate_Model_Combine_Final()
     Dim sequenceNo As Long
     
     Dim modelCombine As String
+	Dim continue_status As String
+	
+	Dim isContinue_ClassId As Boolean
     
     Dim processCount As Long
     Dim classCount As Long
@@ -248,8 +251,26 @@ Sub Generate_Model_Combine_Final()
         MsgBox "未輸入電芯組別。", vbExclamation
         GoTo SafeExit
     End If
-    
-    
+	
+	
+	'=====================================================
+    ' 選擇是否ClassID連號或是重新1開始
+	' UserForm：ClassID Location 模式
+    '=====================================================
+    UserSelect_Form.Show vbModal
+	
+	isContinue_ClassId = UserSelect_Form.SelectedValue
+	
+	
+    If isContinue_ClassId = True Then
+	
+        continue_status = "連續"
+	 
+    Else
+	
+	    continue_status = "非連續"
+	       
+    End If
     
     '=====================================================
     ' 10. 建立輸出欄位
@@ -414,7 +435,7 @@ Sub Generate_Model_Combine_Final()
 	
 	Dim globalLocationIndex As Long
 	
-	record_location = Int(0)
+	record_location = Int(1)
 	match_Count = 0
 	globalLocationIndex = 1
 	    
@@ -452,10 +473,12 @@ Sub Generate_Model_Combine_Final()
 				'	dictLocation.Add classID, 1
                 '===================== end ========================
 				'Else
+				
 				'	dictLocation.Add classID, record_location
+					
 				'End If
 				
-				dictLocation.Add classID, globalLocationIndex
+				'dictLocation.Add classID, globalLocationIndex
 
       
 
@@ -465,6 +488,36 @@ Sub Generate_Model_Combine_Final()
 				' dictLocation.Add classID, 1
 				' match_Count = 0
 				'===================== end========================
+			   If isContinue_ClassId Then
+			   
+			      ' ClassID 切換後接續 record_location
+				  '
+				  ' 例如：
+				  ' A21 → 1~12
+			      ' A22 → 從 13 開始
+			   
+			      dictLocation.Add classID, record_location
+				 
+			   
+			   Else
+			   	  
+                   ' ClassID 切換後重新從 1 開始
+				   
+			      dictLocation.Add classID, 1
+				  
+				  '=================================================
+			      ' 第一顆阻抗也必須清除
+			      ' 避免拿上一個 Class 的資料配對
+			      '=================================================
+			      z1_Resistance = ""
+			      z2_Resistance = ""	
+				  match_Count = 0
+			  			   
+			   End If
+			   
+			  
+			   
+			   
 			   classCount = classCount + 1
 			 
             End If
@@ -537,7 +590,8 @@ Sub Generate_Model_Combine_Final()
 				acirID = ""
 
 			End If
-				 
+		    
+			
             match_Count = match_Count + 1
 						  
 		   '--------------------------------
@@ -608,7 +662,7 @@ Sub Generate_Model_Combine_Final()
            ' Model組合
            '--------------------------------
                         
-            modelCombine = _
+           modelCombine = _
                 moduleNo & "-" & _
                 serialNo & "-" & _
                 classID & "-" & _
@@ -620,8 +674,9 @@ Sub Generate_Model_Combine_Final()
            '=============================================
            ' 下一顆
            '=============================================
-          ' dictLocation(classID) = locationIndex + 1
-		   globalLocationIndex = globalLocationIndex + 1
+           dictLocation(classID) = locationIndex + 1
+		   'globalLocationIndex = globalLocationIndex + 1
+		   globalLocationIndex = locationIndex + 1
     
            '=============================================
            ' 每 32 顆重新循環 '
@@ -758,6 +813,7 @@ Sub Generate_Model_Combine_Final()
        outputFile = outputFolder & Application.PathSeparator & _
                     outputBaseName & "_" & _
                     fileDate & "_" & _
+					Trim(continue_status) & "_" & _
                     Format(sequenceNo, "000") & _
                                     "_Package.xlsx"
 
