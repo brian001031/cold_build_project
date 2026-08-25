@@ -95,6 +95,8 @@ Sub Generate_Package_PDF()
     Dim oldScreenUpdating As Boolean
     Dim oldEnableEvents As Boolean
 	
+	On Error GoTo ErrorHandler
+	
 	'=====================================================
     ' 保存 Excel 原始設定
     '=====================================================
@@ -287,6 +289,14 @@ Sub Generate_Package_PDF()
 	' 總 Group 數
     totalGroups = ((lastRow - startRow + 1) + 31) \ 32
 	
+	
+	'=====================================================
+	' 顯示 PDF 進度視窗
+	'=====================================================
+	frmPDFProgress.Show vbModeless
+
+	DoEvents
+	
     
     '=====================================================
     ' 每 32 筆產生一份 PDF
@@ -404,20 +414,20 @@ Sub Generate_Package_PDF()
 		
 		' 顯示進度
 		'progressPercent = Int((groupNo / totalGroups) * 100)
-		progressPercent = Int( _
-		        ((endRow - 1 ) /  (lastRow - 1)) * 100)
+		'progressPercent = Int( _
+		'        ((endRow - 1 ) /  (lastRow - 1)) * 100)
 		
 	    'CStr(groupNo) & " / " & CStr(totalGroups) & _
 
-		Application.StatusBar = _
-			"PDF 產生進度：" & _
-			 CStr(pdfCount) & " 組" & _		
-			" (" & CStr(progressPercent) & "%)" & _
-			"　資料：" & _
-			CStr(startRow - 1) & " ~ " & _
-			CStr(endRow - 1)
+		'Application.StatusBar = _
+		'	"PDF 產生進度：" & _
+		'	 CStr(pdfCount) & " 組" & _		
+		'	" (" & CStr(progressPercent) & "%)" & _
+		'	"　資料：" & _
+		'	CStr(startRow - 1) & " ~ " & _
+		'	CStr(endRow - 1)
 
-		DoEvents
+		'DoEvents
         
               
         groupCount = endRow - startRow + 1
@@ -636,9 +646,13 @@ Sub Generate_Package_PDF()
 
     wb.Close False
     
-    Application.ScreenUpdating = True
-    Application.DisplayAlerts = True	
-	Application.StatusBar = False
+    '=====================================================
+    ' 完成
+    '=====================================================
+    Unload frmPDFProgress
+
+    Application.StatusBar = False
+ 
 
     MsgBox "PDF 產生完成。" & vbCrLf & _
                  "Group 數量：" & pdfCount & vbCrLf & _
@@ -657,7 +671,20 @@ Sub Generate_Package_PDF()
 
     Exit Sub			 
     
+    ErrorHandler:
 
+        On Error Resume Next
+
+		Unload frmPDFProgress
+
+		Application.StatusBar = False
+
+		MsgBox _
+			"PDF 產生失敗。" & vbCrLf & _
+			"錯誤：" & Err.Description, _
+			vbCritical, _
+			"PDF 產生錯誤"
+	
 End Sub
 
 
@@ -1105,6 +1132,57 @@ Private Sub GeneratePDF( _
 	
 End Sub
 
+'=====================================================
+' 更新 PDF UserForm 進度
+'=====================================================
+Public Sub UpdatePDFProgress( _
+    ByVal progressPercent As Long, _
+    ByVal statusText As String)
+
+    '=================================================
+    ' 限制百分比範圍
+    '=================================================
+    If progressPercent < 0 Then
+        progressPercent = 0
+    End If
+
+    If progressPercent > 100 Then
+        progressPercent = 100
+    End If
+
+
+    '=================================================
+    ' 更新 UserForm 狀態
+    '=================================================
+    frmPDFProgress.lblStatus.Caption = statusText
+
+    frmPDFProgress.lblPercent.Caption = _
+        CStr(progressPercent) & "%"
+
+
+    '=================================================
+    ' 更新進度條
+    '=================================================
+    frmPDFProgress.lblProgress.Width = _
+        frmPDFProgress.fraProgress.InsideWidth * _
+        progressPercent / 100
+
+
+    '=================================================
+    ' 同步更新 Excel StatusBar
+    '=================================================
+    Application.StatusBar = _
+        statusText & _
+        " (" & CStr(progressPercent) & "%)"
+
+
+    '=================================================
+    ' 強制刷新 UserForm
+    '=================================================
+    DoEvents
+
+End Sub
+
     Private Function SelectXLSFile( _
 	        ByRef isContinue_ClassId As Boolean) As String
 			
@@ -1525,6 +1603,8 @@ End Sub
 
         Dim firstRow As Long
         Dim lastLocationRow As Long
+		
+		Dim progressPercent As Long
 	
 	
 	    '初始化
@@ -1538,8 +1618,28 @@ End Sub
 		
 	    r = searchStartRow
 		
-		Do While r <= lastRow
-
+		Do While r <= lastRow		
+		
+		    
+		    If r Mod 50 = 0 Then
+			    
+			    progressPercent = Int( _
+                       ((r - 1) / (lastRow - 1)) * 100)
+			
+			Else
+			   
+			    progressPercent = 0
+				
+				Call UpdatePDFProgress( _
+						progressPercent, _
+						"尋找連續 ClassID Group..." & _
+						vbCrLf & _
+						"掃描：" & _
+						CStr(r - 1) & " / " & _
+						CStr(lastRow - 1))
+							
+			End If
+		
 			If Trim(CStr(ws.Cells(r, classCol).Value)) <> "" Then
 				Exit Do
 			End If
@@ -1561,7 +1661,7 @@ End Sub
         ' 開始尋找 Location 16,16
         '=====================================================
         Do While r <= lastRow
-		   
+		
 		   locationValue = NumericCellValue( _
                             ws.Cells(r, locationCol).Value)
 							
@@ -1598,12 +1698,34 @@ End Sub
 				     If IsNumeric(previousLocation) Then
 
                         If CDbl(previousLocation) = 16 Then
+						
+						    lastLocationRow = r
 
                             '---------------------------------
-                            ' 16,16
+                            ' 找到 16,16
                             '---------------------------------
 
-                            lastLocationRow = r
+							If lastRow > 1 Then
+
+								progressPercent = Int( _
+									((r - 1) / (lastRow - 1)) * 100)
+
+							Else
+
+								progressPercent = 0
+
+							End If
+
+                            
+							
+							Call UpdatePDFProgress( _
+								progressPercent, _
+								"找到 Location 16,16" & _
+								vbCrLf & _
+								"資料：" & _
+								CStr(firstRow - 1) & " ~ " & _
+								CStr(r - 1))
+							
 
                             Exit Do
 
@@ -1723,7 +1845,7 @@ End Sub
 		Dim location31 As Variant
 		Dim location32 As Variant
 
-		
+		Dim progressPercent As Long
 
         '=====================================================
 		' 初始化
@@ -1747,18 +1869,55 @@ End Sub
 
         Do While r <= lastRow
 		
-		   currentClass = Trim(CStr( _
+		    '-------------------------------------------------
+			' 更新搜尋進度
+			' 每 50 筆更新一次
+			'-------------------------------------------------
+			If r Mod 50 = 0 Then
+
+				If lastRow > 1 Then
+
+					progressPercent = Int( _
+						((r - 1) / (lastRow - 1)) * 100)
+
+					If progressPercent > 100 Then
+						progressPercent = 100
+					End If
+
+				Else
+
+					progressPercent = 0
+
+				End If
+
+
+				Call UpdatePDFProgress( _
+					progressPercent, _
+					"尋找下一個 ClassID..." & _
+					vbCrLf & _
+					"掃描：" & _
+					CStr(r - 1) & " / " & _
+					CStr(lastRow - 1))
+
+			End If
+		
+		    currentClass = Trim(CStr( _
 		         ws.Cells(r, classCol).Value))
 		   
-		   If currentClass <> "" Then
+		    If currentClass <> "" Then
 		   
                Exit Do
 			   
-           End If
+            End If
 
            r = r + 1
 		
 		Loop
+		
+		
+		'=====================================================
+        ' 搜尋超過最後一筆
+        '=====================================================
 		
         If r > lastRow Then
 		
@@ -1778,12 +1937,48 @@ End Sub
 			
 		classID = currentClass
 		
+		currentStartRow = firstRow
+		
 		
 		'=====================================================
 		' 尋找這個 ClassID 的最後一列 ,不包含其它ClassID
 		'=====================================================
 
 		Do While r <= lastRow
+		
+		    '-------------------------------------------------
+			' 更新目前 ClassID 掃描進度
+			' 每 50 筆更新一次
+			'-------------------------------------------------
+			If r Mod 50 = 0 Then
+
+				If lastRow > 1 Then
+
+					progressPercent = Int( _
+						((r - 1) / (lastRow - 1)) * 100)
+
+					If progressPercent > 100 Then
+						progressPercent = 100
+					End If
+
+				Else
+
+					progressPercent = 0
+
+				End If
+
+
+				Call UpdatePDFProgress( _
+					progressPercent, _
+					"分析 ClassID：" & classID & _
+					vbCrLf & _
+					"尋找 ClassID 最後一列..." & _
+					vbCrLf & _
+					"掃描：" & _
+					CStr(r - 1) & " / " & _
+					CStr(lastRow - 1))
+
+			End If
 
 			currentClass = Trim(CStr( _
 			    ws.Cells(r, classCol).Value))
@@ -1878,6 +2073,14 @@ End Sub
 
 			isComplete32 = False
 			FindSingleClass32Group = True
+			
+			
+			Call UpdatePDFProgress( _
+				progressPercent, _
+				"ClassID：" & classID & _
+				" 不足 32 顆，忽略" & _
+				vbCrLf & _
+				"數量：" & CStr(classCount))
 
 			Exit Function
 
@@ -1901,7 +2104,7 @@ End Sub
 		'End If
 		
 		
-		currentStartRow = searchStartRow
+		'currentStartRow = searchStartRow
 		
 		'=====================================================
 		' 確認 currentStartRow 仍然屬於這個 ClassID
@@ -1945,6 +2148,13 @@ End Sub
 
 			isComplete32 = False
 			FindSingleClass32Group = True
+			
+			Call UpdatePDFProgress( _
+				progressPercent, _
+				"ClassID：" & classID & _
+				" 剩餘不足 32 顆" & _
+				vbCrLf & _
+				"剩餘：" & CStr(remainingCount) & " 顆")
 
 			Exit Function
 
@@ -1985,6 +2195,17 @@ End Sub
 		Debug.Print "CurrentCount    = " & currentCount
 		
 		
+		
+		Call UpdatePDFProgress( _
+			progressPercent, _
+			"驗證 ClassID：" & classID & _
+			vbCrLf & _
+			"目前區段：" & _
+			CStr(currentStartRow) & _
+			" ~ " & _
+			CStr(currentEndRow))
+		
+		
 		'=====================================================
 		' 必須完整32顆
 		'=====================================================
@@ -2018,6 +2239,28 @@ End Sub
 		'=====================================================
 
 		For r = currentStartRow To currentEndRow
+				
+			'UpdatePDFProgress 裡面有 DoEvents ,常態性更新會有元件耗損機率,故不需要每筆都跑狀態			
+			'-------------------------------------------------
+			' 更新 32 顆內部驗證進度
+			'-------------------------------------------------
+		    If ((r - currentStartRow) Mod 6 = 0) Or _
+                       r = currentEndRow Then
+
+				progressPercent = Int( _
+					((r - currentStartRow + 1) / currentCount) * 100)
+
+
+				Call UpdatePDFProgress( _
+					progressPercent, _
+					"驗證 ClassID：" & classID & _
+					vbCrLf & _
+					"Location：" & _
+					CStr(r - currentStartRow + 1) & _
+					" / 32")
+            
+			End If
+
 
 			locationValue = NumericCellValue( _
 				ws.Cells(r, locationCol).Value)
@@ -2125,6 +2368,13 @@ End Sub
 				isComplete32 = True
 				
 				FindSingleClass32Group = True
+				
+				Call UpdatePDFProgress( _
+					100, _
+					"ClassID：" & classID & _
+					" 驗證完成" & _
+					vbCrLf & _
+					"完整 32 顆")
 				
 				Debug.Print "=========================================="
 				Debug.Print "成功找到完整32顆"
