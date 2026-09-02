@@ -49,6 +49,7 @@ Sub Generate_Package_PDF()
     Dim lastDataCol As Long
     Dim type_classsCol As Long
 	Dim allocate_Col As Long
+	Dim machine_workdate_Col As Long
 
     Dim r As Long
     Dim c As Long
@@ -72,6 +73,7 @@ Sub Generate_Package_PDF()
 	Dim regis_val_temp As Double
     Dim firstModel As String
     Dim pdfCount As Long
+	Dim work_datestr As String
 
     Dim currentDateTime As String
 	Dim classify_member As String
@@ -218,6 +220,9 @@ Sub Generate_Package_PDF()
     
     BuildHeaderMap ws, headerMap, lastCol
 
+    '分配電芯系統作業日期時間
+	RequireHeader headerMap, "machine_workTime"
+
     RequireHeader headerMap, "PLCCellID_CE"
     RequireHeader headerMap, "parallel_match"
     RequireHeader headerMap, "3.5-2.8V_mAH"
@@ -229,6 +234,8 @@ Sub Generate_Package_PDF()
     RequireHeader headerMap, "PLCCellIDClass_CE"
 	'阻值分配位置
 	RequireHeader headerMap, "last_define_location"
+
+	
 	
 	 
     firstDataCol = headerMap("PLCCellID_CE")
@@ -238,7 +245,7 @@ Sub Generate_Package_PDF()
 	
 	allocate_Col = headerMap("last_define_location")
 	
-	 
+	machine_workdate_Col = headerMap("machine_workTime")
 
     If firstDataCol > lastDataCol Then
     
@@ -595,6 +602,22 @@ Sub Generate_Package_PDF()
 			
         End If
 		
+		
+		' 取得作業日期
+		If IsDate(ws.Cells(startRow, machine_workdate_Col).Value) Then
+		
+		    
+		   work_datestr = Format( _
+				CDate(ws.Cells(startRow, machine_workdate_Col).Value), _
+				"yyyy_mm_dd" _
+		   )
+		
+		Else
+		
+		   work_datestr = ""
+		
+		End IF
+		
 
         '=================================================
         ' 建立報表 Sheet
@@ -619,6 +642,7 @@ Sub Generate_Package_PDF()
 
         pdfPath = outputFolder & "\" & _
                     modelName & "_" & _
+					work_datestr & "_" & _
                     Right("000" & CStr(groupNo), 3) & ".pdf"
                         
         'pdfPath = GetUniqueFileName(pdfPath)
