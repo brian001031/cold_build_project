@@ -25,7 +25,7 @@ DETEC_VENDER_FOLDERS = [
 #半自動或手動目前預設工作路徑
 RUNTIME_ACTION_FOLDERS = [
     #r"Y:\\source_pfcc",
-    "C:\\copy_temp\\\source_pfcc",    
+    "C:\\copy_temp\\source_pfcc",    
 ]
 
 
