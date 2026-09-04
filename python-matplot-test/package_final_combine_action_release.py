@@ -29,7 +29,7 @@ MYSQL_USER = "root"
 MYSQL_PASSWORD = "Admin0331"
 MYSQL_DATABASE = "mes"
 
-log_path = "package_combine_info.txt"
+log_path = "Built_Module_Info.txt"
 
 #MSQL更新list
 kvalueforprodinfo_list = []
@@ -124,54 +124,40 @@ def writer_finalpackage_log (log_queue: Queue):
             except KeyboardInterrupt:
                     break
 
-def Fetch_Package_ruleData(log_queue: Queue):
+def Fetch_Package_CellRuleData(log_queue: Queue):
     global mysql_kvalue_list, kvalueforprodinfo_list ,cellmodle_identitycode , extra_caculator_result , process_times
-    #先擷取上次作業存取的最後一筆 ID (MSSQL資料表-> HTBI_K_Value_MapperType_V)
-    #last_max_id = prev_init_lasttask_iD()
 
-     # 只保留秒，忽略小數秒
-    # target_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    # start_time = f"{target_now} 00:00:00"
-    # end_time = f"{target_now} 23:59:59"
-
-    # datetime2(0) 會移除小數秒部分，只保留秒數
-    
     
     #找尋指定的日期(預設前一天),找尋出分配組裝所有電芯資訊參數(32分選號,盒號,K值, '3.45 ,3.5~2.8'電容量 , AC 電壓 內阻值)
-    #prev_date_str = text("""
-    #                        select * 
-    #                         from mes.schk_cellrule where 
-    #                         Time >= DATE_ADD( CURDATE(), INTERVAL :prefront_number DAY)  AND  Time <= CURDATE()
-    #                         order by ID DESC 
-    #                     """)
-    
-    
+
     prev_date_str = text("""
                             with orcuj as (
                                      select 
-                                           PLCCellIDClass_CE as allocate_name,
+                                           moduleNO as allocate_name,
                                            COUNT(*) AS class_num			   
-                                        from mes.schk_cellrule  
+                                        from mes.stacked_modinfo  
                                         where 
-                                         `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `Time` < CURDATE()
-                             --          `Time` >= CURDATE() AND  `Time` <= DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)                                        
-                                          AND NULLIF(TRIM(PLCCellIDClass_CE), '') IS NOT NULL
-                                        GROUP BY PLCCellIDClass_CE
+                                             `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                                        --   `Time` >= CURDATE() AND  `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                                        --   `Time` between '2026-09-01 00:00:00' AND '2026-09-30 23:59:59'
+                                        AND NULLIF(TRIM(moduleNO), '') IS NOT NULL
+                                        GROUP BY moduleNO
                                  ),
                                 class_list AS (
-                                        SELECT count( DISTINCT PLCCellIDClass_CE ) AS total_class_finalnum,
+                                        SELECT count( DISTINCT moduleNO ) AS total_class_finalnum,
                                         DATE_FORMAT(
-                                        -- 	DATE_SUB(CURDATE(), INTERVAL-:prefront_number DAY),
+                                        -- 	DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY),
                                         `Time`,'%Y-%m-%d %H:%i:%s'
                                         ) AS date_search_start,
                                         DATE_FORMAT(
-                                            CURDATE(),'%Y-%m-%d %H:%i:%s'     
+                                            DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY),'%Y-%m-%d %H:%i:%s'     
                                         ) AS date_search_end
-                                        FROM mes.schk_cellrule            
-                                         WHERE `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY)
-                                         AND `Time` < CURDATE()
-                            -- 			 WHERE `Time` >= CURDATE()
-                            -- 			 AND `Time`  <= DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                                        FROM mes.stacked_modinfo            
+                                        WHERE `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) 
+                                        AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                            --          WHERE `Time` >= CURDATE()
+                            --   		AND `Time`  < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                            --          WHERE `Time` between '2026-09-01 00:00:00' AND '2026-09-30 23:59:59'
                                ),
                                result AS (
                                 SELECT
@@ -206,13 +192,14 @@ def Fetch_Package_ruleData(log_queue: Queue):
    
     
     
-    #找尋鎖定模組號之關聯電芯組裝資訊( id , Time , PLCCellID_CE , PLCCellIDClass_CE , PLCTrayID_CE , acirVP12_CE )
+    #找尋鎖定模組號之關聯電芯組裝資訊(ID, Time, moduleNO, PLCCellID_modinfo, PLCCellIDBeforeV_modinfo, PLCCellIDAfterV_modinfo, Class, REMARK )
     query_rulecell = text ("""
-                            select  id , Time , PLCCellID_CE , PLCCellIDClass_CE , PLCTrayID_CE , acirVP12_CE , acirRP12_CE from mes.schk_cellrule  
-                                WHERE PLCCellIDClass_CE = :classcode AND
-                                   `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `Time` < CURDATE()
-                            --     `Time`  >= CURDATE()   AND  Time <= DATE_ADD(CURDATE(), INTERVAL 1 DAY)
-                            --  order by DATE_FORMAT(`Time`, '%Y-%m-%d %H:%i:%s')
+                            select * from mes.stacked_modinfo  
+                                WHERE moduleNO = :classcode AND
+                                    `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY)  AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                            --      `Time`  >= CURDATE()   AND  Time < DATE_ADD(CURDATE(), INTERVAL 1 DAY)                            
+                            --      `Time` between '2026-09-01 00:00:00' AND '2026-09-30 23:59:59'
+                            --       order by DATE_FORMAT(`Time`, '%Y-%m-%d %H:%i:%s')
                                 order by id ASC                        
                                 limit 32;
                             """)
@@ -243,21 +230,21 @@ def Fetch_Package_ruleData(log_queue: Queue):
         
         # 先行確認總分選類別數量
         total_casenum =  allinfo_class.iloc[0]['total_class_finalnum']
-        print(f"總分選類別數量 = {total_casenum}")
+        print(f"總模組號類別數量 = {total_casenum}")
        
         if allinfo_class.empty or int(total_casenum) == 0:
-           raise ValueError(f"總分選類別數量 found not 或 數量為 0")
+           raise ValueError(f"總模組號類別數量 found not 或 數量為 0")
         
         for _, row in allinfo_class.iterrows():
 
-            #確定分選碼數量後(不為0或空) , 再接續找出指定欄位 (class_num,allocate_name)
+            #確定模組碼數量後(不為0或空) , 再接續找出指定欄位 (class_num,allocate_name)
             classcode_num = int(row['class_num'])
             allocate_codestr = row['allocate_name']
             
             #符合單一模組號 為32顆電芯 做組裝(測試先用大等於32做模擬 ,忽略 'O')
             if classcode_num >= modle_stand_package_number and allocate_codestr.upper() != 'O':
                 #將分碼號存入後續查詢
-                cellmodle_identitycode.append(allocate_codestr)
+                cellmodle_identitycode.append(str(allocate_codestr).strip())
                 
             
         #符合32顆原則執行(電芯號資訊欄位合併)
@@ -276,26 +263,37 @@ def Fetch_Package_ruleData(log_queue: Queue):
                                            SELECT
                                                 s.id,
                                                 s.`Time`,
-                                                s.PLCCellID_CE,
+                                                s.PLCCellID_modinfo,
                                                 t.K_Value,
                                                 t.VAHSB,
                                                 t.VAHSC,	
-                                                s.PLCCellIDClass_CE,
-                                                s.PLCTrayID_CE,
-                                                s.acirVP12_CE,
-                                                s.acirRP12_CE,
-                                                NULL AS model_combine_number,
+                                                s.Class,
+                                                p.PLCTrayID_CE,
+                                                k.acirVP12_CE,
+                                                k.acirRP12_CE,
+                                                s.moduleNO ,
                                                 NULL AS last_define_location,
-                                                NULL AS parallel_match                                    
-                                            FROM mes.schk_cellrule s
-                                            LEFT JOIN mes.testmerge_cc1orcc2 t
-                                                ON t.modelId = s.PLCCellID_CE
-                                                AND t.parameter = "017"
+                                                NULL AS parallel_match                               
+                                            FROM mes.stacked_modinfo s 
+
+                                            LEFT JOIN mes.testmerge_cc1orcc2 t 
+                                                ON t.modelId = s.PLCCellID_modinfo 
+                                                AND t.parameter = '017'
+                                                
+                                            LEFT JOIN mes.stacked_ce p 
+                                                ON p.PLCCellID_CE = s.PLCCellID_modinfo  
+                                                
+                                            LEFT JOIN mes.schk_cellrule_dupfinish_2 k 
+                                                ON k.PLCCellID_CE = p.PLCCellID_CE
+
                                             WHERE
-                                                s.PLCCellIDClass_CE = :classcode
+                                                s.moduleNO = :classcode
                                                 AND s.`Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY)
-                                                AND s.`Time` < CURDATE()
-                                                AND s.PLCCellID_CE IN :model_id_array
+                                                AND s.`Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)                                                
+                                          --    AND s.`Time` >= CURDATE() 
+                                          --    AND s.`Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                                          --    AND s.`Time` between '2026-09-01 00:00:00' AND '2026-09-03 23:59:59'
+                                                AND s.PLCCellID_modinfo IN :model_id_array
                                             ORDER BY s.id ASC; 
                                         """).bindparams(
                                                 bindparam(
@@ -305,7 +303,7 @@ def Fetch_Package_ruleData(log_queue: Queue):
                                          )
 
             #取電芯ID清單 ,並join testmerge_cc1orcc2 指定欄位(K_Value , VAHSB , VAHSC)            
-            model_id_list = [dw.PLCCellID_CE for dw in rows]
+            model_id_list = [dw.PLCCellID_modinfo for dw in rows]
             #model_id_array = '","'.join(model_id_list)
             merge_caseprocess = conn.execute(add_directfield_query, { 'classcode': classcode ,'prefront_number': prefront_number  ,'model_id_array': model_id_list})
 
@@ -314,21 +312,7 @@ def Fetch_Package_ruleData(log_queue: Queue):
                 item = dict(row._mapping)
                 packagedata.append(item)
             
-            # 在電腦科學中，直接操作浮點數有時會因為二進位轉換產生微小誤差（例如 0.1 + 0.2 不等於 0.3）。
-            # 最安全的做法是先產生大整數，最後再除以 100000。
-            # 最小值 1.00000 -> 100000
-            min_int = int(1.0 * (10 ** 5))/ (10 **5)
-
-            ack_intenger_value = int( ((10 ** 5) - 1) * 1.0 )
-           # max_int = (ack_intenger_value * (10 ** 5)) + ((10 ** 5) - 1)
-
-            ran_serialnumber = random.randint(min_int, ack_intenger_value)
-                    
             for i, item in enumerate(packagedata):                                                             
-                # model_combine_number
-                #item["model_combine_number"] = f"M9-{ran_serialnumber / (10 ** 5)}-A43-G"
-                item["model_combine_number"] = f"M9-{ran_serialnumber:05d}-A43-G"
-                
 
                 # 每兩筆增加 1
                 item["last_define_location"] = (i // 2) + 1
@@ -347,8 +331,8 @@ def Fetch_Package_ruleData(log_queue: Queue):
 
                         error_match_msg1 = (  
                                 f"⚠️ 阻抗資料異常："
-                                f"{packagedata[i - 1]['PLCCellID_CE']} / "
-                                f"{packagedata[i]['PLCCellID_CE']}"
+                                f"{packagedata[i - 1]['PLCCellID_modinfo']} / "
+                                f"{packagedata[i]['PLCCellID_modinfo']}"
                             )
                         
                         error_match.append(error_match_msg1)
@@ -363,8 +347,8 @@ def Fetch_Package_ruleData(log_queue: Queue):
 
                         error_match_msg2 = (  
                             f"⚠️ 阻抗總和為 0："
-                            f"{packagedata[i - 1]['PLCCellID_CE']} / "
-                            f"{packagedata[i]['PLCCellID_CE']}"
+                            f"{packagedata[i - 1]['PLCCellID_modinfo']} / "
+                            f"{packagedata[i]['PLCCellID_modinfo']}"
                         )
 
                         error_match.append(error_match_msg2)
@@ -456,10 +440,10 @@ def convert_acir_decimal(value):
 def export_xlsx_processrun (log_queue: Queue):
 
     final_xlsx_result = text ("""
-                            select machine_workTime, PLCCellID_CE, K_Value, VAHSB, VAHSC, PLCCellIDClass_CE, PLCTrayID_CE, acirVP12_CE, acirRP12_CE, model_combine_number, last_define_location, parallel_match 
-                            from mes.test_finalpackage  WHERE
+                            select machine_workTime, PLCCellID_modinfo, K_Value, VAHSB, VAHSC, PLCCellIDClass_CE, PLCTrayID_CE, acirVP12_CE, acirRP12_CE, model_combine_number, last_define_location, parallel_match 
+                            from mes.total_finalassembly  WHERE
                             --  `machine_workTime`  >= CURDATE()   AND  `machine_workTime` <= DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
-                                `machine_workTime` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `machine_workTime` < CURDATE()
+                                `machine_workTime` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `machine_workTime` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
                             --  `machine_workTime` BETWEEN '2026-08-31 00:00:00' AND '2026-08-31 23:59:59'       
                             --  order by DATE_FORMAT(`machine_workTime`, '%Y-%m-%d %H:%i:%s')
                                 order by id ASC;
@@ -470,6 +454,7 @@ def export_xlsx_processrun (log_queue: Queue):
     # 預設執行-> 前一天日期
     # ==========================================
     previous_date = datetime.now() - timedelta(days=1)
+    #date_str = datetime.now().strftime("%Y-%m-%d")
     date_str = previous_date.strftime("%Y-%m-%d") 
     
     with mysql_engine.begin() as conn:
@@ -481,17 +466,49 @@ def export_xlsx_processrun (log_queue: Queue):
         if allprev_1day_package.empty:
             raise ValueError(f"No test_finalpackage info found for the given date: ${previous_date}")
 
-    output_dir = (Path(r"C:\BatteryAssembly")/ previous_date.strftime("%Y"))
+        #確定資料結構為DataFrame
+        # work_time = pd.to_datetime(
+        #         allprev_1day_package["machine_workTime"],
+        #         errors="coerce"
+        # )
+
+        # get_strtime = work_time.dropna()
+
+        # #讀取machine_workTime欄位 (machine_workTime) 轉換日期,若不為正常表示式則使用前日日期
+        # if not get_strtime.empty and isinstance(get_strtime.iloc[0], datetime):
+        #     date_str = get_strtime.iloc[0].strftime("%Y-%m-%d")
+
+        #使用data列走訪判斷
+        for _, dtime in allprev_1day_package.iterrows():
+            work_time = dtime["machine_workTime"]
+            # print("work_time type = " , type(work_time))
+            # print("work_time 字串為 = " , str(work_time))
+            if isinstance(work_time, datetime):
+                date_str = work_time.strftime("%Y-%m-%d")
+                break
+            else:
+                try:
+                    date_str = datetime.strptime(
+                            work_time.strip(),
+                            "%Y-%m-%d %H:%M:%S"
+                        ).strftime("%Y-%m-%d")
+
+                    break
+                except ValueError:
+                   continue
+  
+
+    output_dir = (Path(r"C:\BatteryAssembly_Final")/ previous_date.strftime("%Y"))
         
     if not os.path.isdir(output_dir):       
        os.makedirs(output_dir, exist_ok=True)
-      
+
     # ==========================================
     # XLSX 檔名
     # ==========================================
     output_file = (
         output_dir
-        / f"PLCCellID_CE_Raw_{date_str}_非連續_finalpackage.xlsx"
+        / f"PLCCellID_modinfo_spec_{date_str}_非連續_finalpackage.xlsx"
     )
 
     #將工程表示單位轉為浮點數顯示(驗證比對需要)
@@ -561,12 +578,12 @@ def upsert_to_packagefinal(df: pd.DataFrame , log_queue: Queue):
   log_msgs = []  # 用 list 收集所有 log 訊息  
 
   query = text("""
-                      INSERT INTO mes.test_finalpackage (allocate_datetime, rule_id, machine_workTime , PLCCellID_CE ,
-                                        K_Value ,  VAHSB,   VAHSC ,     									  
-                                      PLCCellIDClass_CE ,  PLCTrayID_CE ,  acirVP12_CE , acirRP12_CE ,  
-                                      model_combine_number , last_define_location , parallel_match									  
-                                      )									  
-                      VALUES ( NOW() , :rule_id , :machine_workTime , :PLCCellID_CE , 
+                      INSERT INTO mes.total_finalassembly ( allocate_datetime , rule_id , machine_workTime , PLCCellID_modinfo , 
+                                                            K_Value , VAHSB , VAHSC , 
+                                                            PLCCellIDClass_CE , PLCTrayID_CE , acirVP12_CE , acirRP12_CE , 
+                                                            model_combine_number , last_define_location , parallel_match 								  
+                                                        )									  
+                      VALUES ( NOW() , :rule_id , :machine_workTime , :PLCCellID_modinfo , 
                             :K_Value  , :VAHSB , :VAHSC  , 
                             :PLCCellIDClass_CE  , :PLCTrayID_CE  , :acirVP12_CE  , :acirRP12_CE  , 
                             :model_combine_number  , :last_define_location  , :parallel_match 
@@ -593,15 +610,15 @@ def upsert_to_packagefinal(df: pd.DataFrame , log_queue: Queue):
                    {                             
                     'rule_id' : row['id'],
                     'machine_workTime' : row['Time'], 
-                    'PLCCellID_CE' : row['PLCCellID_CE'],
+                    'PLCCellID_modinfo' : row['PLCCellID_modinfo'],
                     'K_Value' : row['K_Value'],
                     'VAHSB' : row['VAHSB'], 
                     'VAHSC' : row['VAHSC'], 
-                    'PLCCellIDClass_CE' : row['PLCCellIDClass_CE'], 
+                    'PLCCellIDClass_CE' : row['Class'], 
                     'PLCTrayID_CE' : row['PLCTrayID_CE'],
                     'acirVP12_CE' : row['acirVP12_CE'], 
                     'acirRP12_CE' : row['acirRP12_CE'],
-                    'model_combine_number' : row['model_combine_number'],
+                    'model_combine_number' : row['moduleNO'],
                     'last_define_location' : row['last_define_location'],
                     'parallel_match' : row['parallel_match'],
                    }
@@ -613,15 +630,15 @@ def upsert_to_packagefinal(df: pd.DataFrame , log_queue: Queue):
                             f"[{index + 1}/{len(df)}] ✅ Upsert 完成：\n"                         
                             f"rule_id = {row['id']}\n"
                             f"machine_workTime = {row['Time']}\n"
-                            f"PLCCellID_CE = {row['PLCCellID_CE']}\n"
+                            f"PLCCellID_modinfo = {row['PLCCellID_modinfo']}\n"
                             f"K_Value = {row['K_Value']}\n"
                             f"VAHSB = {row['VAHSB']}\n"
                             f"VAHSC = {row['VAHSC']}\n"
-                            f"PLCCellIDClass_CE = {row['PLCCellIDClass_CE']}\n"
+                            f"PLCCellIDClass_CE = {row['Class']}\n"
                             f"PLCTrayID_CE = {row['PLCTrayID_CE']}\n"
                             f"acirVP12_CE = {row['acirVP12_CE']}\n"
                             f"acirRP12_CE = {row['acirRP12_CE']}\n"
-                            f"model_combine_number = {row['model_combine_number']}\n"
+                            f"model_combine_number = {row['moduleNO']}\n"
                             f"last_define_location = {row['last_define_location']}\n"
                             f"parallel_match = {row['parallel_match']}\n"
                 )
@@ -654,7 +671,7 @@ if __name__ == "__main__":
   try:
 
     #執行組裝資料串結各項電芯資訊欄位(最終需要新增結算出 並聯(位置及阻抗值)
-    Fetch_Package_ruleData(log_queue)
+    Fetch_Package_CellRuleData(log_queue)
 
     print(f"程序次數 {int(process_times)}")
     print(f"cellmodle_identitycode classid類別數 : {len(cellmodle_identitycode)}")
@@ -686,7 +703,7 @@ if __name__ == "__main__":
     # 等待 writer process 完全結束
     log_writer.join()
 
-    print(f"✅ test_finalpackage update:{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} cpmplete!")
+    print(f"✅ 電芯模組組裝完成 -> total_finalassembly update:{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} cpmplete!")
 
   
   
