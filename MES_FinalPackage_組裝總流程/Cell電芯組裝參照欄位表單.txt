@@ -1,0 +1,165 @@
+   表單:                      串接欄位
+   
+
+//////////////////////////////////////////////////////////////////
+stacked_modinfo     1.  模組號 moduleNO  
+
+					2.  電芯號 PLCCellID_modinfo
+
+					3.  32分選號  Class
+					
+正確ID 從 897 開始
+					
+//////////////////////////////////////////////////////////////////
+
+					
+stacked_ce          1. PLCTrayID_CE 盒號  					
+正確ID 從 265 開始
+
+//////////////////////////////////////////////////////////////////
+
+
+testmerge_cc1orcc2     1.K值          K_Value
+				   
+				       2.VAHSB       3.45V_mAH 
+				   
+				       3.VAHSC       3.5-2.8V_mAH
+
+
+//////////////////////////////////////////////////////////////////
+
+schk_cellrule_dupfinish_2  1. ACIR 前側電壓   acirVP12_CE
+
+                           2. ACIR  內阻      acirRP12_CE  
+						   
+						   
+						   
+use mes;
+
+SELECT
+		s.id,
+		s.`Time`,
+		s.PLCCellID_modinfo,
+		t.K_Value,
+		t.VAHSB,
+		t.VAHSC,	
+		s.Class,
+		p.PLCTrayID_CE,
+		k.acirVP12_CE,
+		k.acirRP12_CE,
+        s.moduleNO ,
+		NULL AS last_define_location,
+		NULL AS parallel_match                                    
+	FROM mes.stacked_modinfo s
+    
+	LEFT JOIN mes.testmerge_cc1orcc2 t 
+		ON t.modelId = s.PLCCellID_modinfo 
+		AND t.parameter = '017'
+        
+	LEFT JOIN mes.stacked_ce p 
+		ON p.PLCCellID_CE = s.PLCCellID_modinfo  
+        
+	LEFT JOIN mes.schk_cellrule_dupfinish_2 k 
+		ON k.PLCCellID_CE = p.PLCCellID_CE
+
+	WHERE
+		s.moduleNO = 'M09-14674'
+		AND s.`Time` >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+		AND s.`Time` < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+		AND s.PLCCellID_modinfo IN (
+            'MW2016A01204',
+			'MW2016A01203',
+			'MW2019A08470',
+			'MW2019A07204',
+			'MW2019A07199',
+			'MW2011A34764',
+			'MW2019A04063',
+			'MW2019A10927',
+			'MW2019A00969',
+			'MW2019A04992',
+			'MW2019A04991',
+			'MW2019A04991',
+			'MW2019A05614',
+			'MW2019A10831',
+			'MW2019A04743',
+			'MW2019A09258',
+			'MW2019A04745',
+			'MW2019A04746',
+			'MW2019A05463',
+			'MW2019A05467',
+			'MW2019A05465',
+			'MW2019A09904',
+			'MW2019A10835',
+			'MW2019A10835',
+			'MW2019A07416',
+			'MW2019A07644',
+			'MW2019A02755',
+			'MW2019A06979',
+			'MW2019A07664',
+			'MW2019A07663',
+			'MW2019A04628',
+			'MW2019A04628'
+        ) 
+	ORDER BY s.id ASC; 
+
+-- 找尋模組號 , 電芯 及 對應分選號組合
+-- with orcuj as (
+--          select 
+--                moduleNO as allocate_name,
+--                COUNT(*) AS class_num			   
+-- 			from mes.stacked_modinfo  
+--             where 
+--  		        `Time` >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND `Time` < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+--           --    `Time` >= CURDATE() AND  `Time` <= DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+--           --     `Time` between '2026-09-01 00:00:00' AND '2026-09-03 23:59:59'
+-- 			   AND NULLIF(TRIM(moduleNO), '') IS NOT NULL
+-- 			GROUP BY moduleNO           
+--      ),
+--     class_list AS (
+-- 			SELECT count( DISTINCT moduleNO ) AS total_class_finalnum,
+-- 			DATE_FORMAT(
+-- 			-- 	DATE_SUB(CURDATE(), INTERVAL 1 DAY),
+--             `Time`,'%Y-%m-%d %H:%i:%s'
+-- 			) AS date_search_start,
+--             DATE_FORMAT(
+-- 			    DATE_ADD(CURDATE(), INTERVAL 1 DAY),'%Y-%m-%d %H:%i:%s'     
+-- 			) AS date_search_end
+-- 			FROM mes.stacked_modinfo 
+-- 			WHERE `Time` >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) 
+-- 		    AND `Time` < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+-- --          WHERE `Time` >= CURDATE()
+-- --   		AND `Time`  <= DATE_ADD(CURDATE(), INTERVAL  1 DAY)
+--    ),
+--    result AS (
+-- 	SELECT		       
+--         t.class_num,
+-- 		t.allocate_name,        
+-- 		p.total_class_finalnum,
+--         p.date_search_start ,
+--         p.date_search_end, 
+--         ROW_NUMBER() OVER (ORDER BY t.class_num DESC) AS rn
+-- 	FROM orcuj t
+-- 	CROSS JOIN class_list p
+--    )
+--    select 
+-- 	--  CASE
+-- --         WHEN class_num > 32 THEN 32
+-- --         ELSE class_num
+-- -- 	END AS class_num,
+--     class_num,
+-- 	allocate_name,
+--     CASE
+--         WHEN rn = 1 THEN total_class_finalnum
+--         ELSE ""
+-- 	END AS total_class_finalnum,
+--     CASE
+--         WHEN rn = 1 THEN date_search_start
+--         ELSE ''
+--     END AS date_search_start,
+--     CASE
+--         WHEN rn = 1 THEN date_search_end
+--         ELSE ''
+--     END AS date_search_end
+-- FROM result        
+-- order by class_num DESC
+						   

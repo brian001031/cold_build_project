@@ -83,7 +83,11 @@ Sub Generate_Package_PDF()
 	
 	'判斷是否連續或非連續開檔
 	Dim isContinue_ClassId As Boolean
+
+    '判斷開啟模擬或正式表單標頭切換
+	Dim isEnableRealease As Boolean
 	
+	Dim xls_Filename As String
 	Dim g_classID As String
 	
 	Dim g_StartRow As Long
@@ -109,8 +113,6 @@ Sub Generate_Package_PDF()
     Application.EnableEvents = False
     Application.Calculation = xlCalculationManual
 	
-	
-
     typeclass_char = Empty
 
     Set fso = CreateObject("Scripting.FileSystemObject")
@@ -219,11 +221,29 @@ Sub Generate_Package_PDF()
     Set headerMap = CreateObject("Scripting.Dictionary")
     
     BuildHeaderMap ws, headerMap, lastCol
+	
+	
+	xls_Filename = fso.GetBaseName(xlsPath)
+	
+	'確定是否為Realease發行的col版本
+	isEnableRealease = (InStr(1, xls_Filename, "modinfo_spec", vbTextCompare) > 0)
+		
+	If  isEnableRealease Then
+	
+	    'isEnableRealease = True 發行
+	 
+		RequireHeader headerMap, "PLCCellID_modinfo"
+	 
+	Else 
+	 
+        'isEnableRealease = False 模擬	 
+				
+		RequireHeader headerMap, "PLCCellID_CE"
+		
+    End If
 
     '分配電芯系統作業日期時間
 	RequireHeader headerMap, "machine_workTime"
-
-    RequireHeader headerMap, "PLCCellID_CE"
     RequireHeader headerMap, "parallel_match"
     RequireHeader headerMap, "3.5-2.8V_mAH"
     RequireHeader headerMap, "acirRP12_CE"
@@ -234,11 +254,17 @@ Sub Generate_Package_PDF()
     RequireHeader headerMap, "PLCCellIDClass_CE"
 	'阻值分配位置
 	RequireHeader headerMap, "last_define_location"
-
 	
+	If  isEnableRealease Then
+       	   	   
+	   firstDataCol = headerMap("PLCCellID_modinfo")
+	   
+	Else
 	
-	 
-    firstDataCol = headerMap("PLCCellID_CE")
+	   firstDataCol = headerMap("PLCCellID_CE")
+	   
+	End If
+	
     lastDataCol = headerMap("parallel_match")
     type_classsCol = headerMap("PLCCellIDClass_CE")
 	
@@ -1005,7 +1031,7 @@ Sub BuildReport( _
 
         Select Case CStr(rpt.Cells(5, c).Value)
 
-            Case "PLCCellID_CE"
+            Case "PLCCellID_CE", "PLCCellID_modinfo"
 
                 rpt.Columns(c).ColumnWidth = 18
 

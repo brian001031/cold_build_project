@@ -1,0 +1,99 @@
+face_landmarker.task
+        │
+        │ ① ZIP 解包
+        ▼
+models\model\
+        │
+        └── face_detector.tflite
+                    │
+                    │ ② 不修改原始檔
+                    ▼
+             ASCII strings
+                    │
+                    ├── 字串內容
+                    ├── HEX offset
+                    └── 字串長度
+                    │
+                    │ ③ FlatBuffer / TFLite
+                    ▼
+              Metadata
+                    │
+                    ├── Input
+                    ├── Output
+                    ├── Tensor
+                    └── Weights
+					
+					
+============================================================
+TFLite ASCII Offset Analyzer
+============================================================
+TFLite 原始檔
+
+$TFLITE = "..\models\model\face_detector.tflite"
+
+分析結果輸出目錄
+
+$OUT = "..\models\model\analysis"
+
+建立輸出目錄
+
+if (!(Test-Path $OUT)) {
+New-Item -ItemType Directory -Path $OUT | Out-Null
+}
+
+讀取 TFLite 原始 Binary
+
+$b = [IO.File]::ReadAllBytes($TFLITE)
+
+ASCII 暫存
+
+$s = New-Object Text.StringBuilder
+
+ASCII 字串起始 Offset
+
+$start = -1
+
+逐 Byte 掃描
+
+for ($i = 0; $i -lt $b.Length; $i++) {
+
+# ASCII 可讀範圍：
+# 0x20 ～ 0x7E
+if ($b[$i] -ge 32 -and $b[$i] -le 126) {
+
+    # 如果是新的 ASCII 字串，記錄起始 Offset
+    if ($start -lt 0) {
+        $start = $i
+    }
+
+    # 將 Byte 轉成 ASCII 字元
+    [void]$s.Append([char]$b[$i])
+}
+else {
+
+    # 遇到非 ASCII Byte
+    # 表示目前 ASCII 字串結束
+    if ($start -ge 0 -and $s.Length -ge 4) {
+
+        # X8 = 8 位 HEX Offset
+        "{0:X8}  {1}" -f $start, $s.ToString()
+    }
+
+    # 清除目前字串
+    $s.Clear()
+
+    # 重設起始 Offset
+    $start = -1
+}
+
+}
+
+============================================================
+處理檔案最後一段 ASCII
+============================================================
+
+if ($start -ge 0 -and $s.Length -ge 4) {
+
+"{0:X8}  {1}" -f $start, $s.ToString()
+
+}

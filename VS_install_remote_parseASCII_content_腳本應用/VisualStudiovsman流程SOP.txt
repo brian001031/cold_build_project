@@ -1,0 +1,63 @@
+vs_professional.exe --layout C:\VS2019Layout --verify
+
+dir "C:\vs_installer\VS2019_Professional_DEFINETOOL"
+
+
+
+vs_Professional.exe ^
+ --layout "C:\vs_installer\VS2019_Professional_DEFINETOOL" ^
+ --add Microsoft.VisualStudio.Workload.ManagedDesktop ^
+ --add Microsoft.VisualStudio.Workload.Data ^
+ --add add Microsoft.VisualStudio.Workload.NetWeb ^
+ --includeRecommended ^
+ --includeOptional ^
+ --lang en-US zh-TW
+ 
+ 
+vs_Professional.exe --layout C:\vs_installer\VS2019_Professional_DEFINETOOL
+
+
+vs_Professional.exe --layout C:\vs_installer\vs2022_offline_install -add Microsoft.VisualStudio.Workload.NetWeb --lang en-US
+
+wmic datafile where name="C:\\vs_installer\\VS2019_Professional_DEFINETOOL\\vs_Professional.exe" get Version
+
+Test-Path "C:\vs_installer\VS2019_Professional_DEFINETOOL\ChannelManifest.json"
+Test-Path "C:\vs_installer\VS2019_Professional_DEFINETOOL\Catalog.json"
+Get-Content "C:\vs_installer\VS2019_Professional_DEFINETOOL\ChannelManifest.json" -Raw
+
+Select-String `
+  -Path "C:\vs_installer\VS2019_Professional_DEFINETOOL\Catalog.json" `
+  -Pattern "Microsoft.VisualStudio.Workload.Data","NuGet","SSDT"
+
+
+//下載確認
+certutil -dump "C:\vs_installer\VS2019_Professional_DEFINETOOL\VisualStudio.vsman"
+
+//更簡單的是看檔案前幾個 bytes
+1. 
+powershell.exe -Format-Hex "C:\vs_installer\VS2019_Professional_DEFINETOOL\VisualStudio.vsman" -Count 32
+
+或
+
+2. 前5行
+
+powershell.exe -NoProfile -Command "Get-Content 'C:\vs_installer\VS2019_Professional_DEFINETOOL\VisualStudio.vsman' -TotalCount 5"
+
+或
+
+3.
+只想看檔案開頭
+certutil -dump "C:\vs_installer\VS2019_Professional_DEFINETOOL\VisualStudio.vsman" | more
+
+//下列目前有效 : 改用管線先取前 32 bytes
+Get-Content "C:\vs_installer\VS2019_Professional_DEFINETOOL\VisualStudio.vsman" -Encoding Byte -TotalCount 32 | Format-Hex
+
+
+真的是 VS manifest，通常應該可以看到文字/JSON 類型的內容。
+再執行▽：
+
+Get-Content "C:\vs_installer\VS2019_Professional_DEFINETOOL\VisualStudio.vsman" -TotalCount 5
+
+先確認hash 內文
+
+Get-FileHash "C:\vs_installer\VS2019_Professional_DEFINETOOL\VisualStudio.vsman" -Algorithm SHA256
