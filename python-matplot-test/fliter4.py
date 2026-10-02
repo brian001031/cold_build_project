@@ -1,6 +1,12 @@
 #!/usr/bin/python
 __autor__=''
 from collections import deque
+import concurrent.futures
+import imageio.v2 as imageio
+from pathlib import Path
+from datetime import datetime, timedelta ,date
+import subprocess
+import random
 import string
 import sys
 import os
@@ -18,6 +24,8 @@ L_fy=[]
 num_width_list=[]
 num_length_list=[]
 
+accept_picture_type = ['.png','.jpg']
+
 def create_long_image(image_folder, output_path, width=None, height=None):
    images = [Image.open(image_folder + '/' + img) for img in os.listdir(image_folder)]
    images = [img.resize((width, height)) for img in images]  # 将所有图像调整为同一大小
@@ -33,24 +41,24 @@ def create_long_image(image_folder, output_path, width=None, height=None):
 
 def bgTranstoWhite(img2,first_w ,img_W ,img_H):
 
-   for yh in range(img_H):  # 起始圖片h位置裁切部分()因要全白部分,高度h不變動
-     for xw in range(img_W -first_w):  # 起始圖片w位置變白部分
-       dot = (xw,yh)
-       color_d = img2.getpixel(dot)
-       if (color_d[2]) > 100:
-        color_d = [255,255,255,255]
-        img2 = PIL.Image.format("")    
-        img2.putpixel(dot,color_d)
-        # xw = xw + first_w
-        # dot = img2(xw,yh)
-        # if (dot == np.array([0,0,0,0])).all():
-        #   (xw,yh) = [255,255,255,255]
-       else:
-          L_fx.append(xw)
-          L_fy.append(yh)
-   box = (min(L_fx)-1 , min(L_fy)-1,max(L_fx)+1, max(L_fy)+1)
-   img2 = img2.crop(box)
-   return img2
+    for yh in range(img_H):  # 起始圖片h位置裁切部分()因要全白部分,高度h不變動
+      for xw in range(img_W -first_w):  # 起始圖片w位置變白部分
+        dot = (xw,yh)
+        color_d = img2.getpixel(dot)
+        if (color_d[2]) > 100:
+            color_d = [255,255,255,255]
+            img2 = PIL.Image.format("")    
+            img2.putpixel(dot,color_d)
+            # xw = xw + first_w
+            # dot = img2(xw,yh)
+            # if (dot == np.array([0,0,0,0])).all():
+            #   (xw,yh) = [255,255,255,255]
+        else:
+            L_fx.append(xw)
+            L_fy.append(yh)
+    box = (min(L_fx)-1 , min(L_fy)-1,max(L_fx)+1, max(L_fy)+1)
+    img2 = img2.crop(box)
+    return img2
 
 def merge_picture(target_path,merge_path ,num_of_cols, num_of_rows):
     filename = file_name(target_path, ".jpg")
@@ -103,6 +111,461 @@ def file_name(root_path, picturetype):
                 filename.append(os.path.join(root, file))
     return filename
 
+# 轉換原生圖像圖像顯示格式
+def process_conv_image(file_name):
+    # 取得副檔名（會自動帶點，例如：'.jpg'）
+    #file_ext  = os.path.splitext(file_name)
+    file_ext = Path(file_name).suffix
+    image = Image.open(file_name)
+
+    # 統一小寫比對 , 符合格式：才轉換為 RGB
+    if file_ext.lower() in accept_picture_type:       
+        return image.convert("RGB")
+    
+    return image
+
+def create_video_thread_bindingFPS ( merge_picpath , final_videopath):
+
+    print("準備執行 固定FPS = 10 禎 張數 video 轉換呈現!")
+
+    # 设置動畫的帧率（例如，每秒10帧）  
+    fps = 10 
+
+    #當前Now日期
+    today = datetime.now().strftime("%Y%m%d")
+
+    # video file name  
+    output_video = Path(final_videopath) / f"{today}_{fps}fps_dynamic.mp4"
+    
+    #獲取合併文件夹中所有圖像檔案
+    image_getinfo = [
+        f for f in Path(merge_picpath).iterdir()
+        if f.is_file() and f.suffix.lower() in accept_picture_type
+    ]
+
+    # 排序文件路径，確認從數字由小到大排緒升冪排序        
+    # int(x.stem) 已經取得無副檔名資訊
+    image_getinfo.sort(key=lambda x: int(x.stem))
+
+
+    #後續針對圖片做切換轉換格式(目前預設RGB優先)
+    image_convfinal = [process_conv_image(f_img) for f_img in image_getinfo ]
+
+    if not image_convfinal:
+        raise RuntimeError("找不到合併merge圖片")
+
+
+    # 第一張圖片決定影片尺寸
+    first = cv2.imread(image_getinfo[0])
+    height, width = first.shape[:2]
+
+    # =========================
+    # VideoWriter
+    # =========================
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+    writer = cv2.VideoWriter(
+        output_video,
+        fourcc,
+        fps, # 只用固定fps (預設值)        
+        (width, height)
+    )
+
+    # =========================
+    # play dynmaic video 
+    # =========================
+    for i, filename in enumerate(image_getinfo):
+    
+        img = cv2.imread(filename)
+
+        if img is None:
+            continue
+
+        img = cv2.resize(img, (width, height))
+
+        # 顯示目前 FPS
+        text = f"Frame: {i + 1}/{len(image_getinfo)}  FPS: {fps}"
+
+        # ---------------------------------
+        #加入背景狀態文字陳述狀況
+        # ---------------------------------
+
+        cv2.putText(
+                img,
+                text,
+                (30, 40),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (0, 255, 0),
+                2
+        )
+
+        # 寫入影片存取(每張圖片依照偵數)
+        writer.write(img)
+
+        # 顯示
+        cv2.imshow("Image Sequence", img)
+
+        # q 離開
+        if cv2.waitKey(int(1000 / fps)) & 0xFF == ord("q"):
+            break
+        
+    writer.release()
+    cv2.destroyAllWindows()
+    print(f"完成動態影片測試：{output_video}")
+
+
+def create_video_thread_dynmicFPS ( merge_picpath , final_videopath):
+
+    # =====================================
+    #  duration 最低高範圍設置
+    # =====================================
+    MIN_DURATION = 1       # ms
+    MAX_DURATION = 250     # ms
+
+    # 動態時間增量紀錄表單
+    timestamps = []
+    current_timestamp = 0
+
+    #當前Now日期
+    today = datetime.now().strftime("%Y%m%d")
+
+    # video file name  
+    output_video = Path(final_videopath) / f"{today}_fps_dynamic.mp4"
+
+    # FFmpeg 中間檔案
+    temp_dir = Path(final_videopath) / "_temp_dynamic"
+    temp_dir.mkdir(parents=True, exist_ok=True)
+   
+    #獲取合併文件夹中所有圖像檔案
+    image_getinfo = [
+       f for f in Path(merge_picpath).iterdir()
+       if f.is_file() and f.suffix.lower() in accept_picture_type
+    ]
+
+    if not image_getinfo:
+        raise RuntimeError("找不到合併 merge 圖片")
+
+    # 排序文件路径，確認從數字由小到大排緒升冪排序        
+    #image_getinfo.sort(key=lambda x: int(os.path.splitext(x)[0]))  
+    # int(x.stem) 已經取得無副檔名資訊
+    image_getinfo.sort(key=lambda x: int(x.stem))
+
+    # =====================================
+    # 每張圖片產生隨機 duration 戳記ms
+    # =====================================
+    durations = [
+        random.randint(MIN_DURATION, MAX_DURATION)
+        for _ in image_getinfo
+    ]
+
+    # 動態current_timestamp 每張記錄累加
+    for duration in durations:
+        timestamps.append(current_timestamp)
+        current_timestamp += duration
+
+    total_duration = current_timestamp
+
+    print(f"圖片數量：{len(image_getinfo)}")
+    print(f"最小 duration：{MIN_DURATION} ms")
+    print(f"最大 duration：{MAX_DURATION} ms")
+    print(f"影片總長度：{total_duration} ms")
+    print(f"影片總長度：{total_duration / 1000:.3f} sec")
+    
+    #後續針對圖片做切換轉換格式(目前預設RGB優先)
+    #image_convfinal = [process_conv_image(f_img) for f_img in image_getinfo ]
+
+    # 第一張圖片決定影片尺寸
+    first = cv2.imread(image_getinfo[0])
+    height, width = first.shape[:2]
+
+    # =====================================
+    # FFmpeg concat list
+    # =====================================
+    concat_file = temp_dir / "images.txt"
+ 
+
+
+    # =====================================
+    # OpenCV 處理圖片
+    #
+    # 注意：
+    # 每一張處理完成後先輸出 PNG
+    # FFmpeg 最後負責建立真正的時間軸
+    # =====================================
+
+    processed_images = []
+
+    try:
+
+        for i, filename in enumerate(image_getinfo):
+
+            img = cv2.imread(str(filename))
+
+            if img is None:
+                print(f"⚠ 無法讀取圖片，跳過：{filename}")
+                continue
+
+            # =====================================
+            # Resize
+            # =====================================
+            img = cv2.resize(img, (width, height))
+
+            # ---------------------------------
+            # 取得目前 Frame 的時間資訊
+            # ---------------------------------
+            play_timestamp = timestamps[i]
+            record_duration = durations[i]
+
+            # 動態 FPS
+            current_fps = (
+                1000.0 / record_duration
+                if record_duration > 0
+                else 0.0
+            )
+
+            # ---------------------------------
+            # 顯示資訊
+            # ---------------------------------
+
+            text1 = (
+                f"Frame: {i + 1}/{len(image_getinfo)}"
+            )
+
+            text2 = (
+                f"Timestamp: {play_timestamp} ms"
+            )
+
+            text3 = (
+                f"Duration: {record_duration} ms"
+            )
+
+            text4 = (
+                f"Dynamic FPS: {current_fps:.2f}"
+            )
+
+            # ---------------------------------
+            #加入背景狀態文字陳述狀況
+            # ---------------------------------
+
+            cv2.putText(
+                    img,
+                    text1,
+                    (30, 40),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8,
+                    (0, 255, 0),
+                    2
+            )
+
+            cv2.putText(
+                    img,
+                    text2,
+                    (30, 75),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8,
+                    (0, 255, 255),
+                    2
+            )
+
+            cv2.putText(
+                    img,
+                    text3,
+                    (30, 110),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8,
+                    (255, 255, 0),
+                    2
+            )
+
+            cv2.putText(
+                    img,
+                    text4,
+                    (30, 145),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8,
+                    (0, 255, 255),
+                    2
+            )
+
+            # =====================================
+            # 暫存處理後圖片
+            # =====================================
+            temp_image = temp_dir / f"frame_{i:06d}.png"
+
+            cv2.imwrite(
+                str(temp_image),
+                img
+            )
+
+            processed_images.append(temp_image)
+
+            # =====================================
+            # OpenCV 預覽
+            #
+            # 這裡使用真正 duration
+            # =====================================
+            cv2.imshow("Image Sequence", img)
+
+            #等到最後一張延遲持度時間才做結束
+            key = cv2.waitKey(
+                max(1, record_duration)
+            ) & 0xFF
+
+            if key == ord("q"):
+                print("使用者中止")
+                return
+
+        #先行確認IDE環境 是否有建立FFMPEG 應用程序
+        FFMPEG_EXE = Path(r"C:\tools\ffmpeg\bin\ffmpeg.exe")
+
+        if not FFMPEG_EXE.is_file():
+            raise FileNotFoundError(
+                f"找不到 FFmpeg：{FFMPEG_EXE}"
+            )
+
+        print("FFmpeg =", FFMPEG_EXE)
+
+
+        subprocess.run(
+            [str(FFMPEG_EXE), "-version"],
+            check=True
+        )
+
+        # =====================================
+        # 建立 FFmpeg concat file
+        # concat demuxer 的 duration 單位是秒
+        # =====================================
+        with open(concat_file,"w",encoding="utf-8") as f:
+
+            for image_path, duration in zip(
+                processed_images,
+                durations
+            ):
+
+             duration_sec = duration / 1000.0
+
+             # FFmpeg concat file
+             f.write(f"file '{image_path.resolve().as_posix()}'\n")
+             f.write(f"duration {duration_sec:.6f}\n")
+
+             # =====================================
+            # FFmpeg concat demuxer
+            #
+            # 最後一張需要再次指定
+            # =====================================
+            if processed_images:
+
+                last_image = (
+                    processed_images[-1]
+                    .resolve()
+                    .as_posix()
+                )
+
+                f.write(
+                    f"file '{last_image}'\n"
+                ) 
+
+        # =====================================
+        # FFmpeg
+        # =====================================
+        # libx264 + yuv420p 要求影像寬高通常必須是偶數，因此 encoder 無法啟動
+        ffmpeg_cmd = [
+            str(FFMPEG_EXE),
+            "-y",
+            "-f",
+            "concat",
+            "-safe", "0",
+            "-i", str(concat_file),
+            #使用 pad，把奇數尺寸補成偶數
+            "-vf", "pad=ceil(iw/2)*2:ceil(ih/2)*2",
+            "-fps_mode", "vfr",
+
+            # H.264            
+            "-c:v",            
+            "libx264",
+
+            # 保持畫質
+            "-preset",
+            "medium",
+            "-crf",
+            "18",
+            # Pixel format
+            "-pix_fmt", "yuv420p",
+            str(output_video)
+        ]
+ 
+        print("=====================================")
+        print("開始 FFmpeg 編碼")
+        print("=====================================")
+        print(" ".join(f'"{x}"' if " " in x else x for x in ffmpeg_cmd))
+        print("=====================================")
+
+
+        result = subprocess.run(
+            ffmpeg_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="replace"
+        )
+
+        print("========== FFmpeg RESULT ==========")
+        print("returncode =", result.returncode)
+        print("stdout =")
+        print(result.stdout)
+
+        print("stderr =")
+        print(result.stderr)
+
+        print("===================================")
+
+        # =====================================
+        # FFmpeg 錯誤處理
+        # =====================================
+        if result.returncode != 0:            
+            print(result.stderr)
+            raise RuntimeError(
+                "FFmpeg 建立 Dynamic MP4 失敗\n"
+                + result.stderr
+            )
+
+        # =====================================
+        # 完成
+        # =====================================
+        print("=====================================")
+        print("Dynamic Video 完成")
+        print("=====================================")
+        print(f"Output：{output_video}")
+        print(f"Total Duration：{total_duration / 1000:.3f} sec")
+        print("=====================================")
+
+    finally:
+        #釋放占用記憶體配置(processed_images)
+        cv2.destroyAllWindows()
+
+        # =====================================
+        # 清理暫存檔
+        # =====================================
+        for temp_file in processed_images:
+
+            try:
+                temp_file.unlink()
+            except Exception:
+                pass
+
+        try:
+             #移除寫入記錄檔案(concat_file)
+            concat_file.unlink()
+        except Exception:
+            pass
+
+        try:
+             #移除暫存路徑(temp_dir)
+            temp_dir.rmdir()
+        except Exception:
+            pass
+                
 def main():
     splitmodel = int(input("請輸入圖片裁切模式 1:(平均分割),2:(迭代分割)) \n"))
     splitnum = int(input("請輸入裁切數量 \n"))
@@ -123,6 +586,9 @@ def main():
     #合併圖片儲存之路徑
     path_mergeall = os.getcwd()+'/mergeall'
 
+    # 動態影像gif or mpeg4 儲存之路徑 
+    path_video_build = os.getcwd()+'/video_build'
+
     #處理合併前暫時存取資料夾
     if not os.path.isdir(path_tmp):
         os.mkdir(path_tmp)
@@ -134,10 +600,14 @@ def main():
     if not os.path.isdir(path_mergeall):
         os.mkdir(path_mergeall)
 
+    if not os.path.isdir( path_video_build):
+        os.mkdir( path_video_build)
+
     Crop_jpg_files = glob.glob(path_result+"/*.jpg")
     Crop_jpg_files2 = glob.glob(path_mergeall+"/*.jpg")
     temp_jpg_files = glob.glob(path_tmp+"/*.jpg")
-
+    mpeg_video_files = glob.glob(path_video_build+"/*.*")
+  
 
     #重啟後先刪除指定路徑資料夾
     for Crop_jpg_file in Crop_jpg_files:
@@ -164,6 +634,22 @@ def main():
          os.mkdir(path_tmp)
     except OSError as e:
         print('Delete Problem: ', e)
+
+
+    for Crop_jpg_file in Crop_jpg_files2:
+       try:
+         os.remove(Crop_jpg_file)
+       except OSError as e:
+         print(f"Error:{ e.strerror}")
+
+    # 刪除既有動態影片檔案(資料夾已經全部*.*不指定)
+    try:
+        for file_path in mpeg_video_files:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+    except OSError as e:
+        print('Delete Problem: ', e)
+
 
 #len =  len(pathsrc)
 
@@ -330,6 +816,9 @@ def main():
     # print("裁切圖已經儲存> ResultCropImg 資料夾中, " + "選擇裁切模式為 (" + str(strselectmode)+ ")")
     print("裁切圖儲存> ResultCropImg , " + " 合併圖儲存> mergeall ," +"各資料夾中")
 
+    #接續執行影片製作
+    #create_video_thread_bindingFPS( path_mergeall , path_video_build )
+    create_video_thread_dynmicFPS( path_mergeall , path_video_build )
                    
 # img = Image.open('plot-mergy.jpg')
 # w , h = img.size

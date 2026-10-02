@@ -518,7 +518,7 @@ namespace WebApplication1
                             //if (cell_Boxbatt.Equals(""))
                             //{
                             //    Console.WriteLine("第" + ibattary + "個電芯號" + cell_Boxbatt + "不加入分析");
-                            //    // g_batterycell_number.Add(cell_Boxbatt);
+                            //     g_batterycell_number.Add(cell_Boxbatt);
                             //    BattaryID += 7;
                             //}
                             //else
@@ -545,9 +545,9 @@ namespace WebApplication1
                             AllInsert = calculate_insert_currentNumber(g_Batt_Classtype, vparameter);
                         }
                         else {
-                          //AllInsert = g_Modle_CC_Kvalue.Count();       
+                          // AllInsert = g_Modle_CC_Kvalue.Count();       
                           // AllInsert = g_batterycell_number.Count()-1;
-                            AllInsert = 36;
+                             AllInsert = 36;
                         }
                         
 
@@ -639,7 +639,7 @@ namespace WebApplication1
 
                             case "017":   //cc2
                          // case "010":  //cc1
-                         //   case "023":  //pf
+                         // case "023":  //pf
 
                                  if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1" || vparameter_chg == "0232" || vparameter_chg == "023-chromaPF" || vparameter_chg =="0102") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                 {
