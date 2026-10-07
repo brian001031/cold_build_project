@@ -295,23 +295,124 @@ Write-Host "start 存取原始 HEX Binary Mapping ..." -ForegroundColor Cyan
 
 Start-Sleep -Seconds 3
 
-$hexLines = foreach ($offset in 0..(($data.Length - 1) / 16)) {
+# $hexLines = foreach ($offset in 0..(($data.Length - 1) / 16)) {
+# 
+#     # 每16倍數量作解取,因取樣為16組做一次group判定
+#     $start = $offset * 16
+# 
+#     $count = [Math]::Min(16, $data.Length - $start)
+# 
+#     $hex = ""
+# 
+#     for($j = 0; $j -lt $count; $j++){
+# 
+#         #取單字節 & 0x0F
+#         $hex += "{0:X2} " -f $data[$start + $j]
+# 		
+#     }
+# 
+#     "{0:X8}  {1}" -f $start, $hex.TrimEnd()
+# }
 
-    # 每16位元作解取
-    $start = $offset * 16
+$enable_ASCII = $false
+$ascii = ""
+$add_gapnum = 0 
+$byteCount = 0
 
-    $count = [Math]::Min(16, $data.Length - $start)
-
-    $hex = ""
-
-    for($j = 0; $j -lt $count; $j++){
-
-        #取單字節 & 0x0F
-        $hex += "{0:X2} " -f $data[$start + $j]
-    }
-
-    "{0:X8}  {1}" -f $start, $hex.TrimEnd()
+if ($enable_ASCII) {
+	
+	$add_gapnum = 1
+	
+}else {
+	
+	$add_gapnum  = 2
+	
 }
+
+$hexLines = for($i = 0; $i -lt $data.Length; $i += $add_gapnum) {
+	
+	 if ($enable_ASCII) {
+		
+		# 一行開始時記錄 offset
+		if ($byteCount -eq 0) {
+			$start = $i
+		}
+
+		$b = $data[$i]
+
+		# HEX
+		$hex += "{0:X2} " -f $b
+
+		# ASCII
+		if ($b -ge 32 -and $b -le 126) {
+			$ascii += [char]$b
+		}
+		else {
+			$ascii += "."
+		}
+
+		$byteCount++
+
+		# 每 12 bytes 輸出
+		if ($byteCount -eq 12) {
+
+			"{0:X9}  {1,-36} | {2}" -f `
+				$start, `
+				$hex.TrimEnd(), `
+				$ascii
+
+			$hex = ""
+			$ascii = ""
+			$byteCount = 0
+		}
+					
+	} else {
+		
+		#取單字節 & 0x0F
+		#$b = [Convert]::ToByte($data.Substring($i, 2), 16)
+		
+		#因目前直接取BYTE 結構 不能再做TOBYTE 造成Substring解析錯誤	
+		if ($hex.Length -eq 0) {
+			$start = $i
+		}
+
+		$b = $data[$i]
+		 
+		# 每個 byte 顯示為 4 位 HEX
+		$hex += "{0:X4} " -f $b
+				 
+		# 每 6 bytes 輸出一次
+		# if ((($i / 2) + 1) % 6 -eq 0) {
+		# 12 個項目 × 5 字元 = 60 字元
+		 if ( ($hex.Length / 5) -ge 25 ) {
+			 
+			"{0:X9}  {1}" -f $start, $hex.TrimEnd()
+			 $hex = ""
+		 }	 
+		
+	}
+	
+}
+
+if ($enable_ASCII) {
+	 
+   # 最後不足 12 bytes，只輸出一次
+	if ($byteCount -gt 0) {
+
+		"{0:X9}  {1,-36} | {2}" -f `
+			$start, `
+			$hex.TrimEnd(), `
+			$ascii
+	}	 
+	 
+} else {
+	
+	if ($hex.Length -gt 0) {
+		"{0:X9}  {1}" -f $start, $hex.TrimEnd()
+    }
+	
+}
+
 
 $hexLines | Set-Content `
     -LiteralPath $HEX_Formate_OUT `
