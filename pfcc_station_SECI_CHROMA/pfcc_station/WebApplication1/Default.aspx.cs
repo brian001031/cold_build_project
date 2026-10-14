@@ -641,7 +641,7 @@ namespace WebApplication1
                          // case "010":  //cc1
                          // case "023":  //pf
 
-                                 if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1" || vparameter_chg == "0232" || vparameter_chg == "023-chromaPF" || vparameter_chg =="0102") //cc2-2 2024 , cc2 017-chroma2 2024開始
+                                 if (vparameter_chg == "0172" || vparameter_chg == "017-chromaCC2" || vparameter_chg =="010-chromaCC1" || vparameter_chg == "0232" || vparameter_chg == "023-chromaPF" || vparameter_chg =="0102" || vparameter_chg == "010") //cc2-2 2024 , cc2 017-chroma2 2024開始
                                 {
 
                                         //SECI 走這段解析 V , V1 ,V2,V3,V4 ,育平之前定義的各項目count 總數                                        
@@ -763,7 +763,11 @@ namespace WebApplication1
                                                             if (stepCount < 3)
                                                                 step_caculator_value[k] = 3;
 
-                                                            cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID+4) + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - 3) + " ,1 ) as " + detailmAH + "";
+                                                             
+                                                            //這邊有遇到limit 擷取精準落差需要微調中,視狀況開啟與否
+                                                            int temp_above = (k == 1) ? 1 : 3;
+
+                                                            cc1SelectSql = cc1SelectSql + ",( select abs(fld" + (vComID+4) + ")  from test_LoadPFData003 WHERE fld7 LIKE '" + like_step + "' limit " + (step_caculator_value[k] - temp_above) + " ,1 ) as " + detailmAH + "";
                                                         }
 
                                                     } 

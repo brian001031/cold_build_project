@@ -668,7 +668,7 @@ def main():
       #  print(f'使用預設圖片: {img_path}')
     else:
         # 搜尋其他 Special*.jpg
-        search_pattern = os.path.join(pathsrc, 'Special*.jpg')
+        search_pattern = os.path.join(pathsrc, '*.jpg')
         img_list = sorted(glob.glob(search_pattern))
 
         # 排除 plot-mergy.jpg 自己
@@ -678,12 +678,37 @@ def main():
         ]
 
         if len(img_list) == 0:
-            raise Exception('找不到 plot-mergy 系列圖片')
+            raise Exception('找不到 plot-mergy 以外 系列圖片')
 
         # 使用第一張
-        img_path = img_list[0]
-        print(f'找不到 plot-mergy.jpg，改用: {img_path}')
+        #img_path = img_list[0]
 
+        # 印出迴圈內部的索引圖片編號與內容
+        for idx, cap in enumerate(img_list):
+           if idx % 3 == 0 and idx != 0:
+                print(" △ 索引序號 \n")          
+           print(f" {idx}: 檔名: {os.path.basename(cap)}")
+            
+        #持續要求輸入，直到完全正確為止
+        while True:
+            user_input = int(input("\n請輸入要執行的圖片序號 \n"))
+            
+            try:
+                # 判定 1：嘗試將輸入轉換為整數（若不是數字會直接跳到 except）
+                select_serial = int(user_input)
+                
+                # 判定 2：檢查檢查數字是否在剛才呈現的 i（索引範圍）內
+                if 0 <= select_serial < len(img_list):     
+                    img_path = img_list[select_serial]        
+                    break  # 完全正確，跳出 while 迴圈
+                else:
+                    print(f"【錯誤】序號超出範圍！請輸入 0 到 {len(img_list) - 1} 之間的數字。")
+                    
+            except ValueError:
+                print("【錯誤】輸入的內容不是有效的數字，請重新輸入。")
+
+        print(f'找不到 plot-mergy.jpg，改用: {img_path}')        
+      
     # 開啟圖片
 #   a_img = Image.open(pathsrc+'/plot-mergy.jpg')
     a_img = Image.open(img_path)
