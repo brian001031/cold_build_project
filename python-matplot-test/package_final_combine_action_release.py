@@ -279,10 +279,21 @@ def Fetch_Package_CellRuleData(log_queue: Queue):
                                             LEFT JOIN mes.testmerge_cc1orcc2 t 
                                                 ON t.modelId = s.PLCCellID_modinfo 
                                                 AND t.parameter = '017'
-                                                
-                                            LEFT JOIN mes.stacked_ce p 
-                                                ON p.PLCCellID_CE = s.PLCCellID_modinfo  
-                                                
+                                                                                                          
+                                            LEFT JOIN 
+                                            (
+                                                SELECT
+                                                    PLCCellID_CE,
+                                                    PLCTrayID_CE,
+                                                    ROW_NUMBER() OVER (
+                                                        PARTITION BY PLCCellID_CE
+                                                        ORDER BY id DESC
+                                                    ) AS rn
+                                                FROM mes.stacked_ce
+                                            ) p
+                                                ON p.PLCCellID_CE = s.PLCCellID_modinfo 
+                                                AND p.rn = 1    
+
                                             LEFT JOIN mes.schk_cellrule_dupfinish_2 k 
                                                 ON k.PLCCellID_CE = p.PLCCellID_CE
 
