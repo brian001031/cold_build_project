@@ -1,0 +1,111 @@
+powershell.exe -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'node' } |Select-Object Name, ProcessId, CommandLine"
+powershell.exe -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'Python.py|Py' } |Select-Object Name, ProcessId, CommandLine"
+tasklist | findstr /I "python py"
+tasklist | findstr /I "14596 11952 16468"
+//使用 findstr 搜尋多個 PID 
+tasklist | findstr /R "14596 12032 16468"
+tasklist | findstr /PID  "14596 12032 13308"
+
+//刪除指定PID序號
+taskkill /f /IM "XXXXXX"
+
+
+
+(
+dir "\\192.168.3.100\HR_tmp\*.js"  /b
+dir "\\192.168.3.100\HR_tmp\*.doc"  /b
+dir "\\192.168.3.100\HR_tmp\*.docx" /b
+dir "\\192.168.3.100\HR_tmp\*.csv"  /b
+dir "\\192.168.3.100\HR_tmp\*.xlsx" /b
+dir "\\192.168.3.100\HR_tmp\*.pptx" /b
+) > C:\dumpfor_劉明仁\final_data_Nick.txt
+
+
+if not exist "C:\dumpfor_劉明仁" mkdir "C:\dumpfor_劉明仁"
+mkdir "C:\dumpfor_劉明仁" 2>nul
+
+
+(
+dir "\\192.168.3.100\HR_tmp\抓flag\*.doc"  /s /b 
+dir "\\192.168.3.100\HR_tmp\抓flag\*.docx" /s /b 
+dir "\\192.168.3.100\HR_tmp\抓flag\*.pptx" /s /b 
+dir "\\192.168.3.100\HR_tmp\抓flag\*.js"  /s /b
+dir "\\192.168.3.100\HR_tmp\抓flag\*.jsx" /s /b
+dir "\\192.168.3.100\HR_tmp\抓flag\*.json" /s /b
+dir "\\192.168.3.100\HR_tmp\抓flag\*.pdf" /s /b
+dir "\\192.168.3.100\HR_tmp\抓flag\*.csv" /s /b
+dir "\\192.168.3.100\HR_tmp\抓flag\*.xlsx" /s /b
+) > "C:\dumpfor_劉明仁\final_data_Nick.txt"
+
+
+
+(
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.js")    do @echo %~ff
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.jsx")    do @echo %~ff
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.json")    do @echo %~ff
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.doc")  do @echo %~ff
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.docx")  do @echo %~ff
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.pdf")  do @echo %~ff
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.csv")   do @echo %~ff
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.xlsx")  do @echo %~ff
+for %f in ("\\192.168.3.100\HR_tmp\抓flag\*.pptx")  do @echo %~ff
+) > C:\dumpfor_劉明仁\final_data_Nick.txt
+
+
+(
+for /d %i in ("W:\*") do (
+    echo %~fi
+    for /d %j in ("%~fi\*") do (
+        echo %~fj
+        for /d %k in ("%~fj\*") do echo %~fk
+    )
+)
+) > C:\指定檔案.txt
+列出第一層 + 第二層 + 第三層
+
+
+
+$Root = "T:\安衛環組\劉明仁"
+$MaxDepth = 3
+
+Get-ChildItem $Root -Directory -Recurse |
+Where-Object {
+    $Relative = $_.FullName.Substring($Root.Length).TrimStart('\')
+    ($Relative.Split('\').Count) -le $MaxDepth
+} |
+Select-Object -ExpandProperty FullName |
+Out-File "C:\liu_need_20260713.txt" -Encoding UTF8
+
+
+Get-CimInstance Win32_Process |
+Where-Object {
+    $_.Name -eq "node.exe" -and
+    $_.CommandLine -match "COLD_frontweb|MES_Main|checkpointsys"
+} |
+Select-Object ProcessId,CommandLine
+
+
+面積換算
+1公頃= 1.0310甲= 100公畝= 10,000平方公尺= 3,025坪 1平方公尺= 0.3025坪 10平方公尺= 0.1公畝= 3.025坪 100平方公尺= 1公畝= 30.25坪 1坪= 3.3058平方公尺 1甲= 0.9699公頃= 2,934坪 1分= 0.0970公頃= 293.4坪 1厘= 0...
+
+
+海關將依法課征進口稅及營業稅,應繳開稅總額計算万式如卜:
+完稅價格=商品購買價格+國際運費+保險費
+進口稅=完稅價格×商品稅率
+營業稅=(完稅價格+進口税)x營業稅率 ※營業税率,在台灣固定是5%
+應繳關稅總額=進口稅+營業稅
+例:日本樂天網站,訂購衣服
+訂購金額經匯率换算後總共是新台幣5000元,
+而國際運費是新台幣1500元,
+沒有保險費,應繳關稅總額計算如下:
+完税價格=5000+1500+0=6500元
+進口稅=6500x12%=780元
+※進口税率經查詢后,棉製衣服、褲子的税率為12%
+(依商品材質的不同,稅率也會有所差異)
+營業稅=(6500+780)x5%=364元
+應繳關稅總額=780+364=1144元
+※商品稅率,依商品不同,而有不同的稅率
+台灣進口稅率查詢
+請至財政部關務署-關港貿單一窗口官網,
+使用其「稅則稅率查詢系統」查詢!!
+如果是是使用日速購包稅航線,您不會有任何的關稅產生,請您放心!

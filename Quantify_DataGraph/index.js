@@ -25,7 +25,6 @@ import {group_direct_sulting_fields} from "../../mes_remak_data";
 // 導入 MessagePopup 組件
 import MessagePopup from '../../components/MessagePopup';
 
-
 import {
   TitleComponent,
   TooltipComponent,
@@ -52,6 +51,9 @@ echarts.use([
   CanvasRenderer
 ]);
 
+const NullError_Sort_Popform = React.lazy(() => import("../../components/NullError_Sort_Popform")); //異常電容數據托盤TrayID彈出視窗
+
+
 // const cc_list = ["CC1","CC2"]
 const cc_list = ["017","010"]
 const cc_captype_list = ["CC1","CC2"]
@@ -59,10 +61,18 @@ const cc_captype_list = ["CC1","CC2"]
 const placeholder_cellstr_only =  ["全部資料" ,"分選" ]
 const filter_title = ["MachineStatusCode","OPNO"];
 
+const filter_pass_key = ["modelId","parameter"];
+
 const sulting_options = [
   { value: "sulting_pf", label: "分選化成" },
   { value: "sulting_cc", label: "分選分容" },
 ];
+
+const voltage_tiplabel = {
+   VASHA_Side: "2.0V~2.5V放電" ,
+   VASHB_Side: "3.55V~3.6V充電" ,
+   VASHC_Side: "2.7V~3.5V放電" 
+}
 
 const progess_time_base = Number(200);
 
@@ -80,14 +90,22 @@ function Quantify_data_graph() {
   const [selected_cc_type, setSelected_CC_Type] = useState(cc_list[0]);
   const [sideoption, setSideoption] = useState("Sulting"); //預設32分選站別
   const [inputs, setInputs] = useState([]);
+  const [cell_labelserial, setCellLabel_Serial] = useState([]);
   const [sqlMaxValue, setSqlMaxValue] = useState(10); // 假設從 SQL 取得最大值為 10  
   const modleIDlist_chartRef = useRef(null);
   //各電芯壓段(V2.0,V3.6,V3.5_com)電容量 ----start----------
   const [cc1_modle_capInfo, setCC1_CapacityInfo] = useState([]);  
   const [cc2_modle_capInfo, setCC2_CapacityInfo] = useState([]);
   //-------------------------end---------------------------------
-  const [cc1_cap_total_array, setCC1_Cap_total_array] = useState([]);  // 各壓段CC1電容總量
-  const [cc2_cap_total_array, setCC2_Cap_total_array] = useState([]);  // 各壓段CC2電容總量
+  // const [cc1_cap_total_array, setCC1_Cap_total_array] = useState([]);  // 各壓段CC1電容總量
+  // const [cc2_cap_total_array, setCC2_Cap_total_array] = useState([]);  // 各壓段CC2電容總量
+  const [cc_capvalue_classpart, setCC_CapValue_ClassPart] = useState({
+    "VASHA_Side":[],
+    "VASHB_Side":[],
+    "VASHC_Side":[],
+   }
+  );  // 各壓段CC電容總量區份
+
   // MessagePopup 狀態管理
   const [messagePopup, setMessagePopup] = useState({
     show: false,
@@ -162,6 +180,8 @@ function Quantify_data_graph() {
   const chartRef2 = useRef(null); // 创建 ref2(pie-line) 来引用 DOM 元素
   const chartRef_3_radio = useRef(null); // 创建 ref2(pie-line) 来引用 DOM 元素
   const chartInstanceRef = useRef(null);
+  const chartRef_Cassinterval = useRef(null); // 创建 Gradespan級距(橫軸bar) 来引用 DOM 元素
+  const chartInstanceRef_Gradespan = useRef(null);
   const chartReadyRef = useRef(false);
   const navigate = useNavigate();
 
@@ -172,6 +192,9 @@ function Quantify_data_graph() {
    const getprefix_Width = (text) => {
       return `${text.length * 2.1 + 2}ch`;
   };
+
+  const [Error_TrayIDModal, setShowTrayIDModal] = useState(false); // For controlling modal visibility
+
 
  // 一開始先接收目前電芯號前綴序號別名(just do one times)
   useEffect(() => {
@@ -231,6 +254,258 @@ function Quantify_data_graph() {
 
 
 
+// 渲染電芯容量級距分佈bar顯示chart
+useEffect(() => {
+  console.log("Y軸標籤列為: " + cell_labelserial);
+  console.log("X軸各電容分佈: " + JSON.stringify(cc_capvalue_classpart,null,2));
+
+  if (!chartRef_Cassinterval.current) {
+    console.warn("chartRef_Cassinterval DOM2 尚未準備好");
+    return;
+  }    
+
+  let gradclass_chart = chartInstanceRef_Gradespan.current;
+
+   // 如果還是沒有，且 DOM2 存在，就地初始化  
+  if(!gradclass_chart){
+     gradclass_chart = echarts.getInstanceByDom(chartRef_Cassinterval.current);
+  }
+
+  // still not exist → 初始化（關鍵修正）
+  if (!gradclass_chart) {
+    gradclass_chart = echarts.init(chartRef_Cassinterval.current,"dark"  ,{
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    chartInstanceRef_Gradespan.current = gradclass_chart;
+  }
+
+  try {
+
+      const serial_case =  Object.entries(cc_capvalue_classpart).map(([key_name, values]) =>{       
+          
+          const s_name = voltage_tiplabel[key_name] ?? key_name;                   
+          const cap_data_value = Array.isArray(values) && values.length > 0 ? values.map(item => Number(item)):[];
+
+          return {
+              name: s_name,
+              type: 'bar',
+              stack: 'total',
+
+              label: {
+                show: true,
+                 // 放大數值文字
+                fontSize: 18,
+                fontWeight: 'bold',
+                formatter: ({ value }) => Number(value).toFixed(3)
+              },
+
+              emphasis: {
+                focus: 'series'
+              },
+
+              data: cap_data_value
+          };
+      })
+
+      const GradClass_Option = {	 
+          title: {
+              text: `${selected_serial}-CC分容站電芯充放電壓段mAH級距圖`,
+              left: "center",
+              top: [30], // 可選：調整上下位置
+              textStyle: 
+              {
+                fontSize: 12,
+                fontWeight: "bold",
+              },
+          },
+          grid: {
+              left: "3%",
+              right: "7%",
+              bottom: "7%",
+              containLabel: true,
+          },
+          legend: {},
+          tooltip: {
+            trigger: 'axis', 
+            backgroundColor: "rgba(242, 232, 232, 0.9)",
+            borderColor: "#080101",
+            borderWidth: 10,
+            textStyle: {
+              color: "#18120c",
+              fontSize: 20,
+            },      
+            type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'     
+            formatter: (params) =>{				  
+              // console.log("GradClass_Option All params = " + JSON.stringify(params,null,2));                       
+              
+              const displayedTitle = new Set();
+
+              return params.map((it) => {
+                  //針對電芯容量進制顯示
+                  const cap_number = Number(it.value ?? 0);
+
+                  //顯示進制K
+                  // const capacity = !Number.isFinite(cap_number)? "0.0"
+                  // : cap_number > 10000 ? `${Math.floor(cap_number / 100) / 10}K`
+                  // : (Math.floor(cap_number * 10) / 10).toFixed(1);
+
+                  const capacity = !Number.isFinite(cap_number)? "0.0"                  
+                  : (cap_number).toFixed(3);
+
+                  const formattedName = String(it.name ?? "").split("-");
+                  const side = formattedName[1] ?? "";
+                  const model = formattedName[2] ?? "";                
+               
+
+                  const currentTitle = `${side} | ${model}`;
+
+                  const isFirst = !displayedTitle.has(currentTitle);
+
+                  displayedTitle.add(currentTitle);
+
+                  return  `
+                      <div style="margin-bottom:6px;">
+                          ${
+                              isFirst
+                              ? `
+                                  <div>
+                                      <b>${side}站 | 電芯ID:${model}</b>
+                                  </div>
+                                `
+                              : ""
+                          }
+
+                          <div>
+                              ${it.marker}
+                              ${it.seriesName}：
+                              ${capacity} mAH
+                          </div>
+                      </div>
+                    `;
+              }).join(""); //formatter 回傳的是 Array ,若沒加join("")格式無法辨識HTML
+            }		  
+          },
+          xAxis: {
+            type: 'value',
+            name: "電芯容量",
+            nameLocation: "middle",
+            nameTextStyle: {
+              fontSize: 20,
+              fontWeight: "bold",  
+              align: "left",                   
+              verticalAlign: "middle"
+            },
+            nameGap: 35 ,
+            axisLabel:{
+                formatter: (value) => {
+                  
+                  const cap_number = Number(value);
+
+                  if (!Number.isFinite(cap_number)) { return "0.0"; } 
+                  
+                  if (cap_number > 100000) { 
+                    return `${Math.floor(cap_number / 100) / 10}K`;
+                  } 
+                  
+                  return (Math.floor(cap_number * 10) / 10).toFixed(1);  //顯示第一浮點數         
+                }
+            }
+          },
+          yAxis: {
+            name: "電芯ID",
+            nameTextStyle: {
+              fontSize: 20,
+              fontWeight: "bold",  
+              align: "left",                   
+              // 往左移
+              padding: [0, 0, 0, -55],
+            },
+
+            // 文字放在 Y 軸頂端
+            nameLocation: "end",
+            // Y 軸文字旋轉 90 度
+            nameRotate: 0,
+            // 控制文字與 y 軸的距離
+            nameGap: 10,                          
+            type: 'category', //電芯項目
+            // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: cell_labelserial
+          },
+          series:serial_case ,
+          toolbox: {
+            show: true,
+            orient: "vertical",
+            right: 10,
+            top: "center",
+
+            feature: {
+                  // 框選 / 區域縮放
+                // dataZoom: {
+                //     yAxisIndex: "none",
+                // },
+
+                 dataZoom: {
+                    xAxisIndex: 0,
+                    yAxisIndex: 0
+                },
+
+                // Line / Bar 切換
+                magicType: {
+                  show: true,
+                  type: ["line", "bar"],
+                },
+
+                // 還原圖表
+                restore: {
+                  show: true
+                },
+
+                // 標記
+                // mark: {
+                //     show: true
+                // },
+
+                // 查看 Data
+                dataView: {
+                    show: true,
+                    readOnly: false
+                },
+
+                // 匯出圖片
+                saveAsImage: {
+                    show: true
+                }
+            },
+          },
+      }
+
+      if (GradClass_Option && typeof GradClass_Option === "object") {
+            console.log("清除 GradClass_Option echart並重新繪圖");
+            console.log("GradClass_Option.toolbox = ", GradClass_Option.toolbox);
+            gradclass_chart.clear(); // 清除前一張圖
+            // 設定圖表選項
+            gradclass_chart.setOption(GradClass_Option, true); // 第二參數設為 true 表示 "notMerge"
+      }
+
+
+      // 確保容器大小正確
+      // setTimeout(() => {
+      //   gradclass_chart.resize();
+      // }, 1000);
+
+      requestAnimationFrame(() => {
+      gradclass_chart.resize();
+    });
+    
+    } catch (error) {
+	
+      console.error("取得資料錯誤", error);
+	  
+    }
+
+}, [cc_capvalue_classpart , cell_labelserial, selected_serial]);
+
 //  useEffect(() => {
 //   const dom = chartRef_3_radio.current;
 //   if (!dom) return;
@@ -249,31 +524,86 @@ function Quantify_data_graph() {
 
 
 useEffect(() => {
-   const dom = chartRef_3_radio.current;
-   if (!dom) return;
+  //  const dom = chartRef_3_radio.current;
+  //  const dom2 = chartRef_Cassinterval.current;
 
-   let instance = echarts.getInstanceByDom(dom);
+  //  if (!dom && !dom2) return;
+
+  //  let instance = echarts.getInstanceByDom(dom);
+  //  let instance_2 = echarts.getInstanceByDom(dom2);
+
    
-   // fullCapdata → destroy chart
-   if (isfullCapdata) {    
-    instance?.dispose();
-    chartInstanceRef.current = null;
-    return;
-   }
+  //  // fullCapdata → destroy chart
+  //  if (isfullCapdata) {    
+  //     instance?.dispose();
+  //     instance_2?.dispose();
+  //     chartInstanceRef.current = chartInstanceRef_Gradespan.current = null;
+  //     return;
+  //  }
 
   
-    if (!instance) {
-       instance = echarts.init(dom, "dark");
-       chartInstanceRef.current = instance;
-    }
+  //   if (!instance) {
+  //      instance = echarts.init(dom, "dark");
+  //      chartInstanceRef.current = instance;
+  //   }
 
-    const resize = () => instance.resize();
-    window.addEventListener("resize", resize);
+  //   const resize = () => instance.resize();
+  //   window.addEventListener("resize", resize);
 
 
-    return () => {
-      window.removeEventListener("resize", resize);
-    };
+
+  //   return () => {
+  //     window.removeEventListener("resize", resize);
+  //   };
+
+  //改用組態一次dispose 當前ref渲染物件
+  const chartList = [
+        [chartRef_3_radio.current, chartInstanceRef],
+        [chartRef_Cassinterval.current, chartInstanceRef_Gradespan],
+  ];
+
+  // 建立 chart
+  const resizeHandlers = [];
+
+  // 沒有 DOM (走訪全部)
+  if (!chartList.some(([dom]) => dom)) return;
+
+  // fullCapdata → destroy
+  if (isfullCapdata) {
+        chartList.forEach(([dom, ref]) => {
+            if (!dom) return;
+            echarts.getInstanceByDom(dom)?.dispose();
+            ref.current = null;
+        });
+        return;
+  }
+
+  //LISTEN聆聽事件重新設置
+  chartList.forEach(([dom, ref]) => {
+        if (!dom) return;
+
+        let instance = echarts.getInstanceByDom(dom);
+
+        if (!instance) {
+            instance = echarts.init(dom, "dark");
+        }
+
+        ref.current = instance;
+
+        const resize = () => instance.resize();
+
+        window.addEventListener("resize", resize);
+
+        resizeHandlers.push(resize);
+   });
+
+
+  // cleanup
+  return () => {
+        resizeHandlers.forEach(resize => {
+            window.removeEventListener("resize", resize);
+        });
+  };
    
 }, [isfullCapdata]);
 
@@ -284,6 +614,14 @@ useEffect(() => {
 //     return !filter_title.includes(r);
 //   } );
 //  }, []);
+
+  const openModal = () => {
+    setShowTrayIDModal(true);
+  };
+
+  const closeModal = () => {
+    setShowTrayIDModal(false);
+  };
 
  const getSelectedGroup = (option) => {
   const group = group_direct_sulting_fields.waiting_for_group_name;
@@ -363,6 +701,8 @@ const column_list = useMemo (()=>{
           {
             //先清空暫存區
             setAll_Percent_Capacity([]);
+            setCC_CapValue_ClassPart([]);
+            setCellLabel_Serial([]);
 
             const serial_percent_info = result?.cap_total?.[0] ?? {};               
             const sulting_all_percent_info = Object.entries(serial_percent_info).map(([key, value],index) => ({
@@ -423,11 +763,18 @@ const column_list = useMemo (()=>{
 
      try {
           const search_modle_all = {type1: modleall_cc1 ,type2: modleall_cc2};
+
+          //初始化電容級距陣列數值為空
+          const newCCCapValue = {
+            VASHA_Side: [],
+            VASHB_Side: [],
+            VASHC_Side: []
+          };
           
           //清空原先紀錄
           setCC1_CapacityInfo([]);
           setCC2_CapacityInfo([]);
-
+          setCC_CapValue_ClassPart([]);
 
           const response = await axios.post(
          // "http://localhost:3009/scatterdigram/get_modle_capacity_val",
@@ -452,7 +799,7 @@ const column_list = useMemo (()=>{
           const cctype_modle_list = get_allmodle_info.map((item,index) => {
                const { parameter , modelId, ...rest } = item;      // 先取出 parameter , modelId，其餘放 rest
                const CC_TYPE = parameter.includes(cc_list[0])?"CC2":"CC1";
-               return `${index}-${CC_TYPE}-${modelId}`; // index + "-" + 其餘 key 值連接
+               return `${index+1}-${CC_TYPE}-${modelId}`; // index + "-" + 其餘 key 值連接
 
                 // return `${num}-${Object.values(rest).join('')}`; // num + "-" + 其餘 key 值連接
           });
@@ -466,9 +813,28 @@ const column_list = useMemo (()=>{
                                 .map(([key, value]) => Number(value).toFixed(2));  // 取鍵名的值value
           
 
-           console.log("重整理電芯排序為: "+cctype_modle_list+'\r\n'+"cc1_未分選電容總和清單_all = "+ cc1_amount_all + '\r\n'+ "cc2_32分選電容總和清單_all = "+ cc2_amount_all);         
+          //  console.log("重整理電芯排序為: "+cctype_modle_list+'\r\n'+"cc1_未分選電容總和清單_all = "+ cc1_amount_all + '\r\n'+ "cc2_32分選電容總和清單_all = "+ cc2_amount_all);         
            
+          //目前將cctype_modle_list 設置Y軸當標籤(序號-type-電芯號)
+          setCellLabel_Serial(cctype_modle_list);
+           
+          //將每個序號自定義組態VASH(A,B,C)
+          get_allmodle_info.forEach((item) => {
+                //針對各壓段電池容量做分配陣列存值
+                 // const key_val = Number(item?.[it]??0); 
+                newCCCapValue.VASHA_Side.push(toNumber(item?.VAHSA));
+                newCCCapValue.VASHB_Side.push(toNumber(item?.VAHSB));
+                newCCCapValue.VASHC_Side.push(toNumber(item?.VAHSC));            
+          })
         };
+
+        // console.log( "新推e-chart 電容單位數值分為(A,B,C):" + 
+        //   typeof newCCCapValue.VASHA_Side  +"\r\n"
+        //   + newCCCapValue.VASHA_Side +"\r\n"+
+        //   + newCCCapValue.VASHB_Side  +"\r\n"+
+        //   + newCCCapValue.VASHC_Side          
+        // );
+        setCC_CapValue_ClassPart(newCCCapValue);
 
     } catch (err) {
       console.error(err);
@@ -500,11 +866,15 @@ const column_list = useMemo (()=>{
 
 
   const get_color_param = ( cc_list=[]) => {
-
     const  CC_Array_Name =  !Array.isArray(cc_list)?[]:String(cc_list).split(',');
 
-
   }
+
+  //轉換數值模式
+  const toNumber = (value) => {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : 0;
+  };
 
   //執行電芯分選條件查詢
   const fetch_sultingdata = async (page = 1 ,query = sultingquery , sult_side = selectedOption ) => {
@@ -636,8 +1006,6 @@ const column_list = useMemo (()=>{
         chartInstanceRef.current = myChart;
       }
 
- 
-   
      console.log("檢查是否已經存在圖表實例，避免重複創建  = "+ myChart);
 
     //取得type
@@ -1228,7 +1596,7 @@ const column_list = useMemo (()=>{
                 ))}
               </select>
                <button class="button" onClick={(e) => Draw_ModelId_Statisticalchart(e)}>
-                 電容量分布
+                 電容量分佈
               </button>
             </div>
             <br></br>
@@ -1340,10 +1708,18 @@ const column_list = useMemo (()=>{
            <React.Fragment>               
                 <div
                   ref={chartRef_3_radio}
-                  style={{ width: "100%" ,height: "520px", minHeight: "420px"}}
+                  // style={{ width: "100%" ,height: "520px", minHeight: "420px"}}
+                  className="chart-container"
                 />
+                <div className="chart-gap" />
+                <br/>
+                  <div
+                    ref={chartRef_Cassinterval}
+                    // style={{ width: "100%" ,height: "520px", minHeight: "420px"}}
+                    className ="chart-gradeclass"
+                  />
                 </React.Fragment>        
-          <div ref={modleIDlist_chartRef} className="chart-container"></div>
+          {/* <div ref={modleIDlist_chartRef} className="chart-container"></div>
           <div>
           {(Array.isArray(modleall_cc1) ? modleall_cc1 : []).map((row , idx) =>             
             <div key={idx} style={{backgroundColor:"#FFF4C1" , fontSize:"30px"}}>
@@ -1359,7 +1735,7 @@ const column_list = useMemo (()=>{
             </div> 
             )
           }
-          </div>
+          </div> */}
         </main>
       </div> ) : (
         <>
@@ -1379,19 +1755,21 @@ const column_list = useMemo (()=>{
                 <span>電芯前綴切換中...</span>
               </div>
               ) : (
-                <select className="serialselect"
-                  name="prefix"
-                  value={selected_serial}
-                  onChange={handleChange}            
-                  required
-                >
-                {serial_prefixlist.map((item ,index) => (
-                  <option key={item.num} value={item.prefix}>{item.prefix}</option>
-                ))}
-                </select>            
-               )
+                  <>
+                    <select className="serialselect"
+                      name="prefix"
+                      value={selected_serial}
+                      onChange={handleChange}            
+                      required
+                    >
+                    {serial_prefixlist.map((item ,index) => (
+                      <option key={item.num} value={item.prefix}>{item.prefix}</option>
+                    ))}                                
+                    </select>
+                 </>                                    
+               )                
               }
-                           
+             
                 {/* <React.Fragment>               
                 <div
                   ref={chartRef_3_radio}
@@ -1399,7 +1777,8 @@ const column_list = useMemo (()=>{
                 />
                 </React.Fragment>  
                 */}
-                <div className="radio-container">
+                {/**/}  
+                <div className="radio-container">                   
                     <label style={{ paddingRight: "35px", fontSize: "26px"  , transform: "translate(31%, 1%)"}}>
                       請選擇站別▶{" "}
                     </label>
@@ -1423,7 +1802,9 @@ const column_list = useMemo (()=>{
                         <span className="label-text">{opt.label}</span>
                       </label>
                     ))}
+                  
                 </div>
+                
            </div>		
            <div>      
               <InputGroup className="mb-3" style={{marginBlock:"inline-block" , marginTop:"2em"}}>
@@ -1574,7 +1955,23 @@ const column_list = useMemo (()=>{
                 </Table>
             </div>
             {/* <div style={{ marginTop: 20 }}> */}
-            <div className="flex justify-center items-center gap-4 mt-6 flex-wrap">
+            {/* <div className="flex justify-center items-center gap-4 mt-6 flex-nowrap"> */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+            {/* 左側 */}
+            <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+            >
                 <button onClick={prevPage} disabled={page === 1}>
                   ◀ Prev|上一頁
                 </button>
@@ -1602,8 +1999,28 @@ const column_list = useMemo (()=>{
                       className="px-3 py-1 bg-green-350 text-black rounded"
                     >
                       跳頁
-                  </button>                               
-              </div>
+                  </button>  
+            </div>
+            {/* 右側 */}
+            {!isprefixLoading &&  
+             <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",                      
+                      gap: "10px",
+                    }}
+              >  
+                <span style={{  fontSize: "1.0rem",backgroundColor: "red", color: "#fff" , padding: "2px 8px"}}>
+                  異常:
+                </span>
+                <span style={{ fontSize: "1.2rem", paddingRight: "3.9rem" }}>
+                <a href="#"  onClick={openModal}>
+                  托盤NG清單
+                </a>
+                </span> 
+              </div> 
+            }                        
+          </div>            
         </>
       )
       }
@@ -1617,6 +2034,13 @@ const column_list = useMemo (()=>{
         autoClose={messagePopup.type === 'success'}
         autoCloseDelay={3000}
       />
+       {/* 異常電龍所屬trayID清單 pumpop endering*/}
+      {Error_TrayIDModal && (
+        <NullError_Sort_Popform          
+          side={selectedOption}
+          closeModal={closeModal}
+        />
+      )}
      </div>          
   );
 

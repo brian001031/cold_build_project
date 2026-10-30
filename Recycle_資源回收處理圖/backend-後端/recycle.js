@@ -1,18 +1,12 @@
-require("dotenv").config();
+﻿require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const db = require(__dirname + "/../modules/db_connect.js");
-const db2 = require(__dirname + "/../modules/mysql_connect.js");
-const mysql = require("mysql2");
 const multer = require("multer");
 const axios = require("axios");
-const { Sequelize } = require("sequelize");
 const fs = require("fs");
-const readline = require("readline");
 const path = require("path");
 const ExcelJS = require("exceljs");
 const XLSX = require("xlsx");
-const { parseString } = require("fast-csv");
 
 //存取每月選取存量
 let current_amont;
@@ -68,45 +62,16 @@ const querycycleItem = [
   "廢乾電池",
 ];
 
-const dbcon = mysql.createPool({
-  host: "192.168.3.100",
-  user: "root",
-  password: "Admin0331",
-  database: "hr",
-  waitForConnections: true,
-  connectionLimit: 5,
-  queueLimit: 0,
-  multipleStatements: true,
-});
+// 使用共用的資料庫連線池（標準做法，與 productBrochure.js 一致）
+const dbcon = require(__dirname + "/../modules/mysql_connect.js");  // hr 資料庫
 
-const mysql_config = {
-  host: "192.168.3.100",
-  user: "root",
-  password: "Admin0331",
-  database: "hr",
-  multipleStatements: true,
-};
-
-dbcon.once("error", (err) => {
-  console.error("Database connection error:", err);
-});
-
-// 确保只添加一次错误监听器
-if (!dbcon.__errorListenerAdded) {
-  dbcon.on("error", (err) => {
-    console.error("Database connection error:", err);
-  });
-  dbcon.__errorListenerAdded = true; // 标记监听器已添加
-
-  //確認連線狀況是否正常
-  dbcon.getConnection((err, connection) => {
-    if (err) {
-      console.error("Error getting connection:", err);
-      return err;
-    }
-  });
-  dbcon.promise();
-}
+// const mysql_config = {
+//   host: "192.168.3.100",
+//   user: "root",
+//   password: "Admin0331",
+//   database: "hr",
+//   multipleStatements: true,
+// };
 
 // setInterval(() => {
 //   disconnect_handler(dbcon);
@@ -126,28 +91,28 @@ setInterval(() => {
   current_month_amount = nowMonth.toString() + "月儲存量(公斤/月)"; //索引當前工作月份
 }, 86400000); // 每一天执行一次(1000毫秒X86400)
 
-function disconnect_handler(conn) {
-  conn = mysql.createConnection(mysql_config);
+// function disconnect_handler(conn) {
+//   conn = mysql.createConnection(dbcon);
 
-  conn.connect((err) => {
-    if (err) {
-      console.log("conn connect err ..... 等2秒嘗試重新連接");
-      err && setTimeout(disconnect_handler, 2000); // 等待2秒后重连
-    }
-  });
+//   conn.connect((err) => {
+//     if (err) {
+//       console.log("conn connect err ..... 等2秒嘗試重新連接");
+//       err && setTimeout(disconnect_handler, 2000); // 等待2秒后重连
+//     }
+//   });
 
-  conn.on("error", (err) => {
-    if (err.code === "PROTOCOL_CONNECTION_LOST") {
-      console.log("conn PROTOCOL_CONNECTION_LOST狀況");
-      // db error 重新連線
-      disconnect_handler();
-    } else {
-      throw err;
-    }
-  });
-  console.log("conn 連接DB目前正常運行中");
-  return conn;
-}
+//   conn.on("error", (err) => {
+//     if (err.code === "PROTOCOL_CONNECTION_LOST") {
+//       console.log("conn PROTOCOL_CONNECTION_LOST狀況");
+//       // db error 重新連線
+//       disconnect_handler();
+//     } else {
+//       throw err;
+//     }
+//   });
+//   console.log("conn 連接DB目前正常運行中");
+//   return conn;
+// }
 
 // 配置 Multer 用來保存照片(單一照片寫法)
 // const storage = multer.diskStorage({
@@ -203,7 +168,7 @@ const upload = multer({ storage: storage });
 //     // 將報修紀錄寫入資料庫
 //     const sql =
 //       "INSERT INTO recycles (name, time, place,machine,machine_status, question, photo_path,handled, created_at) VALUES (?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)";
-//     await db2.query(sql, [
+//     await dbcon.query(sql, [
 //       name,
 //       time,
 //       place,
@@ -662,7 +627,7 @@ router.post(
 
       let photo_paths = [];
       console.log("!!!!", req.files);
-      1;
+
       if (req.files && req.files.length > 0) {
         // 遍歷上傳的所有圖片，將其保存到資料庫中
         for (let i = 0; i < req.files.length; i++) {
@@ -675,14 +640,14 @@ router.post(
       const rawDate = submittime.replace(/\//g, "-");
       const dateObj = new Date(rawDate);
       const thisyear = dateObj.getFullYear(); // 2025
-      const thismonth = dateObj.getMonth() + 1; // 6（注意：getMonth() 回傳值是 0-11）
+      const thismonth = String(dateObj.getMonth() + 1).padStart(2, "0"); // 6（注意：getMonth() 回傳值是 0-11）
 
       // const sql_month_amount = `SELECT SUM(DISTINCT currentdayout) AS total_amount FROM recyclefix WHERE submittime LIKE '${year}-${month.toString().padStart(2, "0")}%';`;
 
       const sql_month_amount = `SELECT MONTH(date_only) AS month, SUM(currentdayout) AS month_total FROM (
                                 SELECT DISTINCT DATE(submittime) AS date_only, currentdayout FROM recyclefix WHERE YEAR(submittime) = ${thisyear} AND MONTH(submittime) = ${thismonth} AND itemname = '${itemname}') AS distinct_month_data GROUP BY MONTH(date_only) ORDER BY MONTH(date_only)`;
 
-      const [confirm_thisMonth_aomunt] = await db2.query(sql_month_amount);
+      const [confirm_thisMonth_aomunt] = await dbcon.query(sql_month_amount);
 
       let confirm_result_amount = 0;
       let final_addamount = 0;
@@ -698,6 +663,20 @@ router.post(
         confirm_result_amount
       );
 
+      //當使用者選擇月不同後端系統runtime,這邊予以替換避免更新cyclestats.xlsx錯誤欄位 ----start---
+      const user_select_year_sheetName = parseInt(thisyear);
+      const user_select_month = thismonth.toString() + "月儲存量(公斤/月)";
+      //自定義選擇"年" 不同於後端系統年份
+      if (user_select_year_sheetName !== targetSheetName) {
+        targetSheetName = user_select_year_sheetName;
+      }
+
+      //自定義選擇"月" 不同於後端系統月份
+      if (user_select_month !== current_month_amount) {
+        current_month_amount = user_select_month;
+      }
+      //----------------------------end------------------------------------------------------
+
       final_addamount =
         parseFloat(confirm_result_amount) + parseFloat(maketonne);
 
@@ -708,7 +687,7 @@ router.post(
         //"INSERT INTO recyclefix (name, time, place, machine, machine_status, question, photo_path, handled, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
         "INSERT INTO recyclefix (name, submittime, region, itemname, itemeditnum, currentdayout, addmonthtotal, cycleStatus, question, photo_path, handled, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,CURRENT_TIMESTAMP)";
 
-      dbcon.query(sql, [
+      await dbcon.query(sql, [
         name,
         submittime,
         region,
@@ -728,14 +707,16 @@ router.post(
 
       const sql2 = `UPDATE recyclefix SET addmonthtotal = ${final_addamount} WHERE (submittime BETWEEN '${startdate}' AND '${enddate}' AND itemname ='${itemname}')`;
 
-      dbcon.query(sql2);
+      await dbcon.query(sql2);
 
       //console.log("UPDATE recyclefix SET addmonthtotal 執行完畢繼續");
 
       const sql3 = "SELECT * FROM recyclefix ORDER BY `id` DESC LIMIT 1";
 
-      const [editnum] = await db2.query(sql3);
-      const requestid = editnum[0].id + 1; //這邊mysql應用測試無異常,但傳送後會少1目前原因查無先多補1維持正常,因db2為另一模組handle重新query非同步導致
+      const [editnum] = await dbcon.query(sql3);
+     // const requestid = editnum[0].id + 1; //這邊mysql應用測試無異常,但傳送後會少1目前原因查無先多補1維持正常,因db2為另一模組handle重新query非同步導致
+      const requestid = editnum[0].id ; //目前async 同步正常,不需要增加1
+
 
       //再透過查詢indexitem_rownum ,將"新"累積處理量(當前月份)->(monthtotaltonne) update 數據至 cyclestats.xlsx
       fs.readFile(recycleitem, "utf8", (err, data) => {
@@ -866,15 +847,34 @@ router.get("/getyearamont", async (req, res) => {
   try {
     // 從資料庫中擷取回收全年各個項目總累積量紀錄
     //const sql = "SELECT * FROM recyclefix ORDER BY id DESC";
-    let charttotalamont = "";
-    let itemYearamont;
+    let charttotalamont = "",
+      charttotal_negative_amont = "",
+      charttotal_positive_amont = "";
+    let itemYearamont = 0;
+    let itemYearTotalNegative = 0;
+    let itemYearTotalPositive = 0;
+    let Cacular_All_Yearamount = [];
 
     for (let c = 0; c < querycycleItem.length; c++) {
       // const sql = `SELECT sum(DISTINCT addmonthtotal) FROM recyclefix WHERE year(submittime) = ${year} AND itemname ='${querycycleItem[c]}'`;
-      const sql = `SELECT MONTH(date_only) AS month, SUM(currentdayout) AS month_total FROM (
-                   SELECT DISTINCT DATE(submittime) AS date_only, currentdayout FROM recyclefix WHERE YEAR(submittime) = ${year} AND itemname = '${querycycleItem[c]}') AS distinct_month_data GROUP BY MONTH(date_only) ORDER BY MONTH(date_only)`;
+      // const sql = `SELECT MONTH(date_only) AS month, SUM(currentdayout) AS month_total FROM (
+      //              SELECT DISTINCT DATE(submittime) AS date_only, currentdayout FROM recyclefix WHERE YEAR(submittime) = ${year} AND itemname = '${querycycleItem[c]}') AS distinct_month_data GROUP BY MONTH(date_only) ORDER BY MONTH(date_only)`;
 
-      const [recycle_monthlyResults] = await db2.query(sql);
+      //原加總邏輯（正負相加）, 負值總相加, 正值總相加
+      const sql = `SELECT MONTH(date_only) AS month, SUM(currentdayout) AS month_total ,
+                    SUM(CASE WHEN currentdayout < 0 THEN currentdayout ELSE 0 END) AS negative_total,
+                    SUM(CASE WHEN currentdayout >= 0 THEN currentdayout ELSE 0 END) AS positive_total
+                  FROM (
+                   SELECT DISTINCT DATE(submittime) AS date_only, currentdayout FROM recyclefix WHERE YEAR(submittime) = ${year} AND itemname = '${querycycleItem[c]}') AS distinct_month_data GROUP BY MONTH(date_only) 
+                   ORDER BY MONTH(date_only)`;
+
+      const [recycle_monthlyResults] = await dbcon.query(sql);
+
+      // console.log(
+      //   querycycleItem[c] +
+      //     " ->得出項目產能:" +
+      //     JSON.stringify(recycle_monthlyResults, null, 2)
+      // );
 
       //舊方法取總量
       // const itemYearamont = parseFloat(
@@ -882,29 +882,59 @@ router.get("/getyearamont", async (req, res) => {
       // );
 
       // 初始化每個項目的年度總量
-      itemYearamont = 0;
+      itemYearamont = itemYearTotalNegative = itemYearTotalPositive = 0;
 
       // 新方法取總量
       //當無任何提交量(每月份累加),則制定為0
       if (recycle_monthlyResults.length === 0) {
-        itemYearamont = 0;
+        itemYearamont = itemYearTotalNegative = itemYearTotalPositive = 0;
       } else {
         // 依照月份資料加總（也可以另存每月細項）
         for (let i = 0; i < recycle_monthlyResults.length; i++) {
+          // 總加正負值
           const monthTotal =
             parseFloat(recycle_monthlyResults[i].month_total) || 0;
           itemYearamont += monthTotal;
+
+          const negative =
+            parseFloat(recycle_monthlyResults[i].negative_total) || 0;
+          const positive =
+            parseFloat(recycle_monthlyResults[i].positive_total) || 0;
+
+          // 累加負值和正值
+          itemYearTotalNegative += negative;
+          itemYearTotalPositive += positive;
         }
       }
 
-      if (c < querycycleItem.length - 1)
+      if (c < querycycleItem.length - 1) {
         charttotalamont = charttotalamont + itemYearamont + ",";
-      else charttotalamont = charttotalamont + itemYearamont;
+        charttotal_negative_amont =
+          charttotal_negative_amont + itemYearTotalNegative + ",";
+        charttotal_positive_amont =
+          charttotal_positive_amont + itemYearTotalPositive + ",";
+      } else {
+        charttotalamont = charttotalamont + itemYearamont;
+        charttotal_negative_amont =
+          charttotal_negative_amont + itemYearTotalNegative;
+        charttotal_positive_amont =
+          charttotal_positive_amont + itemYearTotalPositive;
+      }
     }
 
     // console.log("charttotalamont = " + charttotalamont);
+    // console.log("charttotal_negative_amont = " + charttotal_negative_amont);
+    // console.log("charttotal_positive_amont = " + charttotal_positive_amont);
 
-    res.status(200).send(charttotalamont); // 將回收全年各個項目總累積量紀錄回傳至前端
+    Cacular_All_Yearamount.push({ totalamont: charttotalamont });
+    Cacular_All_Yearamount.push({
+      total_negative_amont: charttotal_negative_amont,
+    });
+    Cacular_All_Yearamount.push({
+      total_positive_amont: charttotal_positive_amont,
+    });
+
+    res.status(200).json(Cacular_All_Yearamount); // 將回收全年各個項目總累積量紀錄回傳至前端
     // res.status(200).json(charttotalamont);
   } catch (error) {
     console.error("發生錯誤", error);
@@ -973,7 +1003,7 @@ router.get("/getall_dateinfo", async (req, res) => {
                       ) AS distinct_data
                       GROUP BY sub_date, itemname`;
 
-        const [dayamont] = await db2.query(sql);
+        const [dayamont] = await dbcon.query(sql);
 
         //如果沒有查詢到資料,則制定一個空物件
         if (dayamont.length === 0) {
@@ -1053,7 +1083,7 @@ router.get("/getamount_specify_YM", async (req, res) => {
 
       // console.log("第" + c + "組= " + sql);
       // 從資料庫中擷取回收選擇單年單月紀錄
-      const [recycle_specifyamont] = await db2.query(sql);
+      const [recycle_specifyamont] = await dbcon.query(sql);
 
       const item_specifyamunt = parseFloat(
         recycle_specifyamont[0]["addmonthtotal"]
@@ -1080,7 +1110,7 @@ router.get("/recyclelist", async (req, res) => {
     // 從資料庫中擷取回收紀錄
     const sql = "SELECT * FROM recyclefix ORDER BY id DESC";
 
-    const [recycleRecords] = await db2.query(sql);
+    const [recycleRecords] = await dbcon.query(sql);
     //console.log(recycleRecords);
     res.status(200).json(recycleRecords); // 將回收紀錄回傳至前端
   } catch (error) {
@@ -1102,7 +1132,7 @@ router.get("/cyclecaselist", async (req, res) => {
     // '%E004NMP%'
     const sql = `SELECT * FROM recyclefix WHERE(recyclefix.itemname LIKE '%${cyclename}%' OR recyclefix.itemeditnum LIKE '%${cyclename}%' ) ORDER BY id DESC`;
 
-    const [singlecycleitem] = await db2.query(sql);
+    const [singlecycleitem] = await dbcon.query(sql);
     res.status(200).json(singlecycleitem); // 將全部及個別機器異常報修紀錄回傳至前端
   } catch (error) {
     // disconnect_handler(db);
@@ -1121,7 +1151,7 @@ router.get("/recyclelist/:id", async (req, res) => {
     // 跟資料庫要資料
     const sql = "SELECT * FROM recyclefix WHERE id = ?";
 
-    const [recycleRecord] = await db2.query(sql, [id]);
+    const [recycleRecord] = await dbcon.query(sql, [id]);
     // console.log("????", recycleRecord[0]);
     if (!recycleRecord) {
       return res.status(404).json({ message: "未找到對應資料" });
@@ -1238,12 +1268,12 @@ router.patch(
       sql += " WHERE id = ?";
       sqlParams.push(id);
 
-      await db2.query(sql, sqlParams);
+      await dbcon.query(sql, sqlParams);
 
       //搜尋之前建立此編輯號的月份
       const sql2 = "SELECT * FROM recyclefix WHERE id = ?";
 
-      const [recycleRecords] = await db2.query(sql2, [id]);
+      const [recycleRecords] = await dbcon.query(sql2, [id]);
       const modifyack = recycleRecords[0].havemodify.readUInt8(0);
       const specificDate = new Date(recycleRecords[0].submittime);
 
@@ -1320,7 +1350,7 @@ router.patch(
         }
       });
 
-      await db2.query(sql3);
+      await dbcon.query(sql3);
 
       //開始處理送資料
       const config_line = {

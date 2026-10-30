@@ -124,7 +124,7 @@ FOLDER_CONFIG = {
 #    "CHROMA_CC": "https://localhost:44374/?side=chroma_cc", 
 #    "CHROMA_PF": "https://localhost:44374/?side=chroma_pf",
 #  }
-#
+
 
 def get_thread_num(folder_path):
     """根據來源資料夾決定對應的執行緒號碼"""

@@ -44,6 +44,7 @@ let tabledataconvert = [];
 let startIndex = 10;
 
 let currentYear = new Date().getFullYear();
+
 //原先字符字串佔2位元會影響初始化顯示,改用原先不padStart指定狀態
 // let currentMonth = (new Date().getMonth() + 1).toString().padStart(2, "0");
 let currentMonth = new Date().getMonth() + 1;
@@ -176,8 +177,14 @@ const dynamicday = () => {
   // ];
 
   // 生成從至今到2年前的年分
-  for (let i = 0; i >= -2; i--) {
-    years.push(currentYear + i);
+  // for (let i = 0; i >= -2; i--) {
+  //   years.push(currentYear + i);
+  // }
+
+  //從2025年開始到當前年份
+  const record_yearlen = parseInt(currentYear) - 2025;
+  for (let i = 0; i < record_yearlen +1; i++) {
+    years.push(2025 + i);
   }
 
   for (let m = 1; m <= 12; m++) {
@@ -265,10 +272,13 @@ const dynamicday = () => {
         });
       });
 
+      // console.log("餵入轉換dayout_amont為 = " + dayout_amont);
+
+
       setChartSource(transformedData);
 
       //console.log("轉換tabledataconvert 為 = " + tabledataconvert);
-      //console.log("轉換transformedData 為 = " + chartsource);
+      // console.log("轉換transformedData 為 = " + chartsource);
     } else {
       //重新初始化內部存值
       setdayout_amont([]);
@@ -354,6 +364,24 @@ const dynamicday = () => {
           label: labelOption,
         },
         {
+          label: labelOption,
+        },
+        {
+          label: labelOption,
+        },
+        {
+          label: labelOption,
+        },
+        {
+          label: labelOption,
+        },
+        {
+          label: labelOption,
+        },
+        {
+          label: labelOption,
+        },
+          {
           label: labelOption,
         },
         {
@@ -647,6 +675,40 @@ const dynamicday = () => {
         useDirtyRect: false,
       });
 
+      //重組折線line組態(目前共18組,是情況後續新增)
+      const Series_LineCombine = Array.from({ length: chartsource.length - 1 },
+          () => ({       
+          type: "line",
+          smooth: true,
+          seriesLayoutBy: "row",
+          emphasis: {
+            focus: "series",
+          },
+      }));
+
+      const pieSeries = {
+           type: "pie",
+            id: "pie",
+            radius: "30%",
+            center: ["50%", "25%"],
+            emphasis: {
+              focus: "self",
+            },
+            label: {
+              // formatter: "{b}: {@2012} ({d}%)",
+              // formatter: `{b}: {@${encode_value}} ({d}%)`,
+              formatter: "{b}: {@[" + encode_value + "]} ({d}%)",
+            },
+            encode: {
+              // itemName: "product",
+              // value: "2012",
+              // tooltip: "2012",
+              itemName: encode_itemName,
+              value: encode_value,
+              tooltip: encode_value,
+            },
+      };
+
       // myChart = echarts.init(chartRef.current, "dark", {
       //   useDirtyRect: false,
       // });
@@ -738,101 +800,105 @@ const dynamicday = () => {
         yAxis: { gridIndex: 0 },
         grid: { top: "55%" },
         series: [
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "line",
-            smooth: true,
-            seriesLayoutBy: "row",
-            emphasis: { focus: "series" },
-          },
-          {
-            type: "pie",
-            id: "pie",
-            radius: "30%",
-            center: ["50%", "25%"],
-            emphasis: {
-              focus: "self",
-            },
-            label: {
-              // formatter: "{b}: {@2012} ({d}%)",
-              // formatter: `{b}: {@${encode_value}} ({d}%)`,
-              formatter: "{b}: {@[" + encode_value + "]} ({d}%)",
-            },
-            encode: {
-              // itemName: "product",
-              // value: "2012",
-              // tooltip: "2012",
-              itemName: encode_itemName,
-              value: encode_value,
-              tooltip: encode_value,
-            },
-          },
+            ...Series_LineCombine,
+            pieSeries
         ],
+      //  series: [
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "line",
+      //       smooth: true,
+      //       seriesLayoutBy: "row",
+      //       emphasis: { focus: "series" },
+      //     },
+      //     {
+      //       type: "pie",
+      //       id: "pie",
+      //       radius: "30%",
+      //       center: ["50%", "25%"],
+      //       emphasis: {
+      //         focus: "self",
+      //       },
+      //       label: {
+      //         // formatter: "{b}: {@2012} ({d}%)",
+      //         // formatter: `{b}: {@${encode_value}} ({d}%)`,
+      //         formatter: "{b}: {@[" + encode_value + "]} ({d}%)",
+      //       },
+      //       encode: {
+      //         // itemName: "product",
+      //         // value: "2012",
+      //         // tooltip: "2012",
+      //         itemName: encode_itemName,
+      //         value: encode_value,
+      //         tooltip: encode_value,
+      //       },
+      //     },
+      //  ],
       };
 
       myChart.on("updateAxisPointer", function (event) {

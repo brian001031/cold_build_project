@@ -1,0 +1,43 @@
+目前有csv header  
+PLCCellID_CE	PLCCellIDClass_CE	BacirEchk_CE	MESSENDOUTCELLPOS	MESSENDOUTCELLID	PLCTrayID_CE	acirVP12_CE	acirRP12_CE	CellThicknessP12_CE	PLCStartTime_CE	PLCCompleteTme_CE	mOhm	K_Value	model_combine_number	last_define_location	parallel_match
+
+這邊需要從col['PLCCellID_CE'] to col['parallel_match']選取範圍
+header 部分不納入32組從 2組開始到->getlowcount 33 為第一group,後續接續32組 (getlowcount 65)作接續group 以此類推 
+範圍內目前需要計算 (col['VASHC'] 和 col['mOhm'] 和 col['K_Value'] 和 col['acirVP12_CE'] ) 各自欄位找出每32組總計算的( Max ,Min ) 各2個計算參數 ,其中 
+col['VASHC'] 需要多找出(AVG) 一個參數
+
+因應後續需要將此範圍內所有RAW 資料轉為PDF ,這邊目前需要使用VBS寫動態產生上述功能
+
+也就是先將
+最上方將參數帶入
+如:
+
+ 標籤需要顯示->    挑選作業              模組號                            MIN                 Max               mAh               AC-IR(mOhm)                      K-max                      K-min           voltage                                             配對員  覆核員     
+                寫入"執行中"             取col['model_combine_number']   col['VASHC']min     col['VASHC']max   col['VASHC']AVG    col['mOhm']min~col['mOhm']max    col['K_Value']Max      col['K_Value']Min   col['acirVP12_CE']min~col['acirVP12_CE']max          自動    空白
+            dateTime(YYYY-MM-DD HH:mm)
+			
+ 下方再將一開始col['PLCCellID_CE'] to col['parallel_match']選取範圍的部分寫入PDF BODY
+ 但這邊需要多新增兩個開頭欄位
+ No. 和 掃碼機
+ 
+ No.欄位直接將從1開始到總RAW流水號(32)
+ 掃碼機 都預留空白即可
+ 
+ 
+ 原始數據資料內容大致結構為下:
+ PLCCellID_CE	PLCCellIDClass_CE		  PLCTrayID_CE	  acirVP12_CE	acirRP12_CE	E		mOhm	K_Value	   model_combine_number	    last_define_location	parallel_match
+MW2042B03061	A21							A00832			3.24E+00	1.17E-03			0.00064	-0.01848	M10-1994210-A21-Seulgi	1	                       0.00031
+MW2045B45300	A21						   A01856	        3.24E+00	1.53E-03			0.00059	-0.01813	M10-1994210-A21-Seulgi	1	
+MW2045B45499	A21						   A01856	        3.24E+00	1.35E-03			0.00078	-0.01657	M10-1994210-A21-Seulgi	2	                       0.00019
+MW2041B11218	A21							A03318			3.24E+00	9.60E-04			0.00097	-0.02196	M10-1994210-A21-Seulgi	2	                       
+		
+    最後結構
+	No. 和 掃碼機  + 原始數據資料 欄位
+	{內容為上述需求}
+	
+	AI TIP BELLOW :
+	
+	StartRow = 2 + ((GroupNo - 1) × 32)
+    EndRow   = StartRow + 31
+	
+	
