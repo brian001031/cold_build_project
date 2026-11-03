@@ -712,6 +712,14 @@ def main():
     # 開啟圖片
 #   a_img = Image.open(pathsrc+'/plot-mergy.jpg')
     a_img = Image.open(img_path)
+
+    # RGBA 包含 Alpha 透明通道，支援 PNG。
+    # RGB 不包含透明通道，適合 JPEG。
+    # OpenCV、Matplotlib 或 Pillow 進行圖片處理，建議在最終輸出 JPEG 前統一執行
+    if a_img.mode == "RGBA" or a_img.mode !=  "RGB":
+        a_img = a_img.convert("RGB")
+        a_img.save(img_path, format="JPEG", quality=95)
+        print('此工作圖片非純RGB type , 統一轉為RGB無通道格式存取JPEG格式接續進行中!')
     
     # 取得圖片尺寸
     w_len , h_len = a_img.size
