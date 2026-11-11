@@ -569,6 +569,7 @@ def create_video_thread_dynmicFPS ( merge_picpath , final_videopath):
 def main():
     splitmodel = int(input("請輸入圖片裁切模式 1:(平均分割),2:(迭代分割)) \n"))
     splitnum = int(input("請輸入裁切數量 \n"))
+    cut_direction = int(input("請選擇切割方向起始 1:由左開始,2:由右開始 \n"))
 
     
     # splitmodel = map(int,input("請輸入圖片裁切模式 1:(平均分割),2:(迭代分割)) \n").split())
@@ -762,16 +763,25 @@ def main():
                    # shutil.copyfile(pathsrc+'/plot-mergy.jpg',path_mergeall+'/{:3d}.jpg'.format(k))
                     shutil.copyfile(img_path,path_mergeall+'/{:3d}.jpg'.format(k))
                     continue  
-                box = ( weigth_gap * 0 , leigth*0, weigth_gap* (k+1),  leigth)
+                #主要顯示圖像面
+                if cut_direction == 1:
+                   # 由左切到右
+                   box = ( weigth_gap * 0 , leigth*0, weigth_gap* (k+1),  leigth)
+                else:
+                   # 由右切到左
+                   box = ( w_len - weigth_gap* (k+1) , leigth*0, w_len ,  leigth)
                 region = a_img.crop(box)
                 region.save(path_result+'/{}_{}.jpg'.format(id,k))
                 region.save(path_tmp+'/{}_{}.jpg'.format(id,k))
 
 
             # 將裁切剩餘部分全白 
-           #bgTranstoWhite( a_img, weigth_gap, w_len , h_len )
-              
-                boxwhite = ( weigth_gap* (k+1) , leigth*0, w_len,  leigth)
+            #bgTranstoWhite( a_img, weigth_gap, w_len , h_len )
+                #次要背景顯示圖像面
+                if cut_direction == 1:
+                    boxwhite = ( weigth_gap* (k+1) , leigth*0, w_len,  leigth)
+                else:
+                    boxwhite = ( weigth_gap * 0 , leigth*0, w_len -weigth_gap* (k+1),  leigth)
                 regionwhite = a_img.crop(boxwhite)
                 wh_width , wh_lenght = regionwhite.size
                 if wh_width > 0 and wh_lenght > 0:
@@ -849,9 +859,11 @@ def main():
     # print("裁切圖已經儲存> ResultCropImg 資料夾中, " + "選擇裁切模式為 (" + str(strselectmode)+ ")")
     print("裁切圖儲存> ResultCropImg , " + " 合併圖儲存> mergeall ," +"各資料夾中")
 
-    #接續執行影片製作
-    #create_video_thread_bindingFPS( path_mergeall , path_video_build )
-    create_video_thread_dynmicFPS( path_mergeall , path_video_build )
+
+    if splitmodel == 2:
+        #接續執行影片製作
+        # create_video_thread_bindingFPS( path_mergeall , path_video_build )    
+          create_video_thread_dynmicFPS( path_mergeall , path_video_build )
                    
 # img = Image.open('plot-mergy.jpg')
 # w , h = img.size

@@ -137,9 +137,9 @@ def Fetch_Package_CellRuleData(log_queue: Queue):
                                            COUNT(*) AS class_num			   
                                         from mes.stacked_modinfo  
                                         where 
-                                             `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                                        --    `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
                                         --   `Time` >= CURDATE() AND  `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
-                                        --   `Time` between '2026-09-01 00:00:00' AND '2026-09-30 23:59:59'
+                                             `Time` between '2026-11-11 00:00:00' AND '2026-11-11 23:59:59'
                                         AND NULLIF(TRIM(moduleNO), '') IS NOT NULL
                                         GROUP BY moduleNO
                                  ),
@@ -153,11 +153,11 @@ def Fetch_Package_CellRuleData(log_queue: Queue):
                                             DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY),'%Y-%m-%d %H:%i:%s'     
                                         ) AS date_search_end
                                         FROM mes.stacked_modinfo            
-                                        WHERE `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) 
-                                        AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                            --            WHERE `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) 
+                            --           AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
                             --          WHERE `Time` >= CURDATE()
                             --   		AND `Time`  < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
-                            --          WHERE `Time` between '2026-09-01 00:00:00' AND '2026-09-30 23:59:59'
+                                      WHERE `Time` between '2026-11-11 00:00:00' AND '2026-11-11 23:59:59'
                                ),
                                result AS (
                                 SELECT
@@ -196,9 +196,9 @@ def Fetch_Package_CellRuleData(log_queue: Queue):
     query_rulecell = text ("""
                             select * from mes.stacked_modinfo  
                                 WHERE moduleNO = :classcode AND
-                                    `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY)  AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
-                            --      `Time`  >= CURDATE()   AND  Time < DATE_ADD(CURDATE(), INTERVAL 1 DAY)                            
-                            --      `Time` between '2026-09-01 00:00:00' AND '2026-09-30 23:59:59'
+                            --    `Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY)  AND `Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                            --    `Time`  >= CURDATE()   AND  Time < DATE_ADD(CURDATE(), INTERVAL 1 DAY)                            
+                                  `Time` between '2026-11-11 00:00:00' AND '2026-11-11 23:59:59'
                             --       order by DATE_FORMAT(`Time`, '%Y-%m-%d %H:%i:%s')
                                 order by id ASC                        
                                 limit 32;
@@ -299,11 +299,11 @@ def Fetch_Package_CellRuleData(log_queue: Queue):
 
                                             WHERE
                                                 s.moduleNO = :classcode
-                                                AND s.`Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY)
-                                                AND s.`Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)                                                
+                                          --      AND s.`Time` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY)
+                                          --      AND s.`Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)                                                
                                           --    AND s.`Time` >= CURDATE() 
                                           --    AND s.`Time` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
-                                          --    AND s.`Time` between '2026-09-01 00:00:00' AND '2026-09-03 23:59:59'
+                                              AND s.`Time` between '2026-11-11 00:00:00' AND '2026-11-11 23:59:59'
                                                 AND s.PLCCellID_modinfo IN :model_id_array
                                             ORDER BY s.id ASC; 
                                         """).bindparams(
@@ -454,8 +454,8 @@ def export_xlsx_processrun (log_queue: Queue):
                             select machine_workTime, PLCCellID_modinfo, K_Value, VAHSB, VAHSC, PLCCellIDClass_CE, PLCTrayID_CE, acirVP12_CE, acirRP12_CE, model_combine_number, last_define_location, parallel_match 
                             from mes.total_finalassembly  WHERE
                             --  `machine_workTime`  >= CURDATE()   AND  `machine_workTime` <= DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
-                                `machine_workTime` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `machine_workTime` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
-                            --  `machine_workTime` BETWEEN '2026-08-31 00:00:00' AND '2026-08-31 23:59:59'       
+                            --    `machine_workTime` >= DATE_SUB(CURDATE(), INTERVAL :prefront_number DAY) AND `machine_workTime` < DATE_ADD(CURDATE(), INTERVAL :prefront_number DAY)
+                              `machine_workTime` BETWEEN '2026-11-11 00:00:00' AND '2026-11-11 23:59:59'       
                             --  order by DATE_FORMAT(`machine_workTime`, '%Y-%m-%d %H:%i:%s')
                                 order by id ASC;
                             """)
